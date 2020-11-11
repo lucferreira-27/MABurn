@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.VBox"
+	xmlns:fx="http://javafx.com/fxml">
+
+	<children>
+
+		<GridPane fx:id="collectioMenuGridPane" alignment="center"
+			hgap="50" vgap="5" styleClass="menuGridPane">
+
+
+			<padding>
+				<Insets top="50" right="10" bottom="10" left="10" />
+			</padding>
+
+
+
+			<Button fx:id="btnCollectionAnime" text="Anime"
+				GridPane.columnIndex="0" GridPane.rowIndex="1"
+				onAction="#onClickOnAnime">
+
+				<GridPane.margin>
+					<Insets left="200"  />
+				</GridPane.margin>
+
+
+			</Button>
+
+			
+
+			<Button fx:id="btnCollectionManga" text="Manga"
+				GridPane.columnIndex="1" GridPane.rowIndex="1"
+				onAction="#onClickOnManga">
+
+				<GridPane.margin>
+					<Insets right="200" />
+				</GridPane.margin>
+
+
+			</Button>
+
+
+		</GridPane>
+	</children>
+
+
+</fx:root>
+
+
+
