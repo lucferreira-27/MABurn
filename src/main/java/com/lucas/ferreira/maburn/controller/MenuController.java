@@ -1,0 +1,80 @@
+package com.lucas.ferreira.maburn.controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import com.lucas.ferreira.maburn.model.InitializeModel;
+import com.lucas.ferreira.maburn.view.HelperInterfaceView;
+import com.lucas.ferreira.maburn.view.HomeInterfaceView;
+import com.lucas.ferreira.maburn.view.MainInterfaceView;
+
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+
+public class MenuController implements Initializable {
+
+	private Pane menu;
+	private Button btnHome;
+	private Button btnConfiguration;
+	private Button btnExtra;
+
+	private MainInterfaceView mainView;
+	private HomeInterfaceView homeView = new HomeInterfaceView();
+	private HelperInterfaceView helperView = new HelperInterfaceView();
+	private InitializeModel initialize;
+
+	public MenuController(MainInterfaceView mainView) {
+		// TODO Auto-generated constructor stub
+		this.mainView = mainView;
+		initialize = new InitializeModel(helperView);
+
+	}
+
+	public boolean active() {
+		return true;
+
+	}
+
+	public void onClickButtonHome() {
+
+		System.out.println("Home");
+		new Thread(() -> {
+			homeView.loadMainInterfaceFX(mainView);
+			System.out.println("Ok!");
+
+		}).start();
+
+	}
+
+	public void onClickButtonConfiguration() {
+		System.out.println("Configuration");
+		new Thread(() -> {
+			helperView.loadMainInterfaceFX(mainView);
+
+			System.out.println("Ok!");
+
+		}).start();
+
+	}
+
+	public void onClickButtonExtra() {
+		System.out.println("Extra");
+		new Thread(() -> {
+			System.out.println("Ok!");
+
+		}).start();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		initialize.boot();
+
+	}
+
+}
