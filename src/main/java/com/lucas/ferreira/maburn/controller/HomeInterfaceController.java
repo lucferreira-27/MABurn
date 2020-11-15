@@ -79,9 +79,14 @@ public class HomeInterfaceController implements Initializable {
 		System.out.println("Manga");
 
 		new Thread(() -> {
-			mainController.selectCollection(new MangaCollection());
-			ItensInterfaceView itensView = new ItensInterfaceView(mainController.getFutureCollection());
-			itensView.loadMainInterfaceFX(mainView);
+			try {
+				mainController.selectCollection(new MangaCollection());
+				ItensInterfaceView itensView = new ItensInterfaceView(mainController.getFutureCollection());
+				itensView.loadMainInterfaceFX(mainView);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}).start();
 
 	}
@@ -89,6 +94,7 @@ public class HomeInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
+import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
@@ -67,8 +68,8 @@ public class HelperInterfaceController implements Initializable {
 	public void onClickAnimeCollectionPath() {
 		System.out.println("Anime Path");
 
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		File pathDestination = directoryChooser.showDialog(vBoxConfiguration.getScene().getWindow());
+		File pathDestination = DirectoryModel.selectDirectory(vBoxConfiguration.getScene().getWindow());
+
 		if (pathDestination == null) {
 			return;
 		}
@@ -81,10 +82,8 @@ public class HelperInterfaceController implements Initializable {
 	public void onClickMangaCollectionPath() {
 		System.out.println("Manga Path");
 
-
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-
-		File pathDestination = directoryChooser.showDialog(vBoxConfiguration.getScene().getWindow());
+		
+		File pathDestination = DirectoryModel.selectDirectory(vBoxConfiguration.getScene().getWindow());
 		if (pathDestination == null) {
 			return;
 		}

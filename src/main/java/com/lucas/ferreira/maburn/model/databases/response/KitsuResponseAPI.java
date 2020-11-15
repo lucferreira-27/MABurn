@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.databases.response;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection.Response;
 
@@ -27,10 +28,20 @@ public class KitsuResponseAPI implements DatabaseResponse {
 
 	public CollectDatas fetchAll() {
 		CollectDatas datas = new CollectDatas();
-
+		System.out.println(response.body());
 		JSONObject jsonResponse = new JSONObject(response.body());
-		JSONArray allDatas = jsonResponse.getJSONArray("data");
-		JSONObject firstData = allDatas.getJSONObject(0);
+		JSONObject firstData;
+		JSONArray allDatas;
+		try {
+			allDatas = jsonResponse.getJSONArray("data");
+			firstData = allDatas.getJSONObject(0);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			firstData = jsonResponse.getJSONObject("data");
+			
+		}
+
 		JSONObject attributes = firstData.getJSONObject("attributes");
 
 		String title = fetchTitle(attributes);
@@ -39,6 +50,12 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		String[] images = fetchPostImage(attributes);
 		String synopsis = fetchSynopsis(attributes);
 		String itemDataBaseUrl = getItemDataBaseUrl(id, category);
+		String status = fetchStatus(attributes);
+		String date = fetchPublishedDate(attributes);
+		Double rating = fetchAvaregeRating(attributes);
+		if(rating == null) {
+			rating = 0.00;
+		}
 		datas.setTitle(title);
 		datas.setCategory(category);
 		datas.addPosterImageLink("tiny", images[0]);
@@ -48,7 +65,10 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		datas.addPosterImageLink("original", images[4]);
 		datas.setId(id);
 		datas.setSynopsis(synopsis);
+		datas.setStatus(status);
+		datas.setPublishedDate(date);
 		datas.setItemDataBaseUrl(itemDataBaseUrl);
+		datas.setAvaregeRating(rating);
 		return datas;
 	}
 
@@ -79,6 +99,24 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		String synopsis = attributes.getString("synopsis");
 		return synopsis;
 	}
+	private String fetchStatus(JSONObject attributes) {
+		String status = attributes.getString("status");
+		return status;
+	}
+	private String fetchPublishedDate(JSONObject attributes) {
+		String date = attributes.getString("startDate");
+		return date;
+	}
+	private Double fetchAvaregeRating(JSONObject attributes) {
+		try {
+		Double rating = Double.parseDouble(attributes.getString("averageRating").trim());
+		return rating;
+		}catch (JSONException e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
 
 	private String[] fetchPostImage(JSONObject attributes) {
 
@@ -102,10 +140,10 @@ public class KitsuResponseAPI implements DatabaseResponse {
 	private String getItemDataBaseUrl(Integer id, Category category) {
 		switch (category) {
 		case ANIME:
-			return DATABASE_URL + category.name().toLowerCase()+ "/" + id;
+			return DATABASE_URL + category.name().toLowerCase() + "/" + id;
 
 		case MANGA:
-			return DATABASE_URL + category.name().toLowerCase()+ "/"  + id;
+			return DATABASE_URL + category.name().toLowerCase() + "/" + id;
 		default:
 			break;
 		}

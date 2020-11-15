@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+import com.lucas.ferreira.maburn.exceptions.CollectionLoaderException;
 import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
 import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
 import com.lucas.ferreira.maburn.model.InitializeModel;
@@ -15,6 +16,7 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
+import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -24,6 +26,7 @@ import javafx.scene.control.Button;
 
 public class MainInterfaceController implements Initializable {
 	private MainInterfaceView mainView;
+	private AlertWindowView alertWindown = new AlertWindowView();
 	private MainLoader mainLoader;
 	private CollectionLoader collectionLoader;
 	private Collections collection;
@@ -53,12 +56,22 @@ public class MainInterfaceController implements Initializable {
 
 	}
 
-	public void selectCollection(Collections collections) {
+	public void selectCollection(Collections collections) throws CollectionLoaderException {
 
 		mainLoader = new MainLoader(collections);
-		futureCollection = mainLoader.loadCollection(doc.getPath(collections.getCategory())); // return a future collection, (collection
-																				// promise)
-		
+		String destination = doc.getPath(collections.getCategory());
+		if (destination == null || destination.isEmpty()) {
+			
+			alertWindown.errorAlert("ERROR", "Collection error",
+					collections.getCategory() + " collection path is not definide");
+			throw new CollectionLoaderException(collections.getCategory() + " collection path is not definide");
+
+		}
+		futureCollection = mainLoader.loadCollection(doc.getPath(collections.getCategory())); // return a future
+																								// collection,
+																								// (collection
+		// promise)
+
 	}
 
 	public CollectionItem sessionSelectItem(String category, int id, Collections collection) {

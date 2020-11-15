@@ -252,6 +252,7 @@ public class DocumentCollectionReaderModel {
 	// others)
 	public ArrayList<Element> getElementsInItem(CollectionItem item) {
 		ArrayList<Element> elements = new ArrayList<>();
+		
 		defineItemByItemInstance(item);
 		elements.add(addElementsInDocument("title", item.getName()));
 		elements.add(addElementsInDocument("image_url", item.getImageUrl()));

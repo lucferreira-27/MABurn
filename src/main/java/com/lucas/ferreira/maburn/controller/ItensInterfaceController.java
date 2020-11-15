@@ -16,6 +16,7 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.ViewUtil;
 import com.lucas.ferreira.maburn.view.ItensInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
+import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -38,15 +39,10 @@ public class ItensInterfaceController implements Initializable {
 	private TextField txtSearchBar;
 	@FXML
 	private Button btnFilter;
-	
-	private ItensInterfaceView newView;
 
 	private MainInterfaceView mainView;
-	private MainInterfaceController mainController = new MainInterfaceController();
 	private ItensInterfaceView itensView;
-	private ArrayList<ImageView> imageViews;
 	private Collections completeCollection;
-	private Collections mathCollection;
 	private List<CollectionItem> itens;
 	private List<CollectionItem> originalItens;
 	private List<AnchorPane> removesPanes = new ArrayList<>();
@@ -63,30 +59,20 @@ public class ItensInterfaceController implements Initializable {
 
 		itensImagesGridPane.setOnMouseClicked(event -> {
 
+			
 			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
 				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
 				System.out.println("GridPane Children: " + itensImagesGridPane.getChildren().size());
-				System.out.println("Column Index: " + itensImagesGridPane.getColumnIndex(pane) + " Row Index: "
-						+ itensImagesGridPane.getRowIndex(pane));
+				System.out.println(
+						"Column Index: " + GridPane.getColumnIndex(pane) + " Row Index: " + GridPane.getRowIndex(pane));
 
 				ImageView image = (ImageView) pane.getChildren().get(0);
-				Label size = (Label) pane.getChildren().get(2);
 				if (image.getUserData() instanceof CollectionItem) {
 
 					CollectionItem item = (CollectionItem) image.getUserData();
-					//CommandLineView view = new CommandLineView();
-
-					if (item instanceof Anime) {
-						/// size.setText("Episodes: "+ size.getText());
-
-						 //view.informEpisodesInAnime((Anime) item);
-					}
-
-					else if (item instanceof Manga) {
-						// size.setText("Chapters: "+ size.getText());
-
-						 //view.informChaptersInManga((Manga) item);
-					}
+					itensView.getCollections().setActualItem(item);
+					TitleInterfaceView titleView = new TitleInterfaceView(itensView);
+					titleView.loadMainInterfaceFX(mainView);
 
 				}
 			}
@@ -145,7 +131,6 @@ public class ItensInterfaceController implements Initializable {
 
 	public void reloadCollection() {
 
-		List<AnchorPane> panes = new ArrayList<>();
 		Platform.runLater(() -> {
 			for (int i = 0; i < itensImagesGridPane.getChildren().size(); i++) {
 				AnchorPane pane = (AnchorPane) itensImagesGridPane.getChildren().get(i);
