@@ -10,6 +10,9 @@ public class CollectDatas {
 	private Integer id;
 	private Category category;
 	private String synopsis;
+	private String status;
+	private String publishedDate;
+	private Double avaregeRating;
 	private String itemDataBaseUrl;
 	private Map<String, String> posterImageLink = new LinkedHashMap<>();
 
@@ -57,11 +60,32 @@ public class CollectDatas {
 		this.itemDataBaseUrl = itemDataBaseUrl;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPublishedDate() {
+		return publishedDate;
+	}
+	public void setPublishedDate(String publishedDate) {
+		this.publishedDate = publishedDate;
+	}
+	public Double getAvaregeRating() {
+		return avaregeRating;
+	}
+	public void setAvaregeRating(Double avaregeRating) {
+		this.avaregeRating = avaregeRating;
+	}
+
 	@Override
 	public String toString() {
-		return "CollectDatas [title=" + title + ", category=" + category + ", synopsis=" + synopsis
-				+ ", posterImageLink=" + posterImageLink + "]";
+		return "CollectDatas [title=" + title + ", id=" + id + ", category=" + category + ", synopsis=" + synopsis
+				+ ", status=" + status + ", publishedDate=" + publishedDate + ", avaregeRating=" + avaregeRating
+				+ ", itemDataBaseUrl=" + itemDataBaseUrl + ", posterImageLink=" + posterImageLink + "]";
 	}
+	
 
 
 }

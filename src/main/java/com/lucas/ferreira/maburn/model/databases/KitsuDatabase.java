@@ -28,6 +28,26 @@ public class KitsuDatabase implements Database {
 		return datas;
 
 	}
+	@Override
+	public CollectDatas read(int id,Category category) {
+		String type = null;
+		switch (category) {
+		case ANIME:
+			type = "anime";
+			break;
+		case MANGA:
+			type = "manga";
+		default:
+			break;
+		}  
+		
+		String url = "https://kitsu.io/api//edge/"+type+"/";
+		// TODO Auto-generated method stub
+		kitsuApi = new KitsuResponseAPI(url + id);
+		CollectDatas datas =  kitsuApi.fetchAll();
+		return datas;
+
+	}
 
 	@Override
 	public CollectDatas read(String url, int size) {

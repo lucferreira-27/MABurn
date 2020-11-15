@@ -44,16 +44,13 @@ public class ItensInterfaceView implements ViewInterface {
 	private Pane root;
 	private GridPaneTable gridTable = new GridPaneTable(7);
 	private GridPane itensImagesGridPane;
-
 	private ProgressIndicator loadProgress;
-
 	private ScrollPane itensImagesScroll;
 	private ItensInterfaceController controller;
 	private Future<?> futureCollections;
 	private Collections collections;
 	private ArrayList<ImageView> imageViews = new ArrayList<ImageView>();
 	private Map<String, Object> namespace;
-	private ObservableList<Node> workingCollection = FXCollections.observableArrayList();;
 
 	public ItensInterfaceView(Future<?> futureCollections) {
 		this.futureCollections = futureCollections;
@@ -69,8 +66,12 @@ public class ItensInterfaceView implements ViewInterface {
 		this.mainView = mainView;
 		this.root = mainView.getRoot();
 
-		remove(); // Removes the previous nodes.
-		initFX(); // Initializes interface.
+		new Thread(() -> {
+
+			remove(); // Removes the previous nodes.
+			initFX(); // Initializes interface.
+
+		}).start();
 
 	}
 
@@ -96,21 +97,20 @@ public class ItensInterfaceView implements ViewInterface {
 	}
 
 	private void collectionLoading(ProgressIndicator load) throws LoadingException {
-		load.setVisible(true);
 		try {
-			if (collections == null)
-				while (!futureCollections.isDone()) {
-					System.out.println("> Loading itens in collection");
 
-					Thread.sleep(100);
+			if (collections == null) {
+				load.setVisible(true);
 
-				}
-			collections = (Collections) futureCollections.get();
-			collections.getItens().sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
+				System.out.println("Future collection");
+				collections = (Collections) futureCollections.get();
+				collections.getItens()
+						.sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
 
-			controller.setCollection(collections);
-			Platform.runLater(() -> load.setProgress(1));
+				controller.setCollection(collections);
 
+				Platform.runLater(() -> load.setProgress(1));
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			throw new LoadingException("No itens found in collection");
@@ -127,6 +127,7 @@ public class ItensInterfaceView implements ViewInterface {
 
 	private void filterLoading(ProgressIndicator load) {
 		new Thread(() -> {
+			load.setVisible(true);
 			while (collections == null || itensImagesGridPane == null
 					|| gridTable.getCells().size() < collections.getItens().size()) {
 				try {
@@ -181,7 +182,6 @@ public class ItensInterfaceView implements ViewInterface {
 			initItensImagesScrollPane();
 			initItensImagesPane();
 			addAllNodes();
-			controller.onClickOnImageGridPane();
 			System.out.println("> Complete ItensIntGerfaceView");
 		});
 
@@ -221,7 +221,9 @@ public class ItensInterfaceView implements ViewInterface {
 	}
 
 	private void addAllNodes() {
-		addAllImageViewInImageGrid();
+		
+		if (gridTable.getCells().size() == 0)
+			addAllImageViewInImageGrid();
 
 	}
 
@@ -357,6 +359,10 @@ public class ItensInterfaceView implements ViewInterface {
 
 	public GridPaneTable getGridTable() {
 		return gridTable;
+	}
+
+	public Collections getCollections() {
+		return collections;
 	}
 
 }

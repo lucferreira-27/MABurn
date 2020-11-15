@@ -46,9 +46,9 @@
 }
 
 .table-view {
-    -fx-base: #1d1d1d;
-    -fx-control-inner-background: #1d1d1d;
-    -fx-background-color: #1d1d1d;
+    -fx-base: #1C1C1C;
+    -fx-control-inner-background: #1C1C1C;
+    -fx-background-color: #1C1C1C;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: transparent;
     -fx-padding: 5.0;
@@ -99,6 +99,35 @@
 	
 }
 
+.image-title{
+
+	-fx-cursor: hand;
+
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb {
+   	-fx-background-color: #d22020;
+
+	-fx-pref-height: 3.0;
+}
+.table-view .virtual-flow .scroll-bar:vertical .track {
+   	-fx-background-color: #1C1C1C;
+
+}
+
+.table-view:focused .table-row-cell:focused {
+    -fx-background-color: #1C1C1C;
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+
+.table-view .virtual-flow .scroll-pane :vertical .increment-button .increment-arrow, .decrement-button .decrement-arrow{
+	-fx-padding: 0.0;
+	-fx-background-color: transparent;
+	
+}
+
+
 .scroll-pane > .viewport {
 	-fx-background-color: transparent;
 
@@ -133,7 +162,7 @@
 
 
 .table-view .column-header .label {
-    -fx-font-size: 20.0pt;
+    -fx-font-size: 12.0pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-alignment: center-left;
@@ -141,7 +170,19 @@
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+    -fx-background-color: transparent;
+    -fx-opacity: 0.5;
+
+}
+
+.table-view .table-row-cell:filled:hover{
+      -fx-opacity: 1;
+    
+}
+
+.table-view .table-row-cell:filled{
+      -fx-opacity: 0.5;
+    
 }
 
 .split-pane:horizontal > .split-pane-divider {
@@ -176,6 +217,17 @@
     -fx-font-size: 12.0pt;
     -fx-font-family: "Segoe UI Semibold";
 }
+.text-area{
+	-fx-background-color: #1C1C1C;
+	-fx-font-size: 10.0pt;
+	-fx-text-fill: white;
+	
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.text-area .content{
+	-fx-background-color: #1C1C1C;
+}
 .path {
   -fx-border-color: #d22020;
   -fx-border-width: 0 0 1 0; 
@@ -183,7 +235,51 @@
   -fx-text-fill: white;
  
   
-    }
+}
+
+.label-title{
+	   
+
+	-fx-font-size: 20.0pt;
+  	-fx-border-width: 0 0 1 0; 
+	-fx-border-color: red;
+	-fx-border-top-style: solid;
+    -fx-padding: 0.0 22.0 5.0 22.0;   
+	
+}
+
+
+.table-view .table-cell{
+    -fx-font-weight:bold;
+    -fx-font-size:15px;           
+
+}
+
+.itens-table{
+	-fx-font-size: 10.0px;
+}
+
+.dialog-pane {
+   
+    -fx-background-color: #1C1C1C;
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+
+}
+
+.dialog-pane .label {
+    -fx-text-fill: white;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: black;
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-font-style: italic;
+    -fx-font-size: 2em;
+}
+
 
 /* 
  * Metro style Push Button

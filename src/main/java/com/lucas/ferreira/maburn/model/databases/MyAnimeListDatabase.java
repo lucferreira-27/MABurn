@@ -21,4 +21,12 @@ public class MyAnimeListDatabase implements Database {
 		return null;
 	}
 
+
+
+	@Override
+	public CollectDatas read(int id, Category category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

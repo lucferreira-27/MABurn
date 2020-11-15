@@ -24,7 +24,7 @@ public class AnimeItemCreate implements ItemCreater<Anime> {
 		anime.setName(destination.substring(destination.lastIndexOf("\\") + 1));
 
 		CollectDatas collectDatas = database.read(anime.getName(), Category.ANIME);
-
+		
 		anime.setDestination(destination);
 		anime.setTitleFromDataBase(collectDatas.getTitle());
 		anime.setDataBaseUrl(collectDatas.getItemDataBaseUrl());
