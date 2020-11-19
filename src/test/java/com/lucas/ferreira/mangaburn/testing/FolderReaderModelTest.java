@@ -12,9 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Chapter;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 
@@ -49,7 +49,7 @@ public class FolderReaderModelTest {
 
 	@Test
 	public void findChapterFoldersInMangaFolder() {
-		Manga manga = new Manga();
+		MangaDownloaded manga = new MangaDownloaded();
 		manga.setDestination(MANGA_LOCAL + "\\Solo Leveling");
 		String local = manga.getDestination();
 		List<File> listChaptersFolders = folderReaderModel.findChapterFoldersInMangaFolder(manga);
@@ -59,7 +59,7 @@ public class FolderReaderModelTest {
 
 	@Test
 	public void findChapterPagesFilesInChapterFolder() {
-		Chapter chapter = new Chapter();
+		ChapterDownloaded chapter = new ChapterDownloaded();
 		chapter.setDestination(MANGA_LOCAL + "\\Solo Leveling\\Capítulo 1");
 		String local = chapter.getDestination();
 		List<File> listPagesFiles = folderReaderModel.findChapterPagesFilesInChapterFolder(chapter);
@@ -80,7 +80,7 @@ public class FolderReaderModelTest {
 	}
 	@Test
 	public void findEpisodesFilesInAnimeFolder() {
-		Anime anime = new Anime();
+		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setDestination(ANIME_LOCAL + "\\Enen no Shouboutai  Ni no Shou");
 		String local = anime.getDestination();
 		List<File> listEpisodesFiles = folderReaderModel.findEpisodesFilesInAnimeFolder(anime);

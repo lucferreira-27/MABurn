@@ -18,17 +18,17 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
 import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
 import com.lucas.ferreira.maburn.model.ParseXMLDocumentModel;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 
 public class ParseXMLDocumentModelTest {
 	private ParseXMLDocumentModel parseXml;
-	private Manga mangaExpected;
+	private MangaDownloaded mangaExpected;
 	private CollectionDatasReaderModel reader;
 	@Before
 	public void setUp() {
 		 reader = new CollectionDatasReaderModel();
 		parseXml = new ParseXMLDocumentModel();
-		mangaExpected = new Manga();
+		mangaExpected = new MangaDownloaded();
 		mangaExpected.setDestination("D:\\MangaBurnTest\\Dragon Ball");
 		mangaExpected.setName("Dragon Ball");
 		mangaExpected.setDataBaseUrl("https://myanimelist.net/manga/42/Dragon_Ball");

@@ -5,7 +5,7 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.bean.Anime;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
@@ -19,7 +19,7 @@ public class ItensInterfaceViewTest {
 	public void setUp() {
 		view = new MainInterfaceView();
 		
-		Anime anime = new Anime();
+		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setImageUrl("https://cdn.myanimelist.net/images/anime/1171/109222.jpg");
 		AnimeCollection animeCollection =new AnimeCollection();
 		for(int i = 0; i < 100; i++) {

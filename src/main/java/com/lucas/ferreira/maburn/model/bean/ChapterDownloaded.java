@@ -1,33 +1,32 @@
 package com.lucas.ferreira.maburn.model.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
-public class Episode implements CollectionSubItem {
-	private Anime anime;
+public class ChapterDownloaded implements CollectionSubItem {
+	private MangaDownloaded manga;
 	private String name;
 	private String destination;
 	private int id;
-	public Anime getAnime() {
-		return anime;
+	public MangaDownloaded getManga() {
+		return manga;
 	}
-	public void setAnime(Anime anime) {
-		this.anime = anime;
+	public void setManga(MangaDownloaded manga) {
+		this.manga = manga;
+	}
+
+
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getDestination() {
-		return destination;
-	}
-	public void setDestination(String destination) {
-		this.destination = destination;
 	}
 	public int getId() {
 		return id;
@@ -38,13 +37,8 @@ public class Episode implements CollectionSubItem {
 	@Override
 	public CollectionItem getItem() {
 		// TODO Auto-generated method stub
-		return anime;
+		return manga;
 	}
-	
-	
-	
-	
-
 	
 	
 	

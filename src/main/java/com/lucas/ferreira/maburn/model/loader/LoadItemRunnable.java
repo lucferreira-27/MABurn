@@ -5,8 +5,8 @@ import java.util.concurrent.Callable;
 import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
 import com.lucas.ferreira.maburn.model.DocumentCollectionReaderModel;
 import com.lucas.ferreira.maburn.model.SaveCollectionModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
@@ -54,11 +54,11 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		return null;
 	}
 
-	private Manga loadManga(String mangaPath) {
-		Manga item = new Manga();
+	private MangaDownloaded loadManga(String mangaPath) {
+		MangaDownloaded item = new MangaDownloaded();
 		item.setDestination(mangaPath); // It is important to define the destination because it will be used to locate
 		// the item in the document
-		ItemCreater<Manga> itemCreater = new MangaItemCreate((MangaCollection) item.getMangaCollection());
+		ItemCreater<MangaDownloaded> itemCreater = new MangaItemCreate((MangaCollection) item.getMangaCollection());
 		if (!isCreateItemInDocument(mangaPath, Category.MANGA)) {
 			item = itemCreater.createItem(mangaPath); // Create item and write in document
 			System.out.println("> ADD AND CREATEED");
@@ -66,18 +66,18 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 			return item;
 
 		}
-		item = (Manga) save.loadDatas(item);
+		item = (MangaDownloaded) save.loadDatas(item);
 		System.out.println("> ADD AND LOADED");
 
 		return item;
 	}
 
-	private Anime loadAnime(String animePath) {
-		Anime item = new Anime();
+	private AnimeDownloaded loadAnime(String animePath) {
+		AnimeDownloaded item = new AnimeDownloaded();
 
 		item.setDestination(animePath); // It is important to define the destination because it will be used to locate
 										// the item in the document
-		ItemCreater<Anime> itemCreater = new AnimeItemCreate((AnimeCollection) item.getAnimeCollection());
+		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate((AnimeCollection) item.getAnimeCollection());
 		if (!isCreateItemInDocument(animePath, Category.ANIME)) {
 			item = itemCreater.createItem(animePath); // Create item and write in document
 			System.out.println("> ADD AND CREATEED");
@@ -85,7 +85,7 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 			return item;
 
 		}
-		item = (Anime) save.loadDatas(item);
+		item = (AnimeDownloaded) save.loadDatas(item);
 		System.out.println("> ADD AND LOADED");
 
 		return item;

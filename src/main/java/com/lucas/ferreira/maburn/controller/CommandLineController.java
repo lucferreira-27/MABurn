@@ -8,8 +8,8 @@ import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
 import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
 import com.lucas.ferreira.maburn.model.InitializeModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
@@ -127,11 +127,11 @@ public class CommandLineController {
 	public void selectItem(int index) {
 
 		CollectionItem item = mainLoader.loadSelectItem(index);
-		if (item instanceof Manga) {
-			Manga manga = (Manga) item;
+		if (item instanceof MangaDownloaded) {
+			MangaDownloaded manga = (MangaDownloaded) item;
 			action = view.informChaptersInManga(manga);
-		} else if (item instanceof Anime) {
-			Anime anime = (Anime) item;
+		} else if (item instanceof AnimeDownloaded) {
+			AnimeDownloaded anime = (AnimeDownloaded) item;
 			action = view.informEpisodesInAnime(anime);
 		}
 

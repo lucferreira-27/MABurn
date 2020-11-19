@@ -11,8 +11,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.lucas.ferreira.maburn.exceptions.DocumentException;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
@@ -31,19 +31,19 @@ public class DocumentCollectionReaderModel {
 
 	public void defineItemByCategory(String category) {
 		if (category.equalsIgnoreCase("manga"))
-			item = new Manga(); // If the category is a manga
+			item = new MangaDownloaded(); // If the category is a manga
 		else if (category.equalsIgnoreCase("anime"))
-			item = new Anime(); // if the category is a anime
+			item = new AnimeDownloaded(); // if the category is a anime
 		else
 			throw new DocumentException("It is something wrong with the CollectionDates.xml file ["
 					+ CollectionDatasReaderModel.DATE_LOCAL + "]");
 	}
 
 	public void defineItemByItemInstance(CollectionItem item) {
-		if (item instanceof Manga)
-			this.item = new Manga(); // If the category is a manga
-		else if (item instanceof Anime)
-			this.item = new Anime(); // if the category is a anime
+		if (item instanceof MangaDownloaded)
+			this.item = new MangaDownloaded(); // If the category is a manga
+		else if (item instanceof AnimeDownloaded)
+			this.item = new AnimeDownloaded(); // if the category is a anime
 		else
 			throw new DocumentException("It is something wrong with the CollectionDates.xml file ["
 					+ CollectionDatasReaderModel.DATE_LOCAL + "]");
@@ -232,9 +232,9 @@ public class DocumentCollectionReaderModel {
 		Element root = doc.getDocumentElement();
 		Element itemElement = doc.createElement("item");
 		Attr category = doc.createAttribute("category");
-		if (item instanceof Manga)
+		if (item instanceof MangaDownloaded)
 			category.setValue("manga");
-		if (item instanceof Anime)
+		if (item instanceof AnimeDownloaded)
 			category.setValue("anime");
 
 		itemElement.setAttributeNode(category);

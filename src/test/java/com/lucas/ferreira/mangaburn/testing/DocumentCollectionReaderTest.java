@@ -14,8 +14,8 @@ import org.w3c.dom.Element;
 
 import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
 import com.lucas.ferreira.maburn.model.DocumentCollectionReaderModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
@@ -39,7 +39,7 @@ public class DocumentCollectionReaderTest {
 
 	@Test
 	public void getElementByCollectionItemTest() {
-		CollectionItem itemManga = new Manga();
+		CollectionItem itemManga = new MangaDownloaded();
 		itemManga.setDestination("D:\\MangaBurnTest\\Naruto");
 
 		Element itemMangaElement = doc.getElementByCollectionItem(itemManga);
@@ -65,17 +65,17 @@ public class DocumentCollectionReaderTest {
 
 	@Test
 	public void editElementByIdTest() {
-		Anime anime = new Anime();
+		AnimeDownloaded anime = new AnimeDownloaded();
 
 
 		anime.setDestination("D:\\AnimeBurn\\Maou Gakuin no Futekigousha – Todos os Episódios");
-		anime = (Anime) doc.getItemInDocument(anime);
+		anime = (AnimeDownloaded) doc.getItemInDocument(anime);
 
 		System.out.println(anime.getName());
 
 		doc.editElementById(6, "title", "Maou Gakuin no Futekigousha – Todos os Episódios", "Anime");
 
-		anime = (Anime) doc.getItemInDocument(anime);
+		anime = (AnimeDownloaded) doc.getItemInDocument(anime);
 
 		System.out.println(anime.getName());
 	}

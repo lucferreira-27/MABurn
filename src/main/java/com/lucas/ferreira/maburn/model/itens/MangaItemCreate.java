@@ -1,12 +1,12 @@
 package com.lucas.ferreira.maburn.model.itens;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
-public class MangaItemCreate implements ItemCreater<Manga> {
+public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 	private KitsuDatabase database = new KitsuDatabase();
 	private MangaCollection collection;
 
@@ -19,9 +19,9 @@ public class MangaItemCreate implements ItemCreater<Manga> {
 	}
 
 	@Override
-	public Manga createItem(String destination) {
+	public MangaDownloaded createItem(String destination) {
 
-		Manga manga = new Manga();
+		MangaDownloaded manga = new MangaDownloaded();
 		manga.setName(destination.substring(destination.lastIndexOf("\\") + 1));
 
 		CollectDatas collectDatas = database.read(manga.getName(), Category.MANGA);

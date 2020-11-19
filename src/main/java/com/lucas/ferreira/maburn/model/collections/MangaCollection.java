@@ -3,15 +3,15 @@ package com.lucas.ferreira.maburn.model.collections;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public class MangaCollection implements Collections {
 	
-	private List<Manga> listMangas = new ArrayList<>();
+	private List<MangaDownloaded> listMangas = new ArrayList<>();
 	private String destination;
-	private Manga activeManga;
+	private MangaDownloaded activeManga;
 	
 	@Override
 	public List<? extends CollectionItem> getItens() {
@@ -19,11 +19,11 @@ public class MangaCollection implements Collections {
 		return listMangas;
 	}
 	
-	public List<Manga> getListMangas() {
+	public List<MangaDownloaded> getListMangas() {
 		return listMangas;
 	}
 	
-	public void setListMangas(List<Manga> listMangas) {
+	public void setListMangas(List<MangaDownloaded> listMangas) {
 		this.listMangas = listMangas;
 	}
 	
@@ -35,17 +35,17 @@ public class MangaCollection implements Collections {
 		this.destination = destination;
 	}
 	
-	public Manga getActiveManga() {
+	public MangaDownloaded getActiveManga() {
 		return activeManga;
 	}
-	public void setActiveManga(Manga activeManga) {
+	public void setActiveManga(MangaDownloaded activeManga) {
 		this.activeManga = activeManga;
 	}
 
 	@Override
 	public void setActualItem(CollectionItem obj) {
 		// TODO Auto-generated method stub
-	this.activeManga = (Manga) obj;
+	this.activeManga = (MangaDownloaded) obj;
 		
 	}
 
@@ -69,7 +69,7 @@ public class MangaCollection implements Collections {
 	@Override
 	public void setItens(List<? extends CollectionItem> itens) {
 		// TODO Auto-generated method stub
-		this.listMangas = (List<Manga>) itens;
+		this.listMangas = (List<MangaDownloaded>) itens;
 	}
 
 
