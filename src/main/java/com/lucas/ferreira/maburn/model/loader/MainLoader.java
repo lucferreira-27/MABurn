@@ -6,8 +6,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
@@ -85,9 +85,9 @@ public class MainLoader {
 	}
 
 	// Loads select Manga, used id to selection
-	private Manga loadSelectManga(int id) {
+	private MangaDownloaded loadSelectManga(int id) {
 
-		Manga manga = (Manga) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
+		MangaDownloaded manga = (MangaDownloaded) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
 
 //		Manga manga = (Manga) collection.getItems().get(index);
 
@@ -98,9 +98,9 @@ public class MainLoader {
 	}
 
 	// Loads select Manga, used id to selection
-	private Anime loadSelectAnime(int id) {
+	private AnimeDownloaded loadSelectAnime(int id) {
 
-		Anime anime = (Anime) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
+		AnimeDownloaded anime = (AnimeDownloaded) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
 
 		setActualItemInCollection(anime);
 

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.controller.MenuController;
-import com.lucas.ferreira.maburn.model.bean.Anime;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
@@ -27,7 +27,7 @@ public class MenuControllerTest {
 		mainView = new MainInterfaceView();
 		homeView = new HomeInterfaceView();
 		AnimeCollection animeCollection = new AnimeCollection();
-		Anime anime = new Anime();
+		AnimeDownloaded anime = new AnimeDownloaded();
 		animeCollection.getListAnimes().add(anime);
 		anime.setImageUrl("https://cdn.myanimelist.net/images/manga/2/223694.jpg");
 		Collections collection = animeCollection;

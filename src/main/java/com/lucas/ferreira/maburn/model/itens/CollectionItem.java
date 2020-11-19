@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.itens;
 
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.Chapter;
+import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 import javafx.scene.image.Image;

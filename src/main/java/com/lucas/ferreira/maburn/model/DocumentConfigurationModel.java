@@ -5,8 +5,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.lucas.ferreira.maburn.exceptions.DocumentException;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
@@ -35,9 +35,9 @@ public class DocumentConfigurationModel {
 	}
 
 	public String getItemPath(CollectionItem item) {
-		if (item instanceof Anime)
+		if (item instanceof AnimeDownloaded)
 			return readerDocument("anime_destination");
-		else if (item instanceof Manga)
+		else if (item instanceof MangaDownloaded)
 			return readerDocument("manga_destination");
 		throw new DocumentException("Item category don't found in configuration file");
 	}

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Chapter;
-import com.lucas.ferreira.maburn.model.bean.Episode;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.EpisodeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
@@ -33,18 +33,18 @@ public class ItemContentLoader implements Callable<List<CollectionSubItem>> {
 	}
 
 	public void getSubItensInFolder() {
-		if (item instanceof Anime) {
-			readerAnimeSubItem((Anime) item);
+		if (item instanceof AnimeDownloaded) {
+			readerAnimeSubItem((AnimeDownloaded) item);
 		}
-		if (item instanceof Manga) {
-			readerMangaSubItem((Manga) item);
+		if (item instanceof MangaDownloaded) {
+			readerMangaSubItem((MangaDownloaded) item);
 		}
 	}
 
-	private void readerAnimeSubItem(Anime anime) {
+	private void readerAnimeSubItem(AnimeDownloaded anime) {
 		List<File> files = reader.findEpisodesFilesInAnimeFolder(anime);
 		for (File file : files) {
-			Episode episode = new Episode();
+			EpisodeDownloaded episode = new EpisodeDownloaded();
 			episode.setAnime(anime);
 			episode.setName(file.getName());
 			episode.setDestination(file.getAbsolutePath());
@@ -53,10 +53,10 @@ public class ItemContentLoader implements Callable<List<CollectionSubItem>> {
 
 	}
 
-	private void readerMangaSubItem(Manga manga) {
+	private void readerMangaSubItem(MangaDownloaded manga) {
 		List<File> files = reader.findChapterFoldersInMangaFolder(manga);
 		for (File file : files) {
-			Chapter chapter = new Chapter();
+			ChapterDownloaded chapter = new ChapterDownloaded();
 			chapter.setManga(manga);
 			chapter.setName(file.getName());
 			chapter.setDestination(file.getAbsolutePath());

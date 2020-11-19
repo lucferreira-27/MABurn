@@ -3,126 +3,180 @@ package com.lucas.ferreira.maburn.model.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
 import javafx.scene.image.Image;
 
-public class Manga implements CollectionItem {
-	private MangaCollection mangaCollection;
+public class AnimeDownloaded implements CollectionItem {
+	private AnimeCollection animeCollection;
 	private String name;
 	private String hospedSite;
 	private String destination;
-	private Image cover;
-	private String imageUrl;
 	private String link;
 	private String dataUrl;
 	private String titleDataBase;
+	private String imageUrl;
 	private String imageLocal;
-	private List<Chapter> listChapters = new ArrayList<>();
+	private Image cover;
+	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
 	private int id;
-	public MangaCollection getMangaCollection() {
-		return mangaCollection;
+
+	public AnimeCollection getAnimeCollection() {
+		return animeCollection;
 	}
-	public void setMangaCollection(MangaCollection mangaCollection) {
-		this.mangaCollection = mangaCollection;
+
+	public void setAnimeCollection(AnimeCollection animeCollection) {
+		this.animeCollection = animeCollection;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	public String getHospedSite() {
 		return hospedSite;
 	}
+
 	public void setHospedSite(String hospedSite) {
 		this.hospedSite = hospedSite;
 	}
+
 	public String getDestination() {
 		return destination;
 	}
+
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
+
 	public Image getCover() {
 		return cover;
 	}
+
 	public void setCover(Image cover) {
 		this.cover = cover;
 	}
-	public List<Chapter> getListChapters() {
-		return listChapters;
+
+	public List<EpisodeDownloaded> getListEpisodes() {
+		return listEpisodes;
 	}
-	public void setListChapters(List<Chapter> listChapters) {
-		this.listChapters = listChapters;
+
+	public void setListEpisodes(List<EpisodeDownloaded> listEpisodes) {
+		this.listEpisodes = listEpisodes;
 	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		this.name = name;
+
+	}
+
+	@Override
 	public int getId() {
+		// TODO Auto-generated method stub
 		return id;
 	}
+
+	@Override
 	public void setId(int id) {
+		// TODO Auto-generated method stub
 		this.id = id;
+
 	}
+
+	@Override
 	public String getLink() {
+		// TODO Auto-generated method stub
 		return link;
 	}
+
+	@Override
 	public void setLink(String link) {
+		// TODO Auto-generated method stub
 		this.link = link;
 	}
+
+	@Override
 	public String getDataBaseUrl() {
+		// TODO Auto-generated method stub
 		return dataUrl;
 	}
+
+	@Override
 	public void setDataBaseUrl(String dataUrl) {
+		// TODO Auto-generated method stub
 		this.dataUrl = dataUrl;
 	}
-	public String getImageLocal() {
-		return imageLocal;
-	}
-	public void setImageLocal(String imageLocal) {
-		this.imageLocal = imageLocal;
-	}
+
+	@Override
 	public String getImageUrl() {
+		// TODO Auto-generated method stub
 		return imageUrl;
 	}
+
+	@Override
 	public void setImageUrl(String imageUrl) {
+		// TODO Auto-generated method stub
 		this.imageUrl = imageUrl;
 	}
+
+	@Override
+	public String getImageLocal() {
+		// TODO Auto-generated method stub
+		return imageLocal;
+	}
+
+	@Override
+	public void setImageLocal(String local) {
+		// TODO Auto-generated method stub
+		this.imageLocal = local;
+
+	}
+
 	@Override
 	public Category getCategory() {
-		return Category.MANGA;
+		// TODO Auto-generated method stub
+		return Category.ANIME;
 	}
+
 	@Override
 	public String getTitleDataBase() {
-		// TODO Auto-generated method stub
 		return titleDataBase;
 	}
+	
 	@Override
 	public void setTitleFromDataBase(String titleDataBase) {
 		// TODO Auto-generated method stub
 		this.titleDataBase = titleDataBase;
+
 	}
+
 	@Override
 	public void setListSubItens(List<CollectionSubItem> subItens) {
 		// TODO Auto-generated method stub
-		subItens.forEach(subItem -> listChapters.add((Chapter) subItem));
+		subItens.forEach(subItem -> listEpisodes.add((EpisodeDownloaded) subItem));
 		
 	}
+	
+	@Override
 	public List<CollectionSubItem> getListSubItens() {
 		List<CollectionSubItem> subItens = new ArrayList<>();
-		listChapters.forEach(ch -> subItens.add(ch));
+		listEpisodes.forEach(ep -> subItens.add(ep));
 		return subItens;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return ((AnimeDownloaded) obj).getTitleDataBase().equals(this.titleDataBase);
 	}
 
 
 
-
-		
-	
-	
-	
-	
-	
-	
 }

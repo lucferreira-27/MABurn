@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.CollectionMatch;
-import com.lucas.ferreira.maburn.model.bean.Anime;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public class CollectionMatcherTest {
@@ -25,7 +25,7 @@ public class CollectionMatcherTest {
 		names.add("Angel Beats");
 		
 		for (int i = 0; i < names.size(); i++) {
-			CollectionItem item = new Anime();
+			CollectionItem item = new AnimeDownloaded();
 			item.setTitleFromDataBase(names.get(i));
 			itens.add(item);
 		}

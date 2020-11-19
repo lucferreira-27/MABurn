@@ -13,8 +13,8 @@ import com.lucas.ferreira.maburn.model.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.effects.TransformEffects;
 import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
@@ -278,10 +278,10 @@ public class ItensInterfaceView implements ViewInterface {
 			title = createLabelEffect(title);
 			Label subItensSize = new Label();
 
-			if (item instanceof Anime) {
+			if (item instanceof AnimeDownloaded) {
 				subItensSize = new Label("Episodes: " + String.valueOf(item.getListSubItens().size()));
 			}
-			if (item instanceof Manga) {
+			if (item instanceof MangaDownloaded) {
 				subItensSize = new Label("Chapters: " + String.valueOf(item.getListSubItens().size()));
 
 			}

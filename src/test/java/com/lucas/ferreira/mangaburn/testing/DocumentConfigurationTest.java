@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
 import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class DocumentConfigurationTest {
@@ -31,8 +31,8 @@ public class DocumentConfigurationTest {
 		assertThat(mangaPath, is(equalTo("D:\\MABurnTest\\Mangas")));
 		assertThat(animePath, is(equalTo("D:\\MABurnTest\\Animes")));
 
-		mangaPath = docConfig.getItemPath(new Manga());
-		animePath = docConfig.getItemPath(new Anime());
+		mangaPath = docConfig.getItemPath(new MangaDownloaded());
+		animePath = docConfig.getItemPath(new AnimeDownloaded());
 
 		assertThat(mangaPath, is(equalTo("D:\\MABurnTest\\Mangas")));
 		assertThat(animePath, is(equalTo("D:\\MABurnTest\\Animes")));

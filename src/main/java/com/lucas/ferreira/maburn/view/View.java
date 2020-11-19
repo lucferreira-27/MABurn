@@ -2,10 +2,10 @@ package com.lucas.ferreira.maburn.view;
 
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Chapter;
-import com.lucas.ferreira.maburn.model.bean.Episode;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.EpisodeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
@@ -17,8 +17,8 @@ public interface View {
 	public String definePath(String category);
 	public int selectItemInCollection();
 	public int informItensInColletion(Collections collections);
-	public int informChaptersInManga(Manga manga);
-	public int informEpisodesInAnime(Anime anime);
+	public int informChaptersInManga(MangaDownloaded manga);
+	public int informEpisodesInAnime(AnimeDownloaded anime);
 	public int editConfig();
 	public int showEditMenu();
 	

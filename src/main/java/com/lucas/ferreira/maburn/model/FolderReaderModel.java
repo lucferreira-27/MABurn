@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.Anime;
-import com.lucas.ferreira.maburn.model.bean.Chapter;
-import com.lucas.ferreira.maburn.model.bean.Manga;
+import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 
@@ -28,7 +28,7 @@ public class FolderReaderModel {
 	}
 
 
-	public List<File> findChapterFoldersInMangaFolder(Manga manga) {
+	public List<File> findChapterFoldersInMangaFolder(MangaDownloaded manga) {
 		String local = manga.getDestination();
 
 		File mangaFolder = new File(local);
@@ -40,7 +40,7 @@ public class FolderReaderModel {
 		return listChaptersFolders;
 	}
 
-	public List<File> findChapterPagesFilesInChapterFolder(Chapter chapter) {
+	public List<File> findChapterPagesFilesInChapterFolder(ChapterDownloaded chapter) {
 		String local = chapter.getDestination();
 
 		File chapterFolder = new File(local);
@@ -65,7 +65,7 @@ public class FolderReaderModel {
 
 	}
 
-	public List<File> findEpisodesFilesInAnimeFolder(Anime anime) {
+	public List<File> findEpisodesFilesInAnimeFolder(AnimeDownloaded anime) {
 		String local = anime.getDestination();
 
 		File animeFolder = new File(local);
