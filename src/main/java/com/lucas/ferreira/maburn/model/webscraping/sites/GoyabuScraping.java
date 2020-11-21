@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,6 +17,7 @@ import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.ConnectionModel;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
@@ -24,35 +30,38 @@ import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
-public class AnitubeScraping implements WebScraping {
+public class GoyabuScraping implements WebScraping {
 	private Scraper scraper = new Scraper();
+
+	private List<Future<Response>> futureResponses = new ArrayList<>();
+	private String mainPageUrl;
 	private Response response;
 	private Document document;
-
-	public AnitubeScraping() {
-		// TODO Auto-generated constructor stub
-
-	}
+	private final ExecutorService exec = Executors.newFixedThreadPool(50, r -> {
+		Thread t = new Thread(r);
+		t.setDaemon(true);
+		return t;
+	});
 
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
-		// TODO Auto-generated method stub
+
 		AnimeWebData animeWebData = (AnimeWebData) titleWebData;
 
 		response = ConnectionModel.connect(animeWebData.getUrl());
-
-		animeWebData.getWebDatas().addAll(fetchEpisodesUrl());
+		mainPageUrl = response.url().toString();
+		animeWebData.getWebDatas().addAll(fetchEpisodesForPageUrl());
 
 		return animeWebData;
 	}
 
 	@Override
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
-		// TODO Auto-generated method stub
 
 		response = ConnectionModel.connect(itemWebData.getUrl());
 		EpisodeWebData episodeWebData = (EpisodeWebData) itemWebData;
-		fetchVideoUrlDirectDownload(episodeWebData);
+		episodeWebData = fetchVideoUrlDirectDownload(episodeWebData);
+
 		return episodeWebData;
 	}
 
@@ -74,26 +83,117 @@ public class AnitubeScraping implements WebScraping {
 		return fetchAllItensOnTable(document);
 	}
 
-	@Override
-	public Sites getSite() {
-		// TODO Auto-generated method stub
-		return Sites.ANITUBE;
-	}
-
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document2) {
+	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
 		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, ".aniItem > a");
+		Elements elements = scraper.scrapeSnippet(document, ".video-thumb > a > span > img");
 		elements.forEach(element -> {
 
 			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
-			searchTitle.setUrl(element.attr("href"));
 			searchTitle.setName(element.attr("title"));
-			WebScrapingUtil.removeTrashFromSearh(searchTitle);
+			searchTitle.setUrl(element.parents().get(1).attr("href"));
 			searchTitleWebDatas.add(searchTitle);
 
 		});
 		return searchTitleWebDatas;
+	}
+
+	@Override
+	public Sites getSite() {
+		return Sites.GOYABU;
+	}
+
+	public List<EpisodeWebData> fetchEpisodesForPageUrl() {
+		try {
+			document = response.parse();
+			List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
+
+			if (titleHasPages(document)) {
+
+				int value = pageNumbers(document);
+
+				for (int i = 0; i <= value; i++) {
+					nextPage(i, episodeWebDatas);
+				}
+				waitResponse(value);
+				fetchAllEpisodesPage(futureResponses, episodeWebDatas);
+
+			} else {
+				fetchEpisodePageUrl(episodeWebDatas);
+			}
+
+			return episodeWebDatas;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	private void waitResponse(int itensExpect) {
+		int itensDone = 0;
+
+		while (itensDone < itensExpect) {
+			itensDone = futureResponses.stream().filter(futureItem -> futureItem.isDone()).collect(Collectors.toList())
+					.size();
+		}
+	}
+
+	private void fetchAllEpisodesPage(List<Future<Response>> responses, List<EpisodeWebData> episodesWebDatas) {
+		futureResponses.forEach(futureItem -> {
+			try {
+				fetchEpisodePageUrl(futureItem.get().parse(), episodesWebDatas);
+			} catch (InterruptedException | ExecutionException | IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	private int pageNumbers(Document doc) {
+		int pageNumbers = Integer.parseInt(scraper.scrapeSnippet(doc, ".page-numbers").get(4).text());
+
+		return pageNumbers;
+	}
+
+	private void nextPage(int i, List<EpisodeWebData> episodeWebDatas) {
+
+		Future<Response> futureResponse = exec.submit(new ConnectionModel(mainPageUrl + "/page/" + i));
+		futureResponses.add(futureResponse);
+
+	}
+
+	private void fetchEpisodePageUrl(List<EpisodeWebData> episodeWebDatas) throws IOException {
+
+		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
+		elements.forEach(element -> {
+
+			EpisodeWebData episodeWebData = new EpisodeWebData();
+			episodeWebData.setUrl(element.attr("href"));
+			episodeWebDatas.add(episodeWebData);
+
+		});
+	}
+
+	private void fetchEpisodePageUrl(Document doc, List<EpisodeWebData> episodeWebDatas) throws IOException {
+
+		Elements elements = scraper.scrapeSnippet(doc, ".video-title > a");
+		elements.forEach(element -> {
+
+			EpisodeWebData episodeWebData = new EpisodeWebData();
+			episodeWebData.setUrl(element.attr("href"));
+			episodeWebDatas.add(episodeWebData);
+
+		});
+	}
+
+	private boolean titleHasPages(Document doc) {
+		try {
+			String currentPage = scraper.scrapeSnippet(doc, ".page-numbers").text();
+			return true;
+		} catch (WebScrapingException e) {
+			return false;
+		}
 	}
 
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
@@ -102,7 +202,7 @@ public class AnitubeScraping implements WebScraping {
 			Elements elements = scraper.scrapeSnippet(response.parse(), "script");
 
 			String script = elements.stream()
-					.filter(element -> element.toString().contains("const playerInstance = jwplayer('playerV').setup"))
+					.filter(element -> element.toString().contains("const playerInstance = jwplayer('player').setup"))
 					.findFirst().get().toString();
 			Map<Definition, String> definitions = findDownloadLinksInScript(script);
 			episodeWebData.setPlayers(definitions);
@@ -111,36 +211,32 @@ public class AnitubeScraping implements WebScraping {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return episodeWebData;
 	}
 
 	private Map<Definition, String> findDownloadLinksInScript(String script) {
 		Map<Definition, String> links = new HashMap<Definition, String>();
-
-		script = script.substring(script.indexOf("{"));
+		script = script.substring(script.indexOf("const playerInstance = jwplayer('player').setup({"));
 		script = script.substring(script.indexOf("{"), script.indexOf(");"));
 
 		JSONObject scriptJson = new JSONObject(script);
 		JSONArray players = scriptJson.getJSONArray("playlist").getJSONObject(0).getJSONArray("sources");
+
 		for (int i = 0; i < players.length(); i++) {
 			JSONObject player = players.getJSONObject(i);
-			String label = player.getString("label").replaceAll("[^\\d]", "");
+			String label = player.getString("label");
 			String file = player.getString("file");
 			if (file != null && !file.isEmpty())
 
 				switch (label) {
-				case "360":
+
+				case "SD":
 					links.put(Definition.DEFINITION_360, file);
 					break;
-				case "480":
-					links.put(Definition.DEFINITION_480, file);
-					break;
-				case "720":
+				case "HD":
 					links.put(Definition.DEFINITION_720, file);
 					break;
-				case "1080":
-					links.put(Definition.DEFINITION_720, file);
-					break;
+
 				default:
 					links.put(Definition.DEFINITION_UNDEFINED, file);
 					break;
@@ -151,7 +247,6 @@ public class AnitubeScraping implements WebScraping {
 	}
 
 	private String getBestDefinition(Map<Definition, String> definitions) {
-
 		int best = 0;
 
 		for (Map.Entry<Definition, String> definition : definitions.entrySet()) {
@@ -172,26 +267,6 @@ public class AnitubeScraping implements WebScraping {
 
 		}
 
-		return null;
-
-	}
-
-	private List<EpisodeWebData> fetchEpisodesUrl() {
-		try {
-			List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
-			Elements elements = scraper.scrapeSnippet(response.parse(), ".pagAniListaContainer.targetClose > a");
-			elements.forEach(element -> {
-
-				EpisodeWebData episodeWebData = new EpisodeWebData();
-				episodeWebData.setUrl(element.attr("href"));
-				episodeWebDatas.add(episodeWebData);
-
-			});
-			return episodeWebDatas;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return null;
 
 	}

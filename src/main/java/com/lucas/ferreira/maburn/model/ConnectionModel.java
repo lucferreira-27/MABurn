@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -8,9 +9,16 @@ import org.jsoup.nodes.Document;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 
-public class ConnectionModel {
+public class ConnectionModel implements Callable<Response> {
+	private String link;
+
 	public ConnectionModel() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public ConnectionModel(String link) {
+		// TODO Auto-generated constructor stub
+		this.link = link;
 	}
 
 	public static Response connect(String url) throws ConnectionException {
@@ -31,5 +39,11 @@ public class ConnectionModel {
 			throw new ConnectionException(e.getMessage());
 
 		}
+	}
+
+	@Override
+	public Response call() throws Exception {
+		// TODO Auto-generated method stub
+		return connect(link);
 	}
 }
