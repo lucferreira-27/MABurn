@@ -18,15 +18,10 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
-public class MangaHostScraping implements WebScraping {
+public class MangaYabuScraping implements WebScraping {
 	private Scraper scraper = new Scraper();
 	private Response response;
 	private Document document;
-
-	public MangaHostScraping() {
-
-	}
-
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 		// TODO Auto-generated method stub
@@ -37,12 +32,12 @@ public class MangaHostScraping implements WebScraping {
 		mangaWebData.setWebDatas(fetchChaptersUrl());
 
 		return mangaWebData;
+		
 	}
 
 	@Override
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
 		// TODO Auto-generated method stub
-
 		response = ConnectionModel.connect(itemWebData.getUrl());
 
 		ChapterWebData chapterWebData = (ChapterWebData) itemWebData;
@@ -55,9 +50,8 @@ public class MangaHostScraping implements WebScraping {
 	@Override
 	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
-
 		String defaultUrl = getSite().getUrl();
-		String prefix = "/find/";
+		String prefix = "/?s=";
 		String searchUrl = defaultUrl + prefix + querry;
 
 		response = ConnectionModel.connect(searchUrl);
@@ -68,34 +62,19 @@ public class MangaHostScraping implements WebScraping {
 			e.printStackTrace();
 		}
 		return fetchAllItensOnTable(document);
-
 	}
+
 
 	@Override
 	public Sites getSite() {
 		// TODO Auto-generated method stub
-		return Sites.MANGA_HOST;
+		return Sites.MANGA_YABU;
 	}
-
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
-		// TODO Auto-generated method stub
-		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, ".table.table-search.table-hover > tbody > tr > td > a");
-		elements.forEach(element -> {
-
-			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
-			searchTitle.setUrl(element.attr("href"));
-			searchTitle.setName(element.attr("title"));
-			searchTitleWebDatas.add(searchTitle);
-
-		});
-		return searchTitleWebDatas;
-	}
-
+	
 	private List<ChapterWebData> fetchChaptersUrl() {
 		try {
 			List<ChapterWebData> chapterWebDatas = new ArrayList<>();
-			Elements elements = scraper.scrapeSnippet(response.parse(), ".btn-green.w-button.pull-left");
+			Elements elements = scraper.scrapeSnippet(response.parse(), ".single-chapter > a");
 			elements.forEach(element -> {
 
 				ChapterWebData chapterWebData = new ChapterWebData();
@@ -111,11 +90,10 @@ public class MangaHostScraping implements WebScraping {
 		return null;
 
 	}
-
 	private ChapterWebData fetchPagesUrl(ChapterWebData chapterWebData) {
 
 		try {
-			Elements elements = scraper.scrapeSnippet(response.parse(), "picture > img");
+			Elements elements = scraper.scrapeSnippet(response.parse(), ".img-responsive");
 			elements.forEach(element -> {
 
 				chapterWebData.addPagesUrl((element.attr("src")));
@@ -129,4 +107,18 @@ public class MangaHostScraping implements WebScraping {
 
 	}
 
+	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
+		// TODO Auto-generated method stub
+		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+		Elements elements = scraper.scrapeSnippet(document, ".feature > h2 > a");
+		elements.forEach(element -> {
+
+			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+			searchTitle.setUrl(element.attr("href"));
+			searchTitle.setName(element.text());
+			searchTitleWebDatas.add(searchTitle);
+
+		});
+		return searchTitleWebDatas;
+	}
 }
