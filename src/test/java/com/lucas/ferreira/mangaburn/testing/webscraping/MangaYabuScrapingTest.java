@@ -1,4 +1,4 @@
-package com.lucas.ferreira.mangaburn.testing;
+package com.lucas.ferreira.mangaburn.testing.webscraping;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotEquals;
@@ -11,18 +11,18 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
-import com.lucas.ferreira.maburn.model.webscraping.sites.MangaHostScraping;
+import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
 
-public class MangaHostScrapingTest {
-	private final static String TITLE_URL_TEST = "https://mangahosted.com/manga/shingeki-no-kyojin-attack-on-titan-mh31049";
-	private final static String CHAPTER_URL_TEST = "https://mangahosted.com/manga/shingeki-no-kyojin-attack-on-titan-mh31049/1";
+public class MangaYabuScrapingTest {
+	private final static String TITLE_URL_TEST = "https://mangayabu.top/manga/one-piece/";
+	private final static String CHAPTER_URL_TEST = "https://mangayabu.top/ler/one-piece-capitulo-996-my432182/";
 	private final static String SEARCH = "One Piece";
 
-	private MangaHostScraping scraping = new MangaHostScraping();
+	private MangaYabuScraping scraping = new MangaYabuScraping();
 
-	// @Test
+	@Test
 	public void fetchTitleTest() {
-		MangaWebData mangaWebData = new MangaWebData();
+		MangaWebData mangaWebData = new MangaWebData(SEARCH);
 		mangaWebData.setUrl(TITLE_URL_TEST);
 		mangaWebData = (MangaWebData) scraping.fecthTitle(mangaWebData);
 		int expect = 0;
@@ -32,14 +32,14 @@ public class MangaHostScrapingTest {
 
 	}
 
-	// @Test
+	@Test
 	public void fetchItemTest() {
-
-		ChapterWebData chapterWebData = new ChapterWebData();
+		MangaWebData mangaWebData = new MangaWebData(SEARCH);
+		ChapterWebData chapterWebData = new ChapterWebData(mangaWebData);
 		chapterWebData.setUrl(CHAPTER_URL_TEST);
 		chapterWebData = (ChapterWebData) scraping.fecthItem(chapterWebData);
-
-		int expect = 57;
+		
+		int expect = 17;
 		int result = chapterWebData.getListPagesUrl().size();
 
 		assertThat(expect, is(result));
@@ -49,10 +49,9 @@ public class MangaHostScrapingTest {
 	public void fecthSearchTitle() {
 
 		List<SearchTitleWebData> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
-		int expect = 10;
+		int expect = 4;
 		int result = searchTitleWebDatas.size();
 		assertThat(expect, is(result));
 
 	}
-
 }

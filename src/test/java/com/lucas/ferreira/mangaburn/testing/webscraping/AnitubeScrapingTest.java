@@ -1,4 +1,4 @@
-package com.lucas.ferreira.mangaburn.testing;
+package com.lucas.ferreira.mangaburn.testing.webscraping;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotEquals;
@@ -22,7 +22,7 @@ public class AnitubeScrapingTest {
 
 	@Test
 	public void fetchTitleTest() {
-		AnimeWebData animeWebData = new AnimeWebData();
+		AnimeWebData animeWebData = new AnimeWebData(SEARCH);
 		animeWebData.setUrl(TITLE_URL_TEST);
 		animeWebData = (AnimeWebData) scraping.fecthTitle(animeWebData);
 		int expect = 0;
@@ -35,7 +35,7 @@ public class AnitubeScrapingTest {
 	@Test
 	public void fetchItemTest() {
 
-		EpisodeWebData episodeWebData = new EpisodeWebData();
+		EpisodeWebData episodeWebData = new EpisodeWebData(new AnimeWebData(SEARCH));
 		episodeWebData.setUrl(EPISODE_URL_TEST);
 		episodeWebData = (EpisodeWebData) scraping.fecthItem(episodeWebData);
 
