@@ -1,4 +1,4 @@
-package com.lucas.ferreira.mangaburn.testing;
+package com.lucas.ferreira.mangaburn.testing.webscraping;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotEquals;
@@ -11,10 +11,11 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
+import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 
 public class GoyabuScrapingTest {
-	private GoyabuScraping scraping = new GoyabuScraping();
+	private WebScraping scraping = new GoyabuScraping();
 	private final static String TITLE_URL_TEST1 = "https://goyabu.com/assistir/golden-kamuy-3rd-season/";
 	private final static String TITLE_URL_TEST2 = "https://goyabu.com/assistir/black-clover/";
 	private final static String EPISODE_URL_TEST = "https://goyabu.com/videos/103023988/";
@@ -22,7 +23,7 @@ public class GoyabuScrapingTest {
 
 	@Test
 	public void fetchTitleTestWithoutPages() {
-		AnimeWebData animeWebData = new AnimeWebData();
+		AnimeWebData animeWebData = new AnimeWebData(SEARCH);
 		animeWebData.setUrl(TITLE_URL_TEST1);
 		animeWebData = (AnimeWebData) scraping.fecthTitle(animeWebData);
 		int expect = 0;
@@ -33,7 +34,7 @@ public class GoyabuScrapingTest {
 
 	@Test
 	public void fetchTitleTestWithPages() {
-		AnimeWebData animeWebData = new AnimeWebData();
+		AnimeWebData animeWebData = new AnimeWebData(SEARCH);
 		animeWebData.setUrl(TITLE_URL_TEST2);
 		animeWebData = (AnimeWebData) scraping.fecthTitle(animeWebData);
 		int expect = 0;
@@ -44,10 +45,10 @@ public class GoyabuScrapingTest {
 
 	@Test
 	public void fetchItemTest() {
-		EpisodeWebData episodeWebData = new EpisodeWebData();
+		EpisodeWebData episodeWebData = new EpisodeWebData(new AnimeWebData(SEARCH));
 		episodeWebData.setUrl(EPISODE_URL_TEST);
 		episodeWebData = (EpisodeWebData) scraping.fecthItem(episodeWebData);
-		int expect = 2;
+		int expect = 1;
 		int result = episodeWebData.getAvaiblePlayersDefinitions().size();
 		assertThat(expect, is(result));
 

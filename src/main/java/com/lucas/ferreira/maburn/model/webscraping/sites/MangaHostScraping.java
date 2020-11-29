@@ -17,8 +17,10 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
+import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
 public class MangaHostScraping implements WebScraping {
+	private MangaWebData mangaWebData;
 	private Scraper scraper = new Scraper();
 	private Response response;
 	private Document document;
@@ -30,7 +32,9 @@ public class MangaHostScraping implements WebScraping {
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 		// TODO Auto-generated method stub
-		MangaWebData mangaWebData = (MangaWebData) titleWebData;
+
+		mangaWebData = (MangaWebData) titleWebData;
+		mangaWebData.setSite(getSite());
 
 		response = ConnectionModel.connect(mangaWebData.getUrl());
 
@@ -98,8 +102,11 @@ public class MangaHostScraping implements WebScraping {
 			Elements elements = scraper.scrapeSnippet(response.parse(), ".btn-green.w-button.pull-left");
 			elements.forEach(element -> {
 
-				ChapterWebData chapterWebData = new ChapterWebData();
+				ChapterWebData chapterWebData = new ChapterWebData(mangaWebData);
+				chapterWebData.setName(element.attr("title"));
 				chapterWebData.setUrl(element.attr("href"));
+				WebScrapingUtil.removeTrashFromStringChapter(chapterWebData, getSite());
+
 				chapterWebDatas.add(chapterWebData);
 
 			});

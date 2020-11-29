@@ -17,22 +17,26 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
+import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
 public class MangaYabuScraping implements WebScraping {
+	private MangaWebData mangaWebData;
 	private Scraper scraper = new Scraper();
 	private Response response;
 	private Document document;
+
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 		// TODO Auto-generated method stub
-		MangaWebData mangaWebData = (MangaWebData) titleWebData;
+		mangaWebData = (MangaWebData) titleWebData;
+		mangaWebData.setSite(getSite());
 
 		response = ConnectionModel.connect(mangaWebData.getUrl());
 
 		mangaWebData.setWebDatas(fetchChaptersUrl());
 
 		return mangaWebData;
-		
+
 	}
 
 	@Override
@@ -64,21 +68,22 @@ public class MangaYabuScraping implements WebScraping {
 		return fetchAllItensOnTable(document);
 	}
 
-
 	@Override
 	public Sites getSite() {
 		// TODO Auto-generated method stub
 		return Sites.MANGA_YABU;
 	}
-	
+
 	private List<ChapterWebData> fetchChaptersUrl() {
 		try {
 			List<ChapterWebData> chapterWebDatas = new ArrayList<>();
 			Elements elements = scraper.scrapeSnippet(response.parse(), ".single-chapter > a");
 			elements.forEach(element -> {
 
-				ChapterWebData chapterWebData = new ChapterWebData();
+				ChapterWebData chapterWebData = new ChapterWebData(mangaWebData);
 				chapterWebData.setUrl(element.attr("href"));
+				chapterWebData.setName(element.text());
+				WebScrapingUtil.removeTrashFromStringChapter(chapterWebData, getSite());
 				chapterWebDatas.add(chapterWebData);
 
 			});
@@ -90,6 +95,7 @@ public class MangaYabuScraping implements WebScraping {
 		return null;
 
 	}
+
 	private ChapterWebData fetchPagesUrl(ChapterWebData chapterWebData) {
 
 		try {

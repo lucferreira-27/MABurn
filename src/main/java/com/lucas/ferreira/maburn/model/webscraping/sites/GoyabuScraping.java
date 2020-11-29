@@ -34,6 +34,7 @@ public class GoyabuScraping implements WebScraping {
 	private Scraper scraper = new Scraper();
 
 	private List<Future<Response>> futureResponses = new ArrayList<>();
+	private AnimeWebData animeWebData;
 	private String mainPageUrl;
 	private Response response;
 	private Document document;
@@ -46,7 +47,8 @@ public class GoyabuScraping implements WebScraping {
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 
-		AnimeWebData animeWebData = (AnimeWebData) titleWebData;
+		animeWebData = (AnimeWebData) titleWebData;
+		animeWebData.setSite(getSite());
 
 		response = ConnectionModel.connect(animeWebData.getUrl());
 		mainPageUrl = response.url().toString();
@@ -168,8 +170,10 @@ public class GoyabuScraping implements WebScraping {
 		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
 		elements.forEach(element -> {
 
-			EpisodeWebData episodeWebData = new EpisodeWebData();
+			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
 			episodeWebData.setUrl(element.attr("href"));
+			episodeWebData.setName(element.attr("title"));
+			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
 			episodeWebDatas.add(episodeWebData);
 
 		});
@@ -180,8 +184,11 @@ public class GoyabuScraping implements WebScraping {
 		Elements elements = scraper.scrapeSnippet(doc, ".video-title > a");
 		elements.forEach(element -> {
 
-			EpisodeWebData episodeWebData = new EpisodeWebData();
+			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
 			episodeWebData.setUrl(element.attr("href"));
+			episodeWebData.setName(element.attr("title"));
+			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
+
 			episodeWebDatas.add(episodeWebData);
 
 		});
@@ -205,8 +212,9 @@ public class GoyabuScraping implements WebScraping {
 					.filter(element -> element.toString().contains("const playerInstance = jwplayer('player').setup"))
 					.findFirst().get().toString();
 			Map<Definition, String> definitions = findDownloadLinksInScript(script);
+
 			episodeWebData.setPlayers(definitions);
-			episodeWebData.setBestPlayerDownloadLink(getBestDefinition(definitions));
+			episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -215,7 +223,6 @@ public class GoyabuScraping implements WebScraping {
 	}
 
 	private Map<Definition, String> findDownloadLinksInScript(String script) {
-		Map<Definition, String> links = new HashMap<Definition, String>();
 		script = script.substring(script.indexOf("const playerInstance = jwplayer('player').setup({"));
 		script = script.substring(script.indexOf("{"), script.indexOf(");"));
 
@@ -227,48 +234,76 @@ public class GoyabuScraping implements WebScraping {
 			String label = player.getString("label");
 			String file = player.getString("file");
 			if (file != null && !file.isEmpty())
-
-				switch (label) {
-
-				case "SD":
-					links.put(Definition.DEFINITION_360, file);
-					break;
-				case "HD":
-					links.put(Definition.DEFINITION_720, file);
-					break;
-
-				default:
-					links.put(Definition.DEFINITION_UNDEFINED, file);
-					break;
+				if (file.contains("https://repackager.wixmp.com")) {
+					Map<Definition, String> links = getHideLinks(file);
+					return links;
 				}
+			Map<Definition, String> links = predefinedLinks(label, file);
+			return links;
+
+		}
+		return null;
+
+	}
+
+	private Map<Definition, String> getHideLinks(String link) {
+		Map<Definition, String> links = new HashMap<>();;
+		link = link.substring("https://repackager.wixmp.com".length() + 1);
+		String[] definitions = link.substring(link.indexOf(",") + 1, link.lastIndexOf(",")).split(",");
+
+
+		String file = link.substring(link.lastIndexOf(",") + 1, link.lastIndexOf(".urlset"));
+		String linkId = link.substring(0, link.indexOf(","));
+
+		for (String def : definitions) {
+			String directDownload = linkId + def + file;
+			directDownload = "https://" + directDownload.trim();
+			switch (def) {
+
+			case "1080p":
+			
+
+				links.put(Definition.DEFINITION_1080, directDownload);
+				break;
+			case "720p":
+
+				links.put(Definition.DEFINITION_720, directDownload);
+				break;
+			case "480p":
+				links.put(Definition.DEFINITION_480, directDownload);
+				break;
+			default:
+
+				links.put(Definition.DEFINITION_UNDEFINED, directDownload);
+				break;
+			}
 		}
 
 		return links;
 	}
 
-	private String getBestDefinition(Map<Definition, String> definitions) {
-		int best = 0;
+	private Map<Definition, String> predefinedLinks(String label, String file) {
+		Map<Definition, String> links = new HashMap<Definition, String>();
 
-		for (Map.Entry<Definition, String> definition : definitions.entrySet()) {
-			if (definition.getKey() == Definition.DEFINITION_UNDEFINED) {
-				return definition.getValue();
-			}
+		switch (label) {
 
-			if (definition.getKey().getSize() > best) {
-				best = definition.getKey().getSize();
-			}
+		case "SD":
 
+			links.put(Definition.DEFINITION_360, file);
+			break;
+		case "HD":
+
+			links.put(Definition.DEFINITION_720, file);
+			break;
+
+		default:
+
+			links.put(Definition.DEFINITION_UNDEFINED, file);
+			break;
 		}
-
-		for (Map.Entry<Definition, String> definition : definitions.entrySet()) {
-			if (definition.getKey().getSize() == best) {
-				return definition.getValue();
-			}
-
-		}
-
-		return null;
-
+		return links;
 	}
+
+
 
 }

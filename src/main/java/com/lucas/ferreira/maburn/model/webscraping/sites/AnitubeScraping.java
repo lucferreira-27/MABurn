@@ -26,6 +26,7 @@ import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
 public class AnitubeScraping implements WebScraping {
 	private Scraper scraper = new Scraper();
+	private AnimeWebData animeWebData;
 	private Response response;
 	private Document document;
 
@@ -37,8 +38,8 @@ public class AnitubeScraping implements WebScraping {
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 		// TODO Auto-generated method stub
-		AnimeWebData animeWebData = (AnimeWebData) titleWebData;
-
+		animeWebData = (AnimeWebData) titleWebData;
+		animeWebData.setSite(getSite());
 		response = ConnectionModel.connect(animeWebData.getUrl());
 
 		animeWebData.getWebDatas().addAll(fetchEpisodesUrl());
@@ -89,7 +90,7 @@ public class AnitubeScraping implements WebScraping {
 			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
 			searchTitle.setUrl(element.attr("href"));
 			searchTitle.setName(element.attr("title"));
-			WebScrapingUtil.removeTrashFromSearh(searchTitle);
+			WebScrapingUtil.removeTrashFromStringSearch(searchTitle);
 			searchTitleWebDatas.add(searchTitle);
 
 		});
@@ -106,7 +107,7 @@ public class AnitubeScraping implements WebScraping {
 					.findFirst().get().toString();
 			Map<Definition, String> definitions = findDownloadLinksInScript(script);
 			episodeWebData.setPlayers(definitions);
-			episodeWebData.setBestPlayerDownloadLink(getBestDefinition(definitions));
+			episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,31 +151,7 @@ public class AnitubeScraping implements WebScraping {
 		return links;
 	}
 
-	private String getBestDefinition(Map<Definition, String> definitions) {
 
-		int best = 0;
-
-		for (Map.Entry<Definition, String> definition : definitions.entrySet()) {
-			if (definition.getKey() == Definition.DEFINITION_UNDEFINED) {
-				return definition.getValue();
-			}
-
-			if (definition.getKey().getSize() > best) {
-				best = definition.getKey().getSize();
-			}
-
-		}
-
-		for (Map.Entry<Definition, String> definition : definitions.entrySet()) {
-			if (definition.getKey().getSize() == best) {
-				return definition.getValue();
-			}
-
-		}
-
-		return null;
-
-	}
 
 	private List<EpisodeWebData> fetchEpisodesUrl() {
 		try {
@@ -182,8 +159,10 @@ public class AnitubeScraping implements WebScraping {
 			Elements elements = scraper.scrapeSnippet(response.parse(), ".pagAniListaContainer.targetClose > a");
 			elements.forEach(element -> {
 
-				EpisodeWebData episodeWebData = new EpisodeWebData();
+				EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
 				episodeWebData.setUrl(element.attr("href"));
+				episodeWebData.setName(element.attr("title"));
+				WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
 				episodeWebDatas.add(episodeWebData);
 
 			});
