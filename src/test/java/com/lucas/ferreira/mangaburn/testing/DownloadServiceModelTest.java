@@ -2,15 +2,11 @@ package com.lucas.ferreira.mangaburn.testing;
 
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
-import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;

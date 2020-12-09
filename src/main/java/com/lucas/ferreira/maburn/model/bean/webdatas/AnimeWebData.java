@@ -9,7 +9,7 @@ public class AnimeWebData implements TitleWebData {
 	private String name;
 	private String url;
 	private Sites site;
-	private List<EpisodeWebData> webDatas = new ArrayList<EpisodeWebData>();
+	private List<ItemWebData> webDatas = new ArrayList<ItemWebData>();
 
 	public AnimeWebData(String name) {
 		// TODO Auto-generated constructor stub
@@ -32,7 +32,7 @@ public class AnimeWebData implements TitleWebData {
 		return url;
 	}
 
-	public List<EpisodeWebData> getWebDatas() {
+	public List<ItemWebData> getWebDatas() {
 		return webDatas;
 	}
 

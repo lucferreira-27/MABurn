@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 public class MainInterfaceView {
 
 	private JFrame frame;
+	private boolean visibility = true;
 	private VBox root = new VBox();
 	private final JFXPanel fxPanel = new JFXPanel();
 	private GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
@@ -101,7 +102,7 @@ public class MainInterfaceView {
 
 		fxPanel.setScene(scenePane);
 		System.out.println("> Initialization Complete  MainInterfaceView");
-		frame.setVisible(true);
+		frame.setVisible(visibility);
 		System.out.println();
 
 		initializeIsDone = true;
@@ -130,6 +131,10 @@ public class MainInterfaceView {
 
 	public boolean isInitializeDone() {
 		return initializeIsDone;
+	}
+	
+	public void setVisibility(boolean visibility) {
+		this.visibility = visibility;
 	}
 
 

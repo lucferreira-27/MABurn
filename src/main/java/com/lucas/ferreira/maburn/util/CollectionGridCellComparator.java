@@ -1,7 +1,9 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.util;
 
 import java.util.Comparator;
 
+import com.lucas.ferreira.maburn.model.GridPaneCell;
+import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 import javafx.scene.Node;

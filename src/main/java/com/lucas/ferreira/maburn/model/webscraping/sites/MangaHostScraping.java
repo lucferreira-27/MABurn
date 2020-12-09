@@ -96,9 +96,9 @@ public class MangaHostScraping implements WebScraping {
 		return searchTitleWebDatas;
 	}
 
-	private List<ChapterWebData> fetchChaptersUrl() {
+	private List<ItemWebData> fetchChaptersUrl() {
 		try {
-			List<ChapterWebData> chapterWebDatas = new ArrayList<>();
+			List<ItemWebData> chapterWebDatas = new ArrayList<>();
 			Elements elements = scraper.scrapeSnippet(response.parse(), ".btn-green.w-button.pull-left");
 			elements.forEach(element -> {
 

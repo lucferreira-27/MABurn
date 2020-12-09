@@ -1,5 +1,8 @@
 package com.lucas.ferreira.maburn.model.bean.webdatas;
 
-public interface TitleWebData {
+import java.util.List;
 
+public interface TitleWebData {
+	public void setUrl(String url);
+	public List<ItemWebData> getWebDatas();
 }

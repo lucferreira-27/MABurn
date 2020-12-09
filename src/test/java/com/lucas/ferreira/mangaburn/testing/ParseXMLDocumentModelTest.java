@@ -18,7 +18,7 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
 import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
 import com.lucas.ferreira.maburn.model.ParseXMLDocumentModel;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 
 public class ParseXMLDocumentModelTest {
 	private ParseXMLDocumentModel parseXml;

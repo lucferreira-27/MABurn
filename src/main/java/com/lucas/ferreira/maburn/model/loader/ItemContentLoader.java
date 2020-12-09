@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
-import com.lucas.ferreira.maburn.model.bean.EpisodeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 

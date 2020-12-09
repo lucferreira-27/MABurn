@@ -8,6 +8,7 @@ import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.ConnectionModel;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
@@ -46,7 +47,12 @@ public class MangaYabuScraping implements WebScraping {
 
 		ChapterWebData chapterWebData = (ChapterWebData) itemWebData;
 
-		chapterWebData = fetchPagesUrl(chapterWebData);
+		try {
+			chapterWebData = fetchPagesUrl(chapterWebData);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return chapterWebData;
 	}
@@ -74,9 +80,9 @@ public class MangaYabuScraping implements WebScraping {
 		return Sites.MANGA_YABU;
 	}
 
-	private List<ChapterWebData> fetchChaptersUrl() {
+	private List<ItemWebData> fetchChaptersUrl() {
 		try {
-			List<ChapterWebData> chapterWebDatas = new ArrayList<>();
+			List<ItemWebData> chapterWebDatas = new ArrayList<>();
 			Elements elements = scraper.scrapeSnippet(response.parse(), ".single-chapter > a");
 			elements.forEach(element -> {
 
@@ -96,21 +102,27 @@ public class MangaYabuScraping implements WebScraping {
 
 	}
 
-	private ChapterWebData fetchPagesUrl(ChapterWebData chapterWebData) {
+	private ChapterWebData fetchPagesUrl(ChapterWebData chapterWebData) throws IOException {
+		Elements elements;
+	
+			Document document = response.parse();
 
-		try {
-			Elements elements = scraper.scrapeSnippet(response.parse(), ".img-responsive");
+			elements = scraper.scrapeSnippet(document, ".manga-pages > center > img");
 			elements.forEach(element -> {
 
 				chapterWebData.addPagesUrl((element.attr("src")));
 			});
 			return chapterWebData;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
 
+		//alignnone size-full wp-image
+	}
+	private Elements fetchPageUrlImgResponsive(Document document) {
+		Elements elements = scraper.scrapeSnippet(document, ".img-responsive");
+		return elements;
+	}
+	private Elements fetchPageUrlWpImage(Document document) {
+		Elements elements = scraper.scrapeSnippet(document, ".manga-pages");
+		return elements;
 	}
 
 	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {

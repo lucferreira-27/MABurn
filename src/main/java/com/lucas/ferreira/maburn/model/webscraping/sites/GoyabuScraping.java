@@ -206,7 +206,7 @@ public class GoyabuScraping implements WebScraping {
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
 		try {
 
-			Elements elements = scraper.scrapeSnippet(response.parse(), "script");
+			Elements elements = scraper.scrapeSnippet(response.bufferUp().parse(), "script");
 
 			String script = elements.stream()
 					.filter(element -> element.toString().contains("const playerInstance = jwplayer('player').setup"))
@@ -237,9 +237,10 @@ public class GoyabuScraping implements WebScraping {
 				if (file.contains("https://repackager.wixmp.com")) {
 					Map<Definition, String> links = getHideLinks(file);
 					return links;
+				} else {
+					Map<Definition, String> links = predefinedLinks(label, file);
+					return links;
 				}
-			Map<Definition, String> links = predefinedLinks(label, file);
-			return links;
 
 		}
 		return null;
@@ -247,10 +248,10 @@ public class GoyabuScraping implements WebScraping {
 	}
 
 	private Map<Definition, String> getHideLinks(String link) {
-		Map<Definition, String> links = new HashMap<>();;
+		Map<Definition, String> links = new HashMap<>();
+		
 		link = link.substring("https://repackager.wixmp.com".length() + 1);
 		String[] definitions = link.substring(link.indexOf(",") + 1, link.lastIndexOf(",")).split(",");
-
 
 		String file = link.substring(link.lastIndexOf(",") + 1, link.lastIndexOf(".urlset"));
 		String linkId = link.substring(0, link.indexOf(","));
@@ -261,7 +262,6 @@ public class GoyabuScraping implements WebScraping {
 			switch (def) {
 
 			case "1080p":
-			
 
 				links.put(Definition.DEFINITION_1080, directDownload);
 				break;
@@ -284,7 +284,6 @@ public class GoyabuScraping implements WebScraping {
 
 	private Map<Definition, String> predefinedLinks(String label, String file) {
 		Map<Definition, String> links = new HashMap<Definition, String>();
-
 		switch (label) {
 
 		case "SD":
@@ -303,7 +302,5 @@ public class GoyabuScraping implements WebScraping {
 		}
 		return links;
 	}
-
-
 
 }

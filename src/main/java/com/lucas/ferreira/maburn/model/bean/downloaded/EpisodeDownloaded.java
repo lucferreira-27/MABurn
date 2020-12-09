@@ -1,12 +1,10 @@
-package com.lucas.ferreira.maburn.model.bean;
+package com.lucas.ferreira.maburn.model.bean.downloaded;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.lucas.ferreira.maburn.model.bean.GenericItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
-public class EpisodeDownloaded implements CollectionSubItem {
+public class EpisodeDownloaded implements CollectionSubItem, GenericItem {
 	private AnimeDownloaded anime;
 	private String name;
 	private String destination;

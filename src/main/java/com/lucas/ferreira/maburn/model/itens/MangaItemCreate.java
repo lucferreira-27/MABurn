@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.model.itens;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
 import com.lucas.ferreira.maburn.model.enums.Category;

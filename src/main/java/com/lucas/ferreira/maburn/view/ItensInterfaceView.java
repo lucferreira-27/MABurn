@@ -9,18 +9,18 @@ import java.util.concurrent.Future;
 
 import com.lucas.ferreira.maburn.controller.ItensInterfaceController;
 import com.lucas.ferreira.maburn.exceptions.LoadingException;
-import com.lucas.ferreira.maburn.model.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.effects.TransformEffects;
 import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
 import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.enums.LoadingType;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

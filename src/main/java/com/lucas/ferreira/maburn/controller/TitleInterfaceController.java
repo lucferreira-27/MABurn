@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
-import com.lucas.ferreira.maburn.model.ItemFileComparator;
 import com.lucas.ferreira.maburn.model.TableCollectionItemModel;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
@@ -20,6 +19,7 @@ import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.ItensInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
