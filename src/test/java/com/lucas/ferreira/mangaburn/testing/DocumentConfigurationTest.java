@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
 import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class DocumentConfigurationTest {

@@ -27,7 +27,7 @@ public class ConnectionModel implements Callable<Response> {
 			return Jsoup.connect(url).ignoreContentType(true).execute();
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new ConnectionException(e.getMessage());
+			throw new ConnectionException(e.getMessage() + " url: " + url);
 		}
 	}
 

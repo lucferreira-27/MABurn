@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.model.collections;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 

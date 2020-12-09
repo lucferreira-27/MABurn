@@ -1,22 +1,21 @@
 package com.lucas.ferreira.maburn.model.bean.webdatas;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import com.lucas.ferreira.maburn.model.DownloadServiceModel;
-import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
-import com.lucas.ferreira.maburn.model.bean.EpisodeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.download.DownloadSingleServiceModel;
+import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Definition;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
 public class EpisodeWebData implements ItemWebData {
 	private AnimeWebData animeWebData;
-
+	private Downloader<CollectionSubItem> download = new DownloadSingleServiceModel();
 	private String name;
 	private String url;
 
@@ -64,25 +63,31 @@ public class EpisodeWebData implements ItemWebData {
 		this.url = url;
 	}
 
+	public Downloader<CollectionSubItem> getDownloader() {
+		return download;
+	}
+
 	@Override
-	public CollectionSubItem download(Collections collections) {
-	
-			EpisodeDownloaded episodeDownloaded = new EpisodeDownloaded();
-			String destination = collections.getDestination() + "\\" + animeWebData.getName() + "\\" + name;
-			System.out.println(destination);
-			DownloadServiceModel download = new DownloadServiceModel(downloadLink, new File(destination));
-			try {
-				System.out.println(downloadLink);
-				File file = download.download(downloadLink,animeWebData.getSite());
+	public Downloader<CollectionSubItem> download(Collections collections) {
 
-				episodeDownloaded.setDestination(file.getAbsolutePath());
+		String destination = collections.getDestination() + "\\" + animeWebData.getName() + "\\" + name;
+		// System.out.println(destination);
+		System.out.println(destination);
+		download.initialize(Arrays.asList(downloadLink), new EpisodeDownloaded(), Arrays.asList(new File(destination)),
+				animeWebData.getSite());
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	
+		// download (downloadLink, new File(destination),new
+		// EpisodeDownloaded(),animeWebData.getSite());
+		try {
+			ExecutorService exec = Executors.newFixedThreadPool(5);
+			exec.submit(download);
+			return download;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("!!!!!!");
+			//e.printStackTrace();
+			return download;
+		}
 
-		return  null;
 	}
 }

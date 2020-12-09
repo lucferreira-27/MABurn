@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 

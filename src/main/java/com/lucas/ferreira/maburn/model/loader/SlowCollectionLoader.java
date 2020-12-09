@@ -15,8 +15,8 @@ import com.lucas.ferreira.maburn.model.DocumentCollectionReaderModel;
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
 import com.lucas.ferreira.maburn.model.ParseXMLDocumentModel;
 import com.lucas.ferreira.maburn.model.SaveCollectionModel;
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
@@ -191,6 +191,7 @@ public class SlowCollectionLoader implements CollectionLoader {
 
 	private MangaDownloaded loadManga(String mangaPath) {
 		MangaDownloaded item = new MangaDownloaded();
+		item.setCollections(collection);
 		item.setDestination(mangaPath); // It is important to define the destination because it will be used to locate
 		// the item in the document
 		ItemCreater<MangaDownloaded> itemCreater = new MangaItemCreate((MangaCollection) collection);
@@ -209,7 +210,7 @@ public class SlowCollectionLoader implements CollectionLoader {
 
 	private AnimeDownloaded loadAnime(String animePath) {
 		AnimeDownloaded item = new AnimeDownloaded();
-
+		item.setCollections(collection);
 		item.setDestination(animePath); // It is important to define the destination because it will be used to locate
 										// the item in the document
 		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate((AnimeCollection) collection);
@@ -251,6 +252,7 @@ public class SlowCollectionLoader implements CollectionLoader {
 	@Override
 	public void loadItem(CollectionItem item) {
 		// TODO Auto-generated method stub
+		loadSubItensInItem(item);
 
 	}
 

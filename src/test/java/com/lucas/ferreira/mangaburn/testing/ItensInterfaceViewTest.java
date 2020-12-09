@@ -5,7 +5,7 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;

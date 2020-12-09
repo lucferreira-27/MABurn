@@ -2,8 +2,8 @@ package com.lucas.ferreira.maburn.model.loader;
 
 import java.util.concurrent.Callable;
 
-import com.lucas.ferreira.maburn.model.bean.ChapterDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;

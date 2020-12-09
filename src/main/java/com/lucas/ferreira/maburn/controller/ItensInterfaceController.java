@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.lucas.ferreira.maburn.model.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
-import com.lucas.ferreira.maburn.model.bean.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.util.ViewUtil;
 import com.lucas.ferreira.maburn.view.ItensInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;

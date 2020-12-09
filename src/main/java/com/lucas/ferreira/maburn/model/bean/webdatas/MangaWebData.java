@@ -9,7 +9,7 @@ public class MangaWebData implements TitleWebData {
 	private String name;
 	private Sites site;
 	private String url;
-	private List<ChapterWebData> webDatas = new ArrayList<ChapterWebData>();
+	private List<ItemWebData> webDatas = new ArrayList<ItemWebData>();
 	
 	
 	public MangaWebData(String name) {
@@ -31,14 +31,14 @@ public class MangaWebData implements TitleWebData {
 		this.site = site;
 	}
 
-	public List<ChapterWebData> getWebDatas() {
+	public List<ItemWebData> getWebDatas() {
 		return webDatas;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public void setWebDatas(List<ChapterWebData> webDatas) {
+	public void setWebDatas(List<ItemWebData> webDatas) {
 		this.webDatas = webDatas;
 	}
 }
