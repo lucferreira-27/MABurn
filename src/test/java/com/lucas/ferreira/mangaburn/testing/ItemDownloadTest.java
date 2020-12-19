@@ -28,6 +28,7 @@ public class ItemDownloadTest {
 	@Test
 	public void downloadAnime() throws Exception {
 		int index = 0;
+		
 		MainInterfaceView mainInterfaceView = new MainInterfaceView();
 		mainInterfaceView.initAndShowGUI();
 		MainLoader loader = new MainLoader(new AnimeCollection());

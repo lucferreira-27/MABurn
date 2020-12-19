@@ -9,10 +9,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import com.lucas.ferreira.maburn.exceptions.CollectionLoaderException;
-import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
-import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
 import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
@@ -31,8 +31,8 @@ public class MainInterfaceController implements Initializable {
 	private CollectionLoader collectionLoader;
 	private Collections collection;
 	private InitializeModel initialize;
-	private ConfigurationReaderModel configReader = new ConfigurationReaderModel();
-	private DocumentConfigurationModel doc;
+	private ConfigurationReader configReader = new ConfigurationReader();
+	private DocumentConfiguration doc;
 	private Future<?> futureCollection;
 
 	public MainInterfaceController(MainInterfaceView mainView, Collections collection) {
@@ -40,7 +40,7 @@ public class MainInterfaceController implements Initializable {
 		this.mainView = mainView;
 		this.collection = collection;
 		this.initialize = new InitializeModel(new HelperInterfaceView());
-		this.doc = new DocumentConfigurationModel(configReader.getDocumentConfiguration());
+		this.doc = new DocumentConfiguration(configReader.getDocumentConfiguration());
 	}
 
 	public MainInterfaceController() {
@@ -48,7 +48,7 @@ public class MainInterfaceController implements Initializable {
 		this.mainView = new MainInterfaceView();
 		this.initialize = new InitializeModel(new HelperInterfaceView());
 		initialize.boot();
-		this.doc = new DocumentConfigurationModel(configReader.getDocumentConfiguration());
+		this.doc = new DocumentConfiguration(configReader.getDocumentConfiguration());
 	}
 
 	public void run() {

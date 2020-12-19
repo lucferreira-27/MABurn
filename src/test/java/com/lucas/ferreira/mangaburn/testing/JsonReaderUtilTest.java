@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import org.jsoup.Connection.Response;
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.ConnectionModel;
+import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.util.JsonReaderUtil;
 
 public class JsonReaderUtilTest {

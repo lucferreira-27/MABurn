@@ -18,11 +18,11 @@ public class GridPaneCell {
 		this.row = row;
 	}
 
-	public GridPaneCell(Node node) throws Exception {
+	public GridPaneCell(Node node) throws IllegalAccessException {
 		// TODO Auto-generated constructor stub
 
 		if (!(node instanceof AnchorPane)) {
-			throw new Exception();
+			throw new IllegalAccessException();
 		}
 		this.node = node;
 		

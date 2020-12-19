@@ -1,10 +1,8 @@
 package com.lucas.ferreira.maburn.model.loader;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
@@ -40,6 +38,7 @@ public class MainLoader {
 
 	// Loads colletion from an existing collection and return the collection loaded
 	public Future<?> loadCollection(String destination) {
+		
 		final ExecutorService exec = Executors.newFixedThreadPool(5, r -> {
 			Thread t = new Thread(r);
 			t.setDaemon(true);

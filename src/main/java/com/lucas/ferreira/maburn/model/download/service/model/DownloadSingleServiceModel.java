@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download;
+package com.lucas.ferreira.maburn.model.download.service.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
@@ -19,55 +19,37 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> {
-
+public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
+	private File file;
+	private String link;
 	private HttpURLConnection httpConn;
 
-
-	private static final int BUFFER_SIZE = 8192;
-
-	public DownloadMultipleServiceModel() {
+	public DownloadSingleServiceModel() {
 		// TODO Auto-generated constructor stub
 		scheduled();
 	}
 
-	public DownloadMultipleServiceModel(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
+	public DownloadSingleServiceModel(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
 			Sites sites) {
 		// TODO Auto-generated constructor stub
 		initialize(listLink, subItem, listFile, sites);
 
 	}
 
+
+
 	public File download() throws IOException {
-		// TODO Auto-generated method stub
-		List<File> downloadedFiles = new ArrayList<>();
-		System.out.println(listLink);
 
-		for (int i = 0; i < listLink.size(); i++) {
+		URL url = downloadSetup(link);
+		startDownload(url);
 
-			if (pauseProperty.get()) {
-				stopUntil();
-			}
-			String link = listLink.get(i);
-			File file = listFile.get(i);
-			URL url = downloadSetup(link);
-
-			downloadedFiles.add(startDownload(file, url));
-
-			updateProgress(i, listLink.size());
-			// System.out.println("updateProgress(i, listLink.size());: " + "i: " + i +
-			// "listLink.size(): " + listLink.size());
-			Platform.runLater(() -> {
-				downloadProgress.set(getProgress());
-			});
-		}
-		updateProgress(listLink.size(), listLink.size());
 		return null;
 	}
 
-	private File startDownload(File file, URL url) throws IOException {
+	private File startDownload(URL url) throws IOException {
 		String path = file.getAbsolutePath();
 		String type = null;
+
 		try {
 			type = url.getPath().substring(url.getPath().lastIndexOf("."));
 		} catch (Exception e) {
@@ -79,15 +61,9 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 
 		File location = new File(destination);
 		InputStream is;
-		try {
-			is = httpConn.getInputStream();
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("url: " + url);
-			e.printStackTrace();
-			throw new IOException(e.getMessage());
-		}
-		
+
+		is = httpConn.getInputStream();
+
 		location.mkdirs();
 		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\" + fileName + type);
 		double size = (double) httpConn.getContentLength() / 1048576;
@@ -95,27 +71,35 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		byte[] b = new byte[BUFFER_SIZE];
 		int length;
 		int i = 0;
-
-		// System.out.println("Download - " + fileName + " " +
-		// httpConn.getContentLength());
+		updateSize(size);
+		System.out.println("Download - " + fileName + " " + httpConn.getContentLength());
 		while ((length = is.read(b)) != -1) {
 			if (pauseProperty.get()) {
 				stopUntil();
 			}
 			i += BUFFER_SIZE;
+			updateProgress(i, httpConn.getContentLength() + 1);
 			updateSpeed(speedCalculation());
+			Platform.runLater(() -> {
+				downloadProgress.set(getProgress());
+			});
 			os.write(b, 0, length);
 
 		}
-		// System.out.println("Done - " + fileName + " " + size);
+		System.out.println("Done - " + fileName + " " + size);
 		is.close();
 		os.close();
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName);
+		System.out.println("REALLY OVER!");
+		updateProgress(i + 1, httpConn.getContentLength() + 1);
+		subItem.setDestination(downloadedFile.getAbsolutePath());
 		return downloadedFile;
 	}
 
 	private URL downloadSetup(String link) throws IOException {
-		// System.out.println(link);
+		if (link == null) {
+			System.out.println("Error: " + subItem.getDestination());
+		}
 		URL url = new URL(link);
 		String referer = site.getUrl();
 		httpConn = (HttpURLConnection) url.openConnection();
@@ -129,12 +113,14 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	@Override
 	protected CollectionSubItem call() throws Exception {
 		// TODO Auto-generated method stub
+
 		download();
 
 		return subItem;
 	}
 
 	public DoubleProperty getDownloadProgress() {
+
 		return downloadProgress;
 	}
 
@@ -144,6 +130,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 
 	public void unpause() {
 		pauseProperty.set(false);
+
 	}
 
 	private void stopUntil() {
@@ -164,9 +151,9 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	@Override
 	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, Sites sites) {
 		// TODO Auto-generated method stub
-		this.listLink = listLink;
+		this.link = listLink.get(0);
 		this.subItem = subItem;
-		this.listFile = listFile;
+		this.file = listFile.get(0);
 		this.site = sites;
 
 	}
@@ -174,13 +161,13 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	@Override
 	public DoubleProperty getSizeProperty() {
 		// TODO Auto-generated method stub
-		return sizeProperty;
+		return null;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSpeedProperty() {
 		// TODO Auto-generated method stub
-		return speedProperty;
+		return null;
 	}
 
 	@Override
@@ -188,6 +175,5 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 }

@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.documents;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -10,14 +10,14 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
-public class DocumentConfigurationModel {
+public class DocumentConfiguration {
 	private Document doc;
-	private ParseXMLDocumentModel parser;
+	private ParseXMLDocument parser;
 
-	public DocumentConfigurationModel(Document doc) {
+	public DocumentConfiguration(Document doc) {
 		// TODO Auto-generated constructor stub
 		this.doc = doc;
-		this.parser = new ParseXMLDocumentModel();
+		this.parser = new ParseXMLDocument();
 	}
 
 	public String getPath(Category itemCategory) {
@@ -64,7 +64,7 @@ public class DocumentConfigurationModel {
 		element.setTextContent(value);
 		System.out.println("Elemenet name: " + elementName);
 		System.out.println("Value " + value);
-		parser.tranformContentToXML(doc, ConfigurationReaderModel.CONFIG_LOCAL);
+		parser.tranformContentToXML(doc, ConfigurationReader.CONFIG_LOCAL);
 	}
 
 	public void setPath(String definePath, CollectionItem item) {
@@ -88,8 +88,8 @@ public class DocumentConfigurationModel {
 
 	public static void createDocument() {
 		// TODO Auto-generated method stub
-		ConfigurationReaderModel configReader = new ConfigurationReaderModel();
-		ParseXMLDocumentModel parser = new ParseXMLDocumentModel();
+		ConfigurationReader configReader = new ConfigurationReader();
+		ParseXMLDocument parser = new ParseXMLDocument();
 		Document doc = configReader.createConfigurationDocument();
 		Element config = doc.createElement("config");
 
@@ -101,7 +101,7 @@ public class DocumentConfigurationModel {
 		config.appendChild(animeDestination);
 		config.appendChild(mangaDestination);
 
-		parser.tranformContentToXML(doc, ConfigurationReaderModel.CONFIG_LOCAL);
+		parser.tranformContentToXML(doc, ConfigurationReader.CONFIG_LOCAL);
 	}
 
 	public boolean isAvailable() {

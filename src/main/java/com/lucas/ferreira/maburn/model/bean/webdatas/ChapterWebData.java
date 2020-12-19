@@ -9,8 +9,8 @@ import java.util.concurrent.Executors;
 import com.lucas.ferreira.maburn.model.bean.GenericItem;
 import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.download.DownloadMultipleServiceModel;
 import com.lucas.ferreira.maburn.model.download.Downloader;
+import com.lucas.ferreira.maburn.model.download.service.model.DownloadMultipleServiceModel;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
 public class ChapterWebData implements ItemWebData, GenericItem {

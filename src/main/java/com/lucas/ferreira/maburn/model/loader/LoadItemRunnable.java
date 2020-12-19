@@ -1,16 +1,21 @@
 package com.lucas.ferreira.maburn.model.loader;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
-import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
-import com.lucas.ferreira.maburn.model.DocumentCollectionReaderModel;
-import com.lucas.ferreira.maburn.model.SaveCollectionModel;
+import org.w3c.dom.Element;
+
+import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
+import com.lucas.ferreira.maburn.model.documents.SaveCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.ItemCreater;
@@ -19,9 +24,9 @@ import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
 public class LoadItemRunnable implements Callable<CollectionItem> {
 	private String destination;
 	private CollectionItem item;
-	private CollectionDatasReaderModel dataReader;
-	private DocumentCollectionReaderModel docCollectionReader;
-	private SaveCollectionModel save;
+	private CollectionDatasReader dataReader;
+	private DocumentCollectionReader docCollectionReader;
+	private SaveCollection save;
 
 	private Category category;
 
@@ -29,9 +34,9 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		// TODO Auto-generated constructor stub
 		this.destination = destination;
 		this.category = category;
-		dataReader = new CollectionDatasReaderModel();
-		docCollectionReader = new DocumentCollectionReaderModel(dataReader.getDocumentCollectionDates());
-		save = new SaveCollectionModel(dataReader.getDocumentCollectionDates());
+		dataReader = new CollectionDatasReader();
+		docCollectionReader = new DocumentCollectionReader(dataReader.getDocumentCollectionDates());
+		save = new SaveCollection(dataReader.getDocumentCollectionDates());
 	}
 
 	@Override
@@ -56,37 +61,58 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 
 	private MangaDownloaded loadManga(String mangaPath) {
 		MangaDownloaded item = new MangaDownloaded();
+		item.setCollections(item.getMangaCollection());
 		item.setDestination(mangaPath); // It is important to define the destination because it will be used to locate
 		// the item in the document
-		ItemCreater<MangaDownloaded> itemCreater = new MangaItemCreate((MangaCollection) item.getMangaCollection());
-		if (!isCreateItemInDocument(mangaPath, Category.MANGA)) {
-			item = itemCreater.createItem(mangaPath); // Create item and write in document
-			System.out.println("> ADD AND CREATEED");
+		ItemCreater<MangaDownloaded> itemCreater = new MangaItemCreate(item.getMangaCollection());
 
-			return item;
-
+		if (isCreateItemInDocument(mangaPath, Category.MANGA) && isAllDatesFilled(item)) {
+			item = (MangaDownloaded) save.loadDatas(item);
+			if (!isRequiredFilesAvailable(item)) {
+				save.deleteData(item);
+				System.out.println("> DELETE");
+				item = itemCreater.createItem(mangaPath);
+				System.out.println("> ADD AND CREATEED");
+				return item;
+			}
+			System.out.println("> ADD AND LOADED");
+		} else {
+			if (isCreateItemInDocument(mangaPath, Category.MANGA)) {
+				save.deleteData(item);
+				System.out.println("> DELETE");
+			} else {
+				item = itemCreater.createItem(mangaPath); // Create item and write in document
+				System.out.println("> ADD AND CREATEED");
+			}
 		}
-		item = (MangaDownloaded) save.loadDatas(item);
-		System.out.println("> ADD AND LOADED");
 
 		return item;
 	}
 
 	private AnimeDownloaded loadAnime(String animePath) {
 		AnimeDownloaded item = new AnimeDownloaded();
-
+		item.setCollections(item.getAnimeCollection());
 		item.setDestination(animePath); // It is important to define the destination because it will be used to locate
 										// the item in the document
-		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate((AnimeCollection) item.getAnimeCollection());
-		if (!isCreateItemInDocument(animePath, Category.ANIME)) {
-			item = itemCreater.createItem(animePath); // Create item and write in document
-			System.out.println("> ADD AND CREATEED");
+		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate(item.getAnimeCollection());
 
-			return item;
-
+		if (isCreateItemInDocument(animePath, Category.ANIME) && isAllDatesFilled(item)) {
+			item = (AnimeDownloaded) save.loadDatas(item);
+			if (!isRequiredFilesAvailable(item)) {
+				save.deleteData(item);
+				System.out.println("> DELETE");
+				save.loadDatas(item);
+			}
+			System.out.println("> ADD AND LOADED");
+		} else {
+			if (isCreateItemInDocument(animePath, Category.ANIME)) {
+				save.deleteData(item);
+				System.out.println("> DELETE");
+			} else {
+				item = itemCreater.createItem(animePath); // Create item and write in document
+				System.out.println("> ADD AND CREATEED");
+			}
 		}
-		item = (AnimeDownloaded) save.loadDatas(item);
-		System.out.println("> ADD AND LOADED");
 
 		return item;
 	}
@@ -99,6 +125,26 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 			}
 			return true;
 		}
+	}
+
+	private boolean isAllDatesFilled(CollectionItem item) {
+		List<Element> els = docCollectionReader.getElementsInItem(item);
+
+		System.out.println(els.stream().anyMatch(el -> el == null));
+
+		return !els.stream().anyMatch(el -> el == null);
+	}
+
+	private boolean isRequiredFilesAvailable(CollectionItem item) {
+		ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
+		try {
+			thumbnailLoader.findImage();
+			return true;
+		} catch (ThumbnailLoadException e) {
+			// TODO: handle exception
+			return false;
+		}
+
 	}
 
 }

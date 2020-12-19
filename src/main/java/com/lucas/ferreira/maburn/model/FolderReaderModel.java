@@ -9,9 +9,21 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.util.FolderReaderUtil;
 
 public class FolderReaderModel {
-	// ->TODO Expection for don't found files. NullPointException
+	
+	public List<File> findImagesInFolder(File folder){
+		
+
+
+		// Collect only directorys to avoid problems
+		List<File> listImages = Arrays
+				.asList(folder.listFiles((file, name) -> FolderReaderUtil.isImage(file)));
+		
+		return listImages;
+	}
+	
 	
 	public List<File> findMangaFoldersInMangaCollectionFolder(MangaCollection mangaCollection) {
 

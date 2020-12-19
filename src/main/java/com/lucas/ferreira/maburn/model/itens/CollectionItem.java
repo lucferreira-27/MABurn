@@ -30,11 +30,14 @@ public interface CollectionItem {
 	public void setId(int id);
 	public Category getCategory();
 	public String getTitleDataBase();
-	public void setTitleFromDataBase(String titleDataBase);
+	public void setTitleDataBase(String titleDataBase);
+	public String getTitleFileName();
 	public void setListSubItens(List<CollectionSubItem> subItem);
 	public Collections getCollections();
 	public void setCollections(Collections collections);
 	public List<CollectionSubItem> getListSubItens();
 	public WebScraping getWebScraping();
 	public void setWebScraping(WebScraping webScraping);
+	
+
 }

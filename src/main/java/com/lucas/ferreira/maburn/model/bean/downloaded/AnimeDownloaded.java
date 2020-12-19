@@ -9,6 +9,7 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
+import com.lucas.ferreira.maburn.util.StringUtil;
 
 import javafx.scene.image.Image;
 
@@ -20,6 +21,7 @@ public class AnimeDownloaded implements CollectionItem {
 	private String link;
 	private String dataUrl;
 	private String titleDataBase;
+	private String titleFileName;
 	private String imageUrl;
 	private String imageLocal;
 	private Image cover;
@@ -154,11 +156,18 @@ public class AnimeDownloaded implements CollectionItem {
 	}
 	
 	@Override
-	public void setTitleFromDataBase(String titleDataBase) {
+	public void setTitleDataBase(String titleDataBase) {
 		// TODO Auto-generated method stub
 		this.titleDataBase = titleDataBase;
 
 	}
+
+	@Override
+	public String getTitleFileName() {
+		// TODO Auto-generated method stub
+		return StringUtil.stringUtilFile(titleDataBase);
+	}
+
 
 	@Override
 	public void setListSubItens(List<CollectionSubItem> subItens) {
@@ -203,6 +212,14 @@ public class AnimeDownloaded implements CollectionItem {
 		this.webScraping = webScraping;
 		
 	}
+
+	@Override
+	public String toString() {
+		return "AnimeDownloaded [name=" + name + ", destination=" + destination + ", dataUrl=" + dataUrl
+				+ ", titleDataBase=" + titleDataBase + ", titleFileName=" + titleFileName + ", imageUrl=" + imageUrl
+				+ ", imageLocal=" + imageLocal + ", id=" + id + "]";
+	}
+
 
 
 

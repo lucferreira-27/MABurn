@@ -3,7 +3,7 @@ package com.lucas.ferreira.mangaburn.testing;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.ConnectionModel;
+import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 
 public class ConnectionModelTest {
 	public static final String MYANIMELIST = "https://myanimelist.net/";

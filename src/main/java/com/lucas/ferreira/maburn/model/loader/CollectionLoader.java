@@ -11,8 +11,8 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public interface CollectionLoader extends Callable<Collections> {
+	
 	public Collections loadCollection(String destination, Category category);
-
 	public void loadAllItems();
 	public void loadAllSubItems();
 	public void loadItem(CollectionItem item);

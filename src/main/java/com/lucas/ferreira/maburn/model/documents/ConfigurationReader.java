@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.documents;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,15 +14,14 @@ import org.xml.sax.SAXException;
 
 import com.lucas.ferreira.maburn.exceptions.CollectionReaderException;
 
-public class ConfigurationReaderModel {
-	public final static String DOCUMENTS_LOCAL = FileSystemView.getFileSystemView().getDefaultDirectory().getPath()
-			+ "\\MangaBurn";
-	public final static String CONFIG_LOCAL = DOCUMENTS_LOCAL + "\\Documents\\Config.xml";
+public class ConfigurationReader {
+
+	public final static String CONFIG_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\Config.xml";
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	private ParseXMLDocumentModel parse;
+	private ParseXMLDocument parse;
 	private DocumentBuilder builder;
-	public ConfigurationReaderModel() {
+	public ConfigurationReader() {
 		// TODO Auto-generated constructor stub
 		try {
 			builder = factory.newDocumentBuilder();

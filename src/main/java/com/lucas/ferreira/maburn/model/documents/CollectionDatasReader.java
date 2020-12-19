@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.documents;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,19 +13,15 @@ import org.xml.sax.SAXException;
 
 import com.lucas.ferreira.maburn.exceptions.CollectionReaderException;
 
-public class CollectionDatasReaderModel {
-	public final static String DOCUMENTS_LOCAL = FileSystemView.getFileSystemView().getDefaultDirectory().getPath()
-			+ "\\MangaBurn";
-	public final static String DOCUMENTS_LOCAL_TEST = DOCUMENTS_LOCAL + "\\Test";
-	public final static String CONFIG_LOCAL = DOCUMENTS_LOCAL + "\\Documents\\Config.xml";
-	public final static String DATE_LOCAL = DOCUMENTS_LOCAL + "\\Documents\\ColletionsDates.xml";
-	public final static String DATE_LOCAL_TEST = DOCUMENTS_LOCAL_TEST + "\\Documents\\ColletionsDatesTest.xml";
+public class CollectionDatasReader {
+
+	public final static String DATE_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\ColletionsDates.xml";
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	private ParseXMLDocumentModel parse;
+	private ParseXMLDocument parse;
 	private DocumentBuilder builder;
 
-	public CollectionDatasReaderModel() {
+	public CollectionDatasReader() {
 		// TODO Auto-generated constructor stub
 		try {
 			builder = factory.newDocumentBuilder();
@@ -41,7 +37,7 @@ public class CollectionDatasReaderModel {
 		File collectionDates = getCollectionDateFile();
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		ParseXMLDocumentModel parse;
+		ParseXMLDocument parse;
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
@@ -61,33 +57,6 @@ public class CollectionDatasReaderModel {
 
 		}
 
-	}
-
-	public Document readerCollectionsDatesTest() {
-
-		File collectionDates = getSettingsFileTest();
-
-		try {
-
-			Document doc = builder.parse(collectionDates);
-
-			return doc;
-		} catch (SAXException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new CollectionReaderException(e.getMessage());
-
-		}
-
-	}
-
-	public File getSettingsFileTest() {
-		String local = DOCUMENTS_LOCAL_TEST + "\\ColletionsDatesTest.xml";
-		File collectionDates = new File(local);
-		if (!collectionDates.exists())
-			throw new CollectionReaderException("ColletionsDatesTest.xml not found in " + local);
-		else
-			return collectionDates;
 	}
 
 	public File getCollectionDateFile() {

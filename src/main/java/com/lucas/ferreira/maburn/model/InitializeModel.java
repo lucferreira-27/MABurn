@@ -4,15 +4,20 @@ import javax.naming.ConfigurationException;
 
 import com.lucas.ferreira.maburn.exceptions.CollectionReaderException;
 import com.lucas.ferreira.maburn.exceptions.InitializeExcpetion;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
+import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
+import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.View;
 
 public class InitializeModel {
-	private ConfigurationReaderModel config = new ConfigurationReaderModel();
-	private CollectionDatasReaderModel datesReader = new CollectionDatasReaderModel();
-	private DocumentCollectionReaderModel docCollectionReader;
-	private DocumentConfigurationModel docConfiguration;
+	private ConfigurationReader config = new ConfigurationReader();
+	private CollectionDatasReader datesReader = new CollectionDatasReader();
+	private DocumentCollectionReader docCollectionReader;
+	private DocumentConfiguration docConfiguration;
 	private HelperInterfaceView helperView;
 	private View view;
 
@@ -60,14 +65,14 @@ public class InitializeModel {
 	}
 
 	public void createDocumentFiles() {
-		DocumentConfigurationModel.createDocument();
-		DocumentCollectionReaderModel.createDocument();
+		DocumentConfiguration.createDocument();
+		DocumentCollectionReader.createDocument();
 	}
 
 	public void initializeConfiguration() {
 
 		
-		docConfiguration = new DocumentConfigurationModel(config.getDocumentConfiguration());
+		docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
 
 
 	}

@@ -7,20 +7,20 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
-import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class DocumentConfigurationTest {
-	private ConfigurationReaderModel configReader;
-	private DocumentConfigurationModel docConfig;
+	private ConfigurationReader configReader;
+	private DocumentConfiguration docConfig;
 
 	@Before
 	public void setUp() {
-		configReader = new ConfigurationReaderModel();
-		docConfig = new DocumentConfigurationModel(configReader.getDocumentConfiguration());
+		configReader = new ConfigurationReader();
+		docConfig = new DocumentConfiguration(configReader.getDocumentConfiguration());
 	}
 
 	@Test

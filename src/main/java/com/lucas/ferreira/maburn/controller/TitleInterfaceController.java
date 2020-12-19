@@ -1,6 +1,8 @@
 package com.lucas.ferreira.maburn.controller;
 
 import java.awt.Desktop;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,6 +18,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.databases.Database;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
+import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
@@ -99,8 +102,19 @@ public class TitleInterfaceController implements Initializable {
 	private void loadTitleDatas() {
 
 		CollectionItem item = collections.getActualItem();
-		ImageLoaderModel imageLoader = new ImageLoaderModel();
-		Image image = imageLoader.loadImageByUrl(item.getImageUrl());
+		ThumbnailDownload thumbnailDownload = new ThumbnailDownload(item);
+//		ImageLoaderModel imageLoader = new ImageLoaderModel();
+//		Image image = imageLoader.loadImageByUrl(item.getImageUrl());
+		Image image = null;
+		try {
+			image = new Image(new FileInputStream(thumbnailDownload.download()));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(image);
 		imageViewTitle.setOnMouseClicked(event -> {

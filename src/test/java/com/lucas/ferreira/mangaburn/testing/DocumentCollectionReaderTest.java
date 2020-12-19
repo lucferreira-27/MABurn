@@ -12,22 +12,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Element;
 
-import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
-import com.lucas.ferreira.maburn.model.DocumentCollectionReaderModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public class DocumentCollectionReaderTest {
-	private DocumentCollectionReaderModel doc;
-	private CollectionDatasReaderModel reader;
+	private DocumentCollectionReader doc;
+	private CollectionDatasReader reader;
 	private CollectionItem item;
 
 	@Before
 	public void setUp() {
-		reader = new CollectionDatasReaderModel();
-		doc = new DocumentCollectionReaderModel(reader.getDocumentCollectionDates());
+		reader = new CollectionDatasReader();
+		doc = new DocumentCollectionReader(reader.getDocumentCollectionDates());
 	}
 
 	@Test

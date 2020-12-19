@@ -15,19 +15,19 @@ import javax.xml.transform.stream.StreamResult;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
-import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
-import com.lucas.ferreira.maburn.model.ParseXMLDocumentModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
+import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
+import com.lucas.ferreira.maburn.model.documents.ParseXMLDocument;
 
 public class ParseXMLDocumentModelTest {
-	private ParseXMLDocumentModel parseXml;
+	private ParseXMLDocument parseXml;
 	private MangaDownloaded mangaExpected;
-	private CollectionDatasReaderModel reader;
+	private CollectionDatasReader reader;
 	@Before
 	public void setUp() {
-		 reader = new CollectionDatasReaderModel();
-		parseXml = new ParseXMLDocumentModel();
+		 reader = new CollectionDatasReader();
+		parseXml = new ParseXMLDocument();
 		mangaExpected = new MangaDownloaded();
 		mangaExpected.setDestination("D:\\MangaBurnTest\\Dragon Ball");
 		mangaExpected.setName("Dragon Ball");
@@ -46,7 +46,7 @@ public class ParseXMLDocumentModelTest {
 		try {
 			transformer = transformerFactory.newTransformer();
 		
-	        DOMSource source = 	parseXml.tranformContentToXML(reader.getDocumentCollectionDates(),CollectionDatasReaderModel.DATE_LOCAL);
+	        DOMSource source = 	parseXml.tranformContentToXML(reader.getDocumentCollectionDates(),CollectionDatasReader.DATE_LOCAL);
 	        StreamResult consoleResult = new StreamResult(writer);
 	        transformer.transform(source, consoleResult);
 	        assertNotEquals(writer.toString().length(), 0);

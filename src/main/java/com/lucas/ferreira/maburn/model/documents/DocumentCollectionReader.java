@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.documents;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,17 +16,17 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
-public class DocumentCollectionReaderModel {
+public class DocumentCollectionReader {
 
 	private Document doc;
 	private CollectionItem item;
 	private Element docElement;
-	private ParseXMLDocumentModel parser;
+	private ParseXMLDocument parser;
 
-	public DocumentCollectionReaderModel(Document doc) {
+	public DocumentCollectionReader(Document doc) {
 		this.doc = doc;
 		this.docElement = doc.getDocumentElement();
-		this.parser = new ParseXMLDocumentModel();
+		this.parser = new ParseXMLDocument();
 	}
 
 	public void defineItemByCategory(String category) {
@@ -36,7 +36,7 @@ public class DocumentCollectionReaderModel {
 			item = new AnimeDownloaded(); // if the category is a anime
 		else
 			throw new DocumentException("It is something wrong with the CollectionDates.xml file ["
-					+ CollectionDatasReaderModel.DATE_LOCAL + "]");
+					+ CollectionDatasReader.DATE_LOCAL + "]");
 	}
 
 	public void defineItemByItemInstance(CollectionItem item) {
@@ -46,7 +46,7 @@ public class DocumentCollectionReaderModel {
 			this.item = new AnimeDownloaded(); // if the category is a anime
 		else
 			throw new DocumentException("It is something wrong with the CollectionDates.xml file ["
-					+ CollectionDatasReaderModel.DATE_LOCAL + "]");
+					+ CollectionDatasReader.DATE_LOCAL + "]");
 	}
 
 	// Read the element by category in the document and return a list of all
@@ -135,21 +135,22 @@ public class DocumentCollectionReaderModel {
 
 		String name = e.getElementsByTagName("title").item(0).getTextContent();
 		String imageUrl = e.getElementsByTagName("image_url").item(0).getTextContent();
+		String imageLocal = e.getElementsByTagName("image_local").item(0).getTextContent();
 		String destination = e.getElementsByTagName("destination").item(0).getTextContent();
-		String hospedSite = e.getElementsByTagName("hospedSite").item(0).getTextContent();
+		//String hospedSite = e.getElementsByTagName("site").item(0).getTextContent();
 		String dataUrl = e.getElementsByTagName("data_url").item(0).getTextContent();
 		String titleDataBase = e.getElementsByTagName("title_database").item(0).getTextContent();
-
-		String link = e.getElementsByTagName("link").item(0).getTextContent();
+		//String link = e.getElementsByTagName("link").item(0).getTextContent();
 		String id = e.getElementsByTagName("id").item(0).getTextContent();
 
 		item.setName(name);
 		item.setImageUrl(imageUrl);
-		item.setLink(link);
+		item.setImageLocal(imageLocal);
+		//item.setLink(link);
 		item.setDestination(destination);
 		item.setDataBaseUrl(dataUrl);
-		item.setTitleFromDataBase(titleDataBase);
-		item.setHospedSite(hospedSite);
+		item.setTitleDataBase(titleDataBase);
+		//item.setHospedSite(hospedSite);
 		item.setId(Integer.parseInt(id));
 
 		return item;
@@ -244,7 +245,7 @@ public class DocumentCollectionReaderModel {
 		for (Element e : elements) {
 			itemElement.appendChild(e);
 		}
-		parser.tranformContentToXML(doc, CollectionDatasReaderModel.DATE_LOCAL);
+		parser.tranformContentToXML(doc, CollectionDatasReader.DATE_LOCAL);
 
 	}
 
@@ -252,15 +253,17 @@ public class DocumentCollectionReaderModel {
 	// others)
 	public ArrayList<Element> getElementsInItem(CollectionItem item) {
 		ArrayList<Element> elements = new ArrayList<>();
-		
+
 		defineItemByItemInstance(item);
+
 		elements.add(addElementsInDocument("title", item.getName()));
 		elements.add(addElementsInDocument("image_url", item.getImageUrl()));
-		elements.add(addElementsInDocument("link", item.getLink()));
+		elements.add(addElementsInDocument("image_local", item.getImageLocal()));
+		// elements.add(addElementsInDocument("link", item.getLink()));
 		elements.add(addElementsInDocument("destination", item.getDestination()));
 		elements.add(addElementsInDocument("data_url", item.getDataBaseUrl()));
 		elements.add(addElementsInDocument("title_database", item.getTitleDataBase()));
-		elements.add(addElementsInDocument("hospedSite", item.getHospedSite()));
+		// elements.add(addElementsInDocument("site", item.getHospedSite()));
 		elements.add(addElementsInDocument("id", String.valueOf(item.getId())));
 
 		return elements;
@@ -287,7 +290,7 @@ public class DocumentCollectionReaderModel {
 			Element parentElement = (Element) childElement.getParentNode();
 			Element editElement = (Element) parentElement.getElementsByTagName(tagName).item(0);
 			editElement.setTextContent(value);
-			parser.tranformContentToXML(doc, CollectionDatasReaderModel.DATE_LOCAL);
+			parser.tranformContentToXML(doc, CollectionDatasReader.DATE_LOCAL);
 		}
 
 	}
@@ -304,6 +307,12 @@ public class DocumentCollectionReaderModel {
 
 	}
 
+	public void deleteItem(CollectionItem item) {
+		System.out.println(item);
+		Element removeElement = getElementByCollectionItem(item);
+		removeElement.getParentNode().removeChild(removeElement);
+	}
+
 	// Select an item in document by category (Anime/Manga) and get her
 	public List<CollectionItem> getItemsInDocumentByCategory(String category) {
 
@@ -318,14 +327,14 @@ public class DocumentCollectionReaderModel {
 
 	public static void createDocument() {
 		// TODO Auto-generated method stub
-		CollectionDatasReaderModel datesReader = new CollectionDatasReaderModel();
-		ParseXMLDocumentModel parser = new ParseXMLDocumentModel();
+		CollectionDatasReader datesReader = new CollectionDatasReader();
+		ParseXMLDocument parser = new ParseXMLDocument();
 		Document doc = datesReader.createCollectionDateDocument();
 		Element collection = doc.createElement("collection");
 
 		doc.appendChild(collection);
 
-		parser.tranformContentToXML(doc, CollectionDatasReaderModel.DATE_LOCAL);
+		parser.tranformContentToXML(doc, CollectionDatasReader.DATE_LOCAL);
 	}
 
 }
