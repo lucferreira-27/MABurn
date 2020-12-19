@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.download.DownloadSingleServiceModel;
 import com.lucas.ferreira.maburn.model.download.Downloader;
+import com.lucas.ferreira.maburn.model.download.service.model.DownloadSingleServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 

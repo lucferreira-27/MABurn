@@ -1,11 +1,8 @@
 package com.lucas.ferreira.mangaburn.testing;
 
-import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
@@ -16,12 +13,11 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
-import com.lucas.ferreira.maburn.model.download.DownloadService;
 import com.lucas.ferreira.maburn.model.download.ItemDownload;
+import com.lucas.ferreira.maburn.model.download.service.DownloadService;
 import com.lucas.ferreira.maburn.model.enums.DownloadType;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
-import com.lucas.ferreira.maburn.model.update.ItemUpdate;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;

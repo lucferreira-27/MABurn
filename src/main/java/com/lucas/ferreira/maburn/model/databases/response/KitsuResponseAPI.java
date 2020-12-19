@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import org.jsoup.Connection.Response;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
-import com.lucas.ferreira.maburn.model.ConnectionModel;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class KitsuResponseAPI implements DatabaseResponse {

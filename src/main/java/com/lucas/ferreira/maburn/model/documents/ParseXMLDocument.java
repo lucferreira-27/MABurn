@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.documents;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.ModelUtil;
 
-public class ParseXMLDocumentModel {
+public class ParseXMLDocument {
 	
 
 

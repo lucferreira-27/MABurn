@@ -14,6 +14,7 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
+import com.lucas.ferreira.maburn.model.download.service.DownloadService;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.DownloadType;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;

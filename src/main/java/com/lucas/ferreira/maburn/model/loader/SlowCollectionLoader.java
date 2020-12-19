@@ -9,18 +9,22 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+import org.w3c.dom.Element;
+
 import com.lucas.ferreira.maburn.exceptions.CollectionLoaderException;
-import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
-import com.lucas.ferreira.maburn.model.DocumentCollectionReaderModel;
+import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
-import com.lucas.ferreira.maburn.model.ParseXMLDocumentModel;
-import com.lucas.ferreira.maburn.model.SaveCollectionModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
+import com.lucas.ferreira.maburn.model.documents.ParseXMLDocument;
+import com.lucas.ferreira.maburn.model.documents.SaveCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
@@ -30,10 +34,10 @@ import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
 public class SlowCollectionLoader implements CollectionLoader {
 	private FolderReaderModel reader;
 	private Collections collection;
-	private CollectionDatasReaderModel dataReader;
-	private ParseXMLDocumentModel parse;
-	private DocumentCollectionReaderModel docCollectionReader;
-	private SaveCollectionModel save;
+	private CollectionDatasReader dataReader;
+	private ParseXMLDocument parse;
+	private DocumentCollectionReader docCollectionReader;
+	private SaveCollection save;
 	private String destination;
 	private ExecutorService exec;
 	private Category category;
@@ -71,9 +75,9 @@ public class SlowCollectionLoader implements CollectionLoader {
 
 	private void init() {
 		reader = new FolderReaderModel();
-		dataReader = new CollectionDatasReaderModel();
-		docCollectionReader = new DocumentCollectionReaderModel(dataReader.getDocumentCollectionDates());
-		save = new SaveCollectionModel(dataReader.getDocumentCollectionDates());
+		dataReader = new CollectionDatasReader();
+		docCollectionReader = new DocumentCollectionReader(dataReader.getDocumentCollectionDates());
+		save = new SaveCollection(dataReader.getDocumentCollectionDates());
 		initExecutorService();
 	}
 
@@ -118,8 +122,6 @@ public class SlowCollectionLoader implements CollectionLoader {
 
 	private void addAllItensInCollection(Collections collection, List<File> filesInFolder) {
 		// TODO Auto-generated method stub
-
-
 
 		List<Future<CollectionItem>> futureItens = new ArrayList<>();
 
@@ -175,57 +177,8 @@ public class SlowCollectionLoader implements CollectionLoader {
 
 	}
 
-	private CollectionItem loadItem(String itemPath, Collections collection) {
-		// TODO Auto-generated method stub
-		CollectionItem item;
-		if (category == Category.ANIME) {
-			item = loadAnime(itemPath);
-			return item;
-		} else if (category == Category.MANGA) {
-			item = loadManga(itemPath);
-			return item;
-		}
 
-		return null;
-	}
 
-	private MangaDownloaded loadManga(String mangaPath) {
-		MangaDownloaded item = new MangaDownloaded();
-		item.setCollections(collection);
-		item.setDestination(mangaPath); // It is important to define the destination because it will be used to locate
-		// the item in the document
-		ItemCreater<MangaDownloaded> itemCreater = new MangaItemCreate((MangaCollection) collection);
-		if (!isCreateItemInDocument(mangaPath, Category.MANGA)) {
-			item = itemCreater.createItem(mangaPath); // Create item and write in document
-			System.out.println("> ADD AND CREATEED");
-
-			return item;
-
-		}
-		item = (MangaDownloaded) save.loadDatas(item);
-		System.out.println("> ADD AND LOADED");
-
-		return item;
-	}
-
-	private AnimeDownloaded loadAnime(String animePath) {
-		AnimeDownloaded item = new AnimeDownloaded();
-		item.setCollections(collection);
-		item.setDestination(animePath); // It is important to define the destination because it will be used to locate
-										// the item in the document
-		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate((AnimeCollection) collection);
-		if (!isCreateItemInDocument(animePath, Category.ANIME)) {
-			item = itemCreater.createItem(animePath); // Create item and write in document
-			System.out.println("> ADD AND CREATEED");
-
-			return item;
-
-		}
-		item = (AnimeDownloaded) save.loadDatas(item);
-		System.out.println("> ADD AND LOADED");
-
-		return item;
-	}
 
 	private boolean isCreateItemInDocument(String itemPath, Category category) {
 		synchronized (this) {
@@ -236,6 +189,8 @@ public class SlowCollectionLoader implements CollectionLoader {
 			return true;
 		}
 	}
+
+
 
 	@Override
 	public void loadAllItems() {

@@ -1,18 +1,22 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.documents;
 
 import org.w3c.dom.Document;
 
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
-public class SaveCollectionModel {
-	private DocumentCollectionReaderModel documentCollection;
+public class SaveCollection {
+	private DocumentCollectionReader documentCollection;
 	private Document doc;
 
-	public SaveCollectionModel(Document doc) {
+	public SaveCollection(Document doc) {
 		this.doc = doc;
-		this.documentCollection = new DocumentCollectionReaderModel(doc);
+		this.documentCollection = new DocumentCollectionReader(doc);
 	}
-
+	
+	public void deleteData(CollectionItem item) {
+		documentCollection.deleteItem(item);
+	}
+	
 	public CollectionItem loadDatas(CollectionItem item) {
 		CollectionItem resultItem;
 		resultItem = documentCollection.getItemInDocument(item);

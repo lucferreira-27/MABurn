@@ -26,7 +26,7 @@ public class CollectionMatcherTest {
 		
 		for (int i = 0; i < names.size(); i++) {
 			CollectionItem item = new AnimeDownloaded();
-			item.setTitleFromDataBase(names.get(i));
+			item.setTitleDataBase(names.get(i));
 			itens.add(item);
 		}
 

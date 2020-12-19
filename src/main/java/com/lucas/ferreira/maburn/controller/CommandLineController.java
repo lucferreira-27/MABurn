@@ -3,14 +3,14 @@ package com.lucas.ferreira.maburn.controller;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
-import com.lucas.ferreira.maburn.model.ConfigurationReaderModel;
-import com.lucas.ferreira.maburn.model.DocumentConfigurationModel;
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
 import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
+import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
+import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
@@ -24,8 +24,8 @@ public class CommandLineController {
 	private MainLoader mainLoader;
 	private Collections collection;
 	private CollectionLoader collectionLoader;
-	private ConfigurationReaderModel configRedaer = new ConfigurationReaderModel();
-	private DocumentConfigurationModel doc;
+	private ConfigurationReader configRedaer = new ConfigurationReader();
+	private DocumentConfiguration doc;
 	private String session = null;
 	private Integer action = null;
 	private InitializeModel initialize;
@@ -37,7 +37,7 @@ public class CommandLineController {
 		this.collection = collection;
 		this.initialize = new InitializeModel(view);
 		initialize.boot();
-		this.doc = new DocumentConfigurationModel(configRedaer.getDocumentConfiguration());
+		this.doc = new DocumentConfiguration(configRedaer.getDocumentConfiguration());
 
 	}
 

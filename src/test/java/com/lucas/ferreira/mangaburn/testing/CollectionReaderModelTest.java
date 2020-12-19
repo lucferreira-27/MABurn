@@ -8,13 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import com.lucas.ferreira.maburn.model.CollectionDatasReaderModel;
+import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 
 public class CollectionReaderModelTest {
-	private CollectionDatasReaderModel collectionReader;
+	private CollectionDatasReader collectionReader;
 	@Before
 	public void setUp() {
-		 collectionReader = new CollectionDatasReaderModel();
+		 collectionReader = new CollectionDatasReader();
 	}
 	@Test
 	public void getSettingsFile() {
