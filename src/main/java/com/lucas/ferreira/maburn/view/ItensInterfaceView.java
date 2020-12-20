@@ -19,6 +19,7 @@ import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.enums.LoadingType;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
 import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
 
 import javafx.application.Platform;
@@ -38,15 +39,12 @@ public class ItensInterfaceView implements ViewInterface {
 	private Pane root;
 	private GridPaneTable gridTable = new GridPaneTable(7);
 	private GridPane itensImagesGridPane;
-	private ProgressIndicator loadProgress;
-	private ScrollPane itensImagesScroll;
 	private ItensInterfaceController controller;
-	private Future<?> futureCollections;
+	private CollectionLoader futureCollections;
 	private Collections collections;
-	private ArrayList<ImageView> imageViews = new ArrayList<ImageView>();
 	private Map<String, Object> namespace;
 
-	public ItensInterfaceView(Future<?> futureCollections) {
+	public ItensInterfaceView(CollectionLoader futureCollections) {
 		this.futureCollections = futureCollections;
 	}
 
@@ -71,39 +69,36 @@ public class ItensInterfaceView implements ViewInterface {
 
 	private void showLoading(LoadingType loading) throws LoadingException {
 
-		loadProgress = (ProgressIndicator) namespace.get("loadGridPane");
 		
 		switch (loading) {
 		case COLLECTION:
-			collectionLoading(loadProgress);
+			collectionLoading();
 			System.out.println("Collection Loading DONE!");
 
 			break;
 		case FILTER:
-			filterLoading(loadProgress);
+			filterLoading();
 			System.out.println("Filter Loading DONE!");
 			break;
 		default:
-			loadProgress.setVisible(false);
 			break;
 		}
 
 	}
 
-	private void collectionLoading(ProgressIndicator load) throws LoadingException {
+	private void collectionLoading() throws LoadingException {
 		try {
 
 			if (collections == null) {
-				load.setVisible(true);
 
 				System.out.println("Future collection");
+				
 				collections = (Collections) futureCollections.get(); 
 				collections.getItens()
 						.sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
 
 				controller.setCollection(collections);
 
-				Platform.runLater(() -> load.setProgress(1));
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -113,15 +108,12 @@ public class ItensInterfaceView implements ViewInterface {
 			// TODO Auto-generated catch block
 
 			throw new LoadingException("No itens found in collection");
-		} finally {
-			load.setVisible(false);
-
-		}
+		} 
 	}
+	
 
-	private void filterLoading(ProgressIndicator load) {
+	private void filterLoading() {
 		new Thread(() -> {
-			load.setVisible(true);
 			while (collections == null || itensImagesGridPane == null
 					|| gridTable.getCells().size() < collections.getItens().size()) {
 				try {
@@ -135,7 +127,6 @@ public class ItensInterfaceView implements ViewInterface {
 			Platform.runLater(() -> {
 				sortImagesGridPane();
 				// root.getChildren().remove(pane);
-				load.setVisible(false);
 			});
 		}).start();
 	}
@@ -163,7 +154,8 @@ public class ItensInterfaceView implements ViewInterface {
 				e.printStackTrace();
 			}
 		}
-
+		
+		
 		try {
 			showLoading(LoadingType.COLLECTION);
 		} catch (LoadingException e) {
@@ -173,7 +165,6 @@ public class ItensInterfaceView implements ViewInterface {
 		}
 		Platform.runLater(() -> {
 
-			initItensImagesScrollPane();
 			initItensImagesPane();
 			addAllNodes();
 			System.out.println("> Complete ItensIntGerfaceView");
@@ -205,14 +196,7 @@ public class ItensInterfaceView implements ViewInterface {
 
 	}
 
-	private void initItensImagesScrollPane() {
 
-		itensImagesScroll = (ScrollPane) namespace.get("itensImagesScroll");
-		itensImagesScroll.setLayoutY(10);
-		itensImagesScroll.setLayoutX(200);
-		itensImagesScroll.setPrefViewportHeight(root.getScene().getHeight() - 200);
-		itensImagesScroll.setPannable(false);
-	}
 
 	private void addAllNodes() {
 
@@ -230,7 +214,6 @@ public class ItensInterfaceView implements ViewInterface {
 			ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 			try {
 				GridPaneCell cell = thumbnailLoader.call();
-				System.out.println("X");
 				if (cell != null)
 					gridTable.add(cell);
 			} catch (ThumbnailLoadException e1) {
@@ -244,28 +227,7 @@ public class ItensInterfaceView implements ViewInterface {
 			
 			}
 
-//			Thread fetchImage = new Thread(() -> {
-//				synchronized (imageViews) { // Add images views to the array list need be synchronized with the
-//					// addImageViewInImageGrid (array list size)
-//					imageViews.add(imageLoader.loadImageViewByUrl(item.getImageUrl()));
-//
-//					Platform.runLater(() -> {
-//						// To add a ImageView in the GridPane is require a ImageView, current nodes
-//						// quantity in grid pane and the max column length
-//						try {
-//							addImageViewInImageGrid(imageViews.get(imageViews.size() - 1), imageViews.size() - 1, 7,
-//									item);
-//						} catch (Exception e) {
-//							// TODO Auto-generated catch block
-//							System.out.println(item.getImageUrl());
-//							System.out.println(imageViews.get(imageViews.size() - 1));
-//							e.printStackTrace();
-//						}
-//					});
-//				}
-//
-//			});
-//			threads.add(fetchImage);
+
 		}
 
 		threads.forEach(thread -> thread.start());
@@ -276,9 +238,6 @@ public class ItensInterfaceView implements ViewInterface {
 		try {
 			List<GridPaneCell> cells = gridTable.getCells();
 			java.util.Collections.sort(cells, new CollectionGridCellComparator());
-			CollectionItem item = (CollectionItem) cells.get(0).getUserData();
-			int position = 0;
-			// cells.forEach(cell -> cell.set Row(0));
 
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
@@ -336,6 +295,10 @@ public class ItensInterfaceView implements ViewInterface {
 
 	public Collections getCollections() {
 		return collections;
+	}
+	
+	public CollectionLoader getCollectionLoader() {
+		return futureCollections;
 	}
 
 }

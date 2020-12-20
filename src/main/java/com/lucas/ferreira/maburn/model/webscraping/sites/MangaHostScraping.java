@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
 import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -22,7 +23,7 @@ import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 public class MangaHostScraping implements WebScraping {
 	private MangaWebData mangaWebData;
 	private Scraper scraper = new Scraper();
-	private Response response;
+	private String responseBody;
 	private Document document;
 
 	public MangaHostScraping() {
@@ -36,7 +37,7 @@ public class MangaHostScraping implements WebScraping {
 		mangaWebData = (MangaWebData) titleWebData;
 		mangaWebData.setSite(getSite());
 
-		response = ConnectionModel.connect(mangaWebData.getUrl());
+		responseBody = ConnectionModel.connect(mangaWebData.getUrl());
 
 		mangaWebData.setWebDatas(fetchChaptersUrl());
 
@@ -47,7 +48,7 @@ public class MangaHostScraping implements WebScraping {
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
 		// TODO Auto-generated method stub
 
-		response = ConnectionModel.connect(itemWebData.getUrl());
+		responseBody = ConnectionModel.connect(itemWebData.getUrl());
 
 		ChapterWebData chapterWebData = (ChapterWebData) itemWebData;
 
@@ -64,13 +65,10 @@ public class MangaHostScraping implements WebScraping {
 		String prefix = "/find/";
 		String searchUrl = defaultUrl + prefix + querry;
 
-		response = ConnectionModel.connect(searchUrl);
-		try {
-			document = response.parse();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		responseBody = ConnectionModel.connect(searchUrl);
+
+		document = Jsoup.parse(responseBody);
+
 		return fetchAllItensOnTable(document);
 
 	}
@@ -97,42 +95,32 @@ public class MangaHostScraping implements WebScraping {
 	}
 
 	private List<ItemWebData> fetchChaptersUrl() {
-		try {
-			List<ItemWebData> chapterWebDatas = new ArrayList<>();
-			Elements elements = scraper.scrapeSnippet(response.parse(), ".btn-green.w-button.pull-left");
-			elements.forEach(element -> {
 
-				ChapterWebData chapterWebData = new ChapterWebData(mangaWebData);
-				chapterWebData.setName(element.attr("title"));
-				chapterWebData.setUrl(element.attr("href"));
-				WebScrapingUtil.removeTrashFromStringChapter(chapterWebData, getSite());
+		List<ItemWebData> chapterWebDatas = new ArrayList<>();
+		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), ".btn-green.w-button.pull-left");
+		elements.forEach(element -> {
 
-				chapterWebDatas.add(chapterWebData);
+			ChapterWebData chapterWebData = new ChapterWebData(mangaWebData);
+			chapterWebData.setName(element.attr("title"));
+			chapterWebData.setUrl(element.attr("href"));
+			WebScrapingUtil.removeTrashFromStringChapter(chapterWebData, getSite());
 
-			});
-			return chapterWebDatas;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+			chapterWebDatas.add(chapterWebData);
+
+		});
+		return chapterWebDatas;
 
 	}
 
 	private ChapterWebData fetchPagesUrl(ChapterWebData chapterWebData) {
 
-		try {
-			Elements elements = scraper.scrapeSnippet(response.parse(), "picture > img");
-			elements.forEach(element -> {
+		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "picture > img");
+		elements.forEach(element -> {
 
-				chapterWebData.addPagesUrl((element.attr("src")));
-			});
-			return chapterWebData;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+			chapterWebData.addPagesUrl((element.attr("src")));
+		});
+		return chapterWebData;
+
 
 	}
 

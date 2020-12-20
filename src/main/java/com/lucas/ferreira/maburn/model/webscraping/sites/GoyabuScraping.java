@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Connection.Response;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -33,10 +33,10 @@ import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 public class GoyabuScraping implements WebScraping {
 	private Scraper scraper = new Scraper();
 
-	private List<Future<Response>> futureResponses = new ArrayList<>();
+	private List<Future<String>> futureresponseBodys = new ArrayList<>();
 	private AnimeWebData animeWebData;
 	private String mainPageUrl;
-	private Response response;
+	private String responseBody;
 	private Document document;
 	private final ExecutorService exec = Executors.newFixedThreadPool(50, r -> {
 		Thread t = new Thread(r);
@@ -50,8 +50,8 @@ public class GoyabuScraping implements WebScraping {
 		animeWebData = (AnimeWebData) titleWebData;
 		animeWebData.setSite(getSite());
 
-		response = ConnectionModel.connect(animeWebData.getUrl());
-		mainPageUrl = response.url().toString();
+		responseBody = ConnectionModel.connect(animeWebData.getUrl());
+		mainPageUrl = animeWebData.getUrl();
 		animeWebData.getWebDatas().addAll(fetchEpisodesForPageUrl());
 
 		return animeWebData;
@@ -60,7 +60,7 @@ public class GoyabuScraping implements WebScraping {
 	@Override
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
 
-		response = ConnectionModel.connect(itemWebData.getUrl());
+		responseBody = ConnectionModel.connect(itemWebData.getUrl());
 		EpisodeWebData episodeWebData = (EpisodeWebData) itemWebData;
 		episodeWebData = fetchVideoUrlDirectDownload(episodeWebData);
 
@@ -75,13 +75,9 @@ public class GoyabuScraping implements WebScraping {
 		String prefix = "/?s=";
 		String searchUrl = defaultUrl + prefix + querry;
 
-		response = ConnectionModel.connect(searchUrl);
-		try {
-			document = response.parse();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		responseBody = ConnectionModel.connect(searchUrl);
+			document = Jsoup.parse(responseBody);
+
 		return fetchAllItensOnTable(document);
 	}
 
@@ -107,7 +103,7 @@ public class GoyabuScraping implements WebScraping {
 
 	public List<EpisodeWebData> fetchEpisodesForPageUrl() {
 		try {
-			document = response.parse();
+			document = Jsoup.parse(responseBody);
 			List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
 
 			if (titleHasPages(document)) {
@@ -117,8 +113,8 @@ public class GoyabuScraping implements WebScraping {
 				for (int i = 0; i <= value; i++) {
 					nextPage(i, episodeWebDatas);
 				}
-				waitResponse(value);
-				fetchAllEpisodesPage(futureResponses, episodeWebDatas);
+				waitresponseBody(value);
+				fetchAllEpisodesPage(futureresponseBodys, episodeWebDatas);
 
 			} else {
 				fetchEpisodePageUrl(episodeWebDatas);
@@ -133,19 +129,19 @@ public class GoyabuScraping implements WebScraping {
 
 	}
 
-	private void waitResponse(int itensExpect) {
+	private void waitresponseBody(int itensExpect) {
 		int itensDone = 0;
 
 		while (itensDone < itensExpect) {
-			itensDone = futureResponses.stream().filter(futureItem -> futureItem.isDone()).collect(Collectors.toList())
+			itensDone = futureresponseBodys.stream().filter(futureItem -> futureItem.isDone()).collect(Collectors.toList())
 					.size();
 		}
 	}
 
-	private void fetchAllEpisodesPage(List<Future<Response>> responses, List<EpisodeWebData> episodesWebDatas) {
-		futureResponses.forEach(futureItem -> {
+	private void fetchAllEpisodesPage(List<Future<String>> responseBodys, List<EpisodeWebData> episodesWebDatas) {
+		futureresponseBodys.forEach(futureItem -> {
 			try {
-				fetchEpisodePageUrl(futureItem.get().parse(), episodesWebDatas);
+				fetchEpisodePageUrl(Jsoup.parse(futureItem.get()), episodesWebDatas);
 			} catch (InterruptedException | ExecutionException | IOException e) {
 				e.printStackTrace();
 			}
@@ -160,8 +156,8 @@ public class GoyabuScraping implements WebScraping {
 
 	private void nextPage(int i, List<EpisodeWebData> episodeWebDatas) {
 
-		Future<Response> futureResponse = exec.submit(new ConnectionModel(mainPageUrl + "/page/" + i));
-		futureResponses.add(futureResponse);
+		Future<String> futureresponseBody = exec.submit(new ConnectionModel(mainPageUrl + "/page/" + i));
+		futureresponseBodys.add(futureresponseBody);
 
 	}
 
@@ -204,9 +200,9 @@ public class GoyabuScraping implements WebScraping {
 	}
 
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
-		try {
+	
 
-			Elements elements = scraper.scrapeSnippet(response.bufferUp().parse(), "script");
+			Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 
 			String script = elements.stream()
 					.filter(element -> element.toString().contains("const playerInstance = jwplayer('player').setup"))
@@ -215,10 +211,7 @@ public class GoyabuScraping implements WebScraping {
 
 			episodeWebData.setPlayers(definitions);
 			episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		return episodeWebData;
 	}
 

@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.loader;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -8,12 +10,10 @@ import org.w3c.dom.Element;
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
-import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
-import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.documents.SaveCollection;
+import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
@@ -21,7 +21,10 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.ItemCreater;
 import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
 
+import javafx.beans.property.IntegerProperty;
+
 public class LoadItemRunnable implements Callable<CollectionItem> {
+	private IntegerProperty loadProperty;
 	private String destination;
 	private CollectionItem item;
 	private CollectionDatasReader dataReader;
@@ -30,13 +33,18 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 
 	private Category category;
 
-	public LoadItemRunnable(String destination, Category category) {
+	public LoadItemRunnable(String destination, Category category, IntegerProperty loadProperty) {
 		// TODO Auto-generated constructor stub
 		this.destination = destination;
 		this.category = category;
-		dataReader = new CollectionDatasReader();
-		docCollectionReader = new DocumentCollectionReader(dataReader.getDocumentCollectionDates());
-		save = new SaveCollection(dataReader.getDocumentCollectionDates());
+		this.loadProperty = loadProperty;
+		synchronized (this) {
+			dataReader = new CollectionDatasReader();
+			docCollectionReader = new DocumentCollectionReader(dataReader.getDocumentCollectionDates());
+
+			save = new SaveCollection(dataReader.getDocumentCollectionDates());
+		}
+
 	}
 
 	@Override
@@ -59,37 +67,39 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		return null;
 	}
 
-	private MangaDownloaded loadManga(String mangaPath) {
+	public void newBuilder() {
+		docCollectionReader = new DocumentCollectionReader(dataReader.getDocumentCollectionDates());
+
+		save = new SaveCollection(dataReader.getDocumentCollectionDates());
+	}
+
+	private synchronized MangaDownloaded loadManga(String mangaPath) {
 		MangaDownloaded item = new MangaDownloaded();
 		item.setCollections(item.getMangaCollection());
 		item.setDestination(mangaPath); // It is important to define the destination because it will be used to locate
 		// the item in the document
 		ItemCreater<MangaDownloaded> itemCreater = new MangaItemCreate(item.getMangaCollection());
-
 		if (isCreateItemInDocument(mangaPath, Category.MANGA) && isAllDatesFilled(item)) {
 			item = (MangaDownloaded) save.loadDatas(item);
 			if (!isRequiredFilesAvailable(item)) {
-				save.deleteData(item);
-				System.out.println("> DELETE");
+
 				item = itemCreater.createItem(mangaPath);
-				System.out.println("> ADD AND CREATEED");
+				return item;
+			} else {
 				return item;
 			}
-			System.out.println("> ADD AND LOADED");
 		} else {
 			if (isCreateItemInDocument(mangaPath, Category.MANGA)) {
 				save.deleteData(item);
-				System.out.println("> DELETE");
 			} else {
 				item = itemCreater.createItem(mangaPath); // Create item and write in document
-				System.out.println("> ADD AND CREATEED");
 			}
 		}
 
 		return item;
 	}
 
-	private AnimeDownloaded loadAnime(String animePath) {
+	private synchronized AnimeDownloaded loadAnime(String animePath) {
 		AnimeDownloaded item = new AnimeDownloaded();
 		item.setCollections(item.getAnimeCollection());
 		item.setDestination(animePath); // It is important to define the destination because it will be used to locate
@@ -97,24 +107,39 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate(item.getAnimeCollection());
 
 		if (isCreateItemInDocument(animePath, Category.ANIME) && isAllDatesFilled(item)) {
+			// System.out.println(item.getTitleDataBase() + " Loading ...");
 			item = (AnimeDownloaded) save.loadDatas(item);
+			// System.out.println(item.getTitleDataBase() + " Loaded!");
 			if (!isRequiredFilesAvailable(item)) {
-				save.deleteData(item);
-				System.out.println("> DELETE");
-				save.loadDatas(item);
+				getRequiredFiles(item);
+				System.out.println("> REQUIRED " + item.getTitleDataBase() + " | " + item.getImageLocal());
+
 			}
-			System.out.println("> ADD AND LOADED");
 		} else {
 			if (isCreateItemInDocument(animePath, Category.ANIME)) {
+
 				save.deleteData(item);
-				System.out.println("> DELETE");
+
 			} else {
 				item = itemCreater.createItem(animePath); // Create item and write in document
-				System.out.println("> ADD AND CREATEED");
+
 			}
 		}
 
 		return item;
+	}
+
+	private void getRequiredFiles(AnimeDownloaded item) {
+		// TODO Auto-generated method stub
+		DownloadImageServiceModel downloadImageServiceModel = new DownloadImageServiceModel(item.getImageUrl(),
+				new File(item.getImageLocal().substring(0, item.getImageLocal().lastIndexOf("."))));
+
+		try {
+			downloadImageServiceModel.download();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private boolean isCreateItemInDocument(String itemPath, Category category) {
@@ -129,8 +154,6 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 
 	private boolean isAllDatesFilled(CollectionItem item) {
 		List<Element> els = docCollectionReader.getElementsInItem(item);
-
-		System.out.println(els.stream().anyMatch(el -> el == null));
 
 		return !els.stream().anyMatch(el -> el == null);
 	}

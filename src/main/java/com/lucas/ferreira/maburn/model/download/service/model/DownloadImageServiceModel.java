@@ -42,9 +42,7 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 	private File startDownload(URL url) throws IOException {
 		String path = file.getAbsolutePath();
 		String type = null;
-		if(path.contains("Dragon Quest")) {
-			System.out.println("!");
-		}
+
 		try {
 			type = url.getPath().substring(url.getPath().lastIndexOf("."));
 		} catch (Exception e) {
@@ -56,9 +54,13 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 
 		File location = new File(destination);
 		InputStream is;
-
+		try {
 		is = httpConn.getInputStream();
-
+		}catch (IOException e) {
+			// TODO: handle exception
+			System.out.println(httpConn.getConnectTimeout());
+			throw new IOException(e.getMessage());
+		}
 		location.mkdirs();
 		fileName += type;
 		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\" + fileName);
@@ -96,6 +98,7 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 
 		URL url = new URL(link);
 		httpConn = (HttpURLConnection) url.openConnection();
+		httpConn.setReadTimeout(0);
 		httpConn.setRequestMethod("GET");
 		httpConn.setRequestProperty("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");

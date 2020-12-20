@@ -5,16 +5,19 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
-public class FutureResponseUtil <T> extends ResponseUtil {
+public class ListenFutureResponse<T>  {
 	private List<Future<T>> future;
-	public FutureResponseUtil(List<Future<T>> future) {
+	private IntegerProperty progress;
+	private boolean finish = false;
+	public ListenFutureResponse(IntegerProperty progress, List<Future<T>> future) {
 		// TODO Auto-generated constructor stub
 		this.future = future;
+		this.progress = progress;
 	}
-	
-	public boolean waitAllFuture() {
+	// TODO Auto-generated constructor stub
+
+	public boolean listenAllFuture() {
 		int itensDone = 0;
 		int last = 0;
 		try {
@@ -22,10 +25,12 @@ public class FutureResponseUtil <T> extends ResponseUtil {
 				itensDone = future.stream().filter(futureItem -> futureItem.isDone()).collect(Collectors.toList())
 						.size();
 				if (itensDone > last) {
+					progress.set(itensDone);
 					last = itensDone;
 				}
 
 			}
+			finish = true;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -34,24 +39,26 @@ public class FutureResponseUtil <T> extends ResponseUtil {
 		}
 	}
 
-	@Override
-	public void await() {
-		// TODO Auto-generated method stub
-		waitAllFuture();
-		
-	}
 
-	@Override
-	protected Void call() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+	
+	
 	public void listen() {
 		// TODO Auto-generated method stub
-		
+		listenAllFuture();
 	}
+	
+	public void await() {
+		while(!finish) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+
+
 }
-
-

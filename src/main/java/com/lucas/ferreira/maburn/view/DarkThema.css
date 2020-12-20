@@ -329,3 +329,19 @@
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30.0%);
 }
+
+
+.progress-indicator{
+    -fx-progress-color: red;
+    -fx-opacity: 0.55;
+	-fx-stroke: linear-gradient(from 0.0% 0.0% to 70.0% 70.0%, circleindicator-color 70.0%, white 75.0%, white);
+
+}
+.progress-indicator:indeterminate  {
+    -fx-padding: 0.433333em; /* 10 */
+    -fx-progress-color:#d22020;
+    -fx-ring-width: 22.0;
+	-fx-inner-radius: 60.0;
+    -fx-opacity: 1;
+ 
+}

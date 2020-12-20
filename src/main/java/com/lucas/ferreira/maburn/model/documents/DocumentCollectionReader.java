@@ -93,7 +93,6 @@ public class DocumentCollectionReader {
 	public CollectionItem getItemInDocument(CollectionItem item) {
 		CollectionItem resultItem = null;
 		if (xmlContains(item.getDestination())) {
-			System.out.println(item.getDestination());
 			resultItem = parseItem(getElementByCollectionItem(item));
 		}
 		return resultItem;
@@ -304,6 +303,7 @@ public class DocumentCollectionReader {
 		if (value == null)
 			value = "";
 		e.appendChild(doc.createTextNode(value));// Add value in element
+		
 
 	}
 
@@ -311,6 +311,8 @@ public class DocumentCollectionReader {
 		System.out.println(item);
 		Element removeElement = getElementByCollectionItem(item);
 		removeElement.getParentNode().removeChild(removeElement);
+		parser.tranformContentToXML(doc, CollectionDatasReader.DATE_LOCAL);
+
 	}
 
 	// Select an item in document by category (Anime/Manga) and get her
