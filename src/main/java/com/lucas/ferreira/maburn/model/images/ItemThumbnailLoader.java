@@ -12,6 +12,7 @@ import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
 import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
+import javafx.scene.CacheHint;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,8 +34,7 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 	public File findImage() throws ThumbnailLoadException {
 		
 		//File image = new File(item.getImageLocal());
-		System.out.println("> Tittle: " + item.getTitleDataBase());
-		System.out.println("> Image Local: " + item.getImageLocal());
+
 		File image = new File(item.getImageLocal());
 		if (!image.exists()) {
 			throw new ThumbnailLoadException("Image don't found in " + item.getImageLocal());
@@ -59,12 +59,16 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 		imageView.setFitWidth(168.75);
 		imageView.setFitHeight(237.0);
 		imageView.setUserData(item);
-
+		imageView.setCache(true);
+		imageView.setCacheHint(CacheHint.SPEED);
+		
 		imageView = createImageEffect(imageView, TransformEffects.BORDER_IMAGE);
 
 		AnchorPane imageAreaPanel = new AnchorPane(imageView);
+		imageAreaPanel.setCache(true);
+		imageAreaPanel.setCacheHint(CacheHint.SPEED);
 		imageAreaPanel = (AnchorPane) createPaneEffect(imageAreaPanel);
-
+		
 		imageAreaPanel.getStyleClass().add("item-image");
 
 		cell = new GridPaneCell(imageAreaPanel);

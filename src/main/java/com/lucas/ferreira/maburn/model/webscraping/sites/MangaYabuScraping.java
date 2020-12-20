@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
 import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -23,7 +24,7 @@ import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 public class MangaYabuScraping implements WebScraping {
 	private MangaWebData mangaWebData;
 	private Scraper scraper = new Scraper();
-	private Response response;
+	private String responseBody;
 	private Document document;
 
 	@Override
@@ -32,7 +33,7 @@ public class MangaYabuScraping implements WebScraping {
 		mangaWebData = (MangaWebData) titleWebData;
 		mangaWebData.setSite(getSite());
 
-		response = ConnectionModel.connect(mangaWebData.getUrl());
+		responseBody = ConnectionModel.connect(mangaWebData.getUrl());
 
 		mangaWebData.setWebDatas(fetchChaptersUrl());
 
@@ -43,7 +44,7 @@ public class MangaYabuScraping implements WebScraping {
 	@Override
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
 		// TODO Auto-generated method stub
-		response = ConnectionModel.connect(itemWebData.getUrl());
+		responseBody = ConnectionModel.connect(itemWebData.getUrl());
 
 		ChapterWebData chapterWebData = (ChapterWebData) itemWebData;
 
@@ -64,13 +65,10 @@ public class MangaYabuScraping implements WebScraping {
 		String prefix = "/?s=";
 		String searchUrl = defaultUrl + prefix + querry;
 
-		response = ConnectionModel.connect(searchUrl);
-		try {
-			document = response.parse();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		responseBody = ConnectionModel.connect(searchUrl);
+		
+			document = Jsoup.parse(responseBody);
+
 		return fetchAllItensOnTable(document);
 	}
 
@@ -81,9 +79,8 @@ public class MangaYabuScraping implements WebScraping {
 	}
 
 	private List<ItemWebData> fetchChaptersUrl() {
-		try {
 			List<ItemWebData> chapterWebDatas = new ArrayList<>();
-			Elements elements = scraper.scrapeSnippet(response.parse(), ".single-chapter > a");
+			Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), ".single-chapter > a");
 			elements.forEach(element -> {
 
 				ChapterWebData chapterWebData = new ChapterWebData(mangaWebData);
@@ -94,18 +91,14 @@ public class MangaYabuScraping implements WebScraping {
 
 			});
 			return chapterWebDatas;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+
 
 	}
 
 	private ChapterWebData fetchPagesUrl(ChapterWebData chapterWebData) throws IOException {
 		Elements elements;
 	
-			Document document = response.parse();
+			Document document = Jsoup.parse(responseBody);
 
 			elements = scraper.scrapeSnippet(document, ".manga-pages > center > img");
 			elements.forEach(element -> {

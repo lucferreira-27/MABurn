@@ -13,23 +13,22 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 public class KitsuResponseAPI implements DatabaseResponse {
 
 	private static final String DATABASE_URL = "https://kitsu.io/";
-	private Response response;
+	private String responseBody;
 
 	public KitsuResponseAPI(String url) {
 		// TODO Auto-generated constructor stub
 		try {
-			response = ConnectionModel.connect(url);
+			responseBody = ConnectionModel.connect(url, 3);
 		} catch (ConnectionException e) {
 			// TODO: handle exception
-			e.printStackTrace();
 			throw new ConnectionException(e.getMessage());
 		}
 	}
 
 	public CollectDatas fetchAll() {
 		CollectDatas datas = new CollectDatas();
-		System.out.println(response.body());
-		JSONObject jsonResponse = new JSONObject(response.body());
+		System.out.println(responseBody);
+		JSONObject jsonResponse = new JSONObject(responseBody);
 		JSONObject firstData;
 		JSONArray allDatas;
 		try {
@@ -39,7 +38,7 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		} catch (Exception e) {
 			// TODO: handle exception
 			firstData = jsonResponse.getJSONObject("data");
-			
+
 		}
 
 		JSONObject attributes = firstData.getJSONObject("attributes");
@@ -53,9 +52,7 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		String status = fetchStatus(attributes);
 		String date = fetchPublishedDate(attributes);
 		Double rating = fetchAvaregeRating(attributes);
-		if(rating == null) {
-			rating = 0.00;
-		}
+		
 		datas.setTitle(title);
 		datas.setCategory(category);
 		datas.addPosterImageLink("tiny", images[0]);
@@ -96,27 +93,49 @@ public class KitsuResponseAPI implements DatabaseResponse {
 	}
 
 	private String fetchSynopsis(JSONObject attributes) {
-		String synopsis = attributes.getString("synopsis");
-		return synopsis;
-	}
-	private String fetchStatus(JSONObject attributes) {
-		String status = attributes.getString("status");
-		return status;
-	}
-	private String fetchPublishedDate(JSONObject attributes) {
-		String date = attributes.getString("startDate");
-		return date;
-	}
-	private Double fetchAvaregeRating(JSONObject attributes) {
 		try {
-		Double rating = Double.parseDouble(attributes.getString("averageRating").trim());
-		return rating;
-		}catch (JSONException e) {
+			String synopsis = attributes.getString("synopsis");
+			synopsis = (synopsis == null ? "" : synopsis);
+			return synopsis;
+		} catch (JSONException e) {
 			// TODO: handle exception
 			return null;
 		}
 	}
-	
+
+	private String fetchStatus(JSONObject attributes) {
+		try {
+			String status = attributes.getString("status");
+			status = (status == null ? "" : status);
+			return status;
+		} catch (JSONException e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	private String fetchPublishedDate(JSONObject attributes) {
+		try {
+			String date = attributes.getString("startDate");
+			date = (date == null ? "" : date);
+			return date;
+		} catch (JSONException e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	private Double fetchAvaregeRating(JSONObject attributes) {
+		try {
+			String ratingString = attributes.getString("averageRating");
+			Double rating = (ratingString == null ? 0.00 : Double.parseDouble(ratingString.trim()));
+
+			return rating;
+		} catch (JSONException e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
 
 	private String[] fetchPostImage(JSONObject attributes) {
 
@@ -148,10 +167,6 @@ public class KitsuResponseAPI implements DatabaseResponse {
 			break;
 		}
 		return null;
-	}
-
-	public Response getResponse() {
-		return response;
 	}
 
 }

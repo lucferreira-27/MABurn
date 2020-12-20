@@ -60,11 +60,11 @@
 
 			</ScrollPane>
 
-			<ProgressIndicator layoutY="36" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" fx:id="loadGridPane" styleClass="loadGridPane" visible="false">
+			<ProgressIndicator layoutY="36" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" fx:id="loadGridPane" styleClass="ringindicator" visible="true">
 			
 			</ProgressIndicator>
 			
-			<Label layoutY="26" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" text = "Fetch itens" alignment = "center" fx:id = "lblLoad" />
+			<Label layoutY="100" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" alignment = "center" fx:id = "lblLoad" visible = "true" />
 
 		</AnchorPane>
 

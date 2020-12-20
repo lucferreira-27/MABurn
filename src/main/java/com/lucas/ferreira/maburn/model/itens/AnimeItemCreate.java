@@ -46,7 +46,6 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		try {
 			
 			String thumanailPath = thumbnail.download().getAbsolutePath();
-			System.out.println(thumanailPath);
 			anime.setImageLocal(thumanailPath);
 
 		} catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.model.loader;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -11,6 +12,8 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+
+import javafx.concurrent.Task;
 
 public class MainLoader {
 	private Collections collection;
@@ -36,8 +39,8 @@ public class MainLoader {
 
 	}
 
-	// Loads colletion from an existing collection and return the collection loaded
-	public Future<?> loadCollection(String destination) {
+	// *****Loads colletion from an existing collection and return the collection loaded
+	public CollectionLoader loadCollection(String destination) {
 		
 		final ExecutorService exec = Executors.newFixedThreadPool(5, r -> {
 			Thread t = new Thread(r);
@@ -46,10 +49,12 @@ public class MainLoader {
 		});
 
 		loader.setDestination(destination);
-		Future<?> futureCollection = exec.submit(loader);
+		exec.submit(loader);
+		
+		
 		exec.shutdown();
 
-		return futureCollection;
+		return loader;
 	}
 
 	// Loads select Manga, used index to selection

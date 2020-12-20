@@ -8,8 +8,6 @@ import java.util.ResourceBundle;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
@@ -25,26 +23,40 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class ItensInterfaceController implements Initializable {
+
 	@FXML
 	private GridPane itensImagesGridPane;
+
+	@FXML
+	private ScrollPane itensImagesScroll;
+
 	@FXML
 	private AnchorPane collectionAnchorPane;
+
 	@FXML
 	private TextField txtSearchBar;
+
 	@FXML
 	private Button btnFilter;
+
+	@FXML
+	private Label lblLoad;
+
+	@FXML
+	private ProgressIndicator loadGridPane;
 
 	private MainInterfaceView mainView;
 	private ItensInterfaceView itensView;
 	private Collections completeCollection;
 	private List<CollectionItem> itens;
-	private List<CollectionItem> originalItens;
 	private List<AnchorPane> removesPanes = new ArrayList<>();
 	String querry;
 
@@ -59,7 +71,6 @@ public class ItensInterfaceController implements Initializable {
 
 		itensImagesGridPane.setOnMouseClicked(event -> {
 
-			
 			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
 				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
 				System.out.println("GridPane Children: " + itensImagesGridPane.getChildren().size());
@@ -243,9 +254,47 @@ public class ItensInterfaceController implements Initializable {
 
 	}
 
+	private void initItensImagesScrollPane() {
+
+		itensImagesScroll.setLayoutY(10);
+		itensImagesScroll.setLayoutX(200);
+		itensImagesScroll.setPrefViewportHeight(mainView.getRoot().getScene().getHeight() - 200);
+		itensImagesScroll.setPannable(false);
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+
+		initItensImagesScrollPane();
+		if (itensView.getCollectionLoader().isDone()) {
+			System.out.println(loadGridPane.getStyleClass());
+			loadGridPane.setVisible(false);
+			lblLoad.setVisible(false);
+		}
+		lblLoad.textProperty().bind(itensView.getCollectionLoader().messageProperty());
+
+		itensView.getCollectionLoader().getConnectinoItemLength().addListener((obser, oldvalue, newvalue) -> {
+			lblLoad.textProperty().unbind();
+			Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
+			System.out.println("[Fetch items: " + newvalue.toString() + " ]");
+
+		});
+
+		itensView.getCollectionLoader().getWriteItemLength().addListener((obser, oldvalue, newvalue) -> {
+			Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
+			System.out.println("[Write items: " + newvalue.toString() + " ]");
+
+		});
+
+		itensView.getCollectionLoader().setOnSucceeded((event) -> {
+
+			Platform.runLater(() -> {
+				lblLoad.setVisible(false);
+				loadGridPane.setVisible(false);
+			});
+		});
+
 		onClickOnImageGridPane();
 		onSearchBarType();
 
@@ -254,8 +303,6 @@ public class ItensInterfaceController implements Initializable {
 	public void setCollection(Collections collections) {
 		// TODO Auto-generated method stub
 		this.completeCollection = collections;
-
-		this.originalItens = (List<CollectionItem>) completeCollection.getItens();
 
 	}
 

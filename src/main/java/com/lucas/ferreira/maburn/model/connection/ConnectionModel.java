@@ -1,17 +1,18 @@
 package com.lucas.ferreira.maburn.model.connection;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.Callable;
-
-import org.jsoup.Connection.Response;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 
-public class ConnectionModel implements Callable<Response> {
+public class ConnectionModel implements Callable<String> {
 	private String link;
 	private static ConnectionConfig config;
-	
+
 	public ConnectionModel(ConnectionConfig config) {
 		// TODO Auto-generated constructor stub
 		this.config = config;
@@ -22,30 +23,81 @@ public class ConnectionModel implements Callable<Response> {
 		this.link = link;
 	}
 
-	public static Response connect(String url) throws ConnectionException {
+	public static String connect(String url, int attempts) {
+		int attempt = 0;
+		
+		while (true) {
+			try {
+				return connect(url);
+			} catch (ConnectionException e) {
+				// TODO: handle exception
+				attempt++;
+				if (attempt >= attempts) {
+					throw new ConnectionException(e.getMessage());
+				}
+			}
+		}
+
+	}
+
+	public static String connect(String url) throws ConnectionException {
+		boolean retry = false;
+		HttpURLConnection httpConn = null;
 
 		try {
-			return Jsoup.connect(url).ignoreContentType(true).timeout(0).execute();
-		} catch (Exception e) {
+			url = url.replaceAll(" ", "%20");
+
+			httpConn = Httpsetup(url);
+
+			return inputStreamToString(httpConn);
+		} catch (IOException e) {
 			// TODO: handle exception
-			//config.getRetryAtttempt().get();
-			
-			throw new ConnectionException(e.getMessage() + " url: " + url);
+			int responseCode;
+			try {
+				responseCode = httpConn.getResponseCode();
+				throw new ConnectionException(String.valueOf(responseCode));
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				throw new ConnectionException(e.getMessage());
+
+			}
+
+		} finally {
+			httpConn.disconnect();
 		}
 	}
 
-	public static Document connect(String url, int ms) throws ConnectionException {
-		try {
-			return Jsoup.connect(url).timeout(ms).get();
-		} catch (Exception e) {
-			// TODO: handle exception
-			throw new ConnectionException(e.getMessage());
+	private static String inputStreamToString(HttpURLConnection httpConn) throws IOException {
+		StringBuilder sb = new StringBuilder();
 
+		BufferedReader br = new BufferedReader(new InputStreamReader((httpConn.getInputStream())));
+		String output;
+		while ((output = br.readLine()) != null) {
+			sb.append(output);
 		}
+
+		return sb.toString();
+
 	}
+
+	private static HttpURLConnection Httpsetup(String url) throws IOException {
+		URL uc = new URL(url);
+
+		System.out.println(url);
+		HttpURLConnection httpConn = (HttpURLConnection) uc.openConnection();
+
+		httpConn.setRequestMethod("GET");
+		httpConn.setRequestProperty("User-Agent",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
+
+		return httpConn;
+	}
+
+
 
 	@Override
-	public Response call() throws Exception {
+	public String call() throws Exception {
 		// TODO Auto-generated method stub
 		return connect(link);
 	}

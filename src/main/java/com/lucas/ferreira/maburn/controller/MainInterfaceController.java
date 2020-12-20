@@ -33,7 +33,7 @@ public class MainInterfaceController implements Initializable {
 	private InitializeModel initialize;
 	private ConfigurationReader configReader = new ConfigurationReader();
 	private DocumentConfiguration doc;
-	private Future<?> futureCollection;
+	private CollectionLoader futureCollection;
 
 	public MainInterfaceController(MainInterfaceView mainView, Collections collection) {
 		// TODO Auto-generated constructor stub
@@ -61,17 +61,16 @@ public class MainInterfaceController implements Initializable {
 		mainLoader = new MainLoader(collections);
 		String destination = doc.getPath(collections.getCategory());
 		if (destination == null || destination.isEmpty()) {
-			
+
 			alertWindown.errorAlert("ERROR", "Collection error",
 					collections.getCategory() + " collection path is not definide");
 			throw new CollectionLoaderException(collections.getCategory() + " collection path is not definide");
 
 		}
-		futureCollection = mainLoader.loadCollection(doc.getPath(collections.getCategory())); // return a future
-																								// collection,
-																								// (collection
-		// promise)
-
+		// return a future collection,  (collection promise)
+		futureCollection = mainLoader.loadCollection(doc.getPath(collections.getCategory())); 
+		System.out.println(futureCollection);
+		
 	}
 
 	public CollectionItem sessionSelectItem(String category, int id, Collections collection) {
@@ -85,7 +84,7 @@ public class MainInterfaceController implements Initializable {
 		return collection;
 	}
 
-	public Future<?> getFutureCollection() {
+	public CollectionLoader getFutureCollection() {
 		return futureCollection;
 	}
 

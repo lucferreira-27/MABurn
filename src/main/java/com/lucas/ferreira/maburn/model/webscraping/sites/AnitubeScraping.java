@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -27,7 +28,7 @@ import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 public class AnitubeScraping implements WebScraping {
 	private Scraper scraper = new Scraper();
 	private AnimeWebData animeWebData;
-	private Response response;
+	private String responseBody;
 	private Document document;
 
 	public AnitubeScraping() {
@@ -40,7 +41,7 @@ public class AnitubeScraping implements WebScraping {
 		// TODO Auto-generated method stub
 		animeWebData = (AnimeWebData) titleWebData;
 		animeWebData.setSite(getSite());
-		response = ConnectionModel.connect(animeWebData.getUrl());
+		responseBody = ConnectionModel.connect(animeWebData.getUrl());
 
 		animeWebData.getWebDatas().addAll(fetchEpisodesUrl());
 
@@ -51,7 +52,7 @@ public class AnitubeScraping implements WebScraping {
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
 		// TODO Auto-generated method stub
 
-		response = ConnectionModel.connect(itemWebData.getUrl());
+		responseBody = ConnectionModel.connect(itemWebData.getUrl());
 		EpisodeWebData episodeWebData = (EpisodeWebData) itemWebData;
 		fetchVideoUrlDirectDownload(episodeWebData);
 		return episodeWebData;
@@ -65,13 +66,9 @@ public class AnitubeScraping implements WebScraping {
 		String prefix = "/?s=";
 		String searchUrl = defaultUrl + prefix + querry;
 
-		response = ConnectionModel.connect(searchUrl);
-		try {
-			document = response.parse();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		responseBody = ConnectionModel.connect(searchUrl);
+		document = Jsoup.parse(responseBody);
+
 		return fetchAllItensOnTable(document);
 	}
 
@@ -98,20 +95,16 @@ public class AnitubeScraping implements WebScraping {
 	}
 
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
-		try {
 
-			Elements elements = scraper.scrapeSnippet(response.parse(), "script");
+		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 
-			String script = elements.stream()
-					.filter(element -> element.toString().contains("const playerInstance = jwplayer('playerV').setup"))
-					.findFirst().get().toString();
-			Map<Definition, String> definitions = findDownloadLinksInScript(script);
-			episodeWebData.setPlayers(definitions);
-			episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String script = elements.stream()
+				.filter(element -> element.toString().contains("const playerInstance = jwplayer('playerV').setup"))
+				.findFirst().get().toString();
+		Map<Definition, String> definitions = findDownloadLinksInScript(script);
+		episodeWebData.setPlayers(definitions);
+		episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
+
 		return null;
 	}
 
@@ -151,27 +144,20 @@ public class AnitubeScraping implements WebScraping {
 		return links;
 	}
 
-
-
 	private List<EpisodeWebData> fetchEpisodesUrl() {
-		try {
-			List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
-			Elements elements = scraper.scrapeSnippet(response.parse(), ".pagAniListaContainer.targetClose > a");
-			elements.forEach(element -> {
 
-				EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
-				episodeWebData.setUrl(element.attr("href"));
-				episodeWebData.setName(element.attr("title"));
-				WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
-				episodeWebDatas.add(episodeWebData);
+		List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
+		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), ".pagAniListaContainer.targetClose > a");
+		elements.forEach(element -> {
 
-			});
-			return episodeWebDatas;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
+			episodeWebData.setUrl(element.attr("href"));
+			episodeWebData.setName(element.attr("title"));
+			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
+			episodeWebDatas.add(episodeWebData);
+
+		});
+		return episodeWebDatas;
 
 	}
 
