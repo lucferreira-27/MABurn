@@ -13,10 +13,13 @@ public class ItemFileComparator implements Comparator<CollectionSubItem> {
 
 		String dest1 = o1.getDestination();
 		String dest2 = o2.getDestination();
-
+		try {
 		dest1 = dest1.substring(dest1.lastIndexOf(" ")).trim();
 		dest2 = dest2.substring(dest2.lastIndexOf(" ")).trim();
-
+		}catch (StringIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		if (dest1.contains(".") && dest2.contains(".")) {
 			dest1 = dest1.substring(0, dest1.lastIndexOf("."));
 

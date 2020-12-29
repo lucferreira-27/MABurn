@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.controller;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.DirectoryModel;
-import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.TableCollectionItemModel;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
@@ -22,9 +22,11 @@ import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.ItemFileComparator;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
+import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
 import javafx.application.Platform;
@@ -34,7 +36,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,7 +48,7 @@ import javafx.scene.input.MouseEvent;
 public class TitleInterfaceController implements Initializable {
 	private MainInterfaceView mainView;
 	private TitleInterfaceView titleView;
-	private ItensInterfaceView itensView;
+	private ItemsInterfaceView itensView;
 	private Collections collections;
 	@FXML
 	private ImageView imageViewTitle;
@@ -77,7 +78,7 @@ public class TitleInterfaceController implements Initializable {
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
 	public TitleInterfaceController(MainInterfaceView mainView, TitleInterfaceView titleView,
-			ItensInterfaceView itensView) {
+			ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
 		this.mainView = mainView;
 		this.titleView = titleView;
@@ -95,26 +96,26 @@ public class TitleInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickButtonBack() {
-		ItensInterfaceView itensView = this.itensView;
+		ItemsInterfaceView itensView = this.itensView;
 		itensView.loadMainInterfaceFX(mainView);
 	}
 
 	private void loadTitleDatas() {
 
 		CollectionItem item = collections.getActualItem();
-		ThumbnailDownload thumbnailDownload = new ThumbnailDownload(item);
-//		ImageLoaderModel imageLoader = new ImageLoaderModel();
-//		Image image = imageLoader.loadImageByUrl(item.getImageUrl());
+
 		Image image = null;
 		try {
-			image = new Image(new FileInputStream(thumbnailDownload.download()));
+			if (CollectionLoaderUtil.isRequiredFilesAvailable(item))
+				image = new Image(new FileInputStream(new File(item.getImageLocal())));
+			else {
+				CollectionLoaderUtil.getRequiredFiles(item);
+				image = new Image(new FileInputStream(new File(item.getImageLocal())));
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(image);
 		imageViewTitle.setOnMouseClicked(event -> {
@@ -155,20 +156,30 @@ public class TitleInterfaceController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+
 	public void onClickButtonDownload() {
-		System.out.println("Download");
+		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
+		titleDownload.loadMainInterfaceFX(mainView);
 	}
+
 	public void onClickButtonUpdate() {
 		System.out.println("Update");
 	}
 
 	public void loadTable(CollectionItem item) {
-		
+
 		List<CollectionSubItem> listSubItens = item.getListSubItens();
 		List<TableCollectionItemModel> tableItens = new ArrayList<>();
 
-		listSubItens.sort(new ItemFileComparator());
-
+		try {
+			listSubItens.sort(new ItemFileComparator());
+			for (CollectionSubItem sub : listSubItens) {
+				System.out.println(sub.getName());
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
 		String btnText = "";
 
 		if (item.getCategory() == Category.ANIME) {

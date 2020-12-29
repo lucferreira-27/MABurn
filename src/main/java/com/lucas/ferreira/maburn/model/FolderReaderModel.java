@@ -72,7 +72,7 @@ public class FolderReaderModel {
 		// Collect only directorys to avoid problems
 		List<File> listAnimeFolders = Arrays
 				.asList(animeCollectionFolder.listFiles((file, name) -> new File(file, name).isDirectory()));
-
+		System.out.println("CHECK");
 		return listAnimeFolders;
 
 	}

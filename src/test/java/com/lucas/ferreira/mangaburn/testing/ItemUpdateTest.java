@@ -23,7 +23,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class ItemUpdateTest {
-	// @Test
+	 @Test
 	public void updateAnime() throws Exception {
 
 		MainInterfaceView mainInterfaceView = new MainInterfaceView();

@@ -44,4 +44,10 @@ public class AnimeWebData implements TitleWebData {
 		webDatas.add(webData);
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+
 }

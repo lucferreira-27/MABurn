@@ -7,11 +7,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.BytesUtil;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -67,23 +70,31 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 		double size = (double) httpConn.getContentLength() / 1048576;
 
 		byte[] b = new byte[BUFFER_SIZE];
-		int length;
+		int length = 0;
 		int i = 0;
 		updateSize(size);
 		//System.out.println("Download - " + fileName + " " + httpConn.getContentLength());
-		while ((length = is.read(b)) != -1) {
+		while (length != -1) {
 			if (pauseProperty.get()) {
 				stopUntil();
 			}
+			
+			length = is.read(b);
+			
+			//updateSpeed(speedCalculation(startTime, endTime, length));
+
 			i += BUFFER_SIZE;
 			updateProgress(i, httpConn.getContentLength() + 1);
-			updateSpeed(speedCalculation());
-			Platform.runLater(() -> {
-				downloadProgress.set(getProgress());
-			});
+			System.out.println("length: " + length);
+			System.out.println("b: " + b);
+			try {
 			os.write(b, 0, length);
-
+			}catch (IndexOutOfBoundsException e) {
+				// TODO: handle exception
+				continue;
+			}
 		}
+
 		//System.out.println("Done - " + fileName + " " + size);
 		is.close();
 		os.close();
@@ -113,40 +124,13 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 	}
 
 	@Override
-	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, Sites sites) {
+	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public DoubleProperty getDownloadProgress() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public DoubleProperty getSizeProperty() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public DoubleProperty getDownloadSpeedProperty() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BooleanProperty getPauseProperty() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double speedCalculation() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public void pause() {
@@ -155,12 +139,12 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 	}
 
 	@Override
-	public void unpause() {
+	public void resume() {
 		// TODO Auto-generated method stub
 		
 	}
 	private void stopUntil() {
-		while (getPauseProperty().get()) {
+		while (pauseProperty.get()) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -168,6 +152,22 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public long speedCalculation(Double downloadSpeed, long start, long end, int i) {
+		DecimalFormat four = new DecimalFormat("#0.00");
+
+		downloadSpeed = Double.parseDouble(four.format(downloadSpeed).replaceAll(",", ".")) / 1048576;
+		updateSpeed(downloadSpeed);
+		
+		return end;
+	}
+
+	@Override
+	public void kill() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

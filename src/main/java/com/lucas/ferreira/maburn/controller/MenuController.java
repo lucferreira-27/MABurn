@@ -18,10 +18,6 @@ import javafx.scene.layout.Pane;
 
 public class MenuController implements Initializable {
 
-	private Pane menu;
-	private Button btnHome;
-	private Button btnConfiguration;
-	private Button btnExtra;
 
 	private MainInterfaceView mainView;
 	private HomeInterfaceView homeView = new HomeInterfaceView();
@@ -39,7 +35,8 @@ public class MenuController implements Initializable {
 		return true;
 
 	}
-
+	
+	@FXML
 	public void onClickButtonHome() {
 
 		System.out.println("Home");
@@ -50,7 +47,7 @@ public class MenuController implements Initializable {
 		}).start();
 
 	}
-
+	@FXML
 	public void onClickButtonConfiguration() {
 		System.out.println("Configuration");
 		new Thread(() -> {
@@ -61,7 +58,7 @@ public class MenuController implements Initializable {
 		}).start();
 
 	}
-
+	@FXML
 	public void onClickButtonExtra() {
 		System.out.println("Extra");
 		new Thread(() -> {

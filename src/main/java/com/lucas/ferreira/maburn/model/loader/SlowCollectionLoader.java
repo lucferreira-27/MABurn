@@ -21,28 +21,26 @@ import com.lucas.ferreira.maburn.model.documents.SaveCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.ItemFileComparator;
 import com.lucas.ferreira.maburn.util.ListenFutureResponse;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 public class SlowCollectionLoader extends CollectionLoader {
 
 	private FolderReaderModel reader;
 	private Collections collection;
 	private CollectionDatasReader dataReader;
-	private ParseXMLDocument parse;
 	private DocumentCollectionReader docCollectionReader;
 	private SaveCollection save;
 	private String destination;
 	private ExecutorService exec;
 	private Category category;
-	
+
 	public SlowCollectionLoader(Collections collections) {
 		// TODO Auto-generated constructor stub
 		this.collection = collections;
 		init();
-
 
 	}
 
@@ -69,7 +67,7 @@ public class SlowCollectionLoader extends CollectionLoader {
 			t.setDaemon(true);
 			return t;
 		});
-		
+
 	}
 
 	private void init() {
@@ -91,6 +89,7 @@ public class SlowCollectionLoader extends CollectionLoader {
 	@Override
 	public Collections loadCollection(String destination, Category category) {
 		// TODO Auto-generated method stub
+		updateMessage("Load collection");
 		List<File> filesInFolder = new ArrayList<>();
 		this.category = category;
 		switch (category) {
@@ -98,17 +97,21 @@ public class SlowCollectionLoader extends CollectionLoader {
 			collection = new AnimeCollection();
 			collection.setDestination(destination);
 			filesInFolder = reader.findAnimeFoldersInAnimeCollectionFolder((AnimeCollection) collection);
+			updateMessage("Load Anime collection");
+
 			break;
 		case MANGA:
 			collection = new MangaCollection();
 			collection.setDestination(destination);
 			filesInFolder = reader.findMangaFoldersInMangaCollectionFolder((MangaCollection) collection);
+			updateMessage("Load Manga collection");
 			break;
 		default:
 			break;
 		}
 
 		try {
+
 			addAllItensInCollection(collection, filesInFolder);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -121,21 +124,24 @@ public class SlowCollectionLoader extends CollectionLoader {
 
 	private void addAllItensInCollection(Collections collection, List<File> filesInFolder) {
 		// TODO Auto-generated method stub
-		
-		
+
 		List<Future<CollectionItem>> futureItens = new ArrayList<>();
 		itemsLength = filesInFolder.size();
 		for (File itemFolder : filesInFolder) {
 			// CollectionItem item = loadItem(itemFolder.getAbsolutePath(), collection);
-			futureItens.add(exec.submit(new LoadItemRunnable(itemFolder.getAbsolutePath(), category, loadProgressLength)));
+			futureItens
+					.add(exec.submit(new LoadItemRunnable(itemFolder.getAbsolutePath(), category, loadProgressLength)));
+	
+			updateMessage("Loading:  " + itemFolder.getName());
 
 		}
 		updateMessage("Connecting");
-		
-		ListenFutureResponse<CollectionItem> responseUtil = new ListenFutureResponse<CollectionItem>(connectionItemLength, futureItens);
+
+		ListenFutureResponse<CollectionItem> responseUtil = new ListenFutureResponse<CollectionItem>(
+				connectionItemLength, futureItens);
 		responseUtil.listen();
 		responseUtil.await();
-		updateMessage("Listen and waiting");
+
 		futureItens.forEach(futureItem -> {
 			try {
 
@@ -147,10 +153,13 @@ public class SlowCollectionLoader extends CollectionLoader {
 		});
 
 		saveNewCollectionItens();
+		
+
 	}
 
 	private void saveNewCollectionItens() {
 		List<CollectionItem> itens = (List<CollectionItem>) collection.getItens();
+
 		List<CollectionItem> newItens = new ArrayList<>();
 
 		newItens = itens.stream().filter(item -> !isCreateItemInDocument(item.getDestination(), item.getCategory()))
@@ -163,9 +172,12 @@ public class SlowCollectionLoader extends CollectionLoader {
 
 	}
 
+
+
 	private void addItemInCollection(CollectionItem item) {
 		List<CollectionItem> itens = (List<CollectionItem>) collection.getItens();
 		itens.add(item);
+		item.setCollections(collection);
 		loadSubItensInItem(item);
 
 	}
@@ -177,9 +189,6 @@ public class SlowCollectionLoader extends CollectionLoader {
 
 	}
 
-
-
-
 	private boolean isCreateItemInDocument(String itemPath, Category category) {
 		synchronized (this) {
 
@@ -189,10 +198,6 @@ public class SlowCollectionLoader extends CollectionLoader {
 			return true;
 		}
 	}
-
-
-
-
 
 	@Override
 	public void loadItem(CollectionItem item) {
@@ -207,10 +212,11 @@ public class SlowCollectionLoader extends CollectionLoader {
 		this.destination = destination;
 
 	}
-	
+
 	public IntegerProperty getConnectionItem() {
 		return connectionItemLength;
 	}
+
 	public IntegerProperty getWriteItem() {
 		return writeItemLength;
 	}

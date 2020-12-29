@@ -11,7 +11,9 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadSingleServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Definition;
+import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.StringUtil;
 
 public class EpisodeWebData implements ItemWebData {
 	private AnimeWebData animeWebData;
@@ -50,6 +52,11 @@ public class EpisodeWebData implements ItemWebData {
 	public String getDownloadLink() {
 		return downloadLink;
 	}
+	@Override
+	public Sites getSite() {
+		// TODO Auto-generated method stub
+		return animeWebData.getSite();
+	}
 
 	public void setDownloadLink(String bestPlayerDownloadLink) {
 		this.downloadLink = bestPlayerDownloadLink;
@@ -69,12 +76,13 @@ public class EpisodeWebData implements ItemWebData {
 
 	@Override
 	public Downloader<CollectionSubItem> download(Collections collections) {
-
-		String destination = collections.getDestination() + "\\" + animeWebData.getName() + "\\" + name;
+		String itemName = collections.getActualItem().getTitleFileName();
+		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;
 		// System.out.println(destination);
+	
 		System.out.println(destination);
 		download.initialize(Arrays.asList(downloadLink), new EpisodeDownloaded(), Arrays.asList(new File(destination)),
-				animeWebData.getSite());
+				this);
 
 		// download (downloadLink, new File(destination),new
 		// EpisodeDownloaded(),animeWebData.getSite());
@@ -90,4 +98,6 @@ public class EpisodeWebData implements ItemWebData {
 		}
 
 	}
+
+
 }

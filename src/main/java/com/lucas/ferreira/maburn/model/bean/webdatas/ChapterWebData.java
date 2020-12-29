@@ -11,6 +11,7 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadMultipleServiceModel;
+import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
 public class ChapterWebData implements ItemWebData, GenericItem {
@@ -48,6 +49,11 @@ public class ChapterWebData implements ItemWebData, GenericItem {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	@Override
+	public Sites getSite() {
+		// TODO Auto-generated method stub
+		return mangaWebData.getSite();
+	}
 
 	public Downloader<CollectionSubItem> getDownloader() {
 		return download;
@@ -56,14 +62,17 @@ public class ChapterWebData implements ItemWebData, GenericItem {
 	@Override
 	public Downloader<CollectionSubItem> download(Collections collections) {
 		List<File> listFile = new ArrayList<>();
+		String itemName = collections.getActualItem().getTitleFileName();
 		for (int i = 0; i < listPagesUrl.size(); i++) {
-			String destination = collections.getDestination() + "\\" + mangaWebData.getName() + "\\" + name + "\\" + i;
+			String destination = collections.getDestination() + "\\" + itemName + "\\" + name + "\\" + i;
 			listFile.add(new File(destination));
 		}
-		download.initialize(listPagesUrl, new ChapterDownloaded(), listFile, mangaWebData.getSite());
+		download.initialize(listPagesUrl, new ChapterDownloaded(), listFile, this);
 		ExecutorService exec = Executors.newFixedThreadPool(5);
 		exec.submit(download);
 		System.out.println(download.getProgress());
 		return download;
 	}
 }
+
+

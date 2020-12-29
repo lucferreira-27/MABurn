@@ -76,7 +76,7 @@ public class GoyabuScraping implements WebScraping {
 		String searchUrl = defaultUrl + prefix + querry;
 
 		responseBody = ConnectionModel.connect(searchUrl);
-			document = Jsoup.parse(responseBody);
+		document = Jsoup.parse(responseBody);
 
 		return fetchAllItensOnTable(document);
 	}
@@ -110,7 +110,7 @@ public class GoyabuScraping implements WebScraping {
 
 				int value = pageNumbers(document);
 
-				for (int i = 0; i <= value; i++) {
+				for (int i = 1; i <= value; i++) {
 					nextPage(i, episodeWebDatas);
 				}
 				waitresponseBody(value);
@@ -133,8 +133,8 @@ public class GoyabuScraping implements WebScraping {
 		int itensDone = 0;
 
 		while (itensDone < itensExpect) {
-			itensDone = futureresponseBodys.stream().filter(futureItem -> futureItem.isDone()).collect(Collectors.toList())
-					.size();
+			itensDone = futureresponseBodys.stream().filter(futureItem -> futureItem.isDone())
+					.collect(Collectors.toList()).size();
 		}
 	}
 
@@ -149,7 +149,8 @@ public class GoyabuScraping implements WebScraping {
 	}
 
 	private int pageNumbers(Document doc) {
-		int pageNumbers = Integer.parseInt(scraper.scrapeSnippet(doc, ".page-numbers").get(4).text());
+		Elements elements = scraper.scrapeSnippet(doc, ".page-numbers");
+		int pageNumbers = Integer.parseInt(elements.get(elements.size() - 2).text());
 
 		return pageNumbers;
 	}
@@ -200,23 +201,31 @@ public class GoyabuScraping implements WebScraping {
 	}
 
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
-	
 
-			Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
+		System.out.println(responseBody);
+		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 
-			String script = elements.stream()
-					.filter(element -> element.toString().contains("const playerInstance = jwplayer('player').setup"))
-					.findFirst().get().toString();
-			Map<Definition, String> definitions = findDownloadLinksInScript(script);
+		String script = elements.stream()
+				.filter(element -> element.toString().contains("const playerInstance=jwplayer('player').setup")
+						|| element.toString().contains("const playerInstance = jwplayer('player').setup"))
+				.findFirst().get().toString();
+		Map<Definition, String> definitions = findDownloadLinksInScript(script);
 
-			episodeWebData.setPlayers(definitions);
-			episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
+		episodeWebData.setPlayers(definitions);
+		episodeWebData.setDownloadLink(WebScrapingUtil.getBestDefinition(definitions));
 
 		return episodeWebData;
 	}
 
 	private Map<Definition, String> findDownloadLinksInScript(String script) {
-		script = script.substring(script.indexOf("const playerInstance = jwplayer('player').setup({"));
+		try {
+			script = script.substring(script.indexOf("const playerInstance=jwplayer('player').setup({"));
+		} catch (StringIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			script = script
+					.substring(script.indexOf("const playerInstance = jwplayer('player').setup({"));
+
+		}
 		script = script.substring(script.indexOf("{"), script.indexOf(");"));
 
 		JSONObject scriptJson = new JSONObject(script);
@@ -242,7 +251,7 @@ public class GoyabuScraping implements WebScraping {
 
 	private Map<Definition, String> getHideLinks(String link) {
 		Map<Definition, String> links = new HashMap<>();
-		
+
 		link = link.substring("https://repackager.wixmp.com".length() + 1);
 		String[] definitions = link.substring(link.indexOf(",") + 1, link.lastIndexOf(",")).split(",");
 

@@ -32,11 +32,11 @@ public class ConnectionModelTest {
 	}
 	@Test
 	public void connectTimeOutTest() {
-		ConnectionModel.connect(MYANIMELIST,10000);
-		ConnectionModel.connect(UNIONMANGAS,10000);
-		ConnectionModel.connect(MANGAHOST,10000);
-		ConnectionModel.connect(ANITUBE,10000);
-		ConnectionModel.connect(SAIKOANIMES,10000);
+		ConnectionModel.connect(MYANIMELIST,3);
+		ConnectionModel.connect(UNIONMANGAS,3);
+		ConnectionModel.connect(MANGAHOST,3);
+		ConnectionModel.connect(ANITUBE,3);
+		ConnectionModel.connect(SAIKOANIMES,3);
 
 	}
 }

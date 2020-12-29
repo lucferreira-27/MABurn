@@ -30,6 +30,7 @@ public class ItemDownloadTest {
 		int index = 0;
 		
 		MainInterfaceView mainInterfaceView = new MainInterfaceView();
+		mainInterfaceView.setVisibility(false);
 		mainInterfaceView.initAndShowGUI();
 		MainLoader loader = new MainLoader(new AnimeCollection());
 		Collections collections = null;

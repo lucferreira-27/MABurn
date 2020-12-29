@@ -13,14 +13,14 @@ import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 public class MenuControllerTest {
 	private MenuController menuController;
 	private MainInterfaceView mainView;
 	private HomeInterfaceView homeView;
-	private ItensInterfaceView itensView;
+	private ItemsInterfaceView itensView;
 
 	@Before
 	public void setUp() {
@@ -32,7 +32,7 @@ public class MenuControllerTest {
 		anime.setImageUrl("https://cdn.myanimelist.net/images/manga/2/223694.jpg");
 		Collections collection = animeCollection;
 
-		itensView = new ItensInterfaceView(collection);
+		itensView = new ItemsInterfaceView(collection);
 
 	}
 

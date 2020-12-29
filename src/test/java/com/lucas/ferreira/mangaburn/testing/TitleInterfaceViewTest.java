@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
@@ -17,7 +17,7 @@ public class TitleInterfaceViewTest {
 	@Before
 	public void setUp() {
 		view = new MainInterfaceView();
-		titleView = new TitleInterfaceView(new ItensInterfaceView(new AnimeCollection()));
+		titleView = new TitleInterfaceView(new ItemsInterfaceView(new AnimeCollection()));
 	}
 
 	@Test

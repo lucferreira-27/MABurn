@@ -15,12 +15,13 @@ import com.lucas.ferreira.maburn.controller.MenuController;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class MainInterfaceView {
+public class MainInterfaceView extends ViewInterface {
 
 	private JFrame frame;
 	private boolean visibility = true;
@@ -30,11 +31,10 @@ public class MainInterfaceView {
 	private GridPane menuGridPane = new GridPane();
 	private Scene scenePane;
 	private boolean initializeIsDone = false;
-	// #### DEVELOPMENT ######
-	// Note: Keep the scene and change the childrens.
 
-	public void initMainInterfaceView() {
-		initFXMLLoader();
+
+	public void initMainInterfaceView() throws IOException {
+		initFXMLLoader(new MenuController(this), root,"MainViewFXML.fxml");
 		initMenuPane();
 		initRoot();
 
@@ -57,7 +57,12 @@ public class MainInterfaceView {
 			@Override
 			public void run() {
 
-				initFX(fxPanel);
+				try {
+					initFX(fxPanel);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		while (!initializeIsDone) {
@@ -73,27 +78,23 @@ public class MainInterfaceView {
 
 	private void initRoot() {
 		// root.setStyle("-fx-background-color: #1C1C1C");
+		super.root = this.root;
 		root.getChildren().add(menuGridPane);
 
 	}
 
-	private void initFXMLLoader() {
+	@Override
+	protected void initFXMLLoader(Initializable initializable, Pane root, String fxml) throws IOException {
+		// TODO Auto-generated method stub
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("MainViewFXML.fxml"));
-		MenuController controller = new MenuController(this);
-		loader.setController(controller);
 		loader.setRoot(root);
-		try {
-			root = loader.<VBox>load();
-			System.out.println(root.getChildren().size());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		loader.setLocation(getClass().getResource(fxml));
+		loader.setController(initializable);
 
+		root = loader.<VBox>load();
+		
 	}
-
-	private void initFX(final JFXPanel fxPanel) {
+	private void initFX(final JFXPanel fxPanel) throws IOException {
 
 		System.out.println("> Initialize MainInterfaceView");
 		initMainInterfaceView();
@@ -135,6 +136,12 @@ public class MainInterfaceView {
 	
 	public void setVisibility(boolean visibility) {
 		this.visibility = visibility;
+	}
+
+	@Override
+	protected void loadMainInterfaceFX(MainInterfaceView mainView) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

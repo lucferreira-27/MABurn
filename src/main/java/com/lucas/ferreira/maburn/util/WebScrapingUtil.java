@@ -25,7 +25,6 @@ public class WebScrapingUtil {
 
 		switch (sites) {
 
-
 		case MANGA_HOST:
 			obj.setName(removeMangaHostTrashChapter(obj.getName()));
 
@@ -66,10 +65,9 @@ public class WebScrapingUtil {
 	}
 
 	private static String removeGoyabuTrashEpisode(String string) {
-		if(string.contains("– Episódio ")) {
+		if (string.contains("– Episódio ")) {
 			string = string.substring(string.indexOf("– Episódio "));
-		}
-		else if(string.contains("– Episodio ")) {
+		} else if (string.contains("– Episodio ")) {
 			string = string.substring(string.indexOf("– Episodio "));
 		}
 
@@ -78,8 +76,12 @@ public class WebScrapingUtil {
 	}
 
 	private static String removeAnitubeTrashSearch(String string) {
-
-		return string.substring(0, string.lastIndexOf(" – Todos")).trim();
+		try {
+			return string.substring(0, string.lastIndexOf(" – Todos")).trim();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return string;
+		}
 	}
 
 	private static String removeMangaHostTrashChapter(String string) {
@@ -89,6 +91,7 @@ public class WebScrapingUtil {
 	private static String removeMangaYabuTrashChapter(String string) {
 		return string.substring(string.lastIndexOf("#") + 1).trim();
 	}
+
 	public static String getBestDefinition(Map<Definition, String> definitions) {
 		int best = 0;
 

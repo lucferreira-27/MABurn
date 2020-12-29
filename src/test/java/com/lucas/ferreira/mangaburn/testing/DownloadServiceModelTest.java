@@ -2,9 +2,11 @@ package com.lucas.ferreira.mangaburn.testing;
 
 import org.junit.Test;
 
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
@@ -58,7 +60,10 @@ public class DownloadServiceModelTest {
 		AnimeWebData animeWebData = new AnimeWebData("One Piece Anitube");
 		animeWebData.setUrl(TITLE_URL_TEST_ANITUBE);
 		animeWebData = (AnimeWebData) webScraping.fecthTitle(animeWebData);
-		Collections collections = new MangaCollection();
+		Collections collections = new AnimeCollection();
+		AnimeDownloaded animeDownloaded = new AnimeDownloaded();
+		animeDownloaded.setTitleDataBase("Anime");
+		collections.setActualItem(animeDownloaded);
 		collections.setDestination("D:\\");
 		ItemWebData item = webScraping.fecthItem(animeWebData.getWebDatas().get(animeWebData.getWebDatas().size() - 1));
 		item.setName("Test simple " + 1);

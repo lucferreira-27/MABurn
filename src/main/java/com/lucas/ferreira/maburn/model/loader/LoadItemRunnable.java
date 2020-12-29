@@ -12,6 +12,7 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
+import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.SaveCollection;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
@@ -22,9 +23,10 @@ import com.lucas.ferreira.maburn.model.itens.ItemCreater;
 import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 
 public class LoadItemRunnable implements Callable<CollectionItem> {
-	private IntegerProperty loadProperty;
+	private StringProperty loadProperty;
 	private String destination;
 	private CollectionItem item;
 	private CollectionDatasReader dataReader;
@@ -33,17 +35,17 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 
 	private Category category;
 
-	public LoadItemRunnable(String destination, Category category, IntegerProperty loadProperty) {
+	public LoadItemRunnable(String destination, Category category, StringProperty loadProperty) {
 		// TODO Auto-generated constructor stub
 		this.destination = destination;
 		this.category = category;
 		this.loadProperty = loadProperty;
-		synchronized (this) {
+	
 			dataReader = new CollectionDatasReader();
 			docCollectionReader = new DocumentCollectionReader(dataReader.getDocumentCollectionDates());
 
 			save = new SaveCollection(dataReader.getDocumentCollectionDates());
-		}
+		
 
 	}
 
@@ -82,7 +84,7 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		if (isCreateItemInDocument(mangaPath, Category.MANGA) && isAllDatesFilled(item)) {
 			item = (MangaDownloaded) save.loadDatas(item);
 			if (!isRequiredFilesAvailable(item)) {
-
+				getRequiredFiles(item);
 				item = itemCreater.createItem(mangaPath);
 				return item;
 			} else {
@@ -92,6 +94,7 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 			if (isCreateItemInDocument(mangaPath, Category.MANGA)) {
 				save.deleteData(item);
 			} else {
+				loadProperty.set("Creating " + mangaPath);
 				item = itemCreater.createItem(mangaPath); // Create item and write in document
 			}
 		}
@@ -121,6 +124,7 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 				save.deleteData(item);
 
 			} else {
+				loadProperty.set("Creating " + animePath);
 				item = itemCreater.createItem(animePath); // Create item and write in document
 
 			}
@@ -129,10 +133,16 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		return item;
 	}
 
-	private void getRequiredFiles(AnimeDownloaded item) {
+	private void getRequiredFiles(CollectionItem item) {
 		// TODO Auto-generated method stub
+		File imageFile = null;
+		if(item.getCategory() == Category.ANIME) {
+			imageFile = new File(Documents.THUMBNAILS_LOCAL_ANIMES);
+		}else if(item.getCategory() == Category.MANGA) {
+			imageFile = new File(Documents.THUMBNAILS_LOCAL_MANGAS);
+		}
 		DownloadImageServiceModel downloadImageServiceModel = new DownloadImageServiceModel(item.getImageUrl(),
-				new File(item.getImageLocal().substring(0, item.getImageLocal().lastIndexOf("."))));
+				new File(imageFile + "\\" + item.getTitleDataBase()));
 
 		try {
 			downloadImageServiceModel.download();

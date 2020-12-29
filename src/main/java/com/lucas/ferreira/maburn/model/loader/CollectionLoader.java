@@ -6,12 +6,14 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
 public abstract class CollectionLoader extends Task<Collections>  {
 	protected int itemsLength;
 	protected IntegerProperty connectionItemLength = new SimpleIntegerProperty();
-	protected IntegerProperty loadProgressLength = new SimpleIntegerProperty();
+	protected StringProperty loadProgressLength = new SimpleStringProperty();
 	protected IntegerProperty writeItemLength = new SimpleIntegerProperty();
 	
 	{	
@@ -46,7 +48,7 @@ public abstract class CollectionLoader extends Task<Collections>  {
 	public IntegerProperty getConnectinoItemLength() {
 		return connectionItemLength;
 	}
-	public IntegerProperty getLoadItemLength() {
+	public StringProperty getLoadItemLength() {
 		return loadProgressLength;
 	}
 	public IntegerProperty getWriteItemLength() {

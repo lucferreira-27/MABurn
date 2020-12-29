@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.lucas.ferreira.mangaburn.testing.SlowMangaCollectionLoaderTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 sec

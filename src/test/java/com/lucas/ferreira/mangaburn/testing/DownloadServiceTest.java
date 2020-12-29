@@ -64,7 +64,7 @@ public class DownloadServiceTest {
 				});
 				for (ItemWebData subService : service.getItems()) {
 					System.out.println("Item Progress: [" + subService.getName() + "] "
-							+ subService.getDownloader().getDownloadProgress().get() * 100 + "%");
+							+ subService.getDownloader().getDownloadProgress() * 100 + "%");
 				}
 				Thread.sleep(1000);
 
@@ -76,7 +76,7 @@ public class DownloadServiceTest {
 	
 			for (ItemWebData subService : service.getItems()) {
 				System.out.println("Item Progress: [" + subService.getName() + "] "
-						+ subService.getDownloader().getDownloadProgress().get() * 100 + "%");
+						+ subService.getDownloader().getDownloadProgress()* 100 + "%");
 			}
 
 			Platform.runLater(() -> {
@@ -134,7 +134,7 @@ public class DownloadServiceTest {
 				Platform.runLater(() -> System.out.println("Service Progress: " + service.getProgress() * 100 + "%"));
 				for (ItemWebData subService : service.getItems()) {
 					System.out.println("Item Progress: [" + subService.getName() + "] "
-							+ subService.getDownloader().getDownloadProgress().get() * 100 + "%");
+							+ subService.getDownloader().getDownloadProgress() * 100 + "%");
 				}
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -149,7 +149,7 @@ public class DownloadServiceTest {
 			Platform.runLater(() -> System.out.println("Service Progress: " + service.getProgress() * 100 + "%"));
 			for (ItemWebData subService : service.getItems()) {
 				System.out.println("Item Progress: [" + subService.getName() + "] "
-						+ subService.getDownloader().getDownloadProgress().get() * 100 + "%");
+						+ subService.getDownloader().getDownloadProgress()* 100 + "%");
 			}
 			Platform.runLater(() -> {
 				System.err.println("----- Erros ----");

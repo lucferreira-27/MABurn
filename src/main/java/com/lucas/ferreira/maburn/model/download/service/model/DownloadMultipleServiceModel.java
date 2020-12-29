@@ -7,12 +7,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.BytesUtil;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -22,8 +25,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> {
 
-	private HttpURLConnection httpConn;
-
+	private List<HttpURLConnection> httpConns = new ArrayList<HttpURLConnection>();
 
 	private static final int BUFFER_SIZE = 8192;
 
@@ -33,28 +35,37 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	}
 
 	public DownloadMultipleServiceModel(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
-			Sites sites) {
+			ItemWebData webData) {
 		// TODO Auto-generated constructor stub
-		initialize(listLink, subItem, listFile, sites);
+		initialize(listLink, subItem, listFile, webData);
 
 	}
 
 	public File download() throws IOException {
 		// TODO Auto-generated method stub
+		try {
 		List<File> downloadedFiles = new ArrayList<>();
 		System.out.println(listLink);
-
+		String link = null;
+		List<File> files = new ArrayList<File>();
+		List<HttpURLConnection> httpConns = new ArrayList<HttpURLConnection>();
+		
 		for (int i = 0; i < listLink.size(); i++) {
-
+			URL url = null;
 			if (pauseProperty.get()) {
 				stopUntil();
 			}
-			String link = listLink.get(i);
-			File file = listFile.get(i);
-			URL url = downloadSetup(link);
+			link = listLink.get(i);
+			files.add(listFile.get(i));
+			
+			HttpURLConnection httpConn = downloadSetup(link);
+			httpConns.add(httpConn);
+			prepareDownload(httpConn);
 
-			downloadedFiles.add(startDownload(file, url));
+		}
 
+		for (int i = 0; i < listLink.size(); i++) {
+			startDownload(files.get(i), httpConns.get(i));
 			updateProgress(i, listLink.size());
 			// System.out.println("updateProgress(i, listLink.size());: " + "i: " + i +
 			// "listLink.size(): " + listLink.size());
@@ -62,12 +73,25 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 				downloadProgress.set(getProgress());
 			});
 		}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		updateProgress(listLink.size(), listLink.size());
 		return null;
 	}
 
-	private File startDownload(File file, URL url) throws IOException {
+	private void prepareDownload(HttpURLConnection httpConn) {
+		double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
+		updateSize(size + sizeProperty.get());
+
+	}
+
+	private File startDownload(File file,  HttpURLConnection httpConn) throws IOException {
+		URL url = httpConn.getURL();
 		String path = file.getAbsolutePath();
+		System.out.println("File: " + file.getAbsolutePath());
+		System.out.println("URl: " + url);
 		String type = null;
 		try {
 			type = url.getPath().substring(url.getPath().lastIndexOf("."));
@@ -88,43 +112,55 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
 		}
-		
+
 		location.mkdirs();
 		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\" + fileName + type);
-		double size = (double) httpConn.getContentLength() / 1048576;
-
+		double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
 		byte[] b = new byte[BUFFER_SIZE];
-		int length;
+		int length = 0;
 		int i = 0;
-
+		System.out.println("Size: " + size);
 		// System.out.println("Download - " + fileName + " " +
 		// httpConn.getContentLength());
-		while ((length = is.read(b)) != -1) {
+		
+		while (length != -1) {
 			if (pauseProperty.get()) {
 				stopUntil();
 			}
+			length = is.read(b);
+
 			i += BUFFER_SIZE;
-			updateSpeed(speedCalculation());
-			os.write(b, 0, length);
+			updateProgress(i, httpConn.getContentLength() + 1);
+			updateCompleted(BytesUtil.convertBytesToMegasBytes(i));
+			System.out.println("Megas: " + httpConn.getContentLength());  
+			try {
+				os.write(b, 0, length);
+			} catch (IndexOutOfBoundsException e) {
+				// TODO: handle exception
+				continue;
+			}
 
 		}
+		updateCompleted(BytesUtil.convertBytesToMegasBytes(i) + completedProperty.get());
+
 		// System.out.println("Done - " + fileName + " " + size);
-		is.close();
-		os.close();
+		//is.close();
+		//os.close();
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName);
 		return downloadedFile;
 	}
 
-	private URL downloadSetup(String link) throws IOException {
+	private HttpURLConnection downloadSetup(String link) throws IOException {
 		// System.out.println(link);
 		URL url = new URL(link);
-		String referer = site.getUrl();
-		httpConn = (HttpURLConnection) url.openConnection();
+		String referer = webData.getSite().getUrl();
+		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 		httpConn.setRequestMethod("GET");
 		httpConn.setRequestProperty("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
 		httpConn.addRequestProperty("REFERER", referer);
-		return url;
+		
+		return httpConn;
 	}
 
 	@Override
@@ -135,15 +171,11 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		return subItem;
 	}
 
-	public DoubleProperty getDownloadProgress() {
-		return downloadProgress;
-	}
-
 	public void pause() {
 		pauseProperty.set(true);
 	}
 
-	public void unpause() {
+	public void resume() {
 		pauseProperty.set(false);
 	}
 
@@ -163,32 +195,29 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	}
 
 	@Override
-	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, Sites sites) {
+	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData) {
 		// TODO Auto-generated method stub
 		this.listLink = listLink;
 		this.subItem = subItem;
 		this.listFile = listFile;
-		this.site = sites;
+		this.webData = webData;
 
 	}
 
 	@Override
-	public DoubleProperty getSizeProperty() {
-		// TODO Auto-generated method stub
-		return sizeProperty;
+	public long speedCalculation(Double downloadSpeed, long start, long end, int i) {
+		DecimalFormat four = new DecimalFormat("#0.00");
+
+		downloadSpeed = Double.parseDouble(four.format(downloadSpeed).replaceAll(",", ".")) / 1048576;
+		updateSpeed(downloadSpeed);
+
+		return end;
 	}
 
 	@Override
-	public DoubleProperty getDownloadSpeedProperty() {
+	public void kill() {
 		// TODO Auto-generated method stub
-		return speedProperty;
-	}
 
-	@Override
-	public double speedCalculation() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
-
 
 }
