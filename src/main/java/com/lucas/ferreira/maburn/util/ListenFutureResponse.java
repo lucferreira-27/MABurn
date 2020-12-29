@@ -28,7 +28,7 @@ public class ListenFutureResponse<T>  {
 					progress.set(itensDone);
 					last = itensDone;
 				}
-
+				Thread.sleep(100);
 			}
 			finish = true;
 			return true;
@@ -50,7 +50,7 @@ public class ListenFutureResponse<T>  {
 	public void await() {
 		while(!finish) {
 			try {
-				Thread.sleep(50);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

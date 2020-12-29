@@ -13,14 +13,14 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 public class HomeInterfaceControllerTest {
 	private HomeInterfaceController homeController;
 	private MainInterfaceView mainView;
 	private HomeInterfaceView homeView;
-	private ItensInterfaceView itensView;
+	private ItemsInterfaceView itensView;
 
 	@Before
 	public void setUp() {
@@ -32,7 +32,7 @@ public class HomeInterfaceControllerTest {
 		anime.setImageUrl("https://cdn.myanimelist.net/images/manga/2/223694.jpg");
 		Collections collection = animeCollection;
 
-		itensView = new ItensInterfaceView(collection);
+		itensView = new ItemsInterfaceView(collection);
 
 	}
 
@@ -41,7 +41,6 @@ public class HomeInterfaceControllerTest {
 		mainView.initAndShowGUI();
 		homeView.loadMainInterfaceFX(mainView);
 		homeController = new HomeInterfaceController(mainView);
-		assertTrue(homeController.active());
 		Scanner scan = new Scanner(System.in);
 		scan.nextLine();
 	}

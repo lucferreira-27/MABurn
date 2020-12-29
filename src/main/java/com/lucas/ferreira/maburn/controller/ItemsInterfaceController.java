@@ -12,7 +12,7 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.util.ViewUtil;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
@@ -30,7 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-public class ItensInterfaceController implements Initializable {
+public class ItemsInterfaceController implements Initializable {
 
 	@FXML
 	private GridPane itensImagesGridPane;
@@ -54,13 +54,13 @@ public class ItensInterfaceController implements Initializable {
 	private ProgressIndicator loadGridPane;
 
 	private MainInterfaceView mainView;
-	private ItensInterfaceView itensView;
+	private ItemsInterfaceView itensView;
 	private Collections completeCollection;
 	private List<CollectionItem> itens;
 	private List<AnchorPane> removesPanes = new ArrayList<>();
 	String querry;
 
-	public ItensInterfaceController(MainInterfaceView mainView, ItensInterfaceView itensView) {
+	public ItemsInterfaceController(MainInterfaceView mainView, ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
 		this.mainView = mainView;
 		this.itensView = itensView;
@@ -267,34 +267,36 @@ public class ItensInterfaceController implements Initializable {
 		// TODO Auto-generated method stub
 
 		initItensImagesScrollPane();
-		if (itensView.getCollectionLoader().isDone()) {
+
+		if (itensView.getCollectionLoader() == null || itensView.getCollectionLoader().isDone()) {
 			System.out.println(loadGridPane.getStyleClass());
 			loadGridPane.setVisible(false);
 			lblLoad.setVisible(false);
 		}
-		lblLoad.textProperty().bind(itensView.getCollectionLoader().messageProperty());
+		if (itensView.getCollectionLoader() != null) {
+			lblLoad.textProperty().bind(itensView.getCollectionLoader().messageProperty());
 
-		itensView.getCollectionLoader().getConnectinoItemLength().addListener((obser, oldvalue, newvalue) -> {
-			lblLoad.textProperty().unbind();
-			Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
-			System.out.println("[Fetch items: " + newvalue.toString() + " ]");
+			itensView.getCollectionLoader().getConnectinoItemLength().addListener((obser, oldvalue, newvalue) -> {
+				lblLoad.textProperty().unbind();
+				Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
+				System.out.println("[Fetch items: " + newvalue.toString() + " ]");
 
-		});
-
-		itensView.getCollectionLoader().getWriteItemLength().addListener((obser, oldvalue, newvalue) -> {
-			Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
-			System.out.println("[Write items: " + newvalue.toString() + " ]");
-
-		});
-
-		itensView.getCollectionLoader().setOnSucceeded((event) -> {
-
-			Platform.runLater(() -> {
-				lblLoad.setVisible(false);
-				loadGridPane.setVisible(false);
 			});
-		});
 
+			itensView.getCollectionLoader().getWriteItemLength().addListener((obser, oldvalue, newvalue) -> {
+				Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
+				System.out.println("[Write items: " + newvalue.toString() + " ]");
+
+			});
+
+			itensView.getCollectionLoader().setOnSucceeded((event) -> {
+
+				Platform.runLater(() -> {
+					lblLoad.setVisible(false);
+					loadGridPane.setVisible(false);
+				});
+			});
+		}
 		onClickOnImageGridPane();
 		onSearchBarType();
 

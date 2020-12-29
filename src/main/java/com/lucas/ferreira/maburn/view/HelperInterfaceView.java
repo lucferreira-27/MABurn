@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class HelperInterfaceView implements ViewInterface {
+public class HelperInterfaceView extends ViewInterface {
 
 	private Pane root;
 	private MainInterfaceView mainView;
@@ -27,7 +27,7 @@ public class HelperInterfaceView implements ViewInterface {
 		// TODO Auto-generated method stub
 		this.mainView = mainView;
 		this.root = mainView.getRoot();
-		remove();
+		remove(root);
 		initFX();
 		while (!initializeIsDone) {
 			try {
@@ -39,13 +39,6 @@ public class HelperInterfaceView implements ViewInterface {
 		}
 	}
 
-	private void remove() {
-		Platform.runLater(() -> {
-			if (root.getChildren().size() > 1)
-				root.getChildren().remove(1, root.getChildren().size());
-
-		});
-	}
 
 	private void initFX() {
 

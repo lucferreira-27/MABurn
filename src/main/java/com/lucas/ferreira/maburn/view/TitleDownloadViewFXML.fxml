@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+	<AnchorPane styleClass="downloadPanel" xmlns:fx="http://javafx.com/fxml/1">
+		<!-- TODO Add Nodes -->
+
+
+		<Button fx:id="btnBack" layoutX="200.0" layoutY="0.0" onAction="#onClickButtonBack" text="Back" />
+
+
+		<ImageView fx:id="imageViewTitle" disable="false" fitHeight="325.0" fitWidth="321.0" pickOnBounds="true" preserveRatio="true" styleClass="image-title" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="123" />
+
+
+		<AnchorPane prefHeight="352.0" prefWidth="824.0" styleClass="fetchPanel" AnchorPane.leftAnchor="532" AnchorPane.rightAnchor="242" AnchorPane.topAnchor="123">
+
+			<Button fx:id="btnFetch" onAction="#onClickButtonFetch" text="Fetch" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="16" />
+			<ComboBox fx:id="cbSelect" disable="true" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="71" />
+			<ComboBox fx:id="cbSource" value="Source" AnchorPane.leftAnchor="217" AnchorPane.topAnchor="16" />
+			<ComboBox fx:id="cbItens" disable="true" maxWidth="160" value="Items" AnchorPane.leftAnchor="217" AnchorPane.topAnchor="71" />
+
+			<Line endX="0" endY="100.0" startX="0.0" startY="0.0" styleClass="lineBar" AnchorPane.rightAnchor="400" AnchorPane.topAnchor="33" />
+
+			<Label fx:id="lblTecTitle" maxWidth="350" styleClass="label-subtitle" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="32" />
+			<Label fx:id="lblInformationTitle" alignment="CENTER" styleClass="downloadInformation" text="Download Information" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="150" />
+
+			<Label fx:id="lblSource" text="Source:" visible="false" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="208" />
+			<Label fx:id="lblPath" text="Path:" visible="false" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="230" />
+			<Label fx:id="lblItemsTotal" text="Total:" visible="false" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="208" />
+			<Label fx:id="lblTimeRemain" text="Remain:" visible="false" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="230" />
+			<Label fx:id="lblItemsDownloaded" text="Downloaded:" visible="false" AnchorPane.leftAnchor="475" AnchorPane.topAnchor="208" />
+
+			<ProgressIndicator fx:id="piLoadDownload" layoutX="380" layoutY="216" styleClass="ringindicator" visible="false"  />
+			<Label fx:id="lblLoadDownload" layoutX="389.0" layoutY="292.0" text="Fetching ${item}" visible="false"  />
+			<ProgressBar fx:id="pbTotalProgress" prefHeight="22" prefWidth="759" progress="-1" visible="false" AnchorPane.bottomAnchor="60" AnchorPane.leftAnchor="28" />
+
+			<Label fx:id="lblTotalProgress" text="TOTAL PROGRESS" visible="false" AnchorPane.bottomAnchor="60" AnchorPane.leftAnchor="44" />
+			<Button fx:id="btnPause" onAction="#onClickButtonPause" text="PAUSE" visible="false" AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="28" />
+			<Button fx:id="btnCancel" onAction="#onClickButtonCancel" text="CANCEL " visible="false" AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="133" />
+			<Button fx:id="btnDownload" onAction="#onClickButtonDownload" text="DOWNLOAD " visible="false" AnchorPane.bottomAnchor="16" AnchorPane.rightAnchor="37" />
+
+
+			<ProgressIndicator fx:id="piLoadFetch" layoutX="156.0" layoutY="33.0" styleClass="ringindicator" visible="false" />
+			<Label fx:id="lblLoadFetch" layoutX="112.0" layoutY="96.0" text="Fetching in ${site}" visible="false" />
+
+		</AnchorPane>
+
+
+		<TableView fx:id="tableItens" layoutX="200.0" layoutY="400.0" prefHeight="245" prefWidth="800.0" styleClass="columnsCenter" AnchorPane.leftAnchor="162" AnchorPane.rightAnchor="162" AnchorPane.topAnchor="478">
+
+			<columns>
+				<TableColumn fx:id="clName" maxWidth="193" minWidth="193" text="Name" />
+				<TableColumn fx:id="clSize" maxWidth="90" minWidth="90" text="Size" />
+				<TableColumn fx:id="clSpeed" maxWidth="90" minWidth="90" text="Speed" />
+				<TableColumn fx:id="clCompleted" maxWidth="90" minWidth="90" text="Completed" />
+				<TableColumn fx:id="clProgress" maxWidth="320" minWidth="320" text="Progress" />
+				<TableColumn fx:id="clState" maxWidth="157.0" minWidth="157.0" prefWidth="157.0" text="State" />
+				<TableColumn fx:id="clActionPause" maxWidth="157" minWidth="157" prefWidth="157" text="PAUSE" />
+				<TableColumn fx:id="clActionCancel" maxWidth="157" minWidth="157" prefWidth="157" text="CANCEL" />
+			</columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+
+		</TableView>
+		<Label fx:id="lblTitle" alignment="CENTER" disable="false" layoutY="40.0" styleClass="label-title" text="Download Manager" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="468.0" />
+
+
+	</AnchorPane>
+
+</fx:root>

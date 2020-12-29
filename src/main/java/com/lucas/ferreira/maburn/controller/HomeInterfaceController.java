@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.collections.ObservableList;
@@ -30,46 +30,13 @@ public class HomeInterfaceController implements Initializable {
 
 	}
 
-	public boolean active() {
-		try {
-
-			collectionMenu = (Pane) mainView.getRoot().getChildren().get(1);
-
-			btnCollectionAnime = setClickEvents("collectionsBtnAnime");
-			btnCollectionManga = setClickEvents("collectionsBtnManga");
-
-			onClickOnAnime();
-			onClickOnManga();
-			return true;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private Button setClickEvents(String id) {
-		// TODO Auto-generated method stub
-		ObservableList<Node> nodes = collectionMenu.getChildren();
-		// nodes.stream().filter(n -> n.getId().equals(id) && n instanceof
-		// Button).forEach(b -> btnCollectionAnime = (Button) b);
-		for (Node node : nodes) {
-			if (node.getId().equals(id)) {
-				System.out.println(node.getId());
-
-				return (Button) node;
-			}
-		}
-		return null;
-
-	}
 
 	public void onClickOnAnime() {
 		System.out.println("Anime");
 
 		new Thread(() -> {
 			mainController.selectCollection(new AnimeCollection());
-			ItensInterfaceView itensView = new ItensInterfaceView(mainController.getFutureCollection());
+			ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
 			itensView.loadMainInterfaceFX(mainView);
 		}).start();
 
@@ -81,7 +48,7 @@ public class HomeInterfaceController implements Initializable {
 		new Thread(() -> {
 			try {
 				mainController.selectCollection(new MangaCollection());
-				ItensInterfaceView itensView = new ItensInterfaceView(mainController.getFutureCollection());
+				ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
 				itensView.loadMainInterfaceFX(mainView);
 			} catch (Exception e) {
 				// TODO: handle exception

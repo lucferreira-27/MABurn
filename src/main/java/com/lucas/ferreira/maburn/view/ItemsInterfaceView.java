@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import com.lucas.ferreira.maburn.controller.ItensInterfaceController;
+import com.lucas.ferreira.maburn.controller.ItemsInterfaceController;
 import com.lucas.ferreira.maburn.exceptions.LoadingException;
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
@@ -24,6 +24,7 @@ import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
@@ -33,22 +34,22 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class ItensInterfaceView implements ViewInterface {
+public class ItemsInterfaceView extends ViewInterface {
 
 	private MainInterfaceView mainView;
 	private Pane root;
 	private GridPaneTable gridTable = new GridPaneTable(7);
 	private GridPane itensImagesGridPane;
-	private ItensInterfaceController controller;
+	private ItemsInterfaceController controller;
 	private CollectionLoader futureCollections;
 	private Collections collections;
 	private Map<String, Object> namespace;
 
-	public ItensInterfaceView(CollectionLoader futureCollections) {
+	public ItemsInterfaceView(CollectionLoader futureCollections) {
 		this.futureCollections = futureCollections;
 	}
 
-	public ItensInterfaceView(Collections collections) {
+	public ItemsInterfaceView(Collections collections) {
 		this.collections = collections;
 	}
 
@@ -57,10 +58,9 @@ public class ItensInterfaceView implements ViewInterface {
 		// TODO Auto-generated method stub
 		this.mainView = mainView;
 		this.root = mainView.getRoot();
-
 		new Thread(() -> {
 
-			remove(); // Removes the previous nodes.
+			remove(root); // Removes the previous nodes.
 			initFX(); // Initializes interface.
 
 		}).start();
@@ -69,7 +69,6 @@ public class ItensInterfaceView implements ViewInterface {
 
 	private void showLoading(LoadingType loading) throws LoadingException {
 
-		
 		switch (loading) {
 		case COLLECTION:
 			collectionLoading();
@@ -92,8 +91,8 @@ public class ItensInterfaceView implements ViewInterface {
 			if (collections == null) {
 
 				System.out.println("Future collection");
-				
-				collections = (Collections) futureCollections.get(); 
+
+				collections = (Collections) futureCollections.get();
 				collections.getItens()
 						.sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
 
@@ -102,15 +101,15 @@ public class ItensInterfaceView implements ViewInterface {
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			throw new LoadingException("No itens found in collection");
 
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
-
+			e.printStackTrace();
 			throw new LoadingException("No itens found in collection");
-		} 
+		}
 	}
-	
 
 	private void filterLoading() {
 		new Thread(() -> {
@@ -131,19 +130,14 @@ public class ItensInterfaceView implements ViewInterface {
 		}).start();
 	}
 
-	private void remove() {
-		Platform.runLater(() -> {
-			// index start 1 to keep the menu node and removes the rest
-			root.getChildren().remove(1, root.getChildren().size());
-
-		});
-	}
-
 	private void initFX() {
 		System.out.println("> Run ItensInterfaceView");
 		Platform.runLater(() -> {
 
-			initFXMLLoader();
+			controller = new ItemsInterfaceController(mainView, this);
+
+			initFXMLLoader(controller, root, "ItensViewFXML.fxml");
+
 		});
 
 		while (namespace == null) {
@@ -154,8 +148,7 @@ public class ItensInterfaceView implements ViewInterface {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 		try {
 			showLoading(LoadingType.COLLECTION);
 		} catch (LoadingException e) {
@@ -174,11 +167,12 @@ public class ItensInterfaceView implements ViewInterface {
 
 	}
 
-	private void initFXMLLoader() {
+	@Override
+	protected void initFXMLLoader(Initializable initializable, Pane root, String fxml) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setRoot(root);
 		loader.setLocation(getClass().getResource("ItensViewFXML.fxml"));
-		controller = new ItensInterfaceController(mainView, this);
+		controller = new ItemsInterfaceController(mainView, this);
 		loader.setController(controller);
 		try {
 			root = loader.<VBox>load();
@@ -195,8 +189,6 @@ public class ItensInterfaceView implements ViewInterface {
 		itensImagesGridPane = (GridPane) namespace.get("itensImagesGridPane");
 
 	}
-
-
 
 	private void addAllNodes() {
 
@@ -220,13 +212,12 @@ public class ItensInterfaceView implements ViewInterface {
 				// TODO Auto-generated catch block
 
 				e1.printStackTrace();
-				
-				continue;
-			}catch (Exception e) {
-				// TODO: handle exception
-			
-			}
 
+				continue;
+			} catch (Exception e) {
+				// TODO: handle exception
+
+			}
 
 		}
 
@@ -258,7 +249,9 @@ public class ItensInterfaceView implements ViewInterface {
 	}
 
 	private void reverseImagesGridPane() {
+
 		java.util.Collections.reverse(itensImagesGridPane.getChildren());
+
 	}
 
 	private ImageView createImageEffect(ImageView imageView, TransformEffects effect) {
@@ -296,7 +289,7 @@ public class ItensInterfaceView implements ViewInterface {
 	public Collections getCollections() {
 		return collections;
 	}
-	
+
 	public CollectionLoader getCollectionLoader() {
 		return futureCollections;
 	}

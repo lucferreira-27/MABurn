@@ -87,7 +87,9 @@ public class AnitubeScraping implements WebScraping {
 			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
 			searchTitle.setUrl(element.attr("href"));
 			searchTitle.setName(element.attr("title"));
+
 			WebScrapingUtil.removeTrashFromStringSearch(searchTitle);
+
 			searchTitleWebDatas.add(searchTitle);
 
 		});

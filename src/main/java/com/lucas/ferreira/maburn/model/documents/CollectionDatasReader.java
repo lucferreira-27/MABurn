@@ -19,16 +19,22 @@ public class CollectionDatasReader {
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	private ParseXMLDocument parse;
-	private DocumentBuilder builder;
 
 	public CollectionDatasReader() {
 		// TODO Auto-generated constructor stub
+
+		factory.setNamespaceAware(false);
+		factory.setValidating(false);
 		try {
-			builder = factory.newDocumentBuilder();
+			factory.setFeature("http://xml.org/sax/features/namespaces", false);
+
+			factory.setFeature("http://xml.org/sax/features/validation", false);
+
+			factory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+			factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
-			throw new CollectionReaderException(e.getMessage());
-
+			e.printStackTrace();
 		}
 	}
 
@@ -36,8 +42,6 @@ public class CollectionDatasReader {
 
 		File collectionDates = getCollectionDateFile();
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		ParseXMLDocument parse;
 		DocumentBuilder builder;
 		try {
 			builder = factory.newDocumentBuilder();
@@ -75,11 +79,16 @@ public class CollectionDatasReader {
 		try {
 			fileLocal.mkdirs();
 			file.createNewFile();
-			Document document = builder.newDocument();
+			Document document = factory.newDocumentBuilder().newDocument();
 			return document;
 		} catch (IOException e) {
 
 			throw new CollectionReaderException("ColletionsDates.xml can't be created " + local);
+
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new CollectionReaderException(e.getMessage());
 
 		}
 	}

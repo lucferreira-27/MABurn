@@ -13,12 +13,12 @@ import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
-import com.lucas.ferreira.maburn.view.ItensInterfaceView;
+import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 public class ItensInterfaceViewTest {
 	private MainInterfaceView view;
-	private ItensInterfaceView itensView;
+	private ItemsInterfaceView itensView;
 
 	@Before
 	public void setUp() {
@@ -29,7 +29,7 @@ public class ItensInterfaceViewTest {
 		Collections collections = null;
 		try {
 			collections = (Collections) loader.loadCollection("D:\\AnimeBurn").get();
-			itensView = new ItensInterfaceView(collections);
+			itensView = new ItemsInterfaceView(collections);
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class HomeInterfaceView implements ViewInterface {
+public class HomeInterfaceView extends ViewInterface {
 
 	private Pane root;
 	private MainInterfaceView mainView;
@@ -26,7 +26,7 @@ public class HomeInterfaceView implements ViewInterface {
 		// TODO Auto-generated method stub
 		this.mainView = mainView;
 		this.root = mainView.getRoot();
-		remove();
+		remove(root);
 		initFX();
 		while (!initializeIsDone) {
 			try {
@@ -38,20 +38,12 @@ public class HomeInterfaceView implements ViewInterface {
 		}
 	}
 
-	private void remove() {
-		Platform.runLater(() -> {
-			if (root.getChildren().size() > 1)
-				root.getChildren().remove(1, root.getChildren().size());
-
-		});
-	}
 
 	private void initFX() {
 
 		Platform.runLater(() -> {
 
 			initRoot();
-			initCollectionMenuPane();
 			System.out.println("> Run HomeInterfaceView");
 			initializeIsDone = true;
 
@@ -73,9 +65,7 @@ public class HomeInterfaceView implements ViewInterface {
 
 	}
 
-	private void initCollectionMenuPane() {
 
-	}
 
 	private void initRoot() {
 		initFXMLLoader();

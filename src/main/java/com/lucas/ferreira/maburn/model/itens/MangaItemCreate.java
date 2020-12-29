@@ -7,6 +7,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
+import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
@@ -37,14 +38,12 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 		manga.setId(collectDatas.getId());
 		manga.setMangaCollection(collection);
 	
-		DownloadImageServiceModel service = new DownloadImageServiceModel(collectDatas.getPosterImageLink("medium"),
-				new File("C:\\Users\\lucfe\\Documents\\MangaBurn\\Files\\Thumbnails\\Mangas\\" + manga.getTitleFileName()));
+		ThumbnailDownload thumbnail = new ThumbnailDownload(manga);
+
 		try {
 			
-			String thumanailPath = service.download().getAbsolutePath();
-			
+			String thumanailPath = thumbnail.download().getAbsolutePath();
 			manga.setImageLocal(thumanailPath);
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

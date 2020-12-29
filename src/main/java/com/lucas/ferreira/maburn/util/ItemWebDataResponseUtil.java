@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.util;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,11 +19,16 @@ public class ItemWebDataResponseUtil extends ResponseUtil{
 		int itemsDone = 0;
 		try {
 			while (itemsDone < items.size()) {
+				try {
 				itemsDone = items.stream()
 						.filter(futureItem -> futureItem.getDownloader().isDone())
 						.collect(Collectors.toList()).size();
+				Thread.sleep(100);
 				updateProgress(itemsDone, items.size());
-
+				}catch (ConcurrentModificationException e) {
+					// TODO: handle exception
+					continue;
+				}
 			}
 		
 			return true;

@@ -24,13 +24,18 @@ import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.FutureResponseUtil;
 import com.lucas.ferreira.maburn.util.ResponseUtil;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 
 public class ItemDownload extends Task<Void> {
+
+	private BooleanProperty fetchItemProperty = new SimpleBooleanProperty();
 	private DownloadService downloadService;
 	private ResponseUtil futureResponse;
 	private WebScraping scraping;
 	private CollectionItem collectionItem;
+	private List<ItemWebData> synchronizeItems;
 	private DownloadType downloadType;
 	private int index = 5;
 	private int current = 0;
@@ -38,6 +43,10 @@ public class ItemDownload extends Task<Void> {
 	private int end = -1;
 
 	private final ExecutorService exec = Executors.newFixedThreadPool(5);
+
+	{
+		fetchItemProperty.set(false);
+	}
 
 	public ItemDownload(CollectionItem item, DownloadType downloadType) {
 		this.collectionItem = item;
@@ -92,7 +101,7 @@ public class ItemDownload extends Task<Void> {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return futureItemWebData;
 	}
 
@@ -121,11 +130,19 @@ public class ItemDownload extends Task<Void> {
 		return futureItemWebData;
 	}
 
+	private List<Future<ItemWebData>> fetchSelectedItem(List<ItemWebData> items, int index) {
+		List<Future<ItemWebData>> futureItemWebData = new ArrayList<Future<ItemWebData>>();
+
+		futureItemWebData.add(exec.submit(new Fetcher(items.get(index), scraping)));
+
+		return futureItemWebData;
+	}
+
 	private List<Future<ItemWebData>> fetchUpdateItems(List<ItemWebData> items) {
 		List<Future<ItemWebData>> futureItemWebData = new ArrayList<Future<ItemWebData>>();
 		ItemUpdate itemUpdate = new ItemUpdate(items, collectionItem);
 		items = itemUpdate.update();
-	
+
 		for (int i = 0; i < items.size(); i++) {
 			// The Fetcher will fetch all items in data one by one and add them to the
 			// future list.
@@ -143,7 +160,6 @@ public class ItemDownload extends Task<Void> {
 
 	private List<Future<ItemWebData>> fetchItems(List<ItemWebData> items) {
 		List<Future<ItemWebData>> futureItemWebData = new ArrayList<Future<ItemWebData>>();
-		ExecutorService exec = Executors.newFixedThreadPool(10);
 
 		switch (downloadType) {
 		case DOWNLOAD_ALL:
@@ -162,12 +178,13 @@ public class ItemDownload extends Task<Void> {
 	}
 
 	public List<ItemWebData> download() {
-		List<ItemWebData> items = synchronizeItem();
-		List<Future<ItemWebData>> futureItemWebData = fetchItems(items);
+		synchronizeItems = synchronizeItem();
+		List<Future<ItemWebData>> futureItemWebData = fetchItems(synchronizeItems);
 		futureResponse = new FutureResponseUtil<ItemWebData>(futureItemWebData);
 		futureResponse.await();
-		items.clear();
-		futureItemWebData.forEach(future ->{
+		fetchItemProperty.set(true);
+		List<ItemWebData> items = new ArrayList<ItemWebData>();
+		futureItemWebData.forEach(future -> {
 			try {
 				items.add(future.get());
 			} catch (InterruptedException e) {
@@ -219,10 +236,27 @@ public class ItemDownload extends Task<Void> {
 
 	}
 
+	private void downloadSelected(List<ItemWebData> items, int index) {
+
+		ItemWebData item = items.get(index);
+		downloadService.addItem(item);
+
+	}
+
 	private void downloadAll(List<ItemWebData> items) {
 
 		downloadService = new DownloadService(items, collectionItem.getCollections());
 		exec.submit(downloadService);
+
+	}
+
+	public void addItem(int index) {
+
+		futureResponse = new FutureResponseUtil<ItemWebData>(fetchSelectedItem(synchronizeItems, index));
+		fetchItemProperty.set(false);
+		futureResponse.await();
+		fetchItemProperty.set(true);
+		downloadSelected(synchronizeItems, index);
 
 	}
 
@@ -249,9 +283,13 @@ public class ItemDownload extends Task<Void> {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
+
 	public DownloadService getDownloadService() {
 		return downloadService;
+	}
+
+	public BooleanProperty getFetchItemProperty() {
+		return fetchItemProperty;
 	}
 
 	@Override

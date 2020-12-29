@@ -1,9 +1,7 @@
 package com.lucas.ferreira.maburn.model.loader;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
@@ -12,8 +10,6 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-
-import javafx.concurrent.Task;
 
 public class MainLoader {
 	private Collections collection;
@@ -39,7 +35,6 @@ public class MainLoader {
 
 	}
 
-	// *****Loads colletion from an existing collection and return the collection loaded
 	public CollectionLoader loadCollection(String destination) {
 		
 		final ExecutorService exec = Executors.newFixedThreadPool(5, r -> {
@@ -88,12 +83,9 @@ public class MainLoader {
 
 	}
 
-	// Loads select Manga, used id to selection
 	private MangaDownloaded loadSelectManga(int id) {
 
 		MangaDownloaded manga = (MangaDownloaded) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
-
-//		Manga manga = (Manga) collection.getItems().get(index);
 
 		setActualItemInCollection(manga);
 
@@ -101,7 +93,6 @@ public class MainLoader {
 		return manga;
 	}
 
-	// Loads select Manga, used id to selection
 	private AnimeDownloaded loadSelectAnime(int id) {
 
 		AnimeDownloaded anime = (AnimeDownloaded) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
@@ -112,12 +103,10 @@ public class MainLoader {
 		return anime;
 	}
 
-	// Loads all subitens that exist in the item
 	public void loadAllSubItemInItem(CollectionItem item) {
 		loader.loadItem(item);
 	}
 
-	// Set what is the active Item in collection
 	public void setActualItemInCollection(CollectionItem item) {
 		collection.setActualItem(item);
 	}
