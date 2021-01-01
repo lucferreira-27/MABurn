@@ -1,7 +1,9 @@
 package com.lucas.ferreira.maburn.model.bean.downloaded;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
@@ -28,6 +30,7 @@ public class MangaDownloaded implements CollectionItem {
 	private WebScraping webScraping;
 
 	private List<ChapterDownloaded> listChapters = new ArrayList<>();
+	private Map<String, String> titles = new LinkedHashMap<>();
 
 	private int id;
 
@@ -135,7 +138,20 @@ public class MangaDownloaded implements CollectionItem {
 		// TODO Auto-generated method stub
 		this.titleDataBase = titleDataBase;
 	}
+	
 
+	@Override
+	public Map<String, String> getTitles() {
+		// TODO Auto-generated method stub
+		return titles;
+	}
+
+	@Override
+	public void setTitles(Map<String, String> titles) {
+		// TODO Auto-generated method stub
+		this.titles = titles;
+	}
+	
 	@Override
 	public String getTitleFileName() {
 		// TODO Auto-generated method stub
@@ -143,10 +159,16 @@ public class MangaDownloaded implements CollectionItem {
 
 	}
 	@Override
-	public void setListSubItens(List<CollectionSubItem> subItens) {
+	public void addSubItens(List<CollectionSubItem> subItens) {
 		// TODO Auto-generated method stub
 		subItens.forEach(subItem -> listChapters.add((ChapterDownloaded) subItem));
 
+	}
+	@Override
+	public void setListSubItens(List<CollectionSubItem> subItems) {
+		List<ChapterDownloaded> items = new ArrayList<ChapterDownloaded>();
+		subItems.forEach(subItem -> items.add((ChapterDownloaded) subItem));
+		listChapters = items;
 	}
 
 	public List<CollectionSubItem> getListSubItens() {

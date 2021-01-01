@@ -27,11 +27,13 @@ public class WebScrapingUtil {
 
 		case MANGA_HOST:
 			obj.setName(removeMangaHostTrashChapter(obj.getName()));
+			obj.setName("Chapter " + obj.getName());
 
 			break;
 
 		case MANGA_YABU:
 			obj.setName(removeMangaYabuTrashChapter(obj.getName()));
+			obj.setName("Chapter " + obj.getName());
 
 			break;
 
@@ -46,11 +48,17 @@ public class WebScrapingUtil {
 		switch (sites) {
 		case ANITUBE:
 			obj.setName(removeAnitubeTrashEpisode(obj.getName()));
+			obj.setName("Episode " + obj.getName());
 			break;
 		case GOYABU:
 
 			obj.setName(removeGoyabuTrashEpisode(obj.getName()));
+			obj.setName("Episode " + obj.getName());
+			break;
+		case SAIKO:
 
+			obj.setName(removeSaikoTrashEpisode(obj.getName()));
+			obj.setName("Episode " + obj.getName());
 			break;
 
 		default:
@@ -60,18 +68,18 @@ public class WebScrapingUtil {
 	}
 
 	private static String removeAnitubeTrashEpisode(String string) {
-		return string.substring(string.lastIndexOf(" ")).trim();
+		return string.replaceAll("\\D+", "");
 
 	}
 
 	private static String removeGoyabuTrashEpisode(String string) {
-		if (string.contains("– Episódio ")) {
-			string = string.substring(string.indexOf("– Episódio "));
-		} else if (string.contains("– Episodio ")) {
-			string = string.substring(string.indexOf("– Episodio "));
-		}
 
-		return string;
+		return string.replaceAll("\\D+", "");
+
+	}
+	private static String removeSaikoTrashEpisode(String string) {
+
+		return string.replaceAll("\\D+", "");
 
 	}
 

@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.download;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
@@ -10,12 +11,18 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 
 public abstract class Downloader<T> extends Task<T> {
+
+	private boolean firstInstance = true;
+
+	protected HttpURLConnection httpConn;
 
 	protected CollectionSubItem subItem;
 
@@ -34,6 +41,8 @@ public abstract class Downloader<T> extends Task<T> {
 	protected SimpleDoubleProperty speedProperty = new SimpleDoubleProperty();
 
 	protected SimpleDoubleProperty completedProperty = new SimpleDoubleProperty();
+	
+	protected SimpleIntegerProperty downloadFile = new SimpleIntegerProperty(); 
 
 	protected SimpleStringProperty stateProperty = new SimpleStringProperty();
 
@@ -41,7 +50,8 @@ public abstract class Downloader<T> extends Task<T> {
 
 	protected SimpleStringProperty actionPauseProperty = new SimpleStringProperty();
 
-	protected SimpleStringProperty actionCancelProperty = new SimpleStringProperty();;
+	protected SimpleStringProperty actionCancelProperty = new SimpleStringProperty();
+	
 
 	protected BooleanProperty pauseProperty = new SimpleBooleanProperty();
 
@@ -86,6 +96,10 @@ public abstract class Downloader<T> extends Task<T> {
 	public String getActionCancel() {
 		return actionCancelProperty.get();
 	}
+	
+	public boolean isFirstInstance() {
+		return firstInstance;
+	}
 
 	public CollectionSubItem getSubItem() {
 		return subItem;
@@ -118,6 +132,9 @@ public abstract class Downloader<T> extends Task<T> {
 	public SimpleDoubleProperty completedProperty() {
 		return completedProperty;
 	}
+	public SimpleIntegerProperty downloadFileProperty() {
+		return downloadFile;
+	}
 
 	public SimpleStringProperty downloadStateProperty() {
 		return stateProperty;
@@ -135,6 +152,10 @@ public abstract class Downloader<T> extends Task<T> {
 		return downloadProgress;
 	}
 
+	public HttpURLConnection getHttpConn() {
+		return httpConn;
+	}
+
 	public void setDownloadState(DownloadState state) {
 		stateProperty.set(String.valueOf(state));
 	}
@@ -147,9 +168,11 @@ public abstract class Downloader<T> extends Task<T> {
 
 	protected void updateCompleted(double lenght) {
 
-		
-		completedProperty.set((int)lenght);
+		completedProperty.set(lenght);
 
+	}
+	protected void updateDonwloadFile(int n) {
+		downloadFile.set(n);
 	}
 
 	protected void updateSpeed(double speed) {
@@ -165,8 +188,14 @@ public abstract class Downloader<T> extends Task<T> {
 		stateProperty.set(String.valueOf(state));
 	}
 
-	public abstract void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
-			ItemWebData webData);
+	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData) {
+		this.listLink = listLink;
+		this.subItem = subItem;
+		this.listFile = listFile;
+		this.webData = webData;
+		cancelProperty.set(false);
+		pauseProperty.set(false);
+	}
 
 	public abstract long speedCalculation(Double downloadSpeed, long start, long end, int i);
 
@@ -177,6 +206,12 @@ public abstract class Downloader<T> extends Task<T> {
 	public void kill() {
 		pauseProperty.set(false);
 		cancelProperty.set(true);
+		firstInstance = false;
+	}
+
+	public void reset() {
+		pauseProperty.set(false);
+		cancelProperty.set(false);
 	}
 
 	@Override
@@ -189,7 +224,7 @@ public abstract class Downloader<T> extends Task<T> {
 	public String toString() {
 		return "Downloader [\nnameProperty=" + nameProperty + ", \nsizeProperty=" + sizeProperty + ", \nspeedProperty="
 				+ speedProperty + ", \ncompletedProperty=" + completedProperty + ", \nstateProperty=" + stateProperty
-				+ ", \nprogressProperty=" + progressProperty() + ", \npauseProperty=" + pauseProperty
+				+ ", \nprogressProperty=" + null + ", \npauseProperty=" + pauseProperty
 				+ ", \ncancelProperty=" + cancelProperty + "]";
 	}
 

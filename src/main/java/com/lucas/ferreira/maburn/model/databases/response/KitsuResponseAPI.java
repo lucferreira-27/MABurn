@@ -43,7 +43,7 @@ public class KitsuResponseAPI implements DatabaseResponse {
 
 		JSONObject attributes = firstData.getJSONObject("attributes");
 
-		String title = fetchTitle(attributes);
+		String[] titles = fetchTitles(attributes);
 		Integer id = fetchId(firstData);
 		Category category = fetchType(firstData);
 		String[] images = fetchPostImage(attributes);
@@ -52,8 +52,13 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		String status = fetchStatus(attributes);
 		String date = fetchPublishedDate(attributes);
 		Double rating = fetchAvaregeRating(attributes);
+
+		datas.setCanonicalTitle(titles[0]);
 		
-		datas.setTitle(title);
+		datas.addTitle("en", titles[1]);
+		datas.addTitle("en_jp", titles[2]);
+		datas.addTitle("ja_jp", titles[3]);
+
 		datas.setCategory(category);
 		datas.addPosterImageLink("tiny", images[0]);
 		datas.addPosterImageLink("small", images[1]);
@@ -69,11 +74,38 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		return datas;
 	}
 
-	private String fetchTitle(JSONObject attributes) {
+	private String[] fetchTitles(JSONObject attributes) {
+		String enTitle = "";
+		String enJpTitle = "";
+		String jaJpTitle = "";
+		String canonicalTitle = "";
+		try {
+			enTitle = attributes.getJSONObject("titles").getString("en");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		try {
+			enJpTitle = attributes.getJSONObject("titles").getString("en_jp");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		try {
+			jaJpTitle = attributes.getJSONObject("titles").getString("ja_jp");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		try {
+			canonicalTitle = attributes.getString("canonicalTitle");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		String[] titles = { canonicalTitle, enTitle, enJpTitle, jaJpTitle };
 
-		String title = attributes.getString("canonicalTitle");
-
-		return title;
+		return titles;
 	}
 
 	private Category fetchType(JSONObject firstData) {

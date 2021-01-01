@@ -33,7 +33,8 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		
 		// Update xml files TODO
 		anime.setDestination(destination);
-		anime.setTitleDataBase(collectDatas.getTitle());
+		anime.setTitleDataBase(collectDatas.getCanonicalTitle());
+		anime.setTitles(collectDatas.getTitles());
 		anime.setDataBaseUrl(collectDatas.getItemDataBaseUrl());
 		anime.setImageUrl(collectDatas.getPosterImageLink("medium"));
 		anime.setId(collectDatas.getId());

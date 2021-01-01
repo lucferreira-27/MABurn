@@ -3,10 +3,13 @@ package com.lucas.ferreira.maburn.model.connection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.Callable;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 
 public class ConnectionModel implements Callable<String> {
@@ -18,14 +21,21 @@ public class ConnectionModel implements Callable<String> {
 		this.config = config;
 	}
 
+	public String connectAndReturnLocation(String url) {
+
+		return null;
+	}
+
 	public ConnectionModel(String link) {
 		// TODO Auto-generated constructor stub
 		this.link = link;
 	}
 
+
+
 	public static String connect(String url, int attempts) {
 		int attempt = 0;
-		
+
 		while (true) {
 			try {
 				return connect(url);
@@ -63,9 +73,7 @@ public class ConnectionModel implements Callable<String> {
 
 			}
 
-		} finally {
-			httpConn.disconnect();
-		}
+		} 
 	}
 
 	private static String inputStreamToString(HttpURLConnection httpConn) throws IOException {
@@ -84,7 +92,6 @@ public class ConnectionModel implements Callable<String> {
 	private static HttpURLConnection Httpsetup(String url) throws IOException {
 		URL uc = new URL(url);
 
-		System.out.println(url);
 		HttpURLConnection httpConn = (HttpURLConnection) uc.openConnection();
 
 		httpConn.setRequestMethod("GET");
@@ -93,8 +100,6 @@ public class ConnectionModel implements Callable<String> {
 
 		return httpConn;
 	}
-
-
 
 	@Override
 	public String call() throws Exception {

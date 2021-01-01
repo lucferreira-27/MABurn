@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.webscraping.sites;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -37,7 +35,7 @@ public class AnitubeScraping implements WebScraping {
 	}
 
 	@Override
-	public TitleWebData fecthTitle(TitleWebData titleWebData) {
+	public TitleWebData fecthTitle(TitleWebData titleWebData)  {
 		// TODO Auto-generated method stub
 		animeWebData = (AnimeWebData) titleWebData;
 		animeWebData.setSite(getSite());
@@ -96,7 +94,7 @@ public class AnitubeScraping implements WebScraping {
 		return searchTitleWebDatas;
 	}
 
-	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
+	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData)  {
 
 		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 

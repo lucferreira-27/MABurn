@@ -1,7 +1,9 @@
 package com.lucas.ferreira.maburn.model.bean.downloaded;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
@@ -26,6 +28,7 @@ public class AnimeDownloaded implements CollectionItem {
 	private String imageLocal;
 	private Image cover;
 	private WebScraping webScraping;
+	private Map<String, String> titles = new LinkedHashMap<>();
 	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
 	private int id;
 
@@ -154,7 +157,7 @@ public class AnimeDownloaded implements CollectionItem {
 	public String getTitleDataBase() {
 		return titleDataBase;
 	}
-	
+
 	@Override
 	public void setTitleDataBase(String titleDataBase) {
 		// TODO Auto-generated method stub
@@ -168,21 +171,27 @@ public class AnimeDownloaded implements CollectionItem {
 		return StringUtil.stringUtilFile(titleDataBase);
 	}
 
-
 	@Override
-	public void setListSubItens(List<CollectionSubItem> subItens) {
+	public void addSubItens(List<CollectionSubItem> subItens) {
 		// TODO Auto-generated method stub
 		subItens.forEach(subItem -> listEpisodes.add((EpisodeDownloaded) subItem));
-		
+
 	}
-	
+
+	@Override
+	public void setListSubItens(List<CollectionSubItem> subItems) {
+		List<EpisodeDownloaded> items = new ArrayList<EpisodeDownloaded>();
+		subItems.forEach(subItem -> items.add((EpisodeDownloaded) subItem));
+		listEpisodes = items;
+	}
+
 	@Override
 	public List<CollectionSubItem> getListSubItens() {
 		List<CollectionSubItem> subItens = new ArrayList<>();
 		listEpisodes.forEach(ep -> subItens.add(ep));
 		return subItens;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
@@ -206,11 +215,12 @@ public class AnimeDownloaded implements CollectionItem {
 		// TODO Auto-generated method stub
 		return webScraping;
 	}
+
 	@Override
 	public void setWebScraping(WebScraping webScraping) {
 		// TODO Auto-generated method stub
 		this.webScraping = webScraping;
-		
+
 	}
 
 	@Override
@@ -220,7 +230,16 @@ public class AnimeDownloaded implements CollectionItem {
 				+ ", imageLocal=" + imageLocal + ", id=" + id + "]";
 	}
 
+	@Override
+	public Map<String, String> getTitles() {
+		// TODO Auto-generated method stub
+		return titles;
+	}
 
-
+	@Override
+	public void setTitles(Map<String, String> titles) {
+		// TODO Auto-generated method stub
+		this.titles = titles;
+	}
 
 }

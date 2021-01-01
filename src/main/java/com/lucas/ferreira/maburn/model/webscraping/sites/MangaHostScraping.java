@@ -72,6 +72,11 @@ public class MangaHostScraping implements WebScraping {
 		return fetchAllItensOnTable(document);
 
 	}
+	
+	//Google
+	public void searchSearchEngine() {
+		
+	}
 
 	@Override
 	public Sites getSite() {

@@ -1,14 +1,17 @@
 package com.lucas.ferreira.maburn.model.download.service.model;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntConsumer;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
@@ -17,19 +20,17 @@ import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.BytesUtil;
 
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 
-public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
-	private File file;
-	private String link;
-	private HttpURLConnection httpConn;
+public class DownloadServiceModel extends Downloader<CollectionSubItem> implements ReadableByteChannel {
+	private ReadableByteChannel rbc;
+	private int totalByteRead;
 
-	public DownloadSingleServiceModel() {
+	public DownloadServiceModel() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DownloadSingleServiceModel(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
+	public DownloadServiceModel(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
 			ItemWebData webData) {
 		// TODO Auto-generated constructor stub
 		initialize(listLink, subItem, listFile, webData);
@@ -37,15 +38,28 @@ public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
 	}
 
 	public File download() throws IOException {
-
-		URL url = downloadSetup(link);
+		updateName(subItem.getName());
+		URL url = downloadSetup(super.listLink.get(0));
 		startDownload(url);
 
 		return null;
 	}
 
 	private File startDownload(URL url) throws IOException {
-		String path = file.getAbsolutePath();
+		System.out.println(listLink);
+		
+		if (listLink.size() == 1)
+			beginReader(listLink.get(0));
+		else {
+
+			beginReaderAll(listLink);
+
+		}
+		return null;
+	}
+
+	private File getURLFileProprieres(URL url, int i) {
+		String path = super.listFile.get(i).getAbsolutePath();
 		String type = null;
 
 		try {
@@ -58,71 +72,85 @@ public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
 		String destination = path.substring(0, path.lastIndexOf("\\") + 1);
 
 		File location = new File(destination);
-		BufferedInputStream is;
-
-		is = new BufferedInputStream(httpConn.getInputStream());
 
 		location.mkdirs();
-		BufferedOutputStream os = new BufferedOutputStream(
-				new FileOutputStream(location.getAbsolutePath() + "\\" + fileName + type));
 		double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
+		updateSize(size + sizeProperty.get());
+		File file = new File(location.getAbsolutePath() + "\\" + fileName + type);
+		return file;
+	}
 
-		byte[] b = new byte[BUFFER_SIZE];
-		int length = 0;
-		int i = 0;
-		updateSize(size);
-		updateName(fileName);
-		Platform.runLater(() -> {
-			downloadProgress.bind(progressProperty());
+	public void beginReader(String link) {
 
-		});
-		System.out.println("Download - " + fileName + " " + httpConn.getContentLength());
 		updateState(DownloadState.READY);
 		try {
-			checkSpeed();
+			URL url = downloadSetup(link);
+			File location = getURLFileProprieres(url, 0);
+			rbc = Channels.newChannel(httpConn.getInputStream());
+
+			FileOutputStream fos = new FileOutputStream(location);
+
 			updateState(DownloadState.DOWNLOADING);
-			while (length != -1) {
-				if (pauseProperty.get() || cancelProperty.get()) {
-					if (cancelProperty.get()) {
-						updateState(DownloadState.FAILED);
-						updateProgress(0, 0);
-						throw new DownloadServiceException("Download cancelled");
-					} else {
-						stopUntil();
-					}
-					updateState(DownloadState.DOWNLOADING);
-				}
-				length = is.read(b);
+			checkSpeed();
+			fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
 
-				i += length;
+			subItem.setDestination(location.getAbsolutePath());
 
-				updateProgress(i, httpConn.getContentLength() + 1);
+			updateProgress(1, 1);
 
-				try {
-					os.write(b, 0, length);
-				} catch (IndexOutOfBoundsException e) {
-					// TODO: handle exception
-					continue;
-				}
-
-				updateCompleted(BytesUtil.convertBytesToMegasBytes(i));
-
-			}
-		} catch (DownloadServiceException e) {
+			updateState(DownloadState.FINISH);
+		} catch (Exception e) {
 			// TODO: handle exception
-
-			throw new IOException(e.getMessage());
-		} finally {
-			System.out.println("Done - " + fileName + " " + size);
-			is.close();
-			os.close();
+			e.printStackTrace();
+			updateState(DownloadState.FAILED);
 		}
-		updateProgress(i + 1, httpConn.getContentLength() + 1);
-		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName + type);
-		System.out.println("REALLY OVER!");
-		subItem.setDestination(downloadedFile.getAbsolutePath());
-		updateState(DownloadState.FINISH);
-		return downloadedFile;
+	}
+
+	public void beginReaderAll(List<String> links) {
+		
+		updateState(DownloadState.READY);
+		List<URL> urls = new ArrayList<URL>();
+		List<File> locations = new ArrayList<File>();
+		List<ReadableByteChannel> readables = new ArrayList<ReadableByteChannel>();
+		
+		try { 
+			checkSpeed(); 
+			
+			for(int i = 0; i < links.size();i ++) {
+				URL url = downloadSetup(links.get(i));
+				urls.add(url);
+				File location = getURLFileProprieres(url,i);
+				locations.add(location);
+				
+			//	System.out.println(links.get(i));
+			//	System.out.println(location.getAbsolutePath());
+				
+				rbc = Channels.newChannel(httpConn.getInputStream());
+				readables.add(rbc);
+			}
+
+			
+			for(int i = 0; i < urls.size(); i++) {
+				URL url = urls.get(i);
+				File location = locations.get(i);
+				rbc = readables.get(i);
+				
+				FileOutputStream fos = new FileOutputStream(location);
+
+				updateState(DownloadState.DOWNLOADING);
+				fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
+				
+			}
+			subItem.setDestination(locations.get(0).getParent());
+			updateProgress(1, 1);
+			
+
+			updateState(DownloadState.FINISH);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			updateState(DownloadState.FAILED);
+		}
 	}
 
 	public void checkSpeed() {
@@ -185,6 +213,7 @@ public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
 			return url;
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println("LINK: " + link);
 			e.printStackTrace();
 			updateState(DownloadState.FAILED);
 			return null;
@@ -214,7 +243,7 @@ public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
 
 	}
 
-	private void stopUntil() {
+	protected void stopUntil() {
 		updateState(DownloadState.PAUSE);
 		while (getPauseProperty().get()) {
 			try {
@@ -232,18 +261,51 @@ public class DownloadSingleServiceModel extends Downloader<CollectionSubItem> {
 	}
 
 	@Override
-	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData) {
-		// TODO Auto-generated method stub
-		this.link = listLink.get(0);
-		this.subItem = subItem;
-		this.file = listFile.get(0);
-		this.webData = webData;
+	public int read(ByteBuffer dst) throws IOException {
+		int nRead = rbc.read(dst);
+		notifyBytesRead(nRead);
+		return nRead;
+	}
+
+	protected void notifyBytesRead(int nRead) {
+		if (nRead <= 0) {
+			return;
+		}
+		totalByteRead += nRead;
+		updateCompleted(BytesUtil.convertBytesToMegasBytes(totalByteRead));
+		if (pauseProperty.get() || cancelProperty.get()) {
+			if (cancelProperty.get()) {
+				updateState(DownloadState.FAILED);
+				updateProgress(0, 0);
+				throw new DownloadServiceException("Download cancelled");
+			} else {
+				stopUntil();
+			}
+			updateState(DownloadState.DOWNLOADING);
+		}
+		IntConsumer onRead = new IntConsumer() {
+
+			@Override
+			public void accept(int value) {
+				// TODO Auto-generated method stub
+				//System.out.println("ACCEPT: \n" +  "VALUE: "+  value +"\nContent Length: " + BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
+				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
+				// System.out.println(progressProperty().getValue().doubleValue());
+
+			}
+		};
+		onRead.accept(totalByteRead);
 
 	}
 
-	public void finalize() {
-		// TODO Auto-generated method stub
+	@Override
+	public boolean isOpen() {
+		return rbc.isOpen();
+	}
 
+	@Override
+	public void close() throws IOException {
+		rbc.close();
 	}
 
 }

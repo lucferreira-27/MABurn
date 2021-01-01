@@ -9,17 +9,17 @@ import java.util.concurrent.Executors;
 import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.Downloader;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadSingleServiceModel;
+import com.lucas.ferreira.maburn.model.download.service.model.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.StringUtil;
 
 public class EpisodeWebData implements ItemWebData {
 	private AnimeWebData animeWebData;
-	private Downloader<CollectionSubItem> download = new DownloadSingleServiceModel();
+	private Downloader<CollectionSubItem> download = new DownloadServiceModel();
 	private String name;
 	private String url;
+	private static ExecutorService exec = Executors.newFixedThreadPool(5);
 
 	public EpisodeWebData(AnimeWebData animeWebData) {
 		// TODO Auto-generated constructor stub
@@ -52,6 +52,7 @@ public class EpisodeWebData implements ItemWebData {
 	public String getDownloadLink() {
 		return downloadLink;
 	}
+
 	@Override
 	public Sites getSite() {
 		// TODO Auto-generated method stub
@@ -76,16 +77,16 @@ public class EpisodeWebData implements ItemWebData {
 
 	@Override
 	public Downloader<CollectionSubItem> download(Collections collections) {
-		String itemName = collections.getActualItem().getTitleFileName();
+		String itemName = collections.getActualItem().getName();
 		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;
 		// System.out.println(destination);
-	
-		System.out.println(destination);
-		download.initialize(Arrays.asList(downloadLink), new EpisodeDownloaded(), Arrays.asList(new File(destination)),
-				this);
 
-		// download (downloadLink, new File(destination),new
-		// EpisodeDownloaded(),animeWebData.getSite());
+		System.out.println(destination);
+		EpisodeDownloaded episode = new EpisodeDownloaded();
+		episode.setName(name);
+		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this);
+
+
 		try {
 			ExecutorService exec = Executors.newFixedThreadPool(5);
 			exec.submit(download);
@@ -93,11 +94,10 @@ public class EpisodeWebData implements ItemWebData {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("!!!!!!");
-			//e.printStackTrace();
+			e.printStackTrace();
 			return download;
 		}
 
 	}
-
 
 }

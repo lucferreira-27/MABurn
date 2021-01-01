@@ -7,8 +7,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
@@ -60,6 +58,7 @@ public class ItemDownload extends Task<Void> {
 		this.scraping = item.getWebScraping();
 		this.index = index;
 		this.downloadType = downloadType;
+
 	}
 
 	public ItemDownload(CollectionItem item, DownloadType downloadType, int begin, int end) {
@@ -82,7 +81,7 @@ public class ItemDownload extends Task<Void> {
 		}
 		title.setUrl(collectionItem.getLink());
 		items = scraping.fecthTitle(title).getWebDatas();
-
+		synchronizeItems = items;
 		return items;
 
 	}
@@ -251,11 +250,14 @@ public class ItemDownload extends Task<Void> {
 	}
 
 	public void addItem(int index) {
-
+		if (synchronizeItems == null || synchronizeItems.isEmpty()) {
+			synchronizeItem();
+		}
 		futureResponse = new FutureResponseUtil<ItemWebData>(fetchSelectedItem(synchronizeItems, index));
 		fetchItemProperty.set(false);
 		futureResponse.await();
 		fetchItemProperty.set(true);
+
 		downloadSelected(synchronizeItems, index);
 
 	}

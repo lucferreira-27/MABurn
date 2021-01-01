@@ -14,6 +14,7 @@ public class Scraper {
 			return doc.select(querry);
 		} catch (Exception e) {
 			// TODO: handle exception
+			
 			throw new WebScrapingException("Element don't found in querry (" + e.getMessage() + ")");
 		}
 	}
