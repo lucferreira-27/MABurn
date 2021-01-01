@@ -24,6 +24,7 @@ public class FutureResponseUtil <T> extends ResponseUtil {
 				if (itensDone > last) {
 					last = itensDone;
 				}
+				Thread.sleep(100);
 
 			}
 			return true;

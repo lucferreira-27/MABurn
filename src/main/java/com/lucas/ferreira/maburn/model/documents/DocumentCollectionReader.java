@@ -2,7 +2,9 @@ package com.lucas.ferreira.maburn.model.documents;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -133,23 +135,34 @@ public class DocumentCollectionReader {
 	public CollectionItem parseItem(Element e) {
 
 		String name = e.getElementsByTagName("title").item(0).getTextContent();
+		Map<String, String> titles = new LinkedHashMap<String, String>();
+		if (e.getElementsByTagName("title_en").item(0) != null)
+			titles.put("en", e.getElementsByTagName("title_en").item(0).getTextContent());
+	
+		if (e.getElementsByTagName("title_en_jp").item(0) != null)
+			titles.put("en_jp", e.getElementsByTagName("title_en_jp").item(0).getTextContent());
+	
+		if (e.getElementsByTagName("title_ja_jp").item(0) != null)
+			titles.put("ja_jp", e.getElementsByTagName("title_ja_jp").item(0).getTextContent());
+
 		String imageUrl = e.getElementsByTagName("image_url").item(0).getTextContent();
 		String imageLocal = e.getElementsByTagName("image_local").item(0).getTextContent();
 		String destination = e.getElementsByTagName("destination").item(0).getTextContent();
-		//String hospedSite = e.getElementsByTagName("site").item(0).getTextContent();
+		// String hospedSite = e.getElementsByTagName("site").item(0).getTextContent();
 		String dataUrl = e.getElementsByTagName("data_url").item(0).getTextContent();
 		String titleDataBase = e.getElementsByTagName("title_database").item(0).getTextContent();
-		//String link = e.getElementsByTagName("link").item(0).getTextContent();
+		// String link = e.getElementsByTagName("link").item(0).getTextContent();
 		String id = e.getElementsByTagName("id").item(0).getTextContent();
 
 		item.setName(name);
 		item.setImageUrl(imageUrl);
 		item.setImageLocal(imageLocal);
-		//item.setLink(link);
+		// item.setLink(link);
 		item.setDestination(destination);
 		item.setDataBaseUrl(dataUrl);
 		item.setTitleDataBase(titleDataBase);
-		//item.setHospedSite(hospedSite);
+		item.setTitles(titles);
+		// item.setHospedSite(hospedSite);
 		item.setId(Integer.parseInt(id));
 
 		return item;
@@ -256,6 +269,9 @@ public class DocumentCollectionReader {
 		defineItemByItemInstance(item);
 
 		elements.add(addElementsInDocument("title", item.getName()));
+		elements.add(addElementsInDocument("title_en", item.getTitles().get("en")));
+		elements.add(addElementsInDocument("title_en_jp", item.getTitles().get("en_jp")));
+		elements.add(addElementsInDocument("title_ja_jp", item.getTitles().get("ja_jp")));
 		elements.add(addElementsInDocument("image_url", item.getImageUrl()));
 		elements.add(addElementsInDocument("image_local", item.getImageLocal()));
 		// elements.add(addElementsInDocument("link", item.getLink()));
@@ -303,7 +319,6 @@ public class DocumentCollectionReader {
 		if (value == null)
 			value = "";
 		e.appendChild(doc.createTextNode(value));// Add value in element
-		
 
 	}
 

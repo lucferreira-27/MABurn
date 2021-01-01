@@ -5,11 +5,14 @@ import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaHostScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
+import com.lucas.ferreira.maburn.model.webscraping.sites.SaikoScraping;
 
 public enum Sites {
 
 	ANITUBE("https://www.anitube.site", Category.ANIME, new AnitubeScraping()),
 	GOYABU("https://goyabu.com", Category.ANIME, new GoyabuScraping()),
+	SAIKO("https://saikoanimes.net", Category.ANIME, new SaikoScraping()),
+
 	MANGA_HOST("https://mangahosted.com", Category.MANGA, new MangaHostScraping()),
 	MANGA_YABU("https://mangayabu.top", Category.MANGA, new MangaYabuScraping());
 

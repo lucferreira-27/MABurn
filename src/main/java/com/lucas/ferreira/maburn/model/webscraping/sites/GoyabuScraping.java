@@ -81,7 +81,7 @@ public class GoyabuScraping implements WebScraping {
 		return fetchAllItensOnTable(document);
 	}
 
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
+	private List<SearchTitleWebData> fetchAllItensOnTable(Document document)  {
 		// TODO Auto-generated method stub
 		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
 		Elements elements = scraper.scrapeSnippet(document, ".video-thumb > a > span > img");

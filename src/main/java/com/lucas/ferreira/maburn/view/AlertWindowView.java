@@ -1,21 +1,13 @@
 package com.lucas.ferreira.maburn.view;
-import java.awt.Paint;
 import java.util.Optional;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
 
 public class AlertWindowView {
-	private  Alert alert;
-	private  String label;
 	
 	
 	
@@ -23,11 +15,13 @@ public class AlertWindowView {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public  void errorAlert(String title, String header, String msg) {
+	public static  void errorAlert(String title, String header, String msg) {
 
 		Platform.runLater(() -> // switches to GUI Thread
 		{	
-			alert = new Alert(AlertType.ERROR);
+			Alert alert = new Alert(AlertType.ERROR);
+			 Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+			 stage.setAlwaysOnTop(true);
 			try{
 			//alert.getDialogPane().getStyleClass().add("dialog-pane");
 			alert.getDialogPane().setStyle("-fx-background-color: RED");
@@ -43,12 +37,12 @@ public class AlertWindowView {
 		});
 	}
 
-	public  void infoAlert(String title, String header, String msg) {
+	public static  void infoAlert(String title, String header, String msg) {
 		Platform.runLater(() -> // switches to GUI Thread
 		{
-			alert = new Alert(AlertType.INFORMATION);
+			Alert alert = new Alert(AlertType.INFORMATION);
 		
-			alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkThema.css").getPath());
+			//alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkThema.css").getPath());
 
 			alert.setTitle(title);
 			alert.setHeaderText(header);
@@ -58,11 +52,10 @@ public class AlertWindowView {
 
 	}
 
-	public  void warningAlert(String title, String header, String msg) {
+	public static void warningAlert(String title, String header, String msg) {
 		Platform.runLater(() -> // switches to GUI Thread
 		{
-			alert = new Alert(AlertType.WARNING);
-			alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkThema.css").getPath());
+			Alert alert = new Alert(AlertType.WARNING);
 
 			alert.setTitle(title);
 			alert.setHeaderText(header);
@@ -71,11 +64,10 @@ public class AlertWindowView {
 		});
 	}
 
-	public  boolean confirmationAlert(String title, String header, String msg) {
+	public static  boolean confirmationAlert(String title, String header, String msg) {
 
-		alert = new Alert(AlertType.CONFIRMATION);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
 		
-		alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkThema.css").getPath());
 
 		alert.setTitle(title);
 		alert.setHeaderText(header);
@@ -91,26 +83,25 @@ public class AlertWindowView {
 		}
 	}
 
-	public  String showInputTextDialog(String title, String header, String msg) {
-		Platform.runLater(() -> // switches to GUI Thread
-		{
-			TextInputDialog dialog = new TextInputDialog();
-			dialog.setTitle(title);
-			dialog.setHeaderText(header);
-			dialog.setContentText(msg);
+//	public  String showInputTextDialog(String title, String header, String msg) {
+//		Platform.runLater(() -> // switches to GUI Thread
+//		{
+//			TextInputDialog dialog = new TextInputDialog();
+//			dialog.setTitle(title);
+//			dialog.setHeaderText(header);
+//			dialog.setContentText(msg);
+//			Optional<String> result = dialog.showAndWait();
+//
+//			result.ifPresent(name -> {
+//				label = name;
+//			});
+//		});
+//		return label;
+//
+//	}
 
-			Optional<String> result = dialog.showAndWait();
-
-			result.ifPresent(name -> {
-				label = name;
-			});
-		});
-		return label;
-
-	}
-
-	public String getLabel() {
-		return label;
-	}
+//	public String getLabel() {
+//		return label;
+//	}
 
 }

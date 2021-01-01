@@ -35,8 +35,8 @@
 			<Label fx:id="lblTecTitle" maxWidth="350" styleClass="label-subtitle" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="32" />
 			<Label fx:id="lblInformationTitle" alignment="CENTER" styleClass="downloadInformation" text="Download Information" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="150" />
 
-			<Label fx:id="lblSource" text="Source:" visible="false" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="208" />
-			<Label fx:id="lblPath" text="Path:" visible="false" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="230" />
+			<Label fx:id="lblSource" text="Source:" visible="false" maxWidth = "300" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="208" />
+			<Label fx:id="lblPath" text="Path:" visible="false" maxWidth = "300" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="230" />
 			<Label fx:id="lblItemsTotal" text="Total:" visible="false" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="208" />
 			<Label fx:id="lblTimeRemain" text="Remain:" visible="false" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="230" />
 			<Label fx:id="lblItemsDownloaded" text="Downloaded:" visible="false" AnchorPane.leftAnchor="475" AnchorPane.topAnchor="208" />

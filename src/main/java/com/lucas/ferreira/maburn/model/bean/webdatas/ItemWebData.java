@@ -6,7 +6,7 @@ import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
-public interface ItemWebData extends GenericItem {
+public interface ItemWebData {
 	public String getUrl();
 	public void setName(String name);
 	public Downloader<CollectionSubItem> getDownloader();

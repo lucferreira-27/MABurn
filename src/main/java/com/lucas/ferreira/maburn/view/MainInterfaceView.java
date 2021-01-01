@@ -31,10 +31,11 @@ public class MainInterfaceView extends ViewInterface {
 	private GridPane menuGridPane = new GridPane();
 	private Scene scenePane;
 	private boolean initializeIsDone = false;
-
+	private MenuController menuController = new MenuController(this);
 
 	public void initMainInterfaceView() throws IOException {
-		initFXMLLoader(new MenuController(this), root,"MainViewFXML.fxml");
+		
+		initFXMLLoader(menuController, root,"MainViewFXML.fxml");
 		initMenuPane();
 		initRoot();
 
@@ -46,7 +47,6 @@ public class MainInterfaceView extends ViewInterface {
 		frame = new JFrame("MA Burn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
-
 		frame.add(fxPanel, BorderLayout.CENTER);
 		frame.setBackground(Color.BLACK);
 		frame.setVisible(false);
@@ -142,6 +142,10 @@ public class MainInterfaceView extends ViewInterface {
 	protected void loadMainInterfaceFX(MainInterfaceView mainView) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public MenuController getMenuController() {
+		return menuController;
 	}
 
 

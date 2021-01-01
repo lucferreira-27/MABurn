@@ -7,10 +7,10 @@ public class BytesUtil {
 	public static double convertBytesToMegasBytes(long bytes) {
 		DecimalFormat df = new DecimalFormat("###,##0.00");
 		
-		return Double.parseDouble(df.format((double) ((double) bytes / BYTES_MEGASBYTES)).replace(",", "."));
+		return Double.parseDouble(df.format(((double) bytes / BYTES_MEGASBYTES)).replace(",", "."));
 	}
 	
-	public static long convertMegasBytesToBytes(int megabytes) {
+	public static long convertMegasBytesToBytes(double megabytes) {
 		
 		return (long) (megabytes * BYTES_MEGASBYTES);
 	}

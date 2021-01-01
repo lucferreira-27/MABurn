@@ -3,11 +3,12 @@ package com.lucas.ferreira.mangaburn.testing;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-import org.junit.Before;
 import org.junit.Test;
 
+import com.diffplug.common.base.StackDumper;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
@@ -21,8 +22,42 @@ public class TitleDownloadInterfaceViewTest {
 	private TitleDownloadInterfaceView titleDownloadView;
 	private TitleInterfaceView titleView;
 
-	@Before
-	public void setUp() {
+	@Test
+	public void showTitleDownloadViewMangaCollectionTest() {
+		StackDumper.dumpWhenSysOutContains("null");
+		view = new MainInterfaceView();
+	
+		
+		MainLoader loader = new MainLoader(new MangaCollection());
+		Collections collections = null;
+		try {
+			collections = (Collections) loader.loadCollection("D:\\UnionDownload\\host").get();
+			for(CollectionItem item : collections.getItens()) {
+				if(item.getTitleDataBase().equals("One Piece")) {
+				
+					collections.setActualItem(item);
+
+				}
+			}
+			collections.getActualItem().setCollections(collections);
+			itensView = new ItemsInterfaceView(collections);
+			titleView = new TitleInterfaceView(itensView);
+			titleDownloadView = new TitleDownloadInterfaceView(titleView);
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		view.setVisibility(true);
+		view.initAndShowGUI();
+		titleDownloadView.loadMainInterfaceFX(view);
+
+		waitTestOver();
+
+	}
+	@Test
+	public void showTitleDownloadViewAnimeCollectionTest() {
+		
 		view = new MainInterfaceView();
 	
 		
@@ -45,11 +80,7 @@ public class TitleDownloadInterfaceViewTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-      
-	@Test
-	public void showTitleDownloadView() {
+		
 		view.setVisibility(true);
 		view.initAndShowGUI();
 		titleDownloadView.loadMainInterfaceFX(view);

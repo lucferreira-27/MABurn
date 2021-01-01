@@ -32,7 +32,8 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 		CollectDatas collectDatas = database.read(manga.getName(), Category.MANGA);
 		// Update xml files TODO
 		manga.setDestination(destination);
-		manga.setTitleDataBase(collectDatas.getTitle());
+		manga.setTitleDataBase(collectDatas.getCanonicalTitle());
+		manga.setTitles(collectDatas.getTitles());
 		manga.setDataBaseUrl(collectDatas.getItemDataBaseUrl());
 		manga.setImageUrl(collectDatas.getPosterImageLink("medium"));
 		manga.setId(collectDatas.getId());

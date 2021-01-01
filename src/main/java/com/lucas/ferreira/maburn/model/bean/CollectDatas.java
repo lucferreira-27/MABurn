@@ -7,6 +7,7 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class CollectDatas {
 	private String title;
+	private Map<String, String> titles = new LinkedHashMap<>(); 
 	private Integer id;
 	private Category category;
 	private String synopsis;
@@ -31,6 +32,9 @@ public class CollectDatas {
 	public void addPosterImageLink(String key, String value) {
 		this.posterImageLink.put(key, value);
 	}
+	public void addTitle(String key, String value) {
+		this.titles.put(key, value);
+	}
 
 	public String getSynopsis() {
 		return synopsis;
@@ -40,11 +44,11 @@ public class CollectDatas {
 		this.synopsis = synopsis;
 	}
 
-	public String getTitle() {
+	public String getCanonicalTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setCanonicalTitle(String title) {
 		this.title = title;
 	}
 	public Integer getId() {
@@ -78,7 +82,10 @@ public class CollectDatas {
 	public void setAvaregeRating(Double avaregeRating) {
 		this.avaregeRating = avaregeRating;
 	}
-
+	public Map<String, String> getTitles() {
+		return titles;
+	}
+	
 	@Override
 	public String toString() {
 		return "CollectDatas [title=" + title + ", id=" + id + ", category=" + category + ", synopsis=" + synopsis

@@ -1,8 +1,8 @@
 package com.lucas.ferreira.maburn.model.itens;
 
 import java.util.List;
+import java.util.Map;
 
-import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
@@ -10,6 +10,7 @@ import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import javafx.scene.image.Image;
 
 public interface CollectionItem {
+	
 	public String getName();
 	public void setName(String name);
 	public String getHospedSite();
@@ -30,14 +31,18 @@ public interface CollectionItem {
 	public void setId(int id);
 	public Category getCategory();
 	public String getTitleDataBase();
+	public Map<String, String> getTitles();
+	public void setTitles(Map<String, String> titles);
 	public void setTitleDataBase(String titleDataBase);
 	public String getTitleFileName();
+	public void addSubItens(List<CollectionSubItem> subItem);
 	public void setListSubItens(List<CollectionSubItem> subItem);
 	public Collections getCollections();
 	public void setCollections(Collections collections);
 	public List<CollectionSubItem> getListSubItens();
 	public WebScraping getWebScraping();
 	public void setWebScraping(WebScraping webScraping);
+
 	
 
 }

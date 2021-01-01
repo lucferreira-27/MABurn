@@ -23,7 +23,17 @@ public class MenuController implements Initializable {
 	private HomeInterfaceView homeView = new HomeInterfaceView();
 	private HelperInterfaceView helperView = new HelperInterfaceView();
 	private InitializeModel initialize;
-
+	
+	@FXML
+	private Button btnConfig;
+	
+	@FXML
+	private Button btnHome;
+	
+	@FXML
+	private Button btnExtra;
+	
+	
 	public MenuController(MainInterfaceView mainView) {
 		// TODO Auto-generated constructor stub
 		this.mainView = mainView;
@@ -41,6 +51,7 @@ public class MenuController implements Initializable {
 
 		System.out.println("Home");
 		new Thread(() -> {
+			
 			homeView.loadMainInterfaceFX(mainView);
 			System.out.println("Ok!");
 
@@ -72,6 +83,16 @@ public class MenuController implements Initializable {
 		// TODO Auto-generated method stub
 		initialize.boot();
 
+	}
+	
+	public Button getBtnConfig() {
+		return btnConfig;
+	}
+	public Button getBtnHome() {
+		return btnHome;
+	}
+	public Button getBtnExtra() {
+		return btnExtra;
 	}
 
 }
