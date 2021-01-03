@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.webscraping.sites;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -26,10 +27,9 @@ import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
-public class SaikoScraping implements WebScraping {
+public class SaikoScraping extends WebScraping {
 	private Scraper scraper = new Scraper();
 
-	private List<Future<String>> futureresponseBodys = new ArrayList<>();
 	private AnimeWebData animeWebData;
 	private String mainPageUrl;
 	private String responseBody;
@@ -112,34 +112,56 @@ public class SaikoScraping implements WebScraping {
 	@Override
 	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
-		String defaultUrl = getSite().getUrl();
-		String prefix = "/?fwp_pesquisa=";
-		String searchUrl = defaultUrl + prefix + querry;
+		try {
+			String result = bingSearch(querry, getSite());
+			if (!isTitlePage(result, "https://saikoanimes.net/anime/")) {
+				throw new WebScrapingException("No result");
+			} else {
+				SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
+				searchTitleWebData.setUrl(result);
+				return Arrays.asList(searchTitleWebData);
+			}
 
-		responseBody = ConnectionModel.connect(searchUrl);
-		document = Jsoup.parse(responseBody);
-		return fetchAllItensOnTable(document);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	@Override
+	protected boolean isTitlePage(String url, String expectedUrl) {
+		// TODO Auto-generated method stub
+		if (super.isTitlePage(url, expectedUrl)) {
+			return true;
+		}
+		return false;
 
 	}
 
 	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
-		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, ".view-first> a");
-		if (elements.stream().allMatch(el -> {
-			return el.attr("href").isEmpty();
-		})) {
-			throw new WebScrapingException("Element don't found in querry");
+		try {
+			List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+			Elements elements = scraper.scrapeSnippet(document, ".view-first> a");
+			if (elements.stream().allMatch(el -> {
+				return el.attr("href").isEmpty();
+			})) {
+				throw new WebScrapingException("Element don't found in querry");
+			}
+			elements.forEach(element -> {
+				SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+				searchTitle.setName(element.select("div >div >.post-name").text());
+
+				searchTitle.setUrl(element.attr("href"));
+				searchTitleWebDatas.add(searchTitle);
+
+			});
+			return searchTitleWebDatas;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			return null;
 		}
-		elements.forEach(element -> {
-			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
-			searchTitle.setName(element.select("div >div >.post-name").text());
-
-			searchTitle.setUrl(element.attr("href"));
-			searchTitleWebDatas.add(searchTitle);
-
-		});
-		return searchTitleWebDatas;
 	}
 
 	@Override

@@ -66,7 +66,7 @@ public class TitleDownloadInterfaceViewTest {
 		try {
 			collections = (Collections) loader.loadCollection("D:\\AnimeBurn").get();
 			for(CollectionItem item : collections.getItens()) {
-				if(item.getTitleDataBase().equals("Munou na Nana")) {
+				if(item.getTitleDataBase().equals("Shingeki no Kyojin  The Final Season")) {
 				
 					collections.setActualItem(item);
 

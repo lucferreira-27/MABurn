@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import com.lucas.ferreira.maburn.model.bean.GenericItem;
 import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.download.Downloader;
+import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadMultipleServiceModel;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Sites;

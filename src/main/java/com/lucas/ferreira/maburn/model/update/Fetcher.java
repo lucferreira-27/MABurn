@@ -5,14 +5,18 @@ import java.util.concurrent.Callable;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
+import javafx.beans.property.StringProperty;
+
 public class Fetcher implements Callable<ItemWebData> {
 	private ItemWebData itemWebData;
 	private WebScraping scraping;
-
-	public Fetcher(ItemWebData itemWebData, WebScraping webScraping) {
+	private StringProperty fetchState;
+	
+	public Fetcher(ItemWebData itemWebData, WebScraping webScraping, StringProperty fetchState) {
 
 		this.itemWebData = itemWebData;
 		this.scraping = webScraping;
+		this.fetchState = fetchState;
 	}
 	
 	
@@ -33,12 +37,16 @@ public class Fetcher implements Callable<ItemWebData> {
 		System.out.println("fetch?");
 		try {
 			System.out.println(itemWebData.getUrl());
+			fetchState.set(itemWebData.getUrl());
 			scraping.fecthItem(itemWebData);
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		System.out.println("fetch!");
+	}
+	public StringProperty getFetchState() {
+		return fetchState;
 	}
 
 

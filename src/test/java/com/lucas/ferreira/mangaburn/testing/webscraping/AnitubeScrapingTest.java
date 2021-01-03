@@ -8,16 +8,21 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
 
 public class AnitubeScrapingTest {
-	private final static String TITLE_URL_TEST = "https://www.anitube.site/897019/";
+	private final static String TITLE_URL_TEST = "https://www.anitube.site/897019";
 	private final static String EPISODE_URL_TEST = "https://www.anitube.site/897023/";
 	private final static String SEARCH = "One Piece";
+	private final static String SEARCH_ERROR = "JDAJDJIWJDIJWIDJIWDJ93-18HXZ";
+	private final static String SEARCH_ERROR_2 = "Chibi Maruko-chan (1995)";
 
+	
+	
 	private AnitubeScraping scraping = new AnitubeScraping();
 
 	@Test
@@ -47,9 +52,32 @@ public class AnitubeScrapingTest {
 	public void fecthSearchTitle() {
 
 		List<SearchTitleWebData> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
-		int expect = 3;
+		int expect = 1;
 		int result = searchTitleWebDatas.size();
+		assertThat(result, is(expect));
+
+	}
+	@Test
+	public void getTitlePage() {
+		String expect = TITLE_URL_TEST;
+
+		String result = scraping.getTitlePage(EPISODE_URL_TEST);
+		System.out.println(expect);
+		System.out.println(result);
 		assertThat(expect, is(result));
+
+	}
+	
+	@Test(expected = WebScrapingException.class)
+	public void fecthSearchTitleError() {
+
+		scraping.fetchSearchTitle(SEARCH_ERROR);
+
+	}
+	@Test(expected = WebScrapingException.class)
+	public void fecthSearchTitleErro2() {
+
+		scraping.fetchSearchTitle(SEARCH_ERROR_2);
 
 	}
 }

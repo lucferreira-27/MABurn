@@ -21,7 +21,8 @@ public class ScrapeEngine {
 	private HtmlPage page;
 
 	public ScrapeEngine(String url, String referer) throws ConnectException {
-
+		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+		java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
 		webClient = new WebClient(BrowserVersion.FIREFOX_78);
 		webClient.getOptions().setRedirectEnabled(false);
 		webClient.getOptions().setJavaScriptEnabled(true);

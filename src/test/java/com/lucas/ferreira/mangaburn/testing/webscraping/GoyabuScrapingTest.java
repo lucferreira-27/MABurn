@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
@@ -15,11 +16,13 @@ import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 
 public class GoyabuScrapingTest {
-	private WebScraping scraping = new GoyabuScraping();
+	private GoyabuScraping scraping = new GoyabuScraping();
 	private final static String TITLE_URL_TEST1 = "https://goyabu.com/assistir/golden-kamuy-3rd-season/";
 	private final static String TITLE_URL_TEST2 = "https://goyabu.com/assistir/black-clover/";
 	private final static String EPISODE_URL_TEST = "https://goyabu.com/videos/103023988/";
 	private final static String SEARCH = "One Piece";
+	private final static String SEARCH_ERROR = "JDAJDJIWJDIJWIDJIWDJ93-18HXZ";
+
 
 	@Test
 	public void fetchTitleTestWithoutPages() {
@@ -61,6 +64,23 @@ public class GoyabuScrapingTest {
 		int expect = 3;
 		int result = searchTitleWebDatas.size();
 		assertThat(expect, is(result));
+
+	}
+	@Test
+	public void getTitlePage() {
+		String expect = TITLE_URL_TEST1;
+
+		String result = scraping.getTitlePage(EPISODE_URL_TEST);
+		System.out.println(expect);
+		System.out.println(result);
+		assertThat(expect, is(result));
+
+	}
+	
+	@Test(expected = WebScrapingException.class)
+	public void fecthSearchTitleError() {
+
+		scraping.fetchSearchTitle(SEARCH_ERROR);
 
 	}
 }

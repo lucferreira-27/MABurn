@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.webscraping.sites;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
-public class GoyabuScraping implements WebScraping {
+public class GoyabuScraping extends WebScraping {
 	private Scraper scraper = new Scraper();
 
 	private List<Future<String>> futureresponseBodys = new ArrayList<>();
@@ -70,30 +71,46 @@ public class GoyabuScraping implements WebScraping {
 	@Override
 	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
+		String result = bingSearch(querry, getSite());
+		if (!isTitlePage(result, "https://goyabu.com/assistir/")) {
+			result = getTitlePage(result);
+		} 
+		SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
+		searchTitleWebData.setUrl(result);
+		return Arrays.asList(searchTitleWebData);
 
-		String defaultUrl = getSite().getUrl();
-		String prefix = "/?s=";
-		String searchUrl = defaultUrl + prefix + querry;
+	}
+	
+	
 
-		responseBody = ConnectionModel.connect(searchUrl);
-		document = Jsoup.parse(responseBody);
-
-		return fetchAllItensOnTable(document);
+	public String getTitlePage(String url) {
+		String responseBody = ConnectionModel.connect(url);
+		Document document = Jsoup.parse(responseBody);
+		
+		Elements elements = scraper.scrapeSnippet(document, ".userav");
+		return elements.get(0).attr("href");
+		
 	}
 
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document)  {
+	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
-		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, ".video-thumb > a > span > img");
-		elements.forEach(element -> {
+		try {
+			List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+			Elements elements = scraper.scrapeSnippet(document, ".video-thumb > a > span > img");
+			elements.forEach(element -> {
 
-			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
-			searchTitle.setName(element.attr("title"));
-			searchTitle.setUrl(element.parents().get(1).attr("href"));
-			searchTitleWebDatas.add(searchTitle);
+				SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+				searchTitle.setName(element.attr("title"));
+				searchTitle.setUrl(element.parents().get(1).attr("href"));
+				searchTitleWebDatas.add(searchTitle);
 
-		});
-		return searchTitleWebDatas;
+			});
+			return searchTitleWebDatas;
+		} catch (WebScrapingException e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			return null;
+		}
 	}
 
 	@Override
@@ -222,8 +239,7 @@ public class GoyabuScraping implements WebScraping {
 			script = script.substring(script.indexOf("const playerInstance=jwplayer('player').setup({"));
 		} catch (StringIndexOutOfBoundsException e) {
 			// TODO: handle exception
-			script = script
-					.substring(script.indexOf("const playerInstance = jwplayer('player').setup({"));
+			script = script.substring(script.indexOf("const playerInstance = jwplayer('player').setup({"));
 
 		}
 		script = script.substring(script.indexOf("{"), script.indexOf(");"));

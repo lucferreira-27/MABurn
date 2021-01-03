@@ -8,16 +8,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.ResourceBundle;
-
+import com.gargoylesoftware.htmlunit.javascript.host.event.WebkitSpeechRecognitionError;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
-import com.lucas.ferreira.maburn.model.download.Downloader;
 import com.lucas.ferreira.maburn.model.download.ItemDownload;
+import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.service.DownloadService;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
@@ -293,7 +295,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 				} else {
 					return;
 				}
-			btnExtra.setOnAction(onClickBtnExtra);
+			btnExtra.setOnAction(onClickBtnConfig);
 
 			btnExtra.fire();
 
@@ -628,40 +630,55 @@ public class TitleDownloadInterfaceController implements Initializable {
 		});
 	}
 
+	private SearchTitleWebData search(String querry) {
+		CollectionItem item = collectionItemTitle;
+		ArrayList<String> queries = new ArrayList<String>();
+
+		try {
+			queries.add(querry);
+			List<SearchTitleWebData> searchTitles = scraping.fetchSearchTitle(querry);
+			if (searchTitles == null || searchTitles.isEmpty()) {
+				for (Entry<String, String> title : item.getTitles().entrySet()) {
+					if (title.getValue().equalsIgnoreCase(item.getTitleDataBase()))
+						continue;
+					
+					queries.add(title.getValue());
+					searchTitles = scraping.fetchSearchTitle(title.getValue());
+					
+					if (searchTitles == null || searchTitles.isEmpty()) {
+						continue;
+					} else {
+						break;
+					}
+				}
+			
+				if (searchTitles == null || searchTitles.isEmpty()) {
+
+					String previousQueries = "- " + queries.stream().collect(Collectors.joining("\n - "));
+					throw new WebScrapingException("Any item found\n Searched for:\n " + previousQueries);
+				}
+			}
+
+			return searchTitles.get(0);
+
+		} catch (WebScrapingException e) {
+			// TODO: handle exception
+			AlertWindowView.errorAlert("Fetch error", e.getMessage(), "Please try another site");
+			piLoadFetch.setVisible(false);
+			e.printStackTrace();
+
+			return null;
+		}
+	}
+
 	private void fetch() {
 		CollectionItem item = collectionItemTitle;
 		System.err.println("Scraping: " + cbSource.getValue().getScraping());
 		collectionItemTitle.setWebScraping(cbSource.getValue().getScraping());
 		scraping = collectionItemTitle.getWebScraping();
-		System.out.println(scraping);
 		try {
-
-			String resultUrl = null;
-			try {
-				System.out.println("Search: " + item.getTitleDataBase());
-
-				try {
-					resultUrl = scraping.fetchSearchTitle(item.getTitleDataBase()).get(0).getUrl();
-				} catch (WebScrapingException e) {
-					// TODO: handle exception
-					for (Entry<String, String> title : item.getTitles().entrySet()) {
-						if (title.getKey().equalsIgnoreCase("en_jp")) {
-
-							System.out.println("Search: " + title.getValue());
-
-							resultUrl = scraping.fetchSearchTitle(title.getValue()).get(0).getUrl();
-						} else {
-							if (resultUrl != null) {
-								break;
-							}
-						}
-					}
-				}
-
-			} catch (WebScrapingException e) {
-				throw new WebScrapingException(e.getMessage());
-			}
-			item.setLink(resultUrl);
+			SearchTitleWebData result = search(item.getTitleDataBase());
+			item.setLink(result.getUrl());
 
 			if (item.getCategory() == Category.ANIME)
 				webDataTitle = new AnimeWebData(item.getTitleDataBase());
@@ -680,9 +697,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 			// TODO: handle exception
 			AlertWindowView.errorAlert("Fetch error", e.getMessage(), "Please try another site");
 			piLoadFetch.setVisible(false);
-
 		}
-
 	}
 
 	public void showHideDatas() {

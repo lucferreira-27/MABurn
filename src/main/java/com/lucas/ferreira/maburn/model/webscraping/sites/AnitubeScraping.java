@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.webscraping.sites;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
-public class AnitubeScraping implements WebScraping {
+public class AnitubeScraping extends WebScraping {
 	private Scraper scraper = new Scraper();
 	private AnimeWebData animeWebData;
 	private String responseBody;
@@ -35,7 +36,7 @@ public class AnitubeScraping implements WebScraping {
 	}
 
 	@Override
-	public TitleWebData fecthTitle(TitleWebData titleWebData)  {
+	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 		// TODO Auto-generated method stub
 		animeWebData = (AnimeWebData) titleWebData;
 		animeWebData.setSite(getSite());
@@ -59,42 +60,74 @@ public class AnitubeScraping implements WebScraping {
 	@Override
 	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
+		String result = bingSearch(querry, getSite());
+		if (!isTitlePage(result, null)) {
+			result = getTitlePage(result);
+		} 
+		SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
+		searchTitleWebData.setUrl(result);
+		return Arrays.asList(searchTitleWebData);
 
-		String defaultUrl = getSite().getUrl();
-		String prefix = "/?s=";
-		String searchUrl = defaultUrl + prefix + querry;
+	}
 
-		responseBody = ConnectionModel.connect(searchUrl);
-		document = Jsoup.parse(responseBody);
+	@Override
+	protected boolean isTitlePage(String url, String expectedUrl) {
 
-		return fetchAllItensOnTable(document);
+		if (url.contains("?s")) {
+			return false;
+		}
+		if (url.split("/")[2].isEmpty()) {
+			return false;
+		}
+		String responseBody = ConnectionModel.connect(url);
+		
+		if (!responseBody.contains("pagAniLista")) {
+			return false;
+		}
+
+		return true;
+	}
+	public String getTitlePage(String url) {
+		// TODO Auto-generated method stub
+		String responseBody = ConnectionModel.connect(url);
+		Document document = Jsoup.parse(responseBody);
+		
+		Elements elements = scraper.scrapeSnippet(document, ".listaPagAni");
+		return elements.get(0).attr("href");
+
 	}
 
 	@Override
 	public Sites getSite() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stu
 		return Sites.ANITUBE;
 	}
 
 	private List<SearchTitleWebData> fetchAllItensOnTable(Document document2) {
 		// TODO Auto-generated method stub
-		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, ".aniItem > a");
-		elements.forEach(element -> {
+		try {
+			List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+			Elements elements = scraper.scrapeSnippet(document, ".aniItem > a");
+			elements.forEach(element -> {
 
-			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
-			searchTitle.setUrl(element.attr("href"));
-			searchTitle.setName(element.attr("title"));
+				SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+				searchTitle.setUrl(element.attr("href"));
+				searchTitle.setName(element.attr("title"));
 
-			WebScrapingUtil.removeTrashFromStringSearch(searchTitle);
+				WebScrapingUtil.removeTrashFromStringSearch(searchTitle);
 
-			searchTitleWebDatas.add(searchTitle);
+				searchTitleWebDatas.add(searchTitle);
 
-		});
-		return searchTitleWebDatas;
+			});
+			return searchTitleWebDatas;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e.getMessage());
+			return null;
+		}
 	}
 
-	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData)  {
+	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
 
 		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 

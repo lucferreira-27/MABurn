@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.webscraping.sites;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -9,6 +10,7 @@ import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
@@ -20,7 +22,7 @@ import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
-public class MangaHostScraping implements WebScraping {
+public class MangaHostScraping extends WebScraping {
 	private MangaWebData mangaWebData;
 	private Scraper scraper = new Scraper();
 	private String responseBody;
@@ -60,22 +62,30 @@ public class MangaHostScraping implements WebScraping {
 	@Override
 	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
-
-		String defaultUrl = getSite().getUrl();
-		String prefix = "/find/";
-		String searchUrl = defaultUrl + prefix + querry;
-
-		responseBody = ConnectionModel.connect(searchUrl);
-
-		document = Jsoup.parse(responseBody);
-
-		return fetchAllItensOnTable(document);
+		String result = bingSearch(querry, getSite());
+		if (!isTitlePage(result, "https://mangahosted.com/manga/")) {
+			result = getTitlePage(result);
+		} 
+		SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
+		searchTitleWebData.setUrl(result);
+		return Arrays.asList(searchTitleWebData);
 
 	}
-	
-	//Google
-	public void searchSearchEngine() {
-		
+
+	public String getTitlePage(String url) {
+		return url.substring(0, url.lastIndexOf("/"));
+	}
+
+	@Override
+	protected boolean isTitlePage(String url, String expectedUrl) {
+		// TODO Auto-generated method stub
+		if (super.isTitlePage(url, expectedUrl)) {
+			int bars = url.split("/").length;
+			if (bars == 4)
+				return true;
+		}
+		return false;
+
 	}
 
 	@Override
@@ -125,7 +135,6 @@ public class MangaHostScraping implements WebScraping {
 			chapterWebData.addPagesUrl((element.attr("src")));
 		});
 		return chapterWebData;
-
 
 	}
 

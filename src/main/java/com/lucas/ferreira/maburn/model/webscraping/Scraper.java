@@ -18,6 +18,7 @@ public class Scraper {
 			throw new WebScrapingException("Element don't found in querry (" + e.getMessage() + ")");
 		}
 	}
+
 	
 	public Elements scrapeAjaxSnippet(Document doc, String querry) {
 		try {

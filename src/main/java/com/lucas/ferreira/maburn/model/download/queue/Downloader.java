@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download;
+package com.lucas.ferreira.maburn.model.download.queue;
 
 import java.io.File;
 import java.io.IOException;
