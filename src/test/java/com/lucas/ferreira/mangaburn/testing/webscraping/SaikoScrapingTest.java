@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
@@ -20,6 +21,7 @@ public class SaikoScrapingTest {
 	private final static String TITLE_URL_TEST1 = "https://saikoanimes.net/anime/kamisama-ni-natta-hi/";
 	private final static String EPISODE_URL_TEST = "https://cloud.saikoanimes.net/G75";
 	private final static String SEARCH = "Kamisama ni Natta Hi";
+	private final static String SEARCH_ERROR = "JDAJDJIWJDIJWIDJIWDJ93-18HXZ";
 
 	@Test
 	public void fetchTitleTest() {
@@ -52,6 +54,12 @@ public class SaikoScrapingTest {
 		int expect = 9;
 		int result = searchTitleWebDatas.size();
 		assertThat(expect, is(result));
+
+	}
+	@Test(expected = WebScrapingException.class)
+	public void fecthSearchTitleError() {
+
+		scraping.fetchSearchTitle(SEARCH_ERROR);
 
 	}
 }

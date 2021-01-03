@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
@@ -17,6 +18,7 @@ public class MangaHostScrapingTest {
 	private final static String TITLE_URL_TEST = "https://mangahosted.com/manga/shingeki-no-kyojin-attack-on-titan-mh31049";
 	private final static String CHAPTER_URL_TEST = "https://mangahosted.com/manga/shingeki-no-kyojin-attack-on-titan-mh31049/1";
 	private final static String SEARCH = "One Piece";
+	private final static String SEARCH_ERROR = "JDAJDJIWJDIJWIDJIWDJ93-18HXZ";
 
 	private MangaHostScraping scraping = new MangaHostScraping();
 
@@ -47,12 +49,30 @@ public class MangaHostScrapingTest {
 	}
 
 	@Test
+	public void getTitlePage() {
+		String expect = TITLE_URL_TEST;
+
+		String result = scraping.getTitlePage(CHAPTER_URL_TEST);
+
+		assertThat(expect, is(result));
+
+	}
+	
+	@Test
 	public void fecthSearchTitle() {
 
 		List<SearchTitleWebData> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
-		int expect = 10;
+		int expect = 1;
 		int result = searchTitleWebDatas.size();
 		assertThat(expect, is(result));
+
+	}
+	
+	
+	@Test(expected = WebScrapingException.class)
+	public void fecthSearchTitleError() {
+
+		scraping.fetchSearchTitle(SEARCH_ERROR);
 
 	}
 

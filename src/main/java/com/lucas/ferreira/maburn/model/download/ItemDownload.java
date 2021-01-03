@@ -24,11 +24,14 @@ import com.lucas.ferreira.maburn.util.ResponseUtil;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
 public class ItemDownload extends Task<Void> {
 
 	private BooleanProperty fetchItemProperty = new SimpleBooleanProperty();
+	private StringProperty fetchProgress = new SimpleStringProperty();
 	private DownloadService downloadService;
 	private ResponseUtil futureResponse;
 	private WebScraping scraping;
@@ -40,7 +43,7 @@ public class ItemDownload extends Task<Void> {
 	private int begin = -1;
 	private int end = -1;
 
-	private final ExecutorService exec = Executors.newFixedThreadPool(5);
+	private final ExecutorService exec = Executors.newFixedThreadPool(20);
 
 	{
 		fetchItemProperty.set(false);
@@ -91,7 +94,7 @@ public class ItemDownload extends Task<Void> {
 
 		for (int i = 0; i < items.size(); i++) {
 
-			futureItemWebData.add(exec.submit(new Fetcher(items.get(i), scraping)));
+			futureItemWebData.add(exec.submit(new Fetcher(items.get(i), scraping, fetchProgress)));
 			try {
 				// Delay to avoid limit-rate
 				Thread.sleep(500);
@@ -109,7 +112,7 @@ public class ItemDownload extends Task<Void> {
 
 		for (current = begin; current <= end; current++) {
 
-			futureItemWebData.add(exec.submit(new Fetcher(items.get(current), scraping)));
+			futureItemWebData.add(exec.submit(new Fetcher(items.get(current), scraping, fetchProgress)));
 			try {
 				// Delay to avoid limit-rate
 				Thread.sleep(500);
@@ -124,7 +127,7 @@ public class ItemDownload extends Task<Void> {
 	private List<Future<ItemWebData>> fetchSelectedItem(List<ItemWebData> items) {
 		List<Future<ItemWebData>> futureItemWebData = new ArrayList<Future<ItemWebData>>();
 
-		futureItemWebData.add(exec.submit(new Fetcher(items.get(index), scraping)));
+		futureItemWebData.add(exec.submit(new Fetcher(items.get(index), scraping, fetchProgress)));
 
 		return futureItemWebData;
 	}
@@ -132,7 +135,7 @@ public class ItemDownload extends Task<Void> {
 	private List<Future<ItemWebData>> fetchSelectedItem(List<ItemWebData> items, int index) {
 		List<Future<ItemWebData>> futureItemWebData = new ArrayList<Future<ItemWebData>>();
 
-		futureItemWebData.add(exec.submit(new Fetcher(items.get(index), scraping)));
+		futureItemWebData.add(exec.submit(new Fetcher(items.get(index), scraping, fetchProgress)));
 
 		return futureItemWebData;
 	}
@@ -145,7 +148,7 @@ public class ItemDownload extends Task<Void> {
 		for (int i = 0; i < items.size(); i++) {
 			// The Fetcher will fetch all items in data one by one and add them to the
 			// future list.
-			futureItemWebData.add(exec.submit(new Fetcher(items.get(i), scraping)));
+			futureItemWebData.add(exec.submit(new Fetcher(items.get(i), scraping, fetchProgress)));
 			try {
 				// Delay to avoid limit-rate
 				Thread.sleep(500);
@@ -292,6 +295,9 @@ public class ItemDownload extends Task<Void> {
 
 	public BooleanProperty getFetchItemProperty() {
 		return fetchItemProperty;
+	}
+	public StringProperty getFetchProgress() {
+		return fetchProgress;
 	}
 
 	@Override
