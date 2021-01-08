@@ -5,15 +5,14 @@ import java.net.ConnectException;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.gargoylesoftware.htmlunit.AjaxController;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 
 public class ScrapeEngine {
@@ -39,18 +38,20 @@ public class ScrapeEngine {
 
 	public ScrapeEngine(String url) throws ConnectException {
 		// TODO Auto-generated constructor stub
-		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
-		java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
-		webClient = new WebClient(BrowserVersion.FIREFOX_78);
+		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.ALL);
+		java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.ALL);
+		webClient = new WebClient(BrowserVersion.BEST_SUPPORTED);
+		
 		webClient.getOptions().setJavaScriptEnabled(true);
 		webClient.getOptions().setCssEnabled(false);
 		webClient.getOptions().setUseInsecureSSL(true);
-		webClient.getOptions().setThrowExceptionOnFailingStatusCode(true);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
 		webClient.getCookieManager().setCookiesEnabled(true);
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
 		webClient.getOptions().setThrowExceptionOnScriptError(false);
 		webClient.getCookieManager().setCookiesEnabled(true);
 		webClient.waitForBackgroundJavaScript(10000);
+		webClient.waitForBackgroundJavaScriptStartingBefore(10000);
 
 		connect(url);
 	}
@@ -65,26 +66,31 @@ public class ScrapeEngine {
 		}
 	}
 
-	public void click(HtmlElement a) {
+	public Page click(HtmlElement a) {
 		try {
 			Page clickPage = a.click();
 			webClient.waitForBackgroundJavaScript(10000);
-			System.out.println(clickPage.getWebResponse().getStatusCode());
-			System.out.println(clickPage.getUrl());
-			System.out.println(clickPage.getEnclosingWindow().getName());
+			System.out.println(clickPage.getEnclosingWindow());
+			CustomLogger.log(clickPage.getWebResponse().getStatusCode());
+			CustomLogger.log(clickPage.getUrl());
+			CustomLogger.log(clickPage.getEnclosingWindow().getName());
 			Page pageEnclosed = webClient.getCurrentWindow().getEnclosedPage();
+			
 			if (pageEnclosed.isHtmlPage()) {
 				page = (HtmlPage) pageEnclosed;
 			} else {
 				String location = pageEnclosed.getWebResponse().getResponseHeaderValue("Location");
-				System.out.println(pageEnclosed.getWebResponse().getStatusCode());
+				CustomLogger.log(pageEnclosed.getWebResponse().getStatusCode());
 				// location = location.substring(location.lastIndexOf("?"), location.length());
 				// page = page.getWebClient().getPage(page.getBaseURL() + location);
 			}
+			
 
+			return clickPage;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 	}
 

@@ -15,7 +15,7 @@ import com.lucas.ferreira.maburn.model.download.service.model.DownloadServiceMod
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
-public class ChapterWebData implements ItemWebData, GenericItem {
+public class ChapterWebData extends ItemWebData {
 	private MangaWebData mangaWebData;
 	private Downloader<CollectionSubItem> download = new DownloadServiceModel();
 	private String name;
@@ -75,6 +75,8 @@ public class ChapterWebData implements ItemWebData, GenericItem {
 		exec.submit(download);
 		return download;
 	}
+
+
 }
 
 

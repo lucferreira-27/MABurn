@@ -9,7 +9,7 @@ import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.documents.Documents;
-import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.View;
 
@@ -60,7 +60,7 @@ public class InitializeModel {
 	}
 
 	public void createDocumentesFolders() {
-		System.out.println("> CREATE DOCUMENTS FOLDERS");
+		CustomLogger.log("> CREATE DOCUMENTS FOLDERS");
 		Documents.createDocumentFolders();
 	}
 
@@ -78,6 +78,6 @@ public class InitializeModel {
 	}
 
 	public void initialize() {
-		System.out.println("> WELCOME!");
+		CustomLogger.log("> WELCOME!");
 	}
 }

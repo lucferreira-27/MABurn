@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.TitleDownloadInterfaceController;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -52,7 +53,7 @@ public class TitleDownloadInterfaceView extends ViewInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("> Run TitleInterfaceView");
+			CustomLogger.log("> Run TitleInterfaceView");
 			initializeIsDone = true;
 
 		});

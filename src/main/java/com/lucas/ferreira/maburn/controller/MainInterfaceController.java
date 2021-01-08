@@ -2,11 +2,6 @@ package com.lucas.ferreira.maburn.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 import com.lucas.ferreira.maburn.exceptions.CollectionLoaderException;
 import com.lucas.ferreira.maburn.model.InitializeModel;
@@ -16,13 +11,12 @@ import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
-import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 
 public class MainInterfaceController implements Initializable {
 	private MainInterfaceView mainView;
@@ -69,13 +63,13 @@ public class MainInterfaceController implements Initializable {
 		}
 		// return a future collection,  (collection promise)
 		futureCollection = mainLoader.loadCollection(doc.getPath(collections.getCategory())); 
-		System.out.println(futureCollection);
+		CustomLogger.log(futureCollection);
 		
 	}
 
 	public CollectionItem sessionSelectItem(String category, int id, Collections collection) {
 		mainLoader = new MainLoader(collection);
-		System.out.println(collection.getDestination());
+		CustomLogger.log(collection.getDestination());
 		CollectionItem item = mainLoader.loadSelectItem(id);
 		return item;
 	}

@@ -10,6 +10,7 @@ import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.sites.BingScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class BingSearch {
 	private static final String BING_SEARCH = "https://www.bing.com/search?q=";
@@ -34,12 +35,25 @@ public class BingSearch {
 			querry = BING_SEARCH + title + " " + FORM;
 
 		}
-		System.out.println("querry: "  +  querry);
+		CustomLogger.log("querry: "  +  querry);
 		doc = Jsoup.parse(ConnectionModel.connect(querry, 3));
 		bingScraping = new BingScraping(doc, site);
 		return bingScraping.getFirstMathResult();
 
 	}
+	public String searchNoFilter() throws WebScrapingException, ConnectionException {
+		String querry;
+		
+		querry = BING_SEARCH + title + " " + site.getUrl()+ " " + FORM;
+
+		CustomLogger.log("querry: "  +  querry);
+		doc = Jsoup.parse(ConnectionModel.connect(querry, 3));
+		bingScraping = new BingScraping(doc, site);
+		return bingScraping.getFirstMathResult();
+
+	}
+	
+
 	public List<String> searchAll() throws WebScrapingException, ConnectionException {
 		String querry;
 		if (site != null) {

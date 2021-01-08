@@ -5,13 +5,12 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
@@ -32,7 +31,7 @@ public class HomeInterfaceController implements Initializable {
 
 
 	public void onClickOnAnime() {
-		System.out.println("Anime");
+		CustomLogger.log("Anime");
 
 		new Thread(() -> {
 			mainController.selectCollection(new AnimeCollection());
@@ -43,7 +42,7 @@ public class HomeInterfaceController implements Initializable {
 	}
 
 	public void onClickOnManga() {
-		System.out.println("Manga");
+		CustomLogger.log("Manga");
 
 		new Thread(() -> {
 			try {

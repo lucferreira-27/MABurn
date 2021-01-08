@@ -4,17 +4,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.InitializeModel;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 
 public class MenuController implements Initializable {
 
@@ -49,31 +46,31 @@ public class MenuController implements Initializable {
 	@FXML
 	public void onClickButtonHome() {
 
-		System.out.println("Home");
+		CustomLogger.log("Home");
 		new Thread(() -> {
 			
 			homeView.loadMainInterfaceFX(mainView);
-			System.out.println("Ok!");
+			CustomLogger.log("Ok!");
 
 		}).start();
 
 	}
 	@FXML
 	public void onClickButtonConfiguration() {
-		System.out.println("Configuration");
+		CustomLogger.log("Configuration");
 		new Thread(() -> {
 			helperView.loadMainInterfaceFX(mainView);
 
-			System.out.println("Ok!");
+			CustomLogger.log("Ok!");
 
 		}).start();
 
 	}
 	@FXML
 	public void onClickButtonExtra() {
-		System.out.println("Extra");
+		CustomLogger.log("Extra");
 		new Thread(() -> {
-			System.out.println("Ok!");
+			CustomLogger.log("Ok!");
 
 		}).start();
 	}

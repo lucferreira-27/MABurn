@@ -13,15 +13,12 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.BytesUtil;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
 public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> {
 
@@ -45,7 +42,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		// TODO Auto-generated method stub
 		try {
 		List<File> downloadedFiles = new ArrayList<>();
-		System.out.println(listLink);
+		CustomLogger.log(listLink);
 		String link = null;
 		List<File> files = new ArrayList<File>();
 		List<HttpURLConnection> httpConns = new ArrayList<HttpURLConnection>();
@@ -67,7 +64,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		for (int i = 0; i < listLink.size(); i++) {
 			startDownload(files.get(i), httpConns.get(i));
 			updateProgress(i, listLink.size());
-			// System.out.println("updateProgress(i, listLink.size());: " + "i: " + i +
+			// CustomLogger.log("updateProgress(i, listLink.size());: " + "i: " + i +
 			// "listLink.size(): " + listLink.size());
 			Platform.runLater(() -> {
 				downloadProgress.set(getProgress());
@@ -90,8 +87,8 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	private File startDownload(File file,  HttpURLConnection httpConn) throws IOException {
 		URL url = httpConn.getURL();
 		String path = file.getAbsolutePath();
-		System.out.println("File: " + file.getAbsolutePath());
-		System.out.println("URl: " + url);
+		CustomLogger.log("File: " + file.getAbsolutePath());
+		CustomLogger.log("URl: " + url);
 		String type = null;
 		try {
 			type = url.getPath().substring(url.getPath().lastIndexOf("."));
@@ -108,7 +105,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 			is = httpConn.getInputStream();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("url: " + url);
+			CustomLogger.log("url: " + url);
 			e.printStackTrace();
 			throw new IOException(e.getMessage());
 		}
@@ -119,8 +116,8 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		byte[] b = new byte[BUFFER_SIZE];
 		int length = 0;
 		int i = 0;
-		System.out.println("Size: " + size);
-		// System.out.println("Download - " + fileName + " " +
+		CustomLogger.log("Size: " + size);
+		// CustomLogger.log("Download - " + fileName + " " +
 		// httpConn.getContentLength());
 		
 		while (length != -1) {
@@ -132,7 +129,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 			i += BUFFER_SIZE;
 			updateProgress(i, httpConn.getContentLength() + 1);
 			updateCompleted(BytesUtil.convertBytesToMegasBytes(i));
-			System.out.println("Megas: " + httpConn.getContentLength());  
+			CustomLogger.log("Megas: " + httpConn.getContentLength());  
 			try {
 				os.write(b, 0, length);
 			} catch (IndexOutOfBoundsException e) {
@@ -143,7 +140,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		}
 		updateCompleted(BytesUtil.convertBytesToMegasBytes(i) + completedProperty.get());
 
-		// System.out.println("Done - " + fileName + " " + size);
+		// CustomLogger.log("Done - " + fileName + " " + size);
 		//is.close();
 		//os.close();
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName);
@@ -151,7 +148,7 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	}
 
 	private HttpURLConnection downloadSetup(String link) throws IOException {
-		// System.out.println(link);
+		// CustomLogger.log(link);
 		URL url = new URL(link);
 		String referer = webData.getSite().getUrl();
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();

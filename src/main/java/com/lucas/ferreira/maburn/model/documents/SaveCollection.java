@@ -3,6 +3,7 @@ package com.lucas.ferreira.maburn.model.documents;
 import org.w3c.dom.Document;
 
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class SaveCollection {
 	private DocumentCollectionReader documentCollection;
@@ -26,7 +27,7 @@ public class SaveCollection {
 	public void saveDatas(CollectionItem item) {
 		documentCollection.writeItem(item);
 
-		System.out.println("WRITE ITEM: " + item.getTitleDataBase());
+		CustomLogger.log("WRITE ITEM: " + item.getTitleDataBase());
 		try {
 			Thread.sleep(300);
 		} catch (InterruptedException e) {

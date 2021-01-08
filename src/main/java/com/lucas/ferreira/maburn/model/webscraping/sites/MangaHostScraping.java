@@ -1,23 +1,20 @@
 package com.lucas.ferreira.maburn.model.webscraping.sites;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.jsoup.Jsoup;
-import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
@@ -60,16 +57,39 @@ public class MangaHostScraping extends WebScraping {
 	}
 
 	@Override
-	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
+	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
-		String result = bingSearch(querry, getSite());
-		if (!isTitlePage(result, "https://mangahosted.com/manga/")) {
-			result = getTitlePage(result);
-		} 
-		SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
-		searchTitleWebData.setUrl(result);
-		return Arrays.asList(searchTitleWebData);
+		String result = null;
 
+		try {
+
+			result = bingSearch(querry, getSite(), true);
+
+			if (!isTitlePage(result, "https://mangahosted.com/manga/")) {
+				return insideSearchFetch(querry);
+			} else {
+				SearchResult searchTitleWebData = new SearchResult(getSite());
+				searchTitleWebData.setUrl(result);
+				return Arrays.asList(searchTitleWebData);
+			}
+			}catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
+
+	}
+
+	public List<SearchResult> insideSearchFetch(String querry) {
+
+		String defaultUrl = getSite().getUrl();
+		String prefix = "/find/";
+		String searchUrl = defaultUrl + prefix + querry;
+
+		responseBody = ConnectionModel.connect(searchUrl);
+
+		document = Jsoup.parse(responseBody);
+		
+		return fetchAllItensOnTable(document);
 	}
 
 	public String getTitlePage(String url) {
@@ -94,13 +114,13 @@ public class MangaHostScraping extends WebScraping {
 		return Sites.MANGA_HOST;
 	}
 
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
+	private List<SearchResult> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
-		List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+		List<SearchResult> searchTitleWebDatas = new ArrayList<>();
 		Elements elements = scraper.scrapeSnippet(document, ".table.table-search.table-hover > tbody > tr > td > a");
 		elements.forEach(element -> {
 
-			SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+			SearchResult searchTitle = new SearchResult(getSite());
 			searchTitle.setUrl(element.attr("href"));
 			searchTitle.setName(element.attr("title"));
 			searchTitleWebDatas.add(searchTitle);

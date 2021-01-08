@@ -1,10 +1,13 @@
 package com.lucas.ferreira.maburn.view;
 import java.util.Optional;
 
+import com.lucas.ferreira.maburn.util.CustomLogger;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 public class AlertWindowView {
@@ -28,7 +31,7 @@ public class AlertWindowView {
 			alert.setTitle(title);
 			alert.setHeaderText(header);
 			alert.setContentText(msg);
-			System.out.println(alert.getDialogPane().getStyle());
+			CustomLogger.log(alert.getDialogPane().getStyle());
 			alert.showAndWait();
 			}catch (Exception e) {
 				// TODO: handle exception
@@ -81,6 +84,21 @@ public class AlertWindowView {
 			// user chose CANCEL or closed the dialog
 			return false;
 		}
+	}
+	
+	public static String inputAlet(String title, String header) {
+		
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle(title);
+		dialog.setHeaderText(header);
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		   return result.get();
+		}
+
+		return null;
 	}
 
 //	public  String showInputTextDialog(String title, String header, String msg) {

@@ -45,14 +45,14 @@
 //
 //	@Test
 //	public void informMangaInColletionTest() {
-//		System.out.println("TEST - informItensInColletion");
+//		CustomLogger.log("TEST - informItensInColletion");
 //		collections = instanceCollectionsManga();
 //		view.informItensInColletion(collections);
 //		
 //	}
 //	@Test
 //	public void informAnimeInColletionTest() {
-//		System.out.println("TEST - informItensInColletion");
+//		CustomLogger.log("TEST - informItensInColletion");
 //		collections = instanceCollectionsAnime();
 //		view.informItensInColletion(collections);
 //		
@@ -61,7 +61,7 @@
 //	public void informChaptersInMangaTest() {
 //		collections = instanceCollectionsManga();
 //
-//		System.out.println("TEST - informChaptersInMangaTest");
+//		CustomLogger.log("TEST - informChaptersInMangaTest");
 //
 //		int mangaIndex = 4;
 //		Manga manga = (Manga) loader.loadSelectItem(mangaIndex);
@@ -71,7 +71,7 @@
 //	public void informEpisodesInAnimeTest() {
 //		collections = instanceCollectionsAnime();
 //
-//		System.out.println("TEST - informEpisodesInAnimeTest");
+//		CustomLogger.log("TEST - informEpisodesInAnimeTest");
 //
 //		int episodeIndex = 1;
 //		Anime anime = (Anime) loader.loadSelectItem(episodeIndex);

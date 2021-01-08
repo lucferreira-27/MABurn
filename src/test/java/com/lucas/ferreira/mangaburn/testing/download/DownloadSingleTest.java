@@ -12,7 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
-import com.lucas.ferreira.maburn.util.BytesUtil;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class DownloadSingleTest {
 	private File file = new File("D:\\One Piece Anitube\\Anime");
@@ -39,8 +40,8 @@ public class DownloadSingleTest {
 
 	@Test
 	public void downloadFile() throws IOException {
-		System.out.println(BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength()));
-		System.out.println("Test");
+		CustomLogger.log(BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength()));
+		CustomLogger.log("Test");
 		String path = file.getAbsolutePath();
 		String type = null;
 
@@ -67,7 +68,7 @@ public class DownloadSingleTest {
 		int length = 0;
 		int i = 0;
 
-		System.out.println("Download - " + fileName + " " + httpConn.getContentLength());
+		CustomLogger.log("Download - " + fileName + " " + httpConn.getContentLength());
 		try {
 			while (length != -1) {
 	
@@ -90,12 +91,12 @@ public class DownloadSingleTest {
 
 			throw new IOException(e.getMessage());
 		} finally {
-			System.out.println("Done - " + fileName + " " + size);
+			CustomLogger.log("Done - " + fileName + " " + size);
 			is.close();
 			os.close();
 		}
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName + type);
-		System.out.println("REALLY OVER!");
+		CustomLogger.log("REALLY OVER!");
 	}
 
 }

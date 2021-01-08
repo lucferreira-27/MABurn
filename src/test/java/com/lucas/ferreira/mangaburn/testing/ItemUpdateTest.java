@@ -17,6 +17,7 @@ import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.model.update.ItemUpdate;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.beans.property.IntegerProperty;
@@ -48,12 +49,12 @@ public class ItemUpdateTest {
 		try {
 			while (list.get(0).getDownloader() == null) {
 				Thread.sleep(1000);
-				System.out.println("Waiting service start");
+				CustomLogger.log("Waiting service start");
 			}
 			Downloader<CollectionSubItem> service = list.get(0).getDownloader();
 
 			while (!service.isDone()) {
-				System.out.println(service.getDownloadProgress());
+				CustomLogger.log(service.getDownloadProgress());
 				Thread.sleep(1500);
 			}
 
@@ -89,12 +90,12 @@ public class ItemUpdateTest {
 
 			while (list.get(0).getDownloader() == null) {
 				Thread.sleep(1000);
-				System.out.println("Waiting service start");
+				CustomLogger.log("Waiting service start");
 			}
 			Downloader<CollectionSubItem> service = list.get(0).getDownloader();
 			while (!service.isDone()) {
 				Thread.sleep(1000);
-				System.out.println(service.getDownloadProgress());
+				CustomLogger.log(service.getDownloadProgress());
 
 			}
 
@@ -114,11 +115,11 @@ public class ItemUpdateTest {
 		
 		property.addListener((observable, oldvalue, newvalue) -> {
 
-			System.out.println("Test");
+			CustomLogger.log("Test");
 		});
 		property2.addListener((observable, oldvalue, newvalue) -> {
 
-			System.out.println("Test-2");
+			CustomLogger.log("Test-2");
 		});
 		
 		for(; property.get() < 10;) {

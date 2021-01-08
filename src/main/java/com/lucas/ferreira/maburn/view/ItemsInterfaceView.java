@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import com.lucas.ferreira.maburn.controller.ItemsInterfaceController;
 import com.lucas.ferreira.maburn.exceptions.LoadingException;
@@ -20,14 +19,13 @@ import com.lucas.ferreira.maburn.model.enums.LoadingType;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
-import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -47,6 +45,7 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	public ItemsInterfaceView(CollectionLoader futureCollections) {
 		this.futureCollections = futureCollections;
+
 	}
 
 	public ItemsInterfaceView(Collections collections) {
@@ -72,12 +71,12 @@ public class ItemsInterfaceView extends ViewInterface {
 		switch (loading) {
 		case COLLECTION:
 			collectionLoading();
-			System.out.println("Collection Loading DONE!");
+			CustomLogger.log("Collection Loading DONE!");
 
 			break;
 		case FILTER:
 			filterLoading();
-			System.out.println("Filter Loading DONE!");
+			CustomLogger.log("Filter Loading DONE!");
 			break;
 		default:
 			break;
@@ -90,7 +89,7 @@ public class ItemsInterfaceView extends ViewInterface {
 
 			if (collections == null) {
 
-				System.out.println("Future collection");
+				CustomLogger.log("Future collection");
 
 				collections = (Collections) futureCollections.get();
 				collections.getItens()
@@ -131,7 +130,7 @@ public class ItemsInterfaceView extends ViewInterface {
 	}
 
 	private void initFX() {
-		System.out.println("> Run ItensInterfaceView");
+		CustomLogger.log("> Run ItensInterfaceView");
 		Platform.runLater(() -> {
 
 			controller = new ItemsInterfaceController(mainView, this);
@@ -160,7 +159,7 @@ public class ItemsInterfaceView extends ViewInterface {
 
 			initItensImagesPane();
 			addAllNodes();
-			System.out.println("> Complete ItensIntGerfaceView");
+			CustomLogger.log("> Complete ItensIntGerfaceView");
 		});
 
 		showLoading(LoadingType.FILTER);
@@ -187,6 +186,7 @@ public class ItemsInterfaceView extends ViewInterface {
 	private void initItensImagesPane() {
 
 		itensImagesGridPane = (GridPane) namespace.get("itensImagesGridPane");
+
 
 	}
 
@@ -225,7 +225,7 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	}
 
-	private void sortImagesGridPane() {
+	public void sortImagesGridPane() {
 		try {
 			List<GridPaneCell> cells = gridTable.getCells();
 			java.util.Collections.sort(cells, new CollectionGridCellComparator());
@@ -233,12 +233,13 @@ public class ItemsInterfaceView extends ViewInterface {
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
 
-				int c = GridPaneTable.getImagesGridPaneLastColumn(i, 7);
-				int r = GridPaneTable.getImagesGridPaneLastRow(i, 7);
+				int c = GridPaneTable.getImagesGridPaneLastColumn(i, gridTable.getColumnSize());
+				int r = GridPaneTable.getImagesGridPaneLastRow(i, gridTable.getColumnSize());
 
 				cell.setColumn(c);
 				cell.setRow(r);
-
+				if (itensImagesGridPane.getChildren().contains(cell.getNode()))
+					itensImagesGridPane.getChildren().remove(cell.getNode());
 				itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow());
 
 			}

@@ -47,8 +47,8 @@
 			</Button>
 
 
-			<ScrollPane fx:id="itensImagesScroll"  AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" fitToHeight="false"
-				fitToWidth="false" styleClass="itensImagesScroll" hbarPolicy="NEVER"
+			<ScrollPane fx:id="itensImagesScroll"  AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" fitToHeight="true"
+				fitToWidth="true" styleClass="itensImagesScroll" hbarPolicy="NEVER"
 				vbarPolicy="ALWAYS">
 
 

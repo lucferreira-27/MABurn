@@ -9,7 +9,6 @@ import java.util.Map;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.lucas.ferreira.maburn.exceptions.DocumentException;
@@ -17,6 +16,7 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DocumentCollectionReader {
 
@@ -323,7 +323,7 @@ public class DocumentCollectionReader {
 	}
 
 	public void deleteItem(CollectionItem item) {
-		System.out.println(item);
+		CustomLogger.log(item);
 		Element removeElement = getElementByCollectionItem(item);
 		removeElement.getParentNode().removeChild(removeElement);
 		parser.tranformContentToXML(doc, CollectionDatasReader.DATE_LOCAL);

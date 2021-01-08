@@ -12,6 +12,7 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 
 import javafx.application.Platform;
@@ -64,20 +65,7 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 
 	}
 
-	private void checkProgress() {
-		updateProgress(completedProperty.get(), sizeProperty.get());
-		if (!speedCheckOn) {
-			checkSpeed();
-		} else {
-			Platform.runLater(() -> {
-				if (progressProperty().get() == 1) {
-					state = DownloadState.FINISH;
-					speedCheckOn = false;
-				}
-			});
-		}
 
-	}
 
 	private void addItemInFuture(ItemWebData item) {
 		futureItemWebData.add(exec.submit(new Callable<Downloader<CollectionSubItem>>() {
@@ -91,15 +79,15 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 						downloader.reset();
 					}
 					downloader.sizeProperty().addListener((observable, oldvalue, newvalue) -> {
-						// System.out.println("Size : "+ newvalue);
+						// CustomLogger.log("Size : "+ newvalue);
 						sizeProperty.set(sizeProperty.subtract(oldvalue.doubleValue()).get());
 						sizeProperty.set(sizeProperty.add(newvalue.doubleValue()).get());
 					});
 
-					System.out.println("Category: " + item.getSite().getCategory());
+					CustomLogger.log("Category: " + item.getSite().getCategory());
 //					if (item.getSite().getCategory() == Category.ANIME) {
 //						downloader.completedProperty().addListener((observable, oldvalue, newvalue) -> {
-//							// System.out.println("Completed : "+ newvalue);
+//							// CustomLogger.log("Completed : "+ newvalue);
 //							completedProperty.set(completedProperty.subtract(oldvalue.doubleValue()).get());
 //							completedProperty.set(completedProperty.add(newvalue.doubleValue()).get());
 //						});
@@ -127,7 +115,7 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 								|| newvalue.equals(String.valueOf(DownloadState.CANCELING))) {
 
 							Double value = downloader.completedProperty().get();
-							// System.out.println("State : "+ newvalue);
+							// CustomLogger.log("State : "+ newvalue);
 
 							completedProperty.set(completedProperty.subtract(value).get());
 
@@ -174,7 +162,7 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 
 	public void addItem(ItemWebData item) {
 
-		System.out.println(items);
+		CustomLogger.log(items);
 
 		items.add(item);
 		// totalDownload.set(items.size());
@@ -188,7 +176,7 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 
 		for (ItemWebData item : items) {
 			addItemInFuture(item);
-			System.out.println(item.getName());
+			CustomLogger.log(item.getName());
 		}
 	}
 
@@ -223,10 +211,10 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 	public void pause() {
 		items.forEach(it -> {
 
-			System.out.println("[+] Pause");
-			System.out.println("Name: " + it.getName());
-			System.out.println("State: " + it.getDownloader().getState());
-			System.out.println("========================================");
+			CustomLogger.log("[+] Pause");
+			CustomLogger.log("Name: " + it.getName());
+			CustomLogger.log("State: " + it.getDownloader().getState());
+			CustomLogger.log("========================================");
 			it.getDownloader().setDownloadState(DownloadState.PAUSING);
 			it.getDownloader().pause();
 
@@ -248,10 +236,10 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 	public void resume() {
 		items.forEach(it -> {
 
-			System.out.println("[+] Pause");
-			System.out.println("Name: " + it.getName());
-			System.out.println("State: " + it.getDownloader().getDownloadState());
-			System.out.println("========================================");
+			CustomLogger.log("[+] Pause");
+			CustomLogger.log("Name: " + it.getName());
+			CustomLogger.log("State: " + it.getDownloader().getDownloadState());
+			CustomLogger.log("========================================");
 			it.getDownloader().resume();
 
 		});
@@ -264,10 +252,10 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 
 		items.forEach(it -> {
 
-			System.out.println("[+] Cancel");
-			System.out.println("Name: " + it.getName());
-			System.out.println("State: " + it.getDownloader().getState());
-			System.out.println("========================================");
+			CustomLogger.log("[+] Cancel");
+			CustomLogger.log("Name: " + it.getName());
+			CustomLogger.log("State: " + it.getDownloader().getState());
+			CustomLogger.log("========================================");
 			it.getDownloader().setDownloadState(DownloadState.CANCELING);
 			it.getDownloader().resume();
 			it.getDownloader().kill();
@@ -284,7 +272,7 @@ public class DownloadService extends Task<Downloader<ItemWebData>> {
 	public boolean isDone() {
 
 		boolean allDownloaderFinish = items.stream().allMatch(it -> {
-			System.out.println(it.getDownloader().downloadStateProperty().get());
+			CustomLogger.log(it.getDownloader().downloadStateProperty().get());
 			return it.getDownloader().downloadStateProperty().get().equals(String.valueOf(DownloadState.FINISH))
 					|| it.getDownloader().downloadStateProperty().get().equals(String.valueOf(DownloadState.FAILED));
 		});

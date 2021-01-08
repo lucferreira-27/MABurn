@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.itens;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
@@ -8,8 +7,8 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
 import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 	private KitsuDatabase database = new KitsuDatabase();
@@ -27,7 +26,7 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 
 		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setName(destination.substring(destination.lastIndexOf("\\") + 1));
-		System.out.println("Creating " + anime.getName());
+		CustomLogger.log("Creating " + anime.getName());
 
 		CollectDatas collectDatas = database.read(anime.getName(), Category.ANIME);
 		

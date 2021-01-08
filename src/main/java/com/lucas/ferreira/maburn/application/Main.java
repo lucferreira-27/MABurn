@@ -6,6 +6,8 @@ import com.lucas.ferreira.maburn.view.MainInterfaceView;
 public class Main {
 	public static void main(String[] args) {	
 		
+		//StackDumper.dumpWhenSysOutContains("");
+		
 		MainInterfaceView mainInterface = new MainInterfaceView();
 		mainInterface.initAndShowGUI();
 		HomeInterfaceView homeInterface = new HomeInterfaceView();

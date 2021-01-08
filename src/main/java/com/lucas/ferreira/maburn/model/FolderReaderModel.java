@@ -9,7 +9,8 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
-import com.lucas.ferreira.maburn.util.FolderReaderUtil;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.datas.FolderReaderUtil;
 
 public class FolderReaderModel {
 	
@@ -72,7 +73,7 @@ public class FolderReaderModel {
 		// Collect only directorys to avoid problems
 		List<File> listAnimeFolders = Arrays
 				.asList(animeCollectionFolder.listFiles((file, name) -> new File(file, name).isDirectory()));
-		System.out.println("CHECK");
+		CustomLogger.log("CHECK");
 		return listAnimeFolders;
 
 	}

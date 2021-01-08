@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.util;
+package com.lucas.ferreira.maburn.util.comparator;
 
 import java.util.Comparator;
 

@@ -21,8 +21,8 @@ import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.ItemCreater;
 import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 public class LoadItemRunnable implements Callable<CollectionItem> {
@@ -110,12 +110,12 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		ItemCreater<AnimeDownloaded> itemCreater = new AnimeItemCreate(item.getAnimeCollection());
 
 		if (isCreateItemInDocument(animePath, Category.ANIME) && isAllDatesFilled(item)) {
-			// System.out.println(item.getTitleDataBase() + " Loading ...");
+			// CustomLogger.log(item.getTitleDataBase() + " Loading ...");
 			item = (AnimeDownloaded) save.loadDatas(item);
-			// System.out.println(item.getTitleDataBase() + " Loaded!");
+			// CustomLogger.log(item.getTitleDataBase() + " Loaded!");
 			if (!isRequiredFilesAvailable(item)) {
 				getRequiredFiles(item);
-				System.out.println("> REQUIRED " + item.getTitleDataBase() + " | " + item.getImageLocal());
+				CustomLogger.log("> REQUIRED " + item.getTitleDataBase() + " | " + item.getImageLocal());
 
 			}
 		} else {

@@ -18,13 +18,15 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.databases.Database;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
+import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
-import com.lucas.ferreira.maburn.util.ItemFileComparator;
-import com.lucas.ferreira.maburn.view.AlertWindowView;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
@@ -32,15 +34,13 @@ import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventDispatcher;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -77,13 +77,10 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> nameCol;
 	@FXML
-	private TableColumn<TableCollectionItemModel, Integer> sizeCol;
+	private TableColumn<TableCollectionItemModel, Button> sizeCol;
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> pathCol;
-	
-	
 
-	
 	public TitleInterfaceController(MainInterfaceView mainView, TitleInterfaceView titleView,
 			ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
@@ -98,13 +95,10 @@ public class TitleInterfaceController implements Initializable {
 		// TODO Auto-generated method stub
 		CollectionItem item = collections.getActualItem();
 		MainLoader loader = new MainLoader(collections);
-		System.out.println("UPDATED SUB ITENS ....");
+		CustomLogger.log("UPDATED SUB ITENS ....");
 		loader.loadAllSubItemInItem(item);
-		System.out.println("UPDATEDED SUB ITENS!");
-		
+		CustomLogger.log("UPDATEDED SUB ITENS!");
 
-		
-		
 		loadTitleDatas();
 
 	}
@@ -130,7 +124,7 @@ public class TitleInterfaceController implements Initializable {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(image);
 		imageViewTitle.setOnMouseClicked(event -> {
@@ -180,28 +174,27 @@ public class TitleInterfaceController implements Initializable {
 	public void onClickButtonUpdate() {
 		CollectionItem item = collections.getActualItem();
 		MainLoader loader = new MainLoader(collections);
-		System.out.println("UPDATED SUB ITENS ....");
+		CustomLogger.log("UPDATED SUB ITENS ....");
 		loader.loadAllSubItemInItem(item);
-		System.out.println("UPDATEDED SUB ITENS!");
+		CustomLogger.log("UPDATEDED SUB ITENS!");
 		loadTable(item);
 	}
 
 	public void loadTable(CollectionItem item) {
-		
 
 		List<CollectionSubItem> listSubItens = item.getListSubItens();
-		System.out.println(listSubItens);
+
 		List<TableCollectionItemModel> tableItens = new ArrayList<>();
-		if(tableItens.size() > 0) {
+		if (tableItens.size() > 0) {
 			tableItens.clear();
 		}
 		try {
 			listSubItens.sort(new ItemFileComparator());
 			for (CollectionSubItem sub : listSubItens) {
-				System.out.println(sub.getName());
+				CustomLogger.log(sub.getName());
 			}
 		} catch (NumberFormatException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			// TODO: handle exception
 		}
 		String btnText = "";
@@ -229,7 +222,31 @@ public class TitleInterfaceController implements Initializable {
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 		pathCol.setCellValueFactory(new PropertyValueFactory<>("path"));
 		sizeCol.setCellValueFactory(new PropertyValueFactory<>("btnFolder"));
+		sizeCol.setCellFactory(tc -> new TableCell<TableCollectionItemModel, Button>() {
 
+			@Override
+			protected void updateItem(Button btn, boolean empty) {
+				super.updateItem(btn, empty);
+				if (empty) {
+					setGraphic(null);
+					setText(null);
+				} else {
+					btn.setOnAction(event -> {
+						try {
+							DirectoryModel.openDirectory(getTableView().getItems().get(getIndex()).getPath());
+							getTableView().getSelectionModel().select(getIndex());
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+						}
+					});
+
+					setGraphic(btn);
+					setText(null);
+				}
+
+			}
+		});
 		this.tableItens.setItems(FXCollections.observableArrayList(tableItens));
 		this.tableItens.refresh();
 		preventColumnReordering(this.tableItens);

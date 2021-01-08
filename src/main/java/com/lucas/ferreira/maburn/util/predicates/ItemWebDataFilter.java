@@ -1,11 +1,9 @@
-package com.lucas.ferreira.maburn.util;
+package com.lucas.ferreira.maburn.util.predicates;
 
-import java.io.File;
 import java.util.List;
 import java.util.function.Predicate;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.collections.Collections;
 
 public class ItemWebDataFilter implements Predicate<ItemWebData> {
 
@@ -23,7 +21,6 @@ public class ItemWebDataFilter implements Predicate<ItemWebData> {
 		for (String file : filesName) {
 
 			if (file.equals(t.getName())) {
-				//System.out.println("Name: " + t.getName() + " - "  + "File"+ file);
 				return false;
 			}
 		}

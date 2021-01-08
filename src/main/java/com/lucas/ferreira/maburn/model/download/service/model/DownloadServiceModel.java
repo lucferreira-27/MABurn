@@ -18,7 +18,8 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.BytesUtil;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 import javafx.beans.property.BooleanProperty;
 
@@ -46,7 +47,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	}
 
 	private File startDownload(URL url) throws IOException {
-		System.out.println(listLink);
+		CustomLogger.log(listLink);
 		
 		if (listLink.size() == 1)
 			beginReader(listLink.get(0));
@@ -72,9 +73,9 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 		String destination = path.substring(0, path.lastIndexOf("\\") + 1);
 
 		File location = new File(destination);
+		double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
 
 		location.mkdirs();
-		double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
 		updateSize(size + sizeProperty.get());
 		File file = new File(location.getAbsolutePath() + "\\" + fileName + type);
 		return file;
@@ -92,6 +93,9 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 
 			updateState(DownloadState.DOWNLOADING);
 			checkSpeed();
+		
+			System.out.println(link);
+			System.out.println(location.getAbsolutePath());
 			fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
 
 			subItem.setDestination(location.getAbsolutePath());
@@ -117,13 +121,16 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			checkSpeed(); 
 			
 			for(int i = 0; i < links.size();i ++) {
+				
+					
+		
 				URL url = downloadSetup(links.get(i));
 				urls.add(url);
 				File location = getURLFileProprieres(url,i);
 				locations.add(location);
 				
-			//	System.out.println(links.get(i));
-			//	System.out.println(location.getAbsolutePath());
+			//	CustomLogger.log(links.get(i));
+			//	CustomLogger.log(location.getAbsolutePath());
 				
 				rbc = Channels.newChannel(httpConn.getInputStream());
 				readables.add(rbc);
@@ -166,8 +173,8 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 					end = completedProperty.get();
 
 					double downloadeSpeed = end - start;
-//					System.out.println("Speed: " + downloadeSpeed);
-//					System.out.println("Threads: " + Thread.currentThread().getId());
+//					CustomLogger.log("Speed: " + downloadeSpeed);
+//					CustomLogger.log("Threads: " + Thread.currentThread().getId());
 					updateSpeed(downloadeSpeed);
 
 					if (stateProperty.getValue().equalsIgnoreCase("FAILED")
@@ -197,7 +204,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	private URL downloadSetup(String link) throws IOException {
 		if (link == null) {
 			updateState(DownloadState.FAILED);
-			System.out.println("Error: " + subItem.getDestination());
+			CustomLogger.log("Error: " + subItem.getDestination());
 			return null;
 		}
 		updateState(DownloadState.PREPARING);
@@ -288,9 +295,9 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			@Override
 			public void accept(int value) {
 				// TODO Auto-generated method stub
-				//System.out.println("ACCEPT: \n" +  "VALUE: "+  value +"\nContent Length: " + BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
+				//CustomLogger.log("ACCEPT: \n" +  "VALUE: "+  value +"\nContent Length: " + BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
-				// System.out.println(progressProperty().getValue().doubleValue());
+				// CustomLogger.log(progressProperty().getValue().doubleValue());
 
 			}
 		};
