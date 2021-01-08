@@ -19,9 +19,8 @@ import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
-
-import javafx.application.Platform;
 
 public class ItemDownloadTest {
 
@@ -53,12 +52,12 @@ public class ItemDownloadTest {
 		try {
 			while (list.get(index).getDownloader() == null) {
 				Thread.sleep(1000);
-				System.out.println("Waiting service start");
+				CustomLogger.log("Waiting service start");
 			}
 			Downloader<CollectionSubItem> service = list.get(index).getDownloader();
 
 			while (!service.isDone()) {
-				System.out.println(service.getDownloadProgress());
+				CustomLogger.log(service.getDownloadProgress());
 				Thread.sleep(150);
 			}
 
@@ -98,10 +97,10 @@ public class ItemDownloadTest {
 			Downloader<CollectionSubItem> service = list.get(index).getDownloader();
 
 			while (!service.isDone()) {
-				System.out.println(service.getDownloadProgress());
+				CustomLogger.log(service.getDownloadProgress());
 				Thread.sleep(1500);
 			}
-			System.out.println(service.getDownloadProgress());
+			CustomLogger.log(service.getDownloadProgress());
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -8,10 +8,10 @@ import java.util.concurrent.ExecutionException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.diffplug.common.base.StackDumper;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -64,7 +64,7 @@ public class ItensInterfaceViewTest {
 			}
 			myReader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
+			CustomLogger.log("An error occurred.");
 			e.printStackTrace();
 		}
 	}

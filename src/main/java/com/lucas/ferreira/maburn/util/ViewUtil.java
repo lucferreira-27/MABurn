@@ -2,7 +2,6 @@ package com.lucas.ferreira.maburn.util;
 
 public class ViewUtil {
 	public static int getImagesGridPaneLastColumn(int total, int columnSizeMax) {
-		System.out.println();
 
 		if (total < columnSizeMax) {
 			return total;

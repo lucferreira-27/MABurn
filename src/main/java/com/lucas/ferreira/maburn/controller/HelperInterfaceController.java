@@ -8,13 +8,13 @@ import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 
 public class HelperInterfaceController implements Initializable {
 
@@ -66,7 +66,7 @@ public class HelperInterfaceController implements Initializable {
 	}
 
 	public void onClickAnimeCollectionPath() {
-		System.out.println("Anime Path");
+		CustomLogger.log("Anime Path");
 
 		File pathDestination = DirectoryModel.selectDirectory(vBoxConfiguration.getScene().getWindow());
 
@@ -80,7 +80,7 @@ public class HelperInterfaceController implements Initializable {
 	}
 
 	public void onClickMangaCollectionPath() {
-		System.out.println("Manga Path");
+		CustomLogger.log("Manga Path");
 
 		
 		File pathDestination = DirectoryModel.selectDirectory(vBoxConfiguration.getScene().getWindow());

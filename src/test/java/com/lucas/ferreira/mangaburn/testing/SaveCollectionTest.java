@@ -5,6 +5,7 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 import com.lucas.ferreira.maburn.model.documents.SaveCollection;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class SaveCollectionTest {
 	@Test
@@ -13,7 +14,7 @@ public class SaveCollectionTest {
 		
 		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setDestination("D:\\AnimeBurn\\Great Pretenderr2");
-		System.out.println(save.loadDatas(anime).getTitleDataBase());
+		CustomLogger.log(save.loadDatas(anime).getTitleDataBase());
 		
 	}
 	@Test
@@ -23,7 +24,7 @@ public class SaveCollectionTest {
 		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setDestination("D:\\AnimeBurn\\Great Pretenderr2");
 		save.saveDatas(anime);
-		System.out.println(save.loadDatas(anime).getTitleDataBase());
+		CustomLogger.log(save.loadDatas(anime).getTitleDataBase());
 		
 	}
 	@Test
@@ -33,7 +34,7 @@ public class SaveCollectionTest {
 		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setDestination("D:\\AnimeBurn\\Great Pretenderr2");
 		save.deleteData(anime);
-		//System.out.println(save.loadDatas(anime).getTitleDataBase());
+		//CustomLogger.log(save.loadDatas(anime).getTitleDataBase());
 		
 	}
 }

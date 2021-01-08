@@ -21,8 +21,8 @@ import com.lucas.ferreira.maburn.model.documents.SaveCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.ItemFileComparator;
-import com.lucas.ferreira.maburn.util.ListenFutureResponse;
+import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
+import com.lucas.ferreira.maburn.util.response.ListenFutureResponse;
 
 import javafx.beans.property.IntegerProperty;
 

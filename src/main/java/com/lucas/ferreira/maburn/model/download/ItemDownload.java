@@ -19,8 +19,8 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.update.Fetcher;
 import com.lucas.ferreira.maburn.model.update.ItemUpdate;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
-import com.lucas.ferreira.maburn.util.FutureResponseUtil;
-import com.lucas.ferreira.maburn.util.ResponseUtil;
+import com.lucas.ferreira.maburn.util.response.FutureResponseUtil;
+import com.lucas.ferreira.maburn.util.response.ResponseUtil;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

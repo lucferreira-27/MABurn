@@ -18,6 +18,7 @@ import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DocumentCollectionReaderTest {
 	private DocumentCollectionReader doc;
@@ -71,13 +72,13 @@ public class DocumentCollectionReaderTest {
 		anime.setDestination("D:\\AnimeBurn\\Maou Gakuin no Futekigousha – Todos os Episódios");
 		anime = (AnimeDownloaded) doc.getItemInDocument(anime);
 
-		System.out.println(anime.getName());
+		CustomLogger.log(anime.getName());
 
 		doc.editElementById(6, "title", "Maou Gakuin no Futekigousha – Todos os Episódios", "Anime");
 
 		anime = (AnimeDownloaded) doc.getItemInDocument(anime);
 
-		System.out.println(anime.getName());
+		CustomLogger.log(anime.getName());
 	}
 
 }

@@ -1,12 +1,12 @@
-package com.lucas.ferreira.maburn.model.bean.webdatas;
+package com.lucas.ferreira.maburn.model.search;
 
 import com.lucas.ferreira.maburn.model.enums.Sites;
 
-public class SearchTitleWebData {
+public class SearchResult {
 	private Sites site;
 	private String url;
 	private String name;
-	public SearchTitleWebData(Sites site) {
+	public SearchResult(Sites site) {
 		// TODO Auto-generated constructor stub
 		this.site = site;
 	}
@@ -29,4 +29,10 @@ public class SearchTitleWebData {
 	public Sites getSite() {
 		return site;
 	}
+
+	@Override
+	public String toString() {
+		return "SearchTitleWebData [site=" + site + ", url=" + url + ", name=" + name + "]";
+	}
+	
 }

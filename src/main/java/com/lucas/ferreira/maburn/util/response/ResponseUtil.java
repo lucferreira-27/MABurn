@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.util;
+package com.lucas.ferreira.maburn.util.response;
 
 import javafx.concurrent.Task;
 

@@ -9,6 +9,7 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DocumentConfiguration {
 	private Document doc;
@@ -62,8 +63,8 @@ public class DocumentConfiguration {
 
 		root.appendChild(element);
 		element.setTextContent(value);
-		System.out.println("Elemenet name: " + elementName);
-		System.out.println("Value " + value);
+		CustomLogger.log("Elemenet name: " + elementName);
+		CustomLogger.log("Value " + value);
 		parser.tranformContentToXML(doc, ConfigurationReader.CONFIG_LOCAL);
 	}
 

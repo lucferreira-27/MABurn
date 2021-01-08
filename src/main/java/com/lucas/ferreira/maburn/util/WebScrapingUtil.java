@@ -4,12 +4,12 @@ import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 
 public class WebScrapingUtil {
-	public static void removeTrashFromStringSearch(SearchTitleWebData searh) {
+	public static void removeTrashFromStringSearch(SearchResult searh) {
 
 		switch (searh.getSite()) {
 		case ANITUBE:

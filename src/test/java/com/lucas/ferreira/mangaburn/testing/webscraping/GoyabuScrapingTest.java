@@ -11,9 +11,9 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
-import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class GoyabuScrapingTest {
 	private GoyabuScraping scraping = new GoyabuScraping();
@@ -60,7 +60,7 @@ public class GoyabuScrapingTest {
 	@Test
 	public void fecthSearchTitle() {
 
-		List<SearchTitleWebData> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
+		List<SearchResult> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
 		int expect = 3;
 		int result = searchTitleWebDatas.size();
 		assertThat(expect, is(result));
@@ -71,10 +71,15 @@ public class GoyabuScrapingTest {
 		String expect = TITLE_URL_TEST1;
 
 		String result = scraping.getTitlePage(EPISODE_URL_TEST);
-		System.out.println(expect);
-		System.out.println(result);
+		CustomLogger.log(expect);
+		CustomLogger.log(result);
 		assertThat(expect, is(result));
 
+	}
+	@Test
+	public void fetchInsideSearchFetchTitle() {
+		List<SearchResult> results = scraping.insideSearchFetch(SEARCH);
+		CustomLogger.logCollection(results);
 	}
 	
 	@Test(expected = WebScrapingException.class)

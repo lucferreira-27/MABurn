@@ -2,28 +2,18 @@ package com.lucas.ferreira.maburn.model.update;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
-import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
-import com.lucas.ferreira.maburn.util.FutureResponseUtil;
-import com.lucas.ferreira.maburn.util.ItemWebDataFilter;
-import com.lucas.ferreira.maburn.util.ResponseUtil;
+import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.predicates.ItemWebDataFilter;
+import com.lucas.ferreira.maburn.util.response.ResponseUtil;
 
 public class ItemUpdate {
 
@@ -81,7 +71,7 @@ public class ItemUpdate {
 		} catch (WebScrapingException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			System.out.println("return " + 0);
+			CustomLogger.log("return " + 0);
 			return null;
 		}
 

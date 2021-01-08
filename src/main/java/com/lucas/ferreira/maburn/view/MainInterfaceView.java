@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import com.lucas.ferreira.maburn.controller.MenuController;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -43,7 +44,7 @@ public class MainInterfaceView extends ViewInterface {
 
 	public void initAndShowGUI() {
 		// This method is invoked on Swing thread
-		System.out.println("> Run MainInterfaceView");
+		CustomLogger.log("> Run MainInterfaceView");
 		frame = new JFrame("MA Burn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
@@ -66,7 +67,7 @@ public class MainInterfaceView extends ViewInterface {
 			}
 		});
 		while (!initializeIsDone) {
-			System.out.println("> Loading view");
+			CustomLogger.log("> Loading view");
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -96,15 +97,14 @@ public class MainInterfaceView extends ViewInterface {
 	}
 	private void initFX(final JFXPanel fxPanel) throws IOException {
 
-		System.out.println("> Initialize MainInterfaceView");
+		CustomLogger.log("> Initialize MainInterfaceView");
 		initMainInterfaceView();
 
 		createScene();
 
 		fxPanel.setScene(scenePane);
-		System.out.println("> Initialization Complete  MainInterfaceView");
+		CustomLogger.log("> Initialization Complete  MainInterfaceView");
 		frame.setVisible(visibility);
-		System.out.println();
 
 		initializeIsDone = true;
 

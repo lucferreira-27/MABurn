@@ -91,5 +91,11 @@ public class GridPaneTable {
 		cell.setRow(rowTarget);
 		cell.setColumn(columnTarget);
 	}
+	public void setColumnSize(int columnSize) {
+		this.columnSize = columnSize;
+	}
+	public int getColumnSize() {
+		return columnSize;
+	}
 
 }

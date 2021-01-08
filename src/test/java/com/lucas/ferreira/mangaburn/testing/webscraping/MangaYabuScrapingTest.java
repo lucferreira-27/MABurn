@@ -11,8 +11,9 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class MangaYabuScrapingTest {
 	private final static String TITLE_URL_TEST = "https://mangayabu.top/manga/one-piece/";
@@ -56,11 +57,17 @@ public class MangaYabuScrapingTest {
 		assertThat(expect, is(result));
 
 	}
-
+	
+	@Test
+	public void fetchInsideSearchFetchTitle() {
+		List<SearchResult> results = scraping.insideSearchFetch(SEARCH);
+		CustomLogger.logCollection(results);
+	}
+	
 	@Test
 	public void fecthSearchTitle() {
 
-		List<SearchTitleWebData> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
+		List<SearchResult> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
 		int expect = 1;
 		int result = searchTitleWebDatas.size();
 		assertThat(expect, is(result));

@@ -3,12 +3,12 @@ package com.lucas.ferreira.maburn.model.databases.response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Connection.Response;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class KitsuResponseAPI implements DatabaseResponse {
 
@@ -27,7 +27,7 @@ public class KitsuResponseAPI implements DatabaseResponse {
 
 	public CollectDatas fetchAll() {
 		CollectDatas datas = new CollectDatas();
-		System.out.println(responseBody);
+		CustomLogger.log(responseBody);
 		JSONObject jsonResponse = new JSONObject(responseBody);
 		JSONObject firstData;
 		JSONArray allDatas;

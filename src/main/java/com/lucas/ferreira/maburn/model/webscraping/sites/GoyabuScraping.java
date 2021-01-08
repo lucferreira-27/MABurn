@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.webscraping.sites;
 
+import java.util.List;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,16 +24,17 @@ import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
-public class GoyabuScraping extends WebScraping {
+public class GoyabuScraping extends WebScraping{
 	private Scraper scraper = new Scraper();
 
 	private List<Future<String>> futureresponseBodys = new ArrayList<>();
@@ -44,7 +47,7 @@ public class GoyabuScraping extends WebScraping {
 		t.setDaemon(true);
 		return t;
 	});
-
+	
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 
@@ -57,6 +60,7 @@ public class GoyabuScraping extends WebScraping {
 
 		return animeWebData;
 	}
+	
 
 	@Override
 	public ItemWebData fecthItem(ItemWebData itemWebData) {
@@ -68,18 +72,36 @@ public class GoyabuScraping extends WebScraping {
 		return episodeWebData;
 	}
 
+	
 	@Override
-	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
+	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
-		String result = bingSearch(querry, getSite());
+		try {
+		String result = bingSearch(querry, getSite(), true);
 		if (!isTitlePage(result, "https://goyabu.com/assistir/")) {
-			result = getTitlePage(result);
-		} 
-		SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
-		searchTitleWebData.setUrl(result);
-		return Arrays.asList(searchTitleWebData);
+		
+			return insideSearchFetch(querry);
+		} else {
+			SearchResult searchTitleWebData = new SearchResult(getSite());
+			searchTitleWebData.setUrl(result);
+			return Arrays.asList(searchTitleWebData);
+		}
+		}catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 
 	}
+	
+
+	@Override
+	public Sites getSite() {
+		// TODO Auto-generated method stub
+		return Sites.GOYABU;
+	}
+	
+
+
 	
 	
 
@@ -91,15 +113,15 @@ public class GoyabuScraping extends WebScraping {
 		return elements.get(0).attr("href");
 		
 	}
-
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
+	
+	private List<SearchResult> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
 		try {
-			List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+			List<SearchResult> searchTitleWebDatas = new ArrayList<>();
 			Elements elements = scraper.scrapeSnippet(document, ".video-thumb > a > span > img");
 			elements.forEach(element -> {
 
-				SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+				SearchResult searchTitle = new SearchResult(getSite());
 				searchTitle.setName(element.attr("title"));
 				searchTitle.setUrl(element.parents().get(1).attr("href"));
 				searchTitleWebDatas.add(searchTitle);
@@ -112,12 +134,18 @@ public class GoyabuScraping extends WebScraping {
 			return null;
 		}
 	}
+	
+	public List<SearchResult> insideSearchFetch(String querry) {
+		String defaultUrl = getSite().getUrl();
+		String prefix = "/?s=";
+		String searchUrl = defaultUrl + prefix + querry;
 
-	@Override
-	public Sites getSite() {
-		return Sites.GOYABU;
+		responseBody = ConnectionModel.connect(searchUrl);
+		document = Jsoup.parse(responseBody);
+
+		return fetchAllItensOnTable(document);
 	}
-
+	
 	public List<EpisodeWebData> fetchEpisodesForPageUrl() {
 		try {
 			document = Jsoup.parse(responseBody);
@@ -145,7 +173,8 @@ public class GoyabuScraping extends WebScraping {
 		return null;
 
 	}
-
+	
+	
 	private void waitresponseBody(int itensExpect) {
 		int itensDone = 0;
 
@@ -164,7 +193,7 @@ public class GoyabuScraping extends WebScraping {
 			}
 		});
 	}
-
+	
 	private int pageNumbers(Document doc) {
 		Elements elements = scraper.scrapeSnippet(doc, ".page-numbers");
 		int pageNumbers = Integer.parseInt(elements.get(elements.size() - 2).text());
@@ -192,7 +221,7 @@ public class GoyabuScraping extends WebScraping {
 
 		});
 	}
-
+	
 	private void fetchEpisodePageUrl(Document doc, List<EpisodeWebData> episodeWebDatas) throws IOException {
 
 		Elements elements = scraper.scrapeSnippet(doc, ".video-title > a");
@@ -207,7 +236,7 @@ public class GoyabuScraping extends WebScraping {
 
 		});
 	}
-
+	
 	private boolean titleHasPages(Document doc) {
 		try {
 			String currentPage = scraper.scrapeSnippet(doc, ".page-numbers").text();
@@ -216,10 +245,10 @@ public class GoyabuScraping extends WebScraping {
 			return false;
 		}
 	}
-
+	
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
 
-		System.out.println(responseBody);
+		CustomLogger.log(responseBody);
 		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 
 		String script = elements.stream()
@@ -233,7 +262,7 @@ public class GoyabuScraping extends WebScraping {
 
 		return episodeWebData;
 	}
-
+	
 	private Map<Definition, String> findDownloadLinksInScript(String script) {
 		try {
 			script = script.substring(script.indexOf("const playerInstance=jwplayer('player').setup({"));
@@ -265,6 +294,7 @@ public class GoyabuScraping extends WebScraping {
 
 	}
 
+	
 	private Map<Definition, String> getHideLinks(String link) {
 		Map<Definition, String> links = new HashMap<>();
 
@@ -299,7 +329,7 @@ public class GoyabuScraping extends WebScraping {
 
 		return links;
 	}
-
+	
 	private Map<Definition, String> predefinedLinks(String label, String file) {
 		Map<Definition, String> links = new HashMap<Definition, String>();
 		switch (label) {
@@ -321,4 +351,5 @@ public class GoyabuScraping extends WebScraping {
 		return links;
 	}
 
+	
 }

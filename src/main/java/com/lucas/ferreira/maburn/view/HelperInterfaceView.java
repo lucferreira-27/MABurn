@@ -3,15 +3,10 @@ package com.lucas.ferreira.maburn.view;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.HelperInterfaceController;
-import com.lucas.ferreira.maburn.controller.HomeInterfaceController;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -46,7 +41,7 @@ public class HelperInterfaceView extends ViewInterface {
 
 			initRoot();
 			initCollectionMenuPane();
-			System.out.println("> Run HelperInterfaceView");
+			CustomLogger.log("> Run HelperInterfaceView");
 			initializeIsDone = true;
 
 		});

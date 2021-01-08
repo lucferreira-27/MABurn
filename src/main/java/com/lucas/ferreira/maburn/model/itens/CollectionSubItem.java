@@ -5,4 +5,5 @@ public interface CollectionSubItem {
 	public String getDestination();
 	public void setDestination(String destination);
 	public String getName();
+	
 }

@@ -12,14 +12,8 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.BytesUtil;
-
-import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.concurrent.Task;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DownloadImageServiceModel extends Downloader<File>  {
 	
@@ -35,7 +29,7 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 	}
 	
 	public File download() throws IOException {
-		System.out.println(file.getAbsolutePath() + link);
+		CustomLogger.log(file.getAbsolutePath() + link);
 		URL url = downloadSetup(link);
 		return startDownload(url);
 
@@ -61,7 +55,7 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 		is = httpConn.getInputStream();
 		}catch (IOException e) {
 			// TODO: handle exception
-			System.out.println(httpConn.getConnectTimeout());
+			CustomLogger.log(httpConn.getConnectTimeout());
 			throw new IOException(e.getMessage());
 		}
 		location.mkdirs();
@@ -73,7 +67,7 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 		int length = 0;
 		int i = 0;
 		updateSize(size);
-		//System.out.println("Download - " + fileName + " " + httpConn.getContentLength());
+		//CustomLogger.log("Download - " + fileName + " " + httpConn.getContentLength());
 		while (length != -1) {
 			if (pauseProperty.get()) {
 				stopUntil();
@@ -85,8 +79,8 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 
 			i += BUFFER_SIZE;
 			updateProgress(i, httpConn.getContentLength() + 1);
-			System.out.println("length: " + length);
-			System.out.println("b: " + b);
+			CustomLogger.log("length: " + length);
+			CustomLogger.log("b: " + b);
 			try {
 			os.write(b, 0, length);
 			}catch (IndexOutOfBoundsException e) {
@@ -95,11 +89,11 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 			}
 		}
 
-		//System.out.println("Done - " + fileName + " " + size);
+		//CustomLogger.log("Done - " + fileName + " " + size);
 		is.close();
 		os.close();
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName);
-		//System.out.println("REALLY OVER!");
+		//CustomLogger.log("REALLY OVER!");
 		updateProgress(i + 1, httpConn.getContentLength() + 1);
 		
 		return downloadedFile;
@@ -119,7 +113,7 @@ public class DownloadImageServiceModel extends Downloader<File>  {
 	@Override
 	protected File call() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("!");
+		CustomLogger.log("!");
 		return download();
 	}
 

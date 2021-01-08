@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class CollectionMatcherTest {
 
@@ -31,7 +32,7 @@ public class CollectionMatcherTest {
 		}
 
 		itens = CollectionMatch.locale(itens, "");
-		itens.forEach(item -> System.out.println(item.getTitleDataBase()));
+		itens.forEach(item -> CustomLogger.log(item.getTitleDataBase()));
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.model.enums.Sites;
 
-public class AnimeWebData implements TitleWebData {
+public class AnimeWebData extends TitleWebData {
 	private String name;
 	private String url;
 	private Sites site;

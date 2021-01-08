@@ -3,7 +3,6 @@ package com.lucas.ferreira.mangaburn.testing.download;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -13,6 +12,7 @@ import java.nio.channels.ReadableByteChannel;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.download.service.model.ReadableConsumerByteChannel;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 public class ReadableConsumerByteChannelTest {
@@ -28,7 +28,7 @@ public class ReadableConsumerByteChannelTest {
 		int fileSize = con.getContentLength();
 		ReadableByteChannel rbc = Channels.newChannel(con.getInputStream());
 		ReadableConsumerByteChannel rcbc = new ReadableConsumerByteChannel(rbc, (b) ->{
-			System.out.println(b);
+			CustomLogger.log(b);
 		});
 		
 

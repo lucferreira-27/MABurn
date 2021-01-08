@@ -10,8 +10,9 @@ import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-import com.lucas.ferreira.maburn.util.CollectionGridCellComparator;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.ViewUtil;
+import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
@@ -29,8 +30,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 public class ItemsInterfaceController implements Initializable {
+
+	@FXML
+	private StackPane collectionStackPane;
 
 	@FXML
 	private GridPane itensImagesGridPane;
@@ -73,8 +78,8 @@ public class ItemsInterfaceController implements Initializable {
 
 			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
 				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
-				System.out.println("GridPane Children: " + itensImagesGridPane.getChildren().size());
-				System.out.println(
+				CustomLogger.log("GridPane Children: " + itensImagesGridPane.getChildren().size());
+				CustomLogger.log(
 						"Column Index: " + GridPane.getColumnIndex(pane) + " Row Index: " + GridPane.getRowIndex(pane));
 
 				ImageView image = (ImageView) pane.getChildren().get(0);
@@ -182,7 +187,7 @@ public class ItemsInterfaceController implements Initializable {
 			itensImagesGridPane.getChildren().clear();
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
-				System.out.println(((CollectionItem) cell.getUserData()).getTitleDataBase());
+				CustomLogger.log(((CollectionItem) cell.getUserData()).getTitleDataBase());
 				int c = GridPaneTable.getImagesGridPaneLastColumn(i, 7);
 				int r = GridPaneTable.getImagesGridPaneLastRow(i, 7);
 
@@ -260,16 +265,29 @@ public class ItemsInterfaceController implements Initializable {
 		itensImagesScroll.setLayoutX(200);
 		itensImagesScroll.setPrefViewportHeight(mainView.getRoot().getScene().getHeight() - 200);
 		itensImagesScroll.setPannable(false);
+
+		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {
+			double imageWith = 168.75;
+			double width = newvalue.doubleValue();
+
+			double size = width / imageWith;
+			if ((int) size <= 0) {
+				size = 1;
+			} else
+				size = size > (int) size ? (int) size : (int) size + 1;
+
+			itensView.getGridTable().setColumnSize((int) size);
+			itensView.sortImagesGridPane();
+		});
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 		initItensImagesScrollPane();
 
 		if (itensView.getCollectionLoader() == null || itensView.getCollectionLoader().isDone()) {
-			System.out.println(loadGridPane.getStyleClass());
+			CustomLogger.log(loadGridPane.getStyleClass());
 			loadGridPane.setVisible(false);
 			lblLoad.setVisible(false);
 		}
@@ -279,13 +297,13 @@ public class ItemsInterfaceController implements Initializable {
 			itensView.getCollectionLoader().getConnectinoItemLength().addListener((obser, oldvalue, newvalue) -> {
 				lblLoad.textProperty().unbind();
 				Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
-				System.out.println("[Fetch items: " + newvalue.toString() + " ]");
+				CustomLogger.log("[Fetch items: " + newvalue.toString() + " ]");
 
 			});
 
 			itensView.getCollectionLoader().getWriteItemLength().addListener((obser, oldvalue, newvalue) -> {
 				Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
-				System.out.println("[Write items: " + newvalue.toString() + " ]");
+				CustomLogger.log("[Write items: " + newvalue.toString() + " ]");
 
 			});
 

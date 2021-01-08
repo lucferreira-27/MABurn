@@ -18,11 +18,11 @@ import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.connection.ScrapeEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
@@ -110,38 +110,39 @@ public class SaikoScraping extends WebScraping {
 	}
 
 	@Override
-	public List<SearchTitleWebData> fetchSearchTitle(String querry) {
+	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
 		try {
-			String result = bingSearch(querry, getSite());
+			String result = bingSearch(querry, getSite(), true);
 			if (!isTitlePage(result, "https://saikoanimes.net/anime/")) {
-				throw new WebScrapingException("No result");
+				return insideSearchFetch(querry);
 			} else {
-				SearchTitleWebData searchTitleWebData = new SearchTitleWebData(getSite());
+				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(result);
 				return Arrays.asList(searchTitleWebData);
 			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			return null;
-		}
+			}catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
 	}
 
-	@Override
-	protected boolean isTitlePage(String url, String expectedUrl) {
-		// TODO Auto-generated method stub
-		if (super.isTitlePage(url, expectedUrl)) {
-			return true;
-		}
-		return false;
+	public List<SearchResult> insideSearchFetch(String querry) {
+		String defaultUrl = getSite().getUrl();
+		String prefix = "/multimidia/?fwp_pesquisa=";
+		String searchUrl = defaultUrl + prefix + querry;
 
+		responseBody = ConnectionModel.connect(searchUrl);
+		document = Jsoup.parse(responseBody);
+		return fetchAllItensOnTable(document);
 	}
 
-	private List<SearchTitleWebData> fetchAllItensOnTable(Document document) {
+
+
+	private List<SearchResult> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
 		try {
-			List<SearchTitleWebData> searchTitleWebDatas = new ArrayList<>();
+			List<SearchResult> searchTitleWebDatas = new ArrayList<>();
 			Elements elements = scraper.scrapeSnippet(document, ".view-first> a");
 			if (elements.stream().allMatch(el -> {
 				return el.attr("href").isEmpty();
@@ -149,7 +150,7 @@ public class SaikoScraping extends WebScraping {
 				throw new WebScrapingException("Element don't found in querry");
 			}
 			elements.forEach(element -> {
-				SearchTitleWebData searchTitle = new SearchTitleWebData(getSite());
+				SearchResult searchTitle = new SearchResult(getSite());
 				searchTitle.setName(element.select("div >div >.post-name").text());
 
 				searchTitle.setUrl(element.attr("href"));

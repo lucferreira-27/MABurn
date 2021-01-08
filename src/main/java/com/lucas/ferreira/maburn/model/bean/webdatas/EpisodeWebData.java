@@ -13,8 +13,9 @@ import com.lucas.ferreira.maburn.model.download.service.model.DownloadServiceMod
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
-public class EpisodeWebData implements ItemWebData {
+public class EpisodeWebData extends ItemWebData {
 	private AnimeWebData animeWebData;
 	private Downloader<CollectionSubItem> download = new DownloadServiceModel();
 	private String name;
@@ -79,9 +80,9 @@ public class EpisodeWebData implements ItemWebData {
 	public Downloader<CollectionSubItem> download(Collections collections) {
 		String itemName = collections.getActualItem().getName();
 		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;
-		// System.out.println(destination);
+		 CustomLogger.log(destination);
 
-		System.out.println(destination);
+		CustomLogger.log(destination);
 		EpisodeDownloaded episode = new EpisodeDownloaded();
 		episode.setName(name);
 		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this);
@@ -93,11 +94,13 @@ public class EpisodeWebData implements ItemWebData {
 			return download;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("!!!!!!");
+			CustomLogger.log("!!!!!!");
 			e.printStackTrace();
 			return download;
 		}
 
 	}
+
+
 
 }

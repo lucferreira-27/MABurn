@@ -2,15 +2,14 @@ package com.lucas.ferreira.maburn.view;
 
 import java.io.IOException;
 
-import com.lucas.ferreira.maburn.controller.HomeInterfaceController;
 import com.lucas.ferreira.maburn.controller.TitleInterfaceController;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class TitleInterfaceView extends ViewInterface {
 	private Collections collections;
@@ -61,7 +60,7 @@ public class TitleInterfaceView extends ViewInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("> Run TitleInterfaceView");
+			CustomLogger.log("> Run TitleInterfaceView");
 			initializeIsDone = true;
 
 		});

@@ -1,23 +1,20 @@
-package com.lucas.ferreira.maburn.util;
+package com.lucas.ferreira.maburn.util.response;
 
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
-public class ListenFutureResponse<T>  {
+public class FutureResponseUtil <T> extends ResponseUtil {
 	private List<Future<T>> future;
-	private IntegerProperty progress;
-	private boolean finish = false;
-	public ListenFutureResponse(IntegerProperty progress, List<Future<T>> future) {
+	public FutureResponseUtil(List<Future<T>> future) {
 		// TODO Auto-generated constructor stub
 		this.future = future;
-		this.progress = progress;
 	}
-	// TODO Auto-generated constructor stub
-
-	public boolean listenAllFuture() {
+	
+	public boolean waitAllFuture() {
 		int itensDone = 0;
 		int last = 0;
 		try {
@@ -25,12 +22,11 @@ public class ListenFutureResponse<T>  {
 				itensDone = future.stream().filter(futureItem -> futureItem.isDone()).collect(Collectors.toList())
 						.size();
 				if (itensDone > last) {
-					progress.set(itensDone);
 					last = itensDone;
 				}
 				Thread.sleep(100);
+
 			}
-			finish = true;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -39,26 +35,24 @@ public class ListenFutureResponse<T>  {
 		}
 	}
 
+	@Override
+	public void await() {
+		// TODO Auto-generated method stub
+		waitAllFuture();
+		
+	}
 
-	
-	
+	@Override
+	protected Void call() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void listen() {
 		// TODO Auto-generated method stub
-		listenAllFuture();
+		
 	}
-	
-	public void await() {
-		while(!finish) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-
-
-
 }
+
+

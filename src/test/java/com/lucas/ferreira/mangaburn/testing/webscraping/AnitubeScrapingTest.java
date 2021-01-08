@@ -11,8 +11,9 @@ import org.junit.Test;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class AnitubeScrapingTest {
 	private final static String TITLE_URL_TEST = "https://www.anitube.site/897019";
@@ -51,7 +52,7 @@ public class AnitubeScrapingTest {
 	@Test
 	public void fecthSearchTitle() {
 
-		List<SearchTitleWebData> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
+		List<SearchResult> searchTitleWebDatas = scraping.fetchSearchTitle(SEARCH);
 		int expect = 1;
 		int result = searchTitleWebDatas.size();
 		assertThat(result, is(expect));
@@ -62,14 +63,21 @@ public class AnitubeScrapingTest {
 		String expect = TITLE_URL_TEST;
 
 		String result = scraping.getTitlePage(EPISODE_URL_TEST);
-		System.out.println(expect);
-		System.out.println(result);
+		CustomLogger.log(expect);
+		CustomLogger.log(result);
 		assertThat(expect, is(result));
 
 	}
 	
+	@Test
+	public void fetchInsideSearchFetchTitle() {
+		List<SearchResult> results = scraping.insideSearchFetch(SEARCH);
+		CustomLogger.logCollection(results);
+	}
+	
+	
 	@Test(expected = WebScrapingException.class)
-	public void fecthSearchTitleError() {
+	public void fetchSearchTitleError() {
 
 		scraping.fetchSearchTitle(SEARCH_ERROR);
 

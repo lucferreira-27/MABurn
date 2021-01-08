@@ -24,10 +24,10 @@ public class TitleDownloadInterfaceViewTest {
 
 	@Test
 	public void showTitleDownloadViewMangaCollectionTest() {
-		StackDumper.dumpWhenSysOutContains("null");
 		view = new MainInterfaceView();
 	
 		
+
 		MainLoader loader = new MainLoader(new MangaCollection());
 		Collections collections = null;
 		try {

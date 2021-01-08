@@ -20,6 +20,7 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.application.Platform;
@@ -59,11 +60,11 @@ public class DownloadServiceTest {
 			while (!service.isDone()) {
 				Platform.runLater(() -> {
 
-					System.out.println("Service Progress: " + service.getProgress() * 100 + "%");
+					CustomLogger.log("Service Progress: " + service.getProgress() * 100 + "%");
 
 				});
 				for (ItemWebData subService : service.getItems()) {
-					System.out.println("Item Progress: [" + subService.getName() + "] "
+					CustomLogger.log("Item Progress: [" + subService.getName() + "] "
 							+ subService.getDownloader().getDownloadProgress() * 100 + "%");
 				}
 				Thread.sleep(1000);
@@ -72,17 +73,17 @@ public class DownloadServiceTest {
 
 			Thread.sleep(1000);
 
-			Platform.runLater(() -> System.out.println("Service Progress: " + service.getProgress() * 100 + "%"));
+			Platform.runLater(() -> CustomLogger.log("Service Progress: " + service.getProgress() * 100 + "%"));
 	
 			for (ItemWebData subService : service.getItems()) {
-				System.out.println("Item Progress: [" + subService.getName() + "] "
+				CustomLogger.log("Item Progress: [" + subService.getName() + "] "
 						+ subService.getDownloader().getDownloadProgress()* 100 + "%");
 			}
 
 			Platform.runLater(() -> {
 				service.getItems().stream().filter(i -> {
 					return i.getDownloader().getState() == State.FAILED;
-				}).collect(Collectors.toList()).forEach(i -> System.out.println(i.getName()));
+				}).collect(Collectors.toList()).forEach(i -> CustomLogger.log(i.getName()));
 
 			});
 
@@ -90,8 +91,8 @@ public class DownloadServiceTest {
 				System.err.println("----- Erros ----");
 				service.getItems().stream().filter(i -> i.getDownloader().getState() == State.FAILED).forEach(i -> {
 
-					System.out.println("Name: " + i.getName());
-					System.out.println("URL: " + i.getUrl());
+					CustomLogger.log("Name: " + i.getName());
+					CustomLogger.log("URL: " + i.getUrl());
 
 				});
 				;
@@ -131,9 +132,9 @@ public class DownloadServiceTest {
 
 		while (!service.isDone()) {
 			try {
-				Platform.runLater(() -> System.out.println("Service Progress: " + service.getProgress() * 100 + "%"));
+				Platform.runLater(() -> CustomLogger.log("Service Progress: " + service.getProgress() * 100 + "%"));
 				for (ItemWebData subService : service.getItems()) {
-					System.out.println("Item Progress: [" + subService.getName() + "] "
+					CustomLogger.log("Item Progress: [" + subService.getName() + "] "
 							+ subService.getDownloader().getDownloadProgress() * 100 + "%");
 				}
 				Thread.sleep(1000);
@@ -146,17 +147,17 @@ public class DownloadServiceTest {
 		try {
 			Thread.sleep(1000);
 
-			Platform.runLater(() -> System.out.println("Service Progress: " + service.getProgress() * 100 + "%"));
+			Platform.runLater(() -> CustomLogger.log("Service Progress: " + service.getProgress() * 100 + "%"));
 			for (ItemWebData subService : service.getItems()) {
-				System.out.println("Item Progress: [" + subService.getName() + "] "
+				CustomLogger.log("Item Progress: [" + subService.getName() + "] "
 						+ subService.getDownloader().getDownloadProgress()* 100 + "%");
 			}
 			Platform.runLater(() -> {
 				System.err.println("----- Erros ----");
 				service.getItems().stream().filter(i -> i.getDownloader().getState() == State.FAILED).forEach(i -> {
 
-					System.out.println("Name: " + i.getName());
-					System.out.println("URL: " + i.getUrl());
+					CustomLogger.log("Name: " + i.getName());
+					CustomLogger.log("URL: " + i.getUrl());
 
 				});
 				;

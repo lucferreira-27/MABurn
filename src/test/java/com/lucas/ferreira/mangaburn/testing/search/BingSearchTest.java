@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.BingSearch;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class BingSearchTest {
 	private final static String TITLE = "Shingeki no Kyojin The Final Season";
@@ -31,7 +32,7 @@ public class BingSearchTest {
 			}
 			myReader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("An error occurred.");
+			CustomLogger.log("An error occurred.");
 			e.printStackTrace();
 		}
 	}
@@ -48,16 +49,16 @@ public class BingSearchTest {
 		for(int i = 0; i < 100; i++) {
 			BingSearch bingSearch = new BingSearch(names.get(i), Sites.GOYABU);
 			try {
-			System.out.println(bingSearch.search());
+			CustomLogger.log(bingSearch.search());
 			}catch (Exception e) {
 				// TODO: handle exception
 				System.err.println("Fail: " + names.get(i));
 				fails++;
 			}
 		}
-		System.out.println("Fails: " + fails);
+		CustomLogger.log("Fails: " + fails);
 //		BingSearch bingSearch = new BingSearch(TITLE, Sites.GOYABU);
-//		System.out.println(bingSearch.search());
+//		CustomLogger.log(bingSearch.search());
 	}
 
 	@Test
@@ -66,14 +67,14 @@ public class BingSearchTest {
 		for(int i = 0; i < 100; i++) {
 			BingSearch bingSearch = new BingSearch(names.get(i), Sites.ANITUBE);
 			try {
-			System.out.println(bingSearch.search());
+			CustomLogger.log(bingSearch.search());
 			}catch (Exception e) {
 				// TODO: handle exception
 				System.err.println("Fail: " + names.get(i));
 				fails++;
 			}
 		}
-		System.out.println("Fails: " + fails);
+		CustomLogger.log("Fails: " + fails);
 	}
 
 	@Test
@@ -82,26 +83,26 @@ public class BingSearchTest {
 		for(int i = 0; i < 100; i++) {
 			BingSearch bingSearch = new BingSearch(names.get(i), Sites.SAIKO);
 			try {
-			System.out.println(bingSearch.search());
+			CustomLogger.log(bingSearch.search());
 			}catch (Exception e) {
 				// TODO: handle exception
 				System.err.println("Fail: " + names.get(i));
 				fails++;
 			}
 		}
-		System.out.println("Fails: " + fails);
+		CustomLogger.log("Fails: " + fails);
 	}
 
 	@Test
 	public void searchMangaHostStressTest() {
 		BingSearch bingSearch = new BingSearch(TITLE, Sites.MANGA_HOST);
-		System.out.println(bingSearch.search());
+		CustomLogger.log(bingSearch.search());
 	}
 
 	@Test
 	public void searchMangaYabuStressTest() {
 		BingSearch bingSearch = new BingSearch(TITLE, Sites.MANGA_YABU);
-		System.out.println(bingSearch.search());
+		CustomLogger.log(bingSearch.search());
 	}
 
 }

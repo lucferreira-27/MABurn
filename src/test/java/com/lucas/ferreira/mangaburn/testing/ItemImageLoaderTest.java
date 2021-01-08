@@ -2,13 +2,9 @@ package com.lucas.ferreira.mangaburn.testing;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.junit.Test;
 
@@ -18,8 +14,7 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
-import com.lucas.ferreira.maburn.util.FutureResponseUtil;
-import com.lucas.ferreira.maburn.util.ResponseUtil;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.StringUtil;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
@@ -55,7 +50,7 @@ public class ItemImageLoaderTest {
 				ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 				try {
 				GridPaneCell cell = exec.submit(thumbnailLoader).get();
-				System.out.println(cell.getUserData());
+				CustomLogger.log(cell.getUserData());
 				}catch (Exception e) {
 					// TODO: handle exception
 					System.err.println(e.getMessage());
@@ -65,7 +60,7 @@ public class ItemImageLoaderTest {
 
 			long eTime = System.currentTimeMillis();
 
-			System.out.println("Exercute Service Time:" + (eTime - sTime) / 1000);
+			CustomLogger.log("Exercute Service Time:" + (eTime - sTime) / 1000);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.SearchTitleWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.BingSearch;
+import com.lucas.ferreira.maburn.model.search.SearchResult;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public abstract class WebScraping {
 
@@ -15,16 +16,25 @@ public abstract class WebScraping {
 
 	public abstract ItemWebData fecthItem(ItemWebData itemWebData) throws WebScrapingException;
 
-	public abstract List<SearchTitleWebData> fetchSearchTitle(String querry) throws WebScrapingException;
+	public abstract List<SearchResult> fetchSearchTitle(String querry) throws WebScrapingException;
+	
+	
+	
+	
 
-	protected String bingSearch(String querry, Sites site) {
+	protected String bingSearch(String querry, Sites site, boolean filter) {
 		BingSearch bingSearch = new BingSearch(querry, site);
-		return bingSearch.search();
+		if (filter) {
+			return bingSearch.search();
+
+		} else {
+			return bingSearch.searchNoFilter();
+		}
 	}
 
-	protected boolean isTitlePage(String url ,String expectedUrl) {
-		System.out.println(url);
-		System.out.println(expectedUrl);
+	protected boolean isTitlePage(String url, String expectedUrl) {
+		CustomLogger.log(url);
+		CustomLogger.log(expectedUrl);
 		return url.contains(expectedUrl);
 	}
 

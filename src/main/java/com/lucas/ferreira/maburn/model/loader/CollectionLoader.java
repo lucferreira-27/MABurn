@@ -20,21 +20,21 @@ public abstract class CollectionLoader extends Task<Collections>  {
 		
 		loadProgressLength.addListener((observable, oldvalue, newvalue) -> {
 
-			//System.out.println("Load Progress: " + newvalue);
-			//System.out.println("[" + newvalue + "/" + itemsLength + "]");
+			//CustomLogger.log("Load Progress: " + newvalue);
+			//CustomLogger.log("[" + newvalue + "/" + itemsLength + "]");
 		
 		});
 
 		connectionItemLength.addListener((observable, oldvalue, newvalue) -> {
 
-//			System.out.println("Connection Progress: " + newvalue);
-//			System.out.println("[" + newvalue + "/" + itemsLength + "]");
+//			CustomLogger.log("Connection Progress: " + newvalue);
+//			CustomLogger.log("[" + newvalue + "/" + itemsLength + "]");
 		});
 
 		writeItemLength.addListener((observable, oldvalue, newvalue) -> {
 
-			//System.out.println("Write Progress: " + newvalue);
-			//System.out.println("[" + newvalue + "/" + itemsLength + "]");
+			//CustomLogger.log("Write Progress: " + newvalue);
+			//CustomLogger.log("[" + newvalue + "/" + itemsLength + "]");
 
 		});
 	}
