@@ -1,5 +1,8 @@
 package com.lucas.ferreira.maburn.model.databases.response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,27 +28,32 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		}
 	}
 
-	public CollectDatas fetchAll() {
-		CollectDatas datas = new CollectDatas();
-		CustomLogger.log(responseBody);
+	public List<CollectDatas> fetchAll() {
 		JSONObject jsonResponse = new JSONObject(responseBody);
-		JSONObject firstData;
 		JSONArray allDatas;
-		try {
-			allDatas = jsonResponse.getJSONArray("data");
-			firstData = allDatas.getJSONObject(0);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			firstData = jsonResponse.getJSONObject("data");
-
+		List<CollectDatas> collectDatas = new ArrayList<CollectDatas>();
+		allDatas = jsonResponse.getJSONArray("data");
+		for (int i = 0; i < allDatas.length(); i++) {
+			try {
+				JSONObject data = allDatas.getJSONObject(i);
+				collectDatas.add(fetch(data));
+			} catch (Exception e) {
+				// TODO: handle exception
+				continue;
+			}
 		}
 
-		JSONObject attributes = firstData.getJSONObject("attributes");
+		return collectDatas;
+	}
+
+	public CollectDatas fetch(JSONObject jsonObject) {
+		CollectDatas datas = new CollectDatas();
+
+		JSONObject attributes = jsonObject.getJSONObject("attributes");
 
 		String[] titles = fetchTitles(attributes);
-		Integer id = fetchId(firstData);
-		Category category = fetchType(firstData);
+		Integer id = fetchId(jsonObject);
+		Category category = fetchType(jsonObject);
 		String[] images = fetchPostImage(attributes);
 		String synopsis = fetchSynopsis(attributes);
 		String itemDataBaseUrl = getItemDataBaseUrl(id, category);
@@ -54,7 +62,7 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		Double rating = fetchAvaregeRating(attributes);
 
 		datas.setCanonicalTitle(titles[0]);
-		
+
 		datas.addTitle("en", titles[1]);
 		datas.addTitle("en_jp", titles[2]);
 		datas.addTitle("ja_jp", titles[3]);
@@ -72,6 +80,25 @@ public class KitsuResponseAPI implements DatabaseResponse {
 		datas.setItemDataBaseUrl(itemDataBaseUrl);
 		datas.setAvaregeRating(rating);
 		return datas;
+	}
+
+	public CollectDatas fetchFirst() {
+		CollectDatas datas = new CollectDatas();
+		CustomLogger.log(responseBody);
+		JSONObject jsonResponse = new JSONObject(responseBody);
+		JSONObject firstData;
+		JSONArray allDatas;
+		try {
+			allDatas = jsonResponse.getJSONArray("data");
+			firstData = allDatas.getJSONObject(0);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			firstData = jsonResponse.getJSONObject("data");
+
+		}
+		return fetch(firstData);
+
 	}
 
 	private String[] fetchTitles(JSONObject attributes) {

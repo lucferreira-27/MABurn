@@ -26,6 +26,7 @@ import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -98,6 +99,7 @@ public class TitleInterfaceController implements Initializable {
 		CustomLogger.log("UPDATED SUB ITENS ....");
 		loader.loadAllSubItemInItem(item);
 		CustomLogger.log("UPDATEDED SUB ITENS!");
+		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 
 		loadTitleDatas();
 

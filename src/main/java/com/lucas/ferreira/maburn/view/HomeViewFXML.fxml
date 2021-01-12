@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.net.* ?>
+<?import javafx.geometry.* ?>
+<?import javafx.scene.control.* ?>
+<?import javafx.scene.layout.* ?>
+<?import javafx.scene.text.* ?>
 
-<fx:root type="javafx.scene.layout.VBox"
-	xmlns:fx="http://javafx.com/fxml">
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
 
 	<children>
 
-		<GridPane fx:id="collectioMenuGridPane" alignment="center"
-			hgap="50" vgap="5" styleClass="menuGridPane">
+		<GridPane fx:id="collectioMenuGridPane" alignment="center" hgap="50" vgap="10" styleClass="menuGridPane">
 
 
 			<padding>
@@ -20,26 +18,36 @@
 			</padding>
 
 
-
-			<Button fx:id="btnCollectionAnime" text="Anime"
-				GridPane.columnIndex="0" GridPane.rowIndex="1"
-				onAction="#onClickOnAnime">
+			<Button fx:id="btnCollectionAnime" prefWidth="214" prefHeight="122.82" alignment="BOTTOM_CENTER" contentDisplay="TOP" text="ANIME COLLECTION" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#onClickOnAnime">
 
 				<GridPane.margin>
-					<Insets left="200"  />
+					<Insets left="200" />
 				</GridPane.margin>
 
 
 			</Button>
 
-			
 
-			<Button fx:id="btnCollectionManga" text="Manga"
-				GridPane.columnIndex="1" GridPane.rowIndex="1"
-				onAction="#onClickOnManga">
+			<Button fx:id="btnCollectionManga" prefWidth="214" prefHeight="122.82" alignment="BOTTOM_CENTER" contentDisplay="TOP" text="MANGA COLLECTION" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#onClickOnManga">
 
 				<GridPane.margin>
 					<Insets right="200" />
+				</GridPane.margin>
+
+
+			</Button>
+			<Button fx:id="btnDownloads" prefWidth="214" prefHeight="122.82" alignment="BOTTOM_CENTER" contentDisplay="TOP" text="DOWNLOADS" GridPane.columnIndex="0" GridPane.rowIndex="2" onAction="#onClickOnManga">
+
+				<GridPane.margin>
+					<Insets left="200" />
+				</GridPane.margin>
+
+
+			</Button>
+			<Button fx:id="btnCalendar" prefWidth="214" prefHeight="122.82" alignment="BOTTOM_CENTER" contentDisplay="TOP" text="CALENDAR" GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#onClickOnManga">
+
+				<GridPane.margin>
+					<Insets right="200"/>
 				</GridPane.margin>
 
 
@@ -51,6 +59,3 @@
 
 
 </fx:root>
-
-
-

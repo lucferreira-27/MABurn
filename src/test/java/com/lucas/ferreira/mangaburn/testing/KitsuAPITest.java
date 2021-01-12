@@ -29,7 +29,7 @@ public class KitsuAPITest {
 	@Test
 	public void fetchAllTest1() {
 		kitsuAPI = new KitsuResponseAPI(URL_TEST_1);
-		CollectDatas datas = kitsuAPI.fetchAll();
+		CollectDatas datas = kitsuAPI.fetchFirst();
 		assertThat(datas.getCanonicalTitle(), equalTo("Dragon Ball Super"));
 		assertThat(datas.getPosterImageLink("tiny"),
 				equalTo("https://media.kitsu.io/anime/poster_images/10879/tiny.jpg?1597697396"));
@@ -58,7 +58,7 @@ public class KitsuAPITest {
 	@Test
 	public void fetchAllTest2() {
 		kitsuAPI = new KitsuResponseAPI(URL_TEST_2);
-		CollectDatas datas = kitsuAPI.fetchAll();
+		CollectDatas datas = kitsuAPI.fetchFirst();
 		assertThat(datas.getCanonicalTitle(), equalTo("Akira"));
 		assertThat(datas.getCategory(), equalTo(Category.ANIME));
 	}
@@ -66,7 +66,7 @@ public class KitsuAPITest {
 	@Test
 	public void fetchAllTest3() {
 		kitsuAPI = new KitsuResponseAPI(URL_TEST_3);
-		CollectDatas datas = kitsuAPI.fetchAll();
+		CollectDatas datas = kitsuAPI.fetchFirst();
 		assertThat(datas.getCanonicalTitle(), equalTo("Naruto"));
 		assertThat(datas.getCategory(), equalTo(Category.ANIME));
 	}
@@ -74,7 +74,7 @@ public class KitsuAPITest {
 	@Test
 	public void fetchAllTest4() {
 		kitsuAPI = new KitsuResponseAPI(URL_TEST_4);
-		CollectDatas datas = kitsuAPI.fetchAll();
+		CollectDatas datas = kitsuAPI.fetchFirst();
 		assertThat(datas.getCanonicalTitle(), equalTo("One Piece"));
 		assertThat(datas.getCategory(), equalTo(Category.ANIME));
 	}

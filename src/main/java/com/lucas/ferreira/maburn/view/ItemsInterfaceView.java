@@ -198,7 +198,6 @@ public class ItemsInterfaceView extends ViewInterface {
 	}
 
 	private void addAllImageViewInImageGrid() {
-		ArrayList<Thread> threads = new ArrayList<>();
 
 		// Create a thread for each item
 		for (CollectionItem item : collections.getItens()) {
@@ -221,15 +220,17 @@ public class ItemsInterfaceView extends ViewInterface {
 
 		}
 
-		threads.forEach(thread -> thread.start());
 
 	}
 
 	public void sortImagesGridPane() {
 		try {
 			List<GridPaneCell> cells = gridTable.getCells();
+			if(cells.size() > 0) {
+				controller.emptyProperty().setValue(true);
+			}
 			java.util.Collections.sort(cells, new CollectionGridCellComparator());
-
+			
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
 

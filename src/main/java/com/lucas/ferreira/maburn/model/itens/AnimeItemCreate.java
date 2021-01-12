@@ -29,8 +29,7 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		CustomLogger.log("Creating " + anime.getName());
 
 		CollectDatas collectDatas = database.read(anime.getName(), Category.ANIME);
-		
-		// Update xml files TODO
+
 		anime.setDestination(destination);
 		anime.setTitleDataBase(collectDatas.getCanonicalTitle());
 		anime.setTitles(collectDatas.getTitles());
@@ -38,21 +37,45 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		anime.setImageUrl(collectDatas.getPosterImageLink("medium"));
 		anime.setId(collectDatas.getId());
 		anime.setAnimeCollection(collection);
-		
+
 		ThumbnailDownload thumbnail = new ThumbnailDownload(anime);
-		
-		
 
 		try {
-			
+
 			String thumanailPath = thumbnail.download().getAbsolutePath();
 			anime.setImageLocal(thumanailPath);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-	
+		}
+
+		return anime;
+	}
+
+	@Override
+	public AnimeDownloaded createSearchItem(CollectDatas collectDatas) {
+		// TODO Auto-generated method stub
+		AnimeDownloaded anime = new AnimeDownloaded();
+		
+		anime.setName(collectDatas.getCanonicalTitle());
+		anime.setTitleDataBase(collectDatas.getCanonicalTitle());
+		anime.setTitles(collectDatas.getTitles());
+		anime.setDataBaseUrl(collectDatas.getItemDataBaseUrl());
+		anime.setImageUrl(collectDatas.getPosterImageLink("medium"));
+		anime.setId(collectDatas.getId());
+		anime.setAnimeCollection(collection);
+		ThumbnailDownload thumbnail = new ThumbnailDownload(anime);
+
+		try {
+			System.out.println("Download Thumbnail: " + anime.getName());
+			String thumanailPath = thumbnail.download().getAbsolutePath();
+			anime.setImageLocal(thumanailPath);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return anime;
 	}
 
