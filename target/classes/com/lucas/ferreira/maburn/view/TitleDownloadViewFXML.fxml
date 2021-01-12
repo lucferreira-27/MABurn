@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line ?>
 
 <fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-<ScrollPane fx:id="itensImagesScroll"  fitToHeight="true" fitToWidth="true" styleClass="itensImagesScroll" hbarPolicy="ALWAYS" vbarPolicy="ALWAYS">
+<ScrollPane fx:id="itensImagesScroll"  fitToHeight="true" fitToWidth="true" styleClass="itensImagesScroll" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
 	<AnchorPane styleClass="downloadPanel" xmlns:fx="http://javafx.com/fxml/1">
 		<!-- TODO Add Nodes -->
 

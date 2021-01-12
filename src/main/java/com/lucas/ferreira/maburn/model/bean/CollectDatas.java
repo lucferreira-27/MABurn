@@ -88,9 +88,7 @@ public class CollectDatas {
 	
 	@Override
 	public String toString() {
-		return "CollectDatas [title=" + title + ", id=" + id + ", category=" + category + ", synopsis=" + synopsis
-				+ ", status=" + status + ", publishedDate=" + publishedDate + ", avaregeRating=" + avaregeRating
-				+ ", itemDataBaseUrl=" + itemDataBaseUrl + ", posterImageLink=" + posterImageLink + "]";
+		return "CollectDatas [title=" + title + ",\n id=" + id + ",\n category=" + category + "]";
 	}
 	
 

@@ -53,4 +53,10 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 		return manga;
 	}
 
+	@Override
+	public MangaDownloaded createSearchItem(CollectDatas collectDatas) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

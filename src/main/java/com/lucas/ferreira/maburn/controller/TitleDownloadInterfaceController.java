@@ -37,6 +37,7 @@ import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.SearchResultComparator;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
@@ -645,6 +646,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 	}
 
 	public static <T> void preventColumnReordering(TableView<T> tableView) {
+		System.out.println((LanguageReader.read("LABEL_TABLE_EMPTY")));
+		tableView.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 		Platform.runLater(() -> {
 			for (Node header : tableView.lookupAll(".column-header")) {
 				header.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
@@ -671,7 +674,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 				Platform.runLater(() -> {
 
 					if (AlertWindowView.confirmationAlert("Fetch error", "MABurn could not find the title link",
-							"You want manualmente put the link?")) {
+							"You want manually put the link?")) {
 
 						String input = AlertWindowView.inputAlet("Manual fetch", "Please put the title link");
 						startFetch(input);

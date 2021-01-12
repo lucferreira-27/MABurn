@@ -97,5 +97,6 @@ public class GridPaneTable {
 	public int getColumnSize() {
 		return columnSize;
 	}
+	
 
 }
