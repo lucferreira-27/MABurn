@@ -267,7 +267,9 @@ public class ItemsInterfaceController implements Initializable {
 			loadGridPane.setVisible(true);
 			System.out.println("Search " + querry);
 			Database database = new KitsuDatabase();
+			System.out.println(completeCollection);
 			database.readAll(querry, completeCollection.getCategory()).forEach(data -> {
+				
 				switch (completeCollection.getCategory()) {
 				case ANIME:
 					ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate(
@@ -291,7 +293,7 @@ public class ItemsInterfaceController implements Initializable {
 
 				ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 				try {
-					GridPaneCell cell = thumbnailLoader.call();
+					GridPaneCell cell = thumbnailLoader.onlineLoad();
 					System.out.println(cell.getNode());
 					if (cell != null)
 						searchTable.add(cell);
@@ -310,6 +312,7 @@ public class ItemsInterfaceController implements Initializable {
 			Platform.runLater(() -> {
 				searchModeProperty.set(true);
 				reloadCollection(searchTable);
+				txtSearchBar.clear();
 				loadGridPane.setVisible(false);
 			});
 
@@ -422,6 +425,7 @@ public class ItemsInterfaceController implements Initializable {
 
 	public void setCollection(Collections collections) {
 		// TODO Auto-generated method stub
+		System.out.println(collections);
 		this.completeCollection = collections;
 
 	}

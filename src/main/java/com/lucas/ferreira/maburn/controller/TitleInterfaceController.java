@@ -18,9 +18,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.databases.Database;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
@@ -108,7 +106,9 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	public void onClickButtonBack() {
 		ItemsInterfaceView itensView = this.itensView;
+		itensView.setCollections(collections);
 		itensView.loadMainInterfaceFX(mainView);
+		
 	}
 
 	private void loadTitleDatas() {

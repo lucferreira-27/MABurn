@@ -141,8 +141,9 @@ public class LoadItemRunnable implements Callable<CollectionItem> {
 		}else if(item.getCategory() == Category.MANGA) {
 			imageFile = new File(Documents.THUMBNAILS_LOCAL_MANGAS);
 		}
+		
 		DownloadImageServiceModel downloadImageServiceModel = new DownloadImageServiceModel(item.getImageUrl(),
-				new File(imageFile + "\\" + item.getTitleDataBase()));
+				new File(imageFile + "\\" + item.getTitleFileName()));
 
 		try {
 			downloadImageServiceModel.download();

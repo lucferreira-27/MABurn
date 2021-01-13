@@ -3,17 +3,19 @@ package com.lucas.ferreira.maburn.model.download;
 import java.io.File;
 import java.io.IOException;
 
+import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 import javafx.concurrent.Task;
+import javafx.scene.image.Image;
 
-public class ThumbnailDownload extends Task<Void> {
+public class ThumbnailController extends Task<Void> {
 
 	private CollectionItem item;
 	private DownloadImageServiceModel modelService;
-	public ThumbnailDownload(CollectionItem item) {
+	public ThumbnailController(CollectionItem item) {
 		// TODO Auto-generated constructor stub
 		this.item = item;
 	}
@@ -43,6 +45,13 @@ public class ThumbnailDownload extends Task<Void> {
 		modelService = new DownloadImageServiceModel(item.getImageUrl(), file);
 		
 		return modelService.download();
+	
+	}
+	public Image load() throws IOException {
+
+		ImageLoaderModel loader = new ImageLoaderModel();
+		Image image =loader.loadImageByUrl(item.getImageUrl());
+		return image;
 	
 	}
 

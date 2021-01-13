@@ -6,7 +6,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
+import com.lucas.ferreira.maburn.model.download.ThumbnailController;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
@@ -38,7 +38,7 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		anime.setId(collectDatas.getId());
 		anime.setAnimeCollection(collection);
 
-		ThumbnailDownload thumbnail = new ThumbnailDownload(anime);
+		ThumbnailController thumbnail = new ThumbnailController(anime);
 
 		try {
 
@@ -65,17 +65,7 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		anime.setImageUrl(collectDatas.getPosterImageLink("medium"));
 		anime.setId(collectDatas.getId());
 		anime.setAnimeCollection(collection);
-		ThumbnailDownload thumbnail = new ThumbnailDownload(anime);
 
-		try {
-			System.out.println("Download Thumbnail: " + anime.getName());
-			String thumanailPath = thumbnail.download().getAbsolutePath();
-			anime.setImageLocal(thumanailPath);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return anime;
 	}
 

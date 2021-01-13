@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.connection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -14,24 +15,15 @@ import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 
 public class ConnectionModel implements Callable<String> {
 	private String link;
-	private static ConnectionConfig config;
 
-	public ConnectionModel(ConnectionConfig config) {
-		// TODO Auto-generated constructor stub
-		this.config = config;
-	}
 
-	public String connectAndReturnLocation(String url) {
 
-		return null;
-	}
+
 
 	public ConnectionModel(String link) {
 		// TODO Auto-generated constructor stub
 		this.link = link;
 	}
-
-
 
 	public static String connect(String url, int attempts) {
 		int attempt = 0;
@@ -50,8 +42,43 @@ public class ConnectionModel implements Callable<String> {
 
 	}
 
+	public static HttpURLConnection openConnection(String url, int attempts) {
+		int attempt = 0;
+
+		while (true) {
+			try {
+				return Httpsetup(url);
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				attempt++;
+				if (attempt >= attempts) {
+					throw new ConnectionException(e.getMessage());
+				}
+			}
+		}
+
+	}
+	public static InputStream getInputStream(HttpURLConnection httpURLConnection, int attempts) {
+		int attempt = 0;
+		InputStream is;
+		while (true) {
+			try {
+				is = httpURLConnection.getInputStream();
+				return is;
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				attempt++;
+				if (attempt >= attempts) {
+					throw new ConnectionException(e.getMessage());
+				}
+			}
+		}
+
+	}
+
 	public static String connect(String url) throws ConnectionException {
-		boolean retry = false;
 		HttpURLConnection httpConn = null;
 
 		try {
@@ -73,7 +100,7 @@ public class ConnectionModel implements Callable<String> {
 
 			}
 
-		} 
+		}
 	}
 
 	private static String inputStreamToString(HttpURLConnection httpConn) throws IOException {

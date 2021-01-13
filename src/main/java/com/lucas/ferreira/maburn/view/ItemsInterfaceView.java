@@ -86,18 +86,17 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	private void collectionLoading() throws LoadingException {
 		try {
+			CustomLogger.log("Future collection");
 
 			if (collections == null) {
-
-				CustomLogger.log("Future collection");
 
 				collections = (Collections) futureCollections.get();
 				collections.getItens()
 						.sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
 
-				controller.setCollection(collections);
-
 			}
+			controller.setCollection(collections);
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -187,7 +186,6 @@ public class ItemsInterfaceView extends ViewInterface {
 
 		itensImagesGridPane = (GridPane) namespace.get("itensImagesGridPane");
 
-
 	}
 
 	private void addAllNodes() {
@@ -220,17 +218,16 @@ public class ItemsInterfaceView extends ViewInterface {
 
 		}
 
-
 	}
 
 	public void sortImagesGridPane() {
 		try {
 			List<GridPaneCell> cells = gridTable.getCells();
-			if(cells.size() > 0) {
+			if (cells.size() > 0) {
 				controller.emptyProperty().setValue(true);
 			}
 			java.util.Collections.sort(cells, new CollectionGridCellComparator());
-			
+
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
 
@@ -290,6 +287,10 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	public Collections getCollections() {
 		return collections;
+	}
+
+	public void setCollections(Collections collections) {
+		this.collections = collections;
 	}
 
 	public CollectionLoader getCollectionLoader() {

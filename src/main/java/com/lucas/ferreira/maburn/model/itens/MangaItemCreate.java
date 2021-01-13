@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
+import com.lucas.ferreira.maburn.model.download.ThumbnailController;
 import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
@@ -39,7 +39,7 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 		manga.setId(collectDatas.getId());
 		manga.setMangaCollection(collection);
 	
-		ThumbnailDownload thumbnail = new ThumbnailDownload(manga);
+		ThumbnailController thumbnail = new ThumbnailController(manga);
 
 		try {
 			
