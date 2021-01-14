@@ -33,7 +33,16 @@ public class MainInterfaceView extends ViewInterface {
 	private Scene scenePane;
 	private boolean initializeIsDone = false;
 	private MenuController menuController = new MenuController(this);
-
+	private static MainInterfaceView app;
+	
+	
+	public static MainInterfaceView getInstance() {
+		if(app == null) {
+			app = new MainInterfaceView();
+		}
+		return app;
+	}
+	
 	public void initMainInterfaceView() throws IOException {
 		
 		initFXMLLoader(menuController, root,"MainViewFXML.fxml");
@@ -139,7 +148,7 @@ public class MainInterfaceView extends ViewInterface {
 	}
 
 	@Override
-	protected void loadMainInterfaceFX(MainInterfaceView mainView) {
+	protected void loadMainInterfaceFX() {
 		// TODO Auto-generated method stub
 		
 	}

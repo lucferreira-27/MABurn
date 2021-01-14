@@ -82,7 +82,6 @@ public class ItemsInterfaceController implements Initializable {
 	@FXML
 	private ProgressIndicator loadGridPane;
 
-	private MainInterfaceView mainView;
 	private ItemsInterfaceView itensView;
 	private Collections completeCollection;
 	private List<CollectionItem> itens;
@@ -93,10 +92,9 @@ public class ItemsInterfaceController implements Initializable {
 	private BooleanProperty emptyProperty = new SimpleBooleanProperty();
 	private BooleanProperty searchModeProperty = new SimpleBooleanProperty(false);
 	private StringProperty querryProperty = new SimpleStringProperty();
-
-	public ItemsInterfaceController(MainInterfaceView mainView, ItemsInterfaceView itensView) {
+	private int test = 0;
+	public ItemsInterfaceController(ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
-		this.mainView = mainView;
 		this.itensView = itensView;
 
 	}
@@ -156,7 +154,7 @@ public class ItemsInterfaceController implements Initializable {
 					CollectionItem item = (CollectionItem) image.getUserData();
 					itensView.getCollections().setActualItem(item);
 					TitleInterfaceView titleView = new TitleInterfaceView(itensView);
-					titleView.loadMainInterfaceFX(mainView);
+					titleView.loadMainInterfaceFX();
 
 				}
 			}
@@ -267,9 +265,9 @@ public class ItemsInterfaceController implements Initializable {
 			loadGridPane.setVisible(true);
 			System.out.println("Search " + querry);
 			Database database = new KitsuDatabase();
-			System.out.println(completeCollection);
+			System.out.println("Test: " + test);
 			database.readAll(querry, completeCollection.getCategory()).forEach(data -> {
-				
+
 				switch (completeCollection.getCategory()) {
 				case ANIME:
 					ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate(
@@ -289,6 +287,9 @@ public class ItemsInterfaceController implements Initializable {
 
 			CustomLogger.logCollection(items);
 			// Create a thread for each item
+			if (!searchTable.getCells().isEmpty()) {
+				searchTable.getCells().clear();
+			}
 			for (CollectionItem item : items) {
 
 				ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
@@ -405,7 +406,7 @@ public class ItemsInterfaceController implements Initializable {
 
 		itensImagesScroll.setLayoutY(10);
 		itensImagesScroll.setLayoutX(200);
-		itensImagesScroll.setPrefViewportHeight(mainView.getRoot().getScene().getHeight() - 200);
+		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 200);
 		itensImagesScroll.setPannable(false);
 
 		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {
@@ -425,7 +426,8 @@ public class ItemsInterfaceController implements Initializable {
 
 	public void setCollection(Collections collections) {
 		// TODO Auto-generated method stub
-		System.out.println(collections);
+		System.out.println("setCollection: " + collections);
+		test++;
 		this.completeCollection = collections;
 
 	}

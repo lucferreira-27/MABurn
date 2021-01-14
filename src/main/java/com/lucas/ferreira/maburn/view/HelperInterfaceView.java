@@ -13,15 +13,14 @@ import javafx.scene.layout.VBox;
 public class HelperInterfaceView extends ViewInterface {
 
 	private Pane root;
-	private MainInterfaceView mainView;
 
 	private boolean initializeIsDone = false;
 
 	@Override
-	public void loadMainInterfaceFX(MainInterfaceView mainView) {
+	public void loadMainInterfaceFX() {
 		// TODO Auto-generated method stub
-		this.mainView = mainView;
-		this.root = mainView.getRoot();
+		
+		this.root = MainInterfaceView.getInstance().getRoot();
 		remove(root);
 		initFX();
 		while (!initializeIsDone) {

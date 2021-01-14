@@ -23,7 +23,7 @@ public class TitleInterfaceViewTest {
 	@Test
 	public void showTitle() {
 		view.initAndShowGUI();
-		titleView.loadMainInterfaceFX(view);
+		titleView.loadMainInterfaceFX();
 		waitTestOver();
 
 	}

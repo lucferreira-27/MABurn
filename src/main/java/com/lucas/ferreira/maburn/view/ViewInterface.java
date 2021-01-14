@@ -12,7 +12,7 @@ public abstract class ViewInterface {
 
 	protected Pane root;
 
-	protected abstract void loadMainInterfaceFX(MainInterfaceView mainView);
+	protected abstract void loadMainInterfaceFX();
 
 	protected void remove(Pane root) {
 		Platform.runLater(() -> {

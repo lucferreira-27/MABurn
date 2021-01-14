@@ -34,8 +34,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 
 	public File download() throws IOException {
 		progressProperty().addListener((obs, oldValue, newValue) -> {
-			Platform.runLater(() -> CustomLogger
-					.log(("[Download Image] " + fileName + "[" + (int) (newValue.doubleValue() * 100) + "%]")));
+			CustomLogger.log(("[Download Image] " + fileName + "[" + (int) (newValue.doubleValue() * 100) + "%]"));
 
 		});
 		CustomLogger.log(file.getAbsolutePath() + link);
@@ -101,7 +100,6 @@ public class DownloadImageServiceModel extends Downloader<File> {
 			}
 		}
 
-		// CustomLogger.log("Done - " + fileName + " " + size);
 		is.close();
 		os.close();
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName);
@@ -113,12 +111,6 @@ public class DownloadImageServiceModel extends Downloader<File> {
 
 	private void downloadSetup(String link) throws IOException {
 		httpConn = ConnectionModel.openConnection(link, 3);
-//		URL url = new URL(link);
-//		httpConn = (HttpURLConnection) url.openConnection();
-//		httpConn.setReadTimeout(0);
-//		httpConn.setRequestMethod("GET");
-//		httpConn.setRequestProperty("User-Agent",
-//				"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
 	}
 
 	@Override

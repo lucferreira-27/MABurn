@@ -23,7 +23,7 @@ public class HelperInterfaceViewTest {
 	public void showHomeViewInterface() {
 		view.initAndShowGUI();
 		
-		homeView.loadMainInterfaceFX(view);
+		homeView.loadMainInterfaceFX();
 		Scanner scan = new Scanner(System.in);
 		scan.nextLine();
 	}

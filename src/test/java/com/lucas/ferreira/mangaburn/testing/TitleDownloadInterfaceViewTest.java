@@ -48,9 +48,9 @@ public class TitleDownloadInterfaceViewTest {
 			e.printStackTrace();
 		}
 		
-		view.setVisibility(true);
-		view.initAndShowGUI();
-		titleDownloadView.loadMainInterfaceFX(view);
+		MainInterfaceView.getInstance().setVisibility(true);
+		//view.initAndShowGUI();
+		titleDownloadView.loadMainInterfaceFX();
 
 		waitTestOver();
 
@@ -83,7 +83,7 @@ public class TitleDownloadInterfaceViewTest {
 		
 		view.setVisibility(true);
 		view.initAndShowGUI();
-		titleDownloadView.loadMainInterfaceFX(view);
+		titleDownloadView.loadMainInterfaceFX();
 
 		waitTestOver();
 

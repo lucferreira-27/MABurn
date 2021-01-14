@@ -15,7 +15,6 @@ public class TitleInterfaceView extends ViewInterface {
 	private Collections collections;
 	private CollectionItem title;
 	private Pane root;
-	private MainInterfaceView mainView;
 	private ItemsInterfaceView itensView;
 	private FXMLLoader loader = new FXMLLoader();
 	private boolean initializeIsDone = false;
@@ -28,10 +27,9 @@ public class TitleInterfaceView extends ViewInterface {
 	}
 	
 	@Override
-	public void loadMainInterfaceFX(MainInterfaceView mainView) {
+	public void loadMainInterfaceFX() {
 		// TODO Auto-generated method stub
-		this.mainView = mainView;
-		this.root = mainView.getRoot();
+		this.root = MainInterfaceView.getInstance().getRoot();
 
 		new Thread(() -> {
 			remove(root);
@@ -68,7 +66,7 @@ public class TitleInterfaceView extends ViewInterface {
 
 
 	private void initRoot() throws IOException {
-		initFXMLLoader(new TitleInterfaceController(mainView, this, itensView),root ,"TitleViewFXML.fxml");
+		initFXMLLoader(new TitleInterfaceController(this, itensView),root ,"TitleViewFXML.fxml");
 
 	}
 	

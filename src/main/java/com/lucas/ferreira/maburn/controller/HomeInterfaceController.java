@@ -1,14 +1,13 @@
 package com.lucas.ferreira.maburn.controller;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -39,9 +38,8 @@ public class HomeInterfaceController implements Initializable {
 	@FXML
 	private Button btnCalendar = new Button();
 
-	public HomeInterfaceController(MainInterfaceView mainView) {
+	public HomeInterfaceController() {
 		// TODO Auto-generated constructor stub
-		this.mainView = mainView;
 
 	}
 
@@ -51,7 +49,7 @@ public class HomeInterfaceController implements Initializable {
 		new Thread(() -> {
 			mainController.selectCollection(new AnimeCollection());
 			ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
-			itensView.loadMainInterfaceFX(mainView);
+			itensView.loadMainInterfaceFX();
 		}).start();
 
 	}
@@ -63,7 +61,7 @@ public class HomeInterfaceController implements Initializable {
 			try {
 				mainController.selectCollection(new MangaCollection());
 				ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
-				itensView.loadMainInterfaceFX(mainView);
+				itensView.loadMainInterfaceFX();
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -77,12 +75,11 @@ public class HomeInterfaceController implements Initializable {
 
 		try {
 
-			Image imgAnime = new Image(getClass().getResourceAsStream("../view/resources/button-icons/anime.png"));
-			Image imgManga = new Image(getClass().getResourceAsStream("../view/resources/button-icons/manga.png"));
-			Image imgDownloads = new Image(
-					getClass().getResourceAsStream("../view/resources/button-icons/download.png"));
-			Image imgCalendar = new Image(
-					getClass().getResourceAsStream("../view/resources/button-icons/calendar.png"));
+
+			Image imgAnime = new Image(Resources.getResourceAsStream("icons/anime.png"));
+			Image imgManga = new Image(Resources.getResourceAsStream("icons/manga.png"));
+			Image imgDownloads = new Image(Resources.getResourceAsStream("icons/download.png"));
+			Image imgCalendar = new Image(Resources.getResourceAsStream("icons/calendar.png"));
 
 			btnCollectionAnime.setGraphic(new ImageView(imgAnime));
 			btnCollectionManga.setGraphic(new ImageView(imgManga));

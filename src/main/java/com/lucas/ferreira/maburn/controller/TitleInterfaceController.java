@@ -49,7 +49,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleInterfaceController implements Initializable {
-	private MainInterfaceView mainView;
 	private TitleInterfaceView titleView;
 	private ItemsInterfaceView itensView;
 	private Collections collections;
@@ -80,10 +79,9 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
-	public TitleInterfaceController(MainInterfaceView mainView, TitleInterfaceView titleView,
+	public TitleInterfaceController(TitleInterfaceView titleView,
 			ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
-		this.mainView = mainView;
 		this.titleView = titleView;
 		this.itensView = itensView;
 		this.collections = itensView.getCollections();
@@ -106,8 +104,10 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	public void onClickButtonBack() {
 		ItemsInterfaceView itensView = this.itensView;
-		itensView.setCollections(collections);
-		itensView.loadMainInterfaceFX(mainView);
+		System.out.println("Back: "+collections);
+		//itensView.setCollections(collections);
+		
+		itensView.loadMainInterfaceFX();
 		
 	}
 
@@ -170,7 +170,7 @@ public class TitleInterfaceController implements Initializable {
 
 	public void onClickButtonDownload() {
 		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
-		titleDownload.loadMainInterfaceFX(mainView);
+		titleDownload.loadMainInterfaceFX();
 	}
 
 	public void onClickButtonUpdate() {

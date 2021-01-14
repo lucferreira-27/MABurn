@@ -49,7 +49,7 @@ public class MenuController implements Initializable {
 		CustomLogger.log("Home");
 		new Thread(() -> {
 			
-			homeView.loadMainInterfaceFX(mainView);
+			homeView.loadMainInterfaceFX();
 			CustomLogger.log("Ok!");
 
 		}).start();
@@ -59,7 +59,7 @@ public class MenuController implements Initializable {
 	public void onClickButtonConfiguration() {
 		CustomLogger.log("Configuration");
 		new Thread(() -> {
-			helperView.loadMainInterfaceFX(mainView);
+			helperView.loadMainInterfaceFX();
 
 			CustomLogger.log("Ok!");
 

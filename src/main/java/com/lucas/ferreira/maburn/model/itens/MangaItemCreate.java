@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
@@ -56,7 +57,17 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 	@Override
 	public MangaDownloaded createSearchItem(CollectDatas collectDatas) {
 		// TODO Auto-generated method stub
-		return null;
+		MangaDownloaded manga = new MangaDownloaded();
+		
+		manga.setName(collectDatas.getCanonicalTitle());
+		manga.setTitleDataBase(collectDatas.getCanonicalTitle());
+		manga.setTitles(collectDatas.getTitles());
+		manga.setDataBaseUrl(collectDatas.getItemDataBaseUrl());
+		manga.setImageUrl(collectDatas.getPosterImageLink("medium"));
+		manga.setId(collectDatas.getId());
+		manga.setMangaCollection(collection);
+
+		return manga;
 	}
 
 }

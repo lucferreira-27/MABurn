@@ -34,7 +34,6 @@ import javafx.scene.layout.VBox;
 
 public class ItemsInterfaceView extends ViewInterface {
 
-	private MainInterfaceView mainView;
 	private Pane root;
 	private GridPaneTable gridTable = new GridPaneTable(7);
 	private GridPane itensImagesGridPane;
@@ -53,10 +52,11 @@ public class ItemsInterfaceView extends ViewInterface {
 	}
 
 	@Override
-	public void loadMainInterfaceFX(MainInterfaceView mainView) {
+	public void loadMainInterfaceFX() {
 		// TODO Auto-generated method stub
-		this.mainView = mainView;
-		this.root = mainView.getRoot();
+		this.namespace = null;
+	
+		this.root = MainInterfaceView.getInstance().getRoot();
 		new Thread(() -> {
 
 			remove(root); // Removes the previous nodes.
@@ -95,6 +95,7 @@ public class ItemsInterfaceView extends ViewInterface {
 						.sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
 
 			}
+			System.out.println("collectionLoading: " + collections);
 			controller.setCollection(collections);
 
 		} catch (InterruptedException e) {
@@ -132,7 +133,6 @@ public class ItemsInterfaceView extends ViewInterface {
 		CustomLogger.log("> Run ItensInterfaceView");
 		Platform.runLater(() -> {
 
-			controller = new ItemsInterfaceController(mainView, this);
 
 			initFXMLLoader(controller, root, "ItensViewFXML.fxml");
 
@@ -170,7 +170,7 @@ public class ItemsInterfaceView extends ViewInterface {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setRoot(root);
 		loader.setLocation(getClass().getResource("ItensViewFXML.fxml"));
-		controller = new ItemsInterfaceController(mainView, this);
+		controller = new ItemsInterfaceController(this);
 		loader.setController(controller);
 		try {
 			root = loader.<VBox>load();
@@ -247,39 +247,9 @@ public class ItemsInterfaceView extends ViewInterface {
 		}
 	}
 
-	private void reverseImagesGridPane() {
 
-		java.util.Collections.reverse(itensImagesGridPane.getChildren());
 
-	}
 
-	private ImageView createImageEffect(ImageView imageView, TransformEffects effect) {
-
-		TransformImagesViewEffect transformEffect = new TransformImagesViewEffect();
-
-		imageView = transformEffect.addEffect(imageView, effect);
-
-		return imageView;
-	}
-
-	private Label createLabelEffect(Label label) {
-		label.setMaxWidth(120);
-		label.getStyleClass().add("image-panel-title");
-		return label;
-	}
-
-	private Pane createPaneEffect(Pane pane) {
-		TransformPanelEffect transform = new TransformPanelEffect();
-		pane = transform.addEffect(pane, TransformEffects.BORDER_IMAGE);
-		return pane;
-	}
-
-	private ArrayList<Image> getImagesFromCollectionItens() {
-		ArrayList<Image> images = new ArrayList<>();
-
-		collections.getItens().forEach(item -> images.add(new Image(item.getImageUrl())));
-		return images;
-	}
 
 	public GridPaneTable getGridTable() {
 		return gridTable;

@@ -70,7 +70,6 @@ import javafx.scene.input.MouseEvent;
 
 public class TitleDownloadInterfaceController implements Initializable {
 	private static final ExecutorService exec = Executors.newFixedThreadPool(3);
-	private MainInterfaceView mainView;
 	private TitleDownloadInterfaceView titleDownloadView;
 	private CollectionItem collectionItemTitle;
 	private TitleWebData webDataTitle;
@@ -174,8 +173,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<Downloader<CollectionSubItem>, String> clActionCancel;
 
-	public TitleDownloadInterfaceController(MainInterfaceView mainView, TitleDownloadInterfaceView titleView) {
-		this.mainView = mainView;
+	public TitleDownloadInterfaceController(TitleDownloadInterfaceView titleView) {
 		this.titleDownloadView = titleView;
 		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
 
@@ -271,13 +269,13 @@ public class TitleDownloadInterfaceController implements Initializable {
 	}
 
 	private void downloadController() {
-		btnConfig = mainView.getMenuController().getBtnConfig();
-		btnExtra = mainView.getMenuController().getBtnExtra();
-		btnHome = mainView.getMenuController().getBtnHome();
+		btnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig();
+		btnExtra = MainInterfaceView.getInstance().getMenuController().getBtnExtra();
+		btnHome = MainInterfaceView.getInstance().getMenuController().getBtnHome();
 
-		EventHandler<ActionEvent> onClickBtnConfig = mainView.getMenuController().getBtnConfig().getOnAction();
-		EventHandler<ActionEvent> onClickBtnHome = mainView.getMenuController().getBtnExtra().getOnAction();
-		EventHandler<ActionEvent> onClickBtnExtra = mainView.getMenuController().getBtnHome().getOnAction();
+		EventHandler<ActionEvent> onClickBtnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig().getOnAction();
+		EventHandler<ActionEvent> onClickBtnHome = MainInterfaceView.getInstance().getMenuController().getBtnExtra().getOnAction();
+		EventHandler<ActionEvent> onClickBtnExtra = MainInterfaceView.getInstance().getMenuController().getBtnHome().getOnAction();
 
 		btnExtra.setOnAction(event -> {
 			if (service != null && !service.isDone())
@@ -555,7 +553,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	private void back() {
 		TitleInterfaceView titleInterfaceView = this.titleDownloadView.getTitleInterfaceView();
-		titleInterfaceView.loadMainInterfaceFX(mainView);
+		titleInterfaceView.loadMainInterfaceFX();
 	}
 
 	@FXML

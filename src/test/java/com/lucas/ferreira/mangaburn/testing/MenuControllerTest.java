@@ -39,8 +39,8 @@ public class MenuControllerTest {
 	@Test
 	public void testController() {
 		mainView.initAndShowGUI();
-		homeView.loadMainInterfaceFX(mainView);
-		itensView.loadMainInterfaceFX(mainView);
+		homeView.loadMainInterfaceFX();
+		itensView.loadMainInterfaceFX();
 		menuController = new MenuController(mainView);
 		assertTrue(menuController.active());
 		Scanner scan = new Scanner(System.in);
