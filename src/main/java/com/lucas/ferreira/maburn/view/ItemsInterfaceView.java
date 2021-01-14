@@ -1,7 +1,6 @@
 package com.lucas.ferreira.maburn.view;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -12,9 +11,6 @@ import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.effects.TransformEffects;
-import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
-import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.enums.LoadingType;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
@@ -25,9 +21,6 @@ import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;

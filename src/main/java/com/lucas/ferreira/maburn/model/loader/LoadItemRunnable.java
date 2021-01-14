@@ -28,7 +28,6 @@ import javafx.beans.property.StringProperty;
 public class LoadItemRunnable implements Callable<CollectionItem> {
 	private StringProperty loadProperty;
 	private String destination;
-	private CollectionItem item;
 	private CollectionDatasReader dataReader;
 	private DocumentCollectionReader docCollectionReader;
 	private SaveCollection save;

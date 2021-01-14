@@ -3,7 +3,6 @@ package com.lucas.ferreira.maburn.util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.Properties;
 
 public class LanguagesProperties {

@@ -14,7 +14,6 @@ import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 import javafx.scene.CacheHint;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -99,11 +98,7 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 		return imageView;
 	}
 
-	private Label createLabelEffect(Label label) {
-		label.setMaxWidth(120);
-		label.getStyleClass().add("image-panel-title");
-		return label;
-	}
+
 
 	private Pane createPaneEffect(Pane pane) {
 		TransformPanelEffect transform = new TransformPanelEffect();

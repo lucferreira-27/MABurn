@@ -20,7 +20,6 @@ public class EpisodeWebData extends ItemWebData {
 	private Downloader<CollectionSubItem> download = new DownloadServiceModel();
 	private String name;
 	private String url;
-	private static ExecutorService exec = Executors.newFixedThreadPool(5);
 
 	public EpisodeWebData(AnimeWebData animeWebData) {
 		// TODO Auto-generated constructor stub

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.naming.ConfigurationException;
-import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,7 +18,6 @@ public class ConfigurationReader {
 	public final static String CONFIG_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\Config.xml";
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	private ParseXMLDocument parse;
 	private DocumentBuilder builder;
 	public ConfigurationReader() {
 		// TODO Auto-generated constructor stub

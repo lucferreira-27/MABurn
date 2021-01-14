@@ -1,8 +1,6 @@
 package com.lucas.ferreira.maburn.model.documents;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -12,16 +10,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.lucas.ferreira.maburn.exceptions.ParseXMLDocumentException;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-import com.lucas.ferreira.maburn.util.ModelUtil;
 
 public class ParseXMLDocument {
 	

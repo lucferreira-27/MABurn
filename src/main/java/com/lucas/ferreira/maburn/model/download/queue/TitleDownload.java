@@ -8,8 +8,6 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.CustomLogger;
-import com.lucas.ferreira.maburn.view.AlertWindowView;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;

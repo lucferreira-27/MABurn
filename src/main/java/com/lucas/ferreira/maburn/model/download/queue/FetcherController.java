@@ -1,22 +1,15 @@
 package com.lucas.ferreira.maburn.model.download.queue;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
-import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class FetcherController {

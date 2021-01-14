@@ -27,7 +27,6 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
-import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 

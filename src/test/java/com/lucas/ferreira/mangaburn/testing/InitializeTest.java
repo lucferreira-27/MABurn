@@ -8,12 +8,11 @@ import com.lucas.ferreira.maburn.view.View;
 
 public class InitializeTest {
 	private InitializeModel initializeModel;
-	private View view;
 
 	@Before
 	public void setUp() {
 		//view = new CommandLineView();
-		initializeModel = new InitializeModel(view);
+		initializeModel = new InitializeModel();
 	}
 	@Test
 	public void bootTest() {

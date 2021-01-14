@@ -45,7 +45,6 @@ public class GridPaneTable {
 		}
 
 		int c = 0;
-		int r = getImagesGridPaneLastRow(total, columnSizeMax);
 
 		c = (total % columnSizeMax);
 

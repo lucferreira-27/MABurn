@@ -1,9 +1,6 @@
 package com.lucas.ferreira.maburn.util;
 
 import java.util.Collection;
-import java.util.List;
-
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 
 public class CustomLogger {
 

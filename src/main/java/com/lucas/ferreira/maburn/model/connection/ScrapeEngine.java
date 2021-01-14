@@ -79,7 +79,6 @@ public class ScrapeEngine {
 			if (pageEnclosed.isHtmlPage()) {
 				page = (HtmlPage) pageEnclosed;
 			} else {
-				String location = pageEnclosed.getWebResponse().getResponseHeaderValue("Location");
 				CustomLogger.log(pageEnclosed.getWebResponse().getStatusCode());
 				// location = location.substring(location.lastIndexOf("?"), location.length());
 				// page = page.getWebClient().getPage(page.getBaseURL() + location);

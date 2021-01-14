@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.controller;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -8,23 +7,18 @@ import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
-import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
-import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 
 public class HomeInterfaceController implements Initializable {
 
-	private MainInterfaceView mainView;
 	private MainInterfaceController mainController = new MainInterfaceController();
-	private HomeInterfaceView homeView;
-	private Pane collectionMenu;
+
 
 	@FXML
 	private Button btnCollectionAnime = new Button();

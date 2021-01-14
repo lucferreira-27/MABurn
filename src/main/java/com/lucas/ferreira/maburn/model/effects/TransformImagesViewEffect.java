@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.effects;
 
-import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -54,6 +53,9 @@ public class TransformImagesViewEffect {
 
 			image.getStyleClass().remove(image.getStyleClass().size() - 1);
 		});
+		return image;
+	}
+	public ImageView getImage() {
 		return image;
 	}
 

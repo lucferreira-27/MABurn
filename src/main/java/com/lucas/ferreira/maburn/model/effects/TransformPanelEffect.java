@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.effects;
 
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;

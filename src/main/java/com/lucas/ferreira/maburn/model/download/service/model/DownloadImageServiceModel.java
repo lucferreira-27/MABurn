@@ -17,8 +17,6 @@ import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
-import javafx.application.Platform;
-
 public class DownloadImageServiceModel extends Downloader<File> {
 
 	private String link;

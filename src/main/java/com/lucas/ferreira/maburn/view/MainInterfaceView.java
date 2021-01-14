@@ -32,7 +32,7 @@ public class MainInterfaceView extends ViewInterface {
 	private GridPane menuGridPane = new GridPane();
 	private Scene scenePane;
 	private boolean initializeIsDone = false;
-	private MenuController menuController = new MenuController(this);
+	private MenuController menuController = new MenuController();
 	private static MainInterfaceView app;
 	
 	

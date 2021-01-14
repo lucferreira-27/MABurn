@@ -3,24 +3,19 @@ package com.lucas.ferreira.maburn.view;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.TitleDownloadInterfaceController;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 public class TitleDownloadInterfaceView extends ViewInterface {
-	private CollectionItem title;
 	private Pane root;
 	private TitleInterfaceView titleInterfaceView;
-	private FXMLLoader loader = new FXMLLoader();
 	private boolean initializeIsDone = false;
 
 	public TitleDownloadInterfaceView(TitleInterfaceView titleInterfaceView) {
 		// TODO Auto-generated constructor stub
 		this.titleInterfaceView = titleInterfaceView;
-		this.title = titleInterfaceView.getTitle();
 	}
 
 	@Override

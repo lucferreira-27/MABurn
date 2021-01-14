@@ -13,16 +13,13 @@ import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
-import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.fxml.Initializable;
 
 public class MainInterfaceController implements Initializable {
 	private MainInterfaceView mainView;
-	private AlertWindowView alertWindown = new AlertWindowView();
 	private MainLoader mainLoader;
-	private CollectionLoader collectionLoader;
 	private Collections collection;
 	private InitializeModel initialize;
 	private ConfigurationReader configReader = new ConfigurationReader();
@@ -33,14 +30,14 @@ public class MainInterfaceController implements Initializable {
 		// TODO Auto-generated constructor stub
 		this.mainView = mainView;
 		this.collection = collection;
-		this.initialize = new InitializeModel(new HelperInterfaceView());
+		this.initialize = new InitializeModel();
 		this.doc = new DocumentConfiguration(configReader.getDocumentConfiguration());
 	}
 
 	public MainInterfaceController() {
 		// TODO Auto-generated constructor stub
 		this.mainView = new MainInterfaceView();
-		this.initialize = new InitializeModel(new HelperInterfaceView());
+		this.initialize = new InitializeModel();
 		initialize.boot();
 		this.doc = new DocumentConfiguration(configReader.getDocumentConfiguration());
 	}
@@ -56,7 +53,7 @@ public class MainInterfaceController implements Initializable {
 		String destination = doc.getPath(collections.getCategory());
 		if (destination == null || destination.isEmpty()) {
 
-			alertWindown.errorAlert("ERROR", "Collection error",
+			AlertWindowView.errorAlert("ERROR", "Collection error",
 					collections.getCategory() + " collection path is not definide");
 			throw new CollectionLoaderException(collections.getCategory() + " collection path is not definide");
 

@@ -1,15 +1,12 @@
 package com.lucas.ferreira.maburn.model.itens;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
 import com.lucas.ferreira.maburn.model.download.ThumbnailController;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class MangaItemCreate implements ItemCreater<MangaDownloaded> {

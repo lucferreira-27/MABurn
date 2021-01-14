@@ -97,7 +97,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			System.out.println(link);
 			System.out.println(location.getAbsolutePath());
 			fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
-
+			fos.close();
 			subItem.setDestination(location.getAbsolutePath());
 
 			updateProgress(1, 1);
@@ -138,7 +138,6 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 
 			
 			for(int i = 0; i < urls.size(); i++) {
-				URL url = urls.get(i);
 				File location = locations.get(i);
 				rbc = readables.get(i);
 				
@@ -146,7 +145,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 
 				updateState(DownloadState.DOWNLOADING);
 				fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
-				
+				fos.close();
 			}
 			subItem.setDestination(locations.get(0).getParent());
 			updateProgress(1, 1);

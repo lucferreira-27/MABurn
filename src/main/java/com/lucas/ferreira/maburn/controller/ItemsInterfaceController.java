@@ -19,12 +19,10 @@ import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.itens.ItemCreater;
 import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
-import com.lucas.ferreira.maburn.util.ViewUtil;
 import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -84,8 +82,7 @@ public class ItemsInterfaceController implements Initializable {
 
 	private ItemsInterfaceView itensView;
 	private Collections completeCollection;
-	private List<CollectionItem> itens;
-	private List<AnchorPane> removesPanes = new ArrayList<>();
+
 	private String querry;
 	private GridPaneTable searchTable = new GridPaneTable(7);
 
@@ -371,36 +368,7 @@ public class ItemsInterfaceController implements Initializable {
 		});
 	}
 
-	private void recoverItemFromPanel(CollectionItem item) {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < removesPanes.size(); i++) {
-			AnchorPane pane = removesPanes.get(i);
-			ImageView image = (ImageView) pane.getChildren().get(0);
-			CollectionItem recoveritem = (CollectionItem) image.getUserData();
-			if (recoveritem.getTitleDataBase().equals(item.getTitleDataBase())) {
 
-				int r = ViewUtil.getImagesGridPaneLastRow(itensImagesGridPane.getChildren().size(), 7);
-				int c = ViewUtil.getImagesGridPaneLastColumn(itensImagesGridPane.getChildren().size(), 7);
-
-				itensImagesGridPane.add(pane, c, r); // Position code here
-				pane.setVisible(true);
-				pane.setManaged(true);
-				completeCollection.setItens(itens);
-				removesPanes.remove(pane);
-			}
-		}
-
-	}
-
-	private void removeItemFromPanel(AnchorPane pane, CollectionItem item) {
-		pane.setVisible(false);
-		pane.setManaged(false);
-
-		itensImagesGridPane.getChildren().remove(pane);
-		removesPanes.add(pane);
-		completeCollection.setItens(itens);
-
-	}
 
 	private void initItensImagesScrollPane() {
 

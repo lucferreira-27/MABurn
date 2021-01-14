@@ -10,27 +10,12 @@ import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.util.CustomLogger;
-import com.lucas.ferreira.maburn.view.HelperInterfaceView;
-import com.lucas.ferreira.maburn.view.View;
 
 public class InitializeModel {
 	private ConfigurationReader config = new ConfigurationReader();
 	private CollectionDatasReader datesReader = new CollectionDatasReader();
-	private DocumentCollectionReader docCollectionReader;
-	private DocumentConfiguration docConfiguration;
-	private HelperInterfaceView helperView;
-	private View view;
 
-	public InitializeModel(HelperInterfaceView helperView) {
-		// TODO Auto-generated constructor stub
-		this.helperView = helperView;
-	}
 
-	public InitializeModel(View view) {
-		// TODO Auto-generated constructor stub
-
-		this.view = view;
-	}
 
 	public void boot() {
 		try {
@@ -72,7 +57,7 @@ public class InitializeModel {
 	public void initializeConfiguration() {
 
 		
-		docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
+		new DocumentConfiguration(config.getDocumentConfiguration());
 
 
 	}

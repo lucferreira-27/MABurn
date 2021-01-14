@@ -7,10 +7,9 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class SaveCollection {
 	private DocumentCollectionReader documentCollection;
-	private Document doc;
 
 	public SaveCollection(Document doc) {
-		this.doc = doc;
+	
 		this.documentCollection = new DocumentCollectionReader(doc);
 	}
 	

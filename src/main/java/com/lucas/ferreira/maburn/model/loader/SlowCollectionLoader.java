@@ -16,12 +16,10 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
-import com.lucas.ferreira.maburn.model.documents.ParseXMLDocument;
 import com.lucas.ferreira.maburn.model.documents.SaveCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
-import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.util.response.ListenFutureResponse;
 
 import javafx.beans.property.IntegerProperty;
@@ -158,7 +156,7 @@ public class SlowCollectionLoader extends CollectionLoader {
 	}
 
 	private void saveNewCollectionItens() {
-		List<CollectionItem> itens = (List<CollectionItem>) collection.getItens();
+		List<CollectionItem> itens = collection.getItens();
 
 		List<CollectionItem> newItens = new ArrayList<>();
 

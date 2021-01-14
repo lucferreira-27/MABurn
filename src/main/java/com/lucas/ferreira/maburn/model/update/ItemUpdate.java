@@ -13,7 +13,6 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.predicates.ItemWebDataFilter;
-import com.lucas.ferreira.maburn.util.response.ResponseUtil;
 
 public class ItemUpdate {
 
@@ -33,7 +32,6 @@ public class ItemUpdate {
 	public List<ItemWebData> update() {
 
 		// Create a future list.
-		ResponseUtil futureResponse;
 
 		// data receive only items who are not downloaded.
 		List<ItemWebData> datas = synchronizeItem();
