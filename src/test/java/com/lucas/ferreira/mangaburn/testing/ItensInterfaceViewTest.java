@@ -41,7 +41,7 @@ public class ItensInterfaceViewTest {
 	public void showItensViewInterface() {
 		createFoldersFromFileNames(new File("C:\\Users\\lucfe\\Documents\\AnimeList.txt"));
 		view.initAndShowGUI();
-		itensView.loadMainInterfaceFX(view);
+		itensView.loadMainInterfaceFX();
 
 		waitTestOver();
 
@@ -73,8 +73,8 @@ public class ItensInterfaceViewTest {
 	public void homeInterfaceToItensInterface() {
 		HomeInterfaceView homeView = new HomeInterfaceView();
 		view.initAndShowGUI();
-		homeView.loadMainInterfaceFX(view);
-		itensView.loadMainInterfaceFX(view);
+		homeView.loadMainInterfaceFX();
+		itensView.loadMainInterfaceFX();
 		waitTestOver();
 
 	}

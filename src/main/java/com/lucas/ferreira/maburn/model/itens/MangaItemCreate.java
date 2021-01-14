@@ -1,14 +1,12 @@
 package com.lucas.ferreira.maburn.model.itens;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.download.ThumbnailDownload;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
+import com.lucas.ferreira.maburn.model.download.ThumbnailController;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
@@ -39,7 +37,7 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 		manga.setId(collectDatas.getId());
 		manga.setMangaCollection(collection);
 	
-		ThumbnailDownload thumbnail = new ThumbnailDownload(manga);
+		ThumbnailController thumbnail = new ThumbnailController(manga);
 
 		try {
 			
@@ -56,7 +54,17 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 	@Override
 	public MangaDownloaded createSearchItem(CollectDatas collectDatas) {
 		// TODO Auto-generated method stub
-		return null;
+		MangaDownloaded manga = new MangaDownloaded();
+		
+		manga.setName(collectDatas.getCanonicalTitle());
+		manga.setTitleDataBase(collectDatas.getCanonicalTitle());
+		manga.setTitles(collectDatas.getTitles());
+		manga.setDataBaseUrl(collectDatas.getItemDataBaseUrl());
+		manga.setImageUrl(collectDatas.getPosterImageLink("medium"));
+		manga.setId(collectDatas.getId());
+		manga.setMangaCollection(collection);
+
+		return manga;
 	}
 
 }

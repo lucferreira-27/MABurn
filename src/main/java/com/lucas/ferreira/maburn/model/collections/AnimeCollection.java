@@ -4,27 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public class AnimeCollection implements Collections {
-	private List<AnimeDownloaded> listAnimes = new ArrayList<>();
+	private List<CollectionItem> listAnimes = new ArrayList<>();
 	private String destination;
 	private AnimeDownloaded activeAnime;
 
 	@Override
-	public List<? extends CollectionItem> getItens() {
+	public List<CollectionItem> getItens() {
 		// TODO Auto-generated method stub
 		return listAnimes;
 	}
 
-	public List<AnimeDownloaded> getListAnimes() {
+	public List<CollectionItem> getListAnimes() {
 		return listAnimes;
 	}
 
 	public void setListAnimes(List<AnimeDownloaded> listAnimes) {
-		this.listAnimes = listAnimes;
+		if(listAnimes != null) {
+			listAnimes.forEach(manga ->{
+				this.listAnimes.add(manga);
+			});
+		}
 	}
 
 	public String getDestination() {
@@ -57,9 +60,9 @@ public class AnimeCollection implements Collections {
 	}
 
 	@Override
-	public void setItens(List<? extends CollectionItem> itens) {
+	public void setItens(List<CollectionItem> itens) {
 		// TODO Auto-generated method stub
-		this.listAnimes = (List<AnimeDownloaded>) itens;
+		this.listAnimes = itens;
 		
 	}
 

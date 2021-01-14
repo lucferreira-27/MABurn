@@ -22,7 +22,6 @@ import javafx.beans.property.BooleanProperty;
 
 public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> {
 
-	private List<HttpURLConnection> httpConns = new ArrayList<HttpURLConnection>();
 
 	private static final int BUFFER_SIZE = 8192;
 
@@ -41,14 +40,12 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 	public File download() throws IOException {
 		// TODO Auto-generated method stub
 		try {
-		List<File> downloadedFiles = new ArrayList<>();
 		CustomLogger.log(listLink);
 		String link = null;
 		List<File> files = new ArrayList<File>();
 		List<HttpURLConnection> httpConns = new ArrayList<HttpURLConnection>();
 		
 		for (int i = 0; i < listLink.size(); i++) {
-			URL url = null;
 			if (pauseProperty.get()) {
 				stopUntil();
 			}
@@ -140,9 +137,9 @@ public class DownloadMultipleServiceModel extends Downloader<CollectionSubItem> 
 		}
 		updateCompleted(BytesUtil.convertBytesToMegasBytes(i) + completedProperty.get());
 
-		// CustomLogger.log("Done - " + fileName + " " + size);
-		//is.close();
-		//os.close();
+		 CustomLogger.log("Done - " + fileName + " " + size);
+		is.close();
+		os.close();
 		File downloadedFile = new File(location.getAbsolutePath() + "\\" + fileName);
 		return downloadedFile;
 	}

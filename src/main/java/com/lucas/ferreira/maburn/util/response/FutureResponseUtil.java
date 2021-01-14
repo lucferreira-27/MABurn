@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class FutureResponseUtil <T> extends ResponseUtil {
 	private List<Future<T>> future;
 	public FutureResponseUtil(List<Future<T>> future) {

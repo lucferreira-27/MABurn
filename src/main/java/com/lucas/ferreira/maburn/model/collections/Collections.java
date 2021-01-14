@@ -6,9 +6,9 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public interface Collections {
-	public List<? extends CollectionItem> getItens();
+	public List<CollectionItem> getItens();
 
-	public void setItens(List<? extends CollectionItem> itens);
+	public void setItens(List<CollectionItem> itens);
 
 	public void setDestination(String destination);
 

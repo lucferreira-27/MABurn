@@ -3,11 +3,7 @@ package com.lucas.ferreira.maburn.model.webscraping.sites;
 import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,14 +27,9 @@ public class SaikoScraping extends WebScraping {
 	private Scraper scraper = new Scraper();
 
 	private AnimeWebData animeWebData;
-	private String mainPageUrl;
 	private String responseBody;
 	private Document document;
-	private final ExecutorService exec = Executors.newFixedThreadPool(50, r -> {
-		Thread t = new Thread(r);
-		t.setDaemon(true);
-		return t;
-	});
+
 
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
@@ -57,7 +48,6 @@ public class SaikoScraping extends WebScraping {
 		}
 
 		// responseBody = ConnectionModel.connect(animeWebData.getUrl());
-		mainPageUrl = animeWebData.getUrl();
 		animeWebData.getWebDatas().addAll(fetchEpisodes());
 
 		return animeWebData;

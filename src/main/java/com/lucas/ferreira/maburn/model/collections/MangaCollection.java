@@ -9,22 +9,24 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 public class MangaCollection implements Collections {
 	
-	private List<MangaDownloaded> listMangas = new ArrayList<>();
+	private List<CollectionItem> listMangas = new ArrayList<>();
 	private String destination;
 	private MangaDownloaded activeManga;
 	
 	@Override
-	public List<? extends CollectionItem> getItens() {
+	public List<CollectionItem> getItens() {
 		// TODO Auto-generated method stub
 		return listMangas;
 	}
 	
-	public List<MangaDownloaded> getListMangas() {
-		return listMangas;
-	}
+
 	
 	public void setListMangas(List<MangaDownloaded> listMangas) {
-		this.listMangas = listMangas;
+		if(listMangas != null) {
+			listMangas.forEach(manga ->{
+				this.listMangas.add(manga);
+			});
+		}
 	}
 	
 	public String getDestination() {
@@ -67,9 +69,9 @@ public class MangaCollection implements Collections {
 
 
 	@Override
-	public void setItens(List<? extends CollectionItem> itens) {
+	public void setItens(List<CollectionItem> itens) {
 		// TODO Auto-generated method stub
-		this.listMangas = (List<MangaDownloaded>) itens;
+		this.listMangas = itens;
 	}
 
 

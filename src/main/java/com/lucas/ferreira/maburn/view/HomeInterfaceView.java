@@ -13,15 +13,13 @@ import javafx.scene.layout.VBox;
 public class HomeInterfaceView extends ViewInterface {
 
 	private Pane root;
-	private MainInterfaceView mainView;
 
 	private boolean initializeIsDone = false;
 
 	@Override
-	public void loadMainInterfaceFX(MainInterfaceView mainView) {
+	public void loadMainInterfaceFX() {
 		// TODO Auto-generated method stub
-		this.mainView = mainView;
-		this.root = mainView.getRoot();
+		this.root = MainInterfaceView.getInstance().getRoot();
 		remove(root);
 		initFX();
 		while (!initializeIsDone) {
@@ -50,7 +48,7 @@ public class HomeInterfaceView extends ViewInterface {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setRoot(root);
 		loader.setLocation(getClass().getResource("HomeViewFXML.fxml"));
-		HomeInterfaceController controller = new HomeInterfaceController(mainView);
+		HomeInterfaceController controller = new HomeInterfaceController();
 		loader.setController(controller);
 		try {
 			root = loader.<VBox>load();

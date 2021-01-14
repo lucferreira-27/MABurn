@@ -18,9 +18,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.databases.Database;
 import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
@@ -29,7 +27,6 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
-import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
@@ -51,7 +48,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleInterfaceController implements Initializable {
-	private MainInterfaceView mainView;
 	private TitleInterfaceView titleView;
 	private ItemsInterfaceView itensView;
 	private Collections collections;
@@ -82,10 +78,9 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
-	public TitleInterfaceController(MainInterfaceView mainView, TitleInterfaceView titleView,
+	public TitleInterfaceController(TitleInterfaceView titleView,
 			ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
-		this.mainView = mainView;
 		this.titleView = titleView;
 		this.itensView = itensView;
 		this.collections = itensView.getCollections();
@@ -108,7 +103,11 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	public void onClickButtonBack() {
 		ItemsInterfaceView itensView = this.itensView;
-		itensView.loadMainInterfaceFX(mainView);
+		System.out.println("Back: "+collections);
+		//itensView.setCollections(collections);
+		
+		itensView.loadMainInterfaceFX();
+		
 	}
 
 	private void loadTitleDatas() {
@@ -170,7 +169,7 @@ public class TitleInterfaceController implements Initializable {
 
 	public void onClickButtonDownload() {
 		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
-		titleDownload.loadMainInterfaceFX(mainView);
+		titleDownload.loadMainInterfaceFX();
 	}
 
 	public void onClickButtonUpdate() {

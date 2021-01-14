@@ -1,7 +1,5 @@
 package com.lucas.ferreira.maburn.model;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +18,7 @@ public class CollectionMatch {
 		return mathItens;
 	}
 
-	private static boolean itemPreciseMath(CollectionItem item, String math) {
 
-		return false;
-	}
 
 	public static boolean itemGenericMath(CollectionItem item, String math) {
 		System.out.println(item.getTitleDataBase() + " " + math);

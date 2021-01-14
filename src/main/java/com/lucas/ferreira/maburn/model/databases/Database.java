@@ -2,9 +2,6 @@ package com.lucas.ferreira.maburn.model.databases;
 
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 

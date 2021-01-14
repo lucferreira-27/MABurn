@@ -83,7 +83,6 @@ public class KitsuResponseAPI implements DatabaseResponse {
 	}
 
 	public CollectDatas fetchFirst() {
-		CollectDatas datas = new CollectDatas();
 		CustomLogger.log(responseBody);
 		JSONObject jsonResponse = new JSONObject(responseBody);
 		JSONObject firstData;

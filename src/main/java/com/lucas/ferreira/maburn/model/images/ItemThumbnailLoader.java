@@ -7,13 +7,13 @@ import java.util.concurrent.Callable;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
+import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.effects.TransformEffects;
 import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
 import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 
 import javafx.scene.CacheHint;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +24,6 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 	private ImageView imageView;
 	private CollectionItem item;
 
-
 	public ItemThumbnailLoader(CollectionItem item) {
 		// TODO Auto-generated constructor stub
 		this.item = item;
@@ -32,8 +31,8 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 	}
 
 	public File findImage() throws ThumbnailLoadException {
-		
-		//File image = new File(item.getImageLocal());
+
+		// File image = new File(item.getImageLocal());
 
 		File image = new File(item.getImageLocal());
 		if (!image.exists()) {
@@ -54,6 +53,16 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 		return cell;
 	}
 
+	public GridPaneCell onlineLoad() throws Exception {
+		// TODO Auto-generated method stub
+		ImageLoaderModel loader = new ImageLoaderModel();
+		imageView = loader.loadImageViewByUrl(item.getImageUrl());
+
+		addImageViewInImageGrid();
+
+		return cell;
+	}
+
 	public GridPaneCell addImageViewInImageGrid() throws IllegalAccessException {
 
 		imageView.setFitWidth(168.75);
@@ -61,14 +70,14 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 		imageView.setUserData(item);
 		imageView.setCache(true);
 		imageView.setCacheHint(CacheHint.SPEED);
-		
+
 		imageView = createImageEffect(imageView, TransformEffects.BORDER_IMAGE);
 
 		AnchorPane imageAreaPanel = new AnchorPane(imageView);
 		imageAreaPanel.setCache(true);
 		imageAreaPanel.setCacheHint(CacheHint.SPEED);
 		imageAreaPanel = (AnchorPane) createPaneEffect(imageAreaPanel);
-		
+
 		imageAreaPanel.getStyleClass().add("item-image");
 
 		cell = new GridPaneCell(imageAreaPanel);
@@ -89,11 +98,7 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 		return imageView;
 	}
 
-	private Label createLabelEffect(Label label) {
-		label.setMaxWidth(120);
-		label.getStyleClass().add("image-panel-title");
-		return label;
-	}
+
 
 	private Pane createPaneEffect(Pane pane) {
 		TransformPanelEffect transform = new TransformPanelEffect();

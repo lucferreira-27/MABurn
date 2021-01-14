@@ -1,7 +1,6 @@
 package com.lucas.ferreira.maburn.view;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -12,9 +11,6 @@ import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.effects.TransformEffects;
-import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
-import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.enums.LoadingType;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
@@ -25,16 +21,12 @@ import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class ItemsInterfaceView extends ViewInterface {
 
-	private MainInterfaceView mainView;
 	private Pane root;
 	private GridPaneTable gridTable = new GridPaneTable(7);
 	private GridPane itensImagesGridPane;
@@ -53,10 +45,11 @@ public class ItemsInterfaceView extends ViewInterface {
 	}
 
 	@Override
-	public void loadMainInterfaceFX(MainInterfaceView mainView) {
+	public void loadMainInterfaceFX() {
 		// TODO Auto-generated method stub
-		this.mainView = mainView;
-		this.root = mainView.getRoot();
+		this.namespace = null;
+	
+		this.root = MainInterfaceView.getInstance().getRoot();
 		new Thread(() -> {
 
 			remove(root); // Removes the previous nodes.
@@ -86,18 +79,18 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	private void collectionLoading() throws LoadingException {
 		try {
+			CustomLogger.log("Future collection");
 
 			if (collections == null) {
-
-				CustomLogger.log("Future collection");
 
 				collections = (Collections) futureCollections.get();
 				collections.getItens()
 						.sort((item1, item2) -> item1.getTitleDataBase().compareTo(item2.getTitleDataBase()));
 
-				controller.setCollection(collections);
-
 			}
+			System.out.println("collectionLoading: " + collections);
+			controller.setCollection(collections);
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,7 +126,6 @@ public class ItemsInterfaceView extends ViewInterface {
 		CustomLogger.log("> Run ItensInterfaceView");
 		Platform.runLater(() -> {
 
-			controller = new ItemsInterfaceController(mainView, this);
 
 			initFXMLLoader(controller, root, "ItensViewFXML.fxml");
 
@@ -171,7 +163,7 @@ public class ItemsInterfaceView extends ViewInterface {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setRoot(root);
 		loader.setLocation(getClass().getResource("ItensViewFXML.fxml"));
-		controller = new ItemsInterfaceController(mainView, this);
+		controller = new ItemsInterfaceController(this);
 		loader.setController(controller);
 		try {
 			root = loader.<VBox>load();
@@ -186,7 +178,6 @@ public class ItemsInterfaceView extends ViewInterface {
 	private void initItensImagesPane() {
 
 		itensImagesGridPane = (GridPane) namespace.get("itensImagesGridPane");
-
 
 	}
 
@@ -220,17 +211,16 @@ public class ItemsInterfaceView extends ViewInterface {
 
 		}
 
-
 	}
 
 	public void sortImagesGridPane() {
 		try {
 			List<GridPaneCell> cells = gridTable.getCells();
-			if(cells.size() > 0) {
+			if (cells.size() > 0) {
 				controller.emptyProperty().setValue(true);
 			}
 			java.util.Collections.sort(cells, new CollectionGridCellComparator());
-			
+
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
 
@@ -250,39 +240,9 @@ public class ItemsInterfaceView extends ViewInterface {
 		}
 	}
 
-	private void reverseImagesGridPane() {
 
-		java.util.Collections.reverse(itensImagesGridPane.getChildren());
 
-	}
 
-	private ImageView createImageEffect(ImageView imageView, TransformEffects effect) {
-
-		TransformImagesViewEffect transformEffect = new TransformImagesViewEffect();
-
-		imageView = transformEffect.addEffect(imageView, effect);
-
-		return imageView;
-	}
-
-	private Label createLabelEffect(Label label) {
-		label.setMaxWidth(120);
-		label.getStyleClass().add("image-panel-title");
-		return label;
-	}
-
-	private Pane createPaneEffect(Pane pane) {
-		TransformPanelEffect transform = new TransformPanelEffect();
-		pane = transform.addEffect(pane, TransformEffects.BORDER_IMAGE);
-		return pane;
-	}
-
-	private ArrayList<Image> getImagesFromCollectionItens() {
-		ArrayList<Image> images = new ArrayList<>();
-
-		collections.getItens().forEach(item -> images.add(new Image(item.getImageUrl())));
-		return images;
-	}
 
 	public GridPaneTable getGridTable() {
 		return gridTable;
@@ -290,6 +250,10 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	public Collections getCollections() {
 		return collections;
+	}
+
+	public void setCollections(Collections collections) {
+		this.collections = collections;
 	}
 
 	public CollectionLoader getCollectionLoader() {

@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
@@ -20,11 +16,8 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.download.ItemDownload;
-import com.lucas.ferreira.maburn.model.download.queue.AnimeTitleDownload;
-import com.lucas.ferreira.maburn.model.download.queue.DownloadQueue;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.queue.FetcherController;
-import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.download.service.DownloadService;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
@@ -33,12 +26,10 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.search.SearchController;
-import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
-import com.lucas.ferreira.maburn.util.comparator.SearchResultComparator;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -69,8 +60,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleDownloadInterfaceController implements Initializable {
-	private static final ExecutorService exec = Executors.newFixedThreadPool(3);
-	private MainInterfaceView mainView;
 	private TitleDownloadInterfaceView titleDownloadView;
 	private CollectionItem collectionItemTitle;
 	private TitleWebData webDataTitle;
@@ -174,8 +163,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<Downloader<CollectionSubItem>, String> clActionCancel;
 
-	public TitleDownloadInterfaceController(MainInterfaceView mainView, TitleDownloadInterfaceView titleView) {
-		this.mainView = mainView;
+	public TitleDownloadInterfaceController(TitleDownloadInterfaceView titleView) {
 		this.titleDownloadView = titleView;
 		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
 
@@ -271,13 +259,13 @@ public class TitleDownloadInterfaceController implements Initializable {
 	}
 
 	private void downloadController() {
-		btnConfig = mainView.getMenuController().getBtnConfig();
-		btnExtra = mainView.getMenuController().getBtnExtra();
-		btnHome = mainView.getMenuController().getBtnHome();
+		btnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig();
+		btnExtra = MainInterfaceView.getInstance().getMenuController().getBtnExtra();
+		btnHome = MainInterfaceView.getInstance().getMenuController().getBtnHome();
 
-		EventHandler<ActionEvent> onClickBtnConfig = mainView.getMenuController().getBtnConfig().getOnAction();
-		EventHandler<ActionEvent> onClickBtnHome = mainView.getMenuController().getBtnExtra().getOnAction();
-		EventHandler<ActionEvent> onClickBtnExtra = mainView.getMenuController().getBtnHome().getOnAction();
+		EventHandler<ActionEvent> onClickBtnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig().getOnAction();
+		EventHandler<ActionEvent> onClickBtnHome = MainInterfaceView.getInstance().getMenuController().getBtnExtra().getOnAction();
+		EventHandler<ActionEvent> onClickBtnExtra = MainInterfaceView.getInstance().getMenuController().getBtnHome().getOnAction();
 
 		btnExtra.setOnAction(event -> {
 			if (service != null && !service.isDone())
@@ -555,7 +543,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	private void back() {
 		TitleInterfaceView titleInterfaceView = this.titleDownloadView.getTitleInterfaceView();
-		titleInterfaceView.loadMainInterfaceFX(mainView);
+		titleInterfaceView.loadMainInterfaceFX();
 	}
 
 	@FXML

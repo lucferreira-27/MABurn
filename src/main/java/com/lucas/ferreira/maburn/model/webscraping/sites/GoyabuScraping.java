@@ -1,7 +1,5 @@
 package com.lucas.ferreira.maburn.model.webscraping.sites;
 
-import java.util.List;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -239,7 +237,6 @@ public class GoyabuScraping extends WebScraping{
 	
 	private boolean titleHasPages(Document doc) {
 		try {
-			String currentPage = scraper.scrapeSnippet(doc, ".page-numbers").text();
 			return true;
 		} catch (WebScrapingException e) {
 			return false;

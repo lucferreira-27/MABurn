@@ -6,11 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jsoup.Jsoup;
-import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
@@ -137,15 +135,15 @@ public class MangaYabuScraping extends WebScraping {
 		// alignnone size-full wp-image
 	}
 
-	private Elements fetchPageUrlImgResponsive(Document document) {
-		Elements elements = scraper.scrapeSnippet(document, ".img-responsive");
-		return elements;
-	}
-
-	private Elements fetchPageUrlWpImage(Document document) {
-		Elements elements = scraper.scrapeSnippet(document, ".manga-pages");
-		return elements;
-	}
+//	private Elements fetchPageUrlImgResponsive(Document document) {
+//		Elements elements = scraper.scrapeSnippet(document, ".img-responsive");
+//		return elements;
+//	}
+//
+//	private Elements fetchPageUrlWpImage(Document document) {
+//		Elements elements = scraper.scrapeSnippet(document, ".manga-pages");
+//		return elements;
+//	}
 
 	private List<SearchResult> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub

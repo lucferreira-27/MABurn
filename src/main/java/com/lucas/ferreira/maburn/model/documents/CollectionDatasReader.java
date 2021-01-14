@@ -3,7 +3,6 @@ package com.lucas.ferreira.maburn.model.documents;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +17,6 @@ public class CollectionDatasReader {
 	public final static String DATE_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\ColletionsDates.xml";
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	private ParseXMLDocument parse;
 
 	public CollectionDatasReader() {
 		// TODO Auto-generated constructor stub

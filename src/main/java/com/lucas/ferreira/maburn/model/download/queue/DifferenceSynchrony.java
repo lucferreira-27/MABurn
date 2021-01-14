@@ -21,7 +21,7 @@ public class DifferenceSynchrony {
 	}
 
 	public List<ItemWebData> mustRecentOnly(CollectionItem title) {
-		List<ItemWebData> list = synch(title);
+		//List<ItemWebData> list = synch(title);
 
 
 
