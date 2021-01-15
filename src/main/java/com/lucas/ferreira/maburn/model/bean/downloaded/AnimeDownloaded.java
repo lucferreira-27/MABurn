@@ -26,7 +26,7 @@ public class AnimeDownloaded implements CollectionItem {
 	private String titleFileName;
 	private String imageUrl;
 	private String imageLocal;
-	private Image cover;
+	private Image image;
 	private WebScraping webScraping;
 	private Map<String, String> titles = new LinkedHashMap<>();
 	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
@@ -56,13 +56,6 @@ public class AnimeDownloaded implements CollectionItem {
 		this.destination = destination;
 	}
 
-	public Image getCover() {
-		return cover;
-	}
-
-	public void setCover(Image cover) {
-		this.cover = cover;
-	}
 
 	public List<EpisodeDownloaded> getListEpisodes() {
 		return listEpisodes;
@@ -146,7 +139,17 @@ public class AnimeDownloaded implements CollectionItem {
 		this.imageLocal = local;
 
 	}
+	@Override
+	public Image getImage() {
+		// TODO Auto-generated method stub
+		return image;
+	}
 
+	@Override
+	public void setImage(Image image) {
+		// TODO Auto-generated method stub
+		this.image = image;
+	}
 	@Override
 	public Category getCategory() {
 		// TODO Auto-generated method stub
@@ -241,5 +244,7 @@ public class AnimeDownloaded implements CollectionItem {
 		// TODO Auto-generated method stub
 		this.titles = titles;
 	}
+
+
 
 }

@@ -13,12 +13,7 @@ import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 public class ConnectionModel implements Callable<String> {
 	private String link;
 
-
-
-
-
 	public ConnectionModel(String link) {
-		// TODO Auto-generated constructor stub
 		this.link = link;
 	}
 
@@ -56,6 +51,7 @@ public class ConnectionModel implements Callable<String> {
 		}
 
 	}
+
 	public static InputStream getInputStream(HttpURLConnection httpURLConnection, int attempts) {
 		int attempt = 0;
 		InputStream is;
@@ -86,6 +82,7 @@ public class ConnectionModel implements Callable<String> {
 			return inputStreamToString(httpConn);
 		} catch (IOException e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			int responseCode;
 			try {
 				responseCode = httpConn.getResponseCode();

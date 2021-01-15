@@ -17,21 +17,28 @@
 	<children>
 
 
-		<GridPane alignment="CENTER" hgap="0" styleClass="menuSearch" vgap="0">
+		<GridPane alignment="CENTER_LEFT"  hgap="0" vgap="5" styleClass="menuSearch" >
 			<padding>
 				<Insets bottom="0" left="0" right="0" top="0" />
 			</padding>
 
 
-			<TextField fx:id="txtSearchBar" alignment="CENTER" prefHeight="3" prefWidth="600" GridPane.columnIndex="5" GridPane.rowIndex="0">
+			<TextField fx:id="txtSearchBar" alignment="CENTER" prefHeight="3" prefWidth="900" GridPane.columnIndex="5" GridPane.rowIndex="0">
 
 
 				<GridPane.margin>
-					<Insets left="200" right="200" />
+					<Insets left="10" right="200" />
 				</GridPane.margin>
 
 			</TextField>
 
+
+			<Label fx:id = "lblCollectionName" text = "Collection" styleClass="label-title" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment="CENTER_LEFT">  
+				<GridPane.margin>
+					<Insets left="200" right="10" />
+				</GridPane.margin>
+
+			</Label>
 
 
 
@@ -50,8 +57,8 @@
 
 				<GridPane fx:id="searchItemGridPane" alignment="TOP_CENTER" hgap="1" vgap="1" visible="true">
 
-					<Label fx:id="lblSearch" text="It looks like you don't have ${value} in the collection!" GridPane.columnIndex="0" GridPane.rowIndex="45" />
-					<Button fx:id="btnSearch" onAction="#onClickButtonSearch" text="Search" visible="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="50" />
+					<Label fx:id="lblSearch" text="It looks like you don't have ${value} in the collection!" GridPane.columnIndex="0" GridPane.rowIndex="80" />
+					<Button fx:id="btnSearch" onAction="#onClickButtonSearch" text="Search" visible="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="90" />
 
 		
 		

@@ -27,6 +27,7 @@ import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
+import com.lucas.ferreira.maburn.view.TitleSearchInterfaceView;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -35,6 +36,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -78,10 +80,13 @@ public class ItemsInterfaceController implements Initializable {
 	private Label lblSearch;
 
 	@FXML
+	private Label lblCollectionName;
+
+	@FXML
 	private ProgressIndicator loadGridPane;
 
 	private ItemsInterfaceView itensView;
-	private Collections completeCollection;
+	private Collections collection;
 
 	private String querry;
 	private GridPaneTable searchTable = new GridPaneTable(7);
@@ -89,7 +94,7 @@ public class ItemsInterfaceController implements Initializable {
 	private BooleanProperty emptyProperty = new SimpleBooleanProperty();
 	private BooleanProperty searchModeProperty = new SimpleBooleanProperty(false);
 	private StringProperty querryProperty = new SimpleStringProperty();
-	private int test = 0;
+
 	public ItemsInterfaceController(ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
 		this.itensView = itensView;
@@ -141,18 +146,18 @@ public class ItemsInterfaceController implements Initializable {
 
 			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
 				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
-				CustomLogger.log("GridPane Children: " + itensImagesGridPane.getChildren().size());
-				CustomLogger.log(
-						"Column Index: " + GridPane.getColumnIndex(pane) + " Row Index: " + GridPane.getRowIndex(pane));
-
 				ImageView image = (ImageView) pane.getChildren().get(0);
 				if (image.getUserData() instanceof CollectionItem) {
 
 					CollectionItem item = (CollectionItem) image.getUserData();
 					itensView.getCollections().setActualItem(item);
-					TitleInterfaceView titleView = new TitleInterfaceView(itensView);
-					titleView.loadMainInterfaceFX();
-
+					if (!searchModeProperty.get()) {
+						TitleInterfaceView titleView = new TitleInterfaceView(itensView);
+						titleView.loadMainInterfaceFX();
+					} else {
+						TitleSearchInterfaceView titleView = new TitleSearchInterfaceView(itensView);
+						titleView.loadMainInterfaceFX();
+					}
 				}
 			}
 
@@ -175,6 +180,15 @@ public class ItemsInterfaceController implements Initializable {
 				reloadCollection(searchTable);
 		});
 
+		searchModeProperty.addListener((obs, oldvalue, newvalue) -> {
+			Platform.runLater(() -> {
+				if (newvalue)
+					lblCollectionName.setText("Result");
+				else
+					lblCollectionName.setText(collection.getCategory() + " Collection");
+			});
+		});
+
 		txtSearchBar.textProperty().bindBidirectional(querryProperty);
 
 	}
@@ -191,12 +205,13 @@ public class ItemsInterfaceController implements Initializable {
 	}
 
 	private void hideSearchOption() {
-		lblSearch.setVisible(false);
-		btnSearch.setVisible(false);
-		searchItemGridPane.setVisible(false);
+		Platform.runLater(() -> {
+			lblSearch.setVisible(false);
+			btnSearch.setVisible(false);
+			searchItemGridPane.setVisible(false);
 
-		itensImagesScroll.setContent(itensImagesGridPane);
-
+			itensImagesScroll.setContent(itensImagesGridPane);
+		});
 	}
 
 	private void reloadCollection(GridPaneTable table) {
@@ -242,7 +257,6 @@ public class ItemsInterfaceController implements Initializable {
 			cell.setRow(r);
 
 			itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow());
-			System.out.println(GridPane.getRowIndex(cell.getNode()));
 		}
 
 	}
@@ -262,18 +276,17 @@ public class ItemsInterfaceController implements Initializable {
 			loadGridPane.setVisible(true);
 			System.out.println("Search " + querry);
 			Database database = new KitsuDatabase();
-			System.out.println("Test: " + test);
-			database.readAll(querry, completeCollection.getCategory()).forEach(data -> {
+			database.readAll(querry, collection.getCategory()).forEach(data -> {
 
-				switch (completeCollection.getCategory()) {
+				switch (collection.getCategory()) {
+
 				case ANIME:
-					ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate(
-							(AnimeCollection) completeCollection);
+
+					ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate((AnimeCollection) collection);
 					items.add((CollectionItem) animeCreator.createSearchItem(data));
 					break;
 				case MANGA:
-					ItemCreater<MangaDownloaded> mangaCreator = new MangaItemCreate(
-							(MangaCollection) completeCollection);
+					ItemCreater<MangaDownloaded> mangaCreator = new MangaItemCreate((MangaCollection) collection);
 					items.add((CollectionItem) mangaCreator.createSearchItem(data));
 					break;
 
@@ -282,8 +295,6 @@ public class ItemsInterfaceController implements Initializable {
 				}
 			});
 
-			CustomLogger.logCollection(items);
-			// Create a thread for each item
 			if (!searchTable.getCells().isEmpty()) {
 				searchTable.getCells().clear();
 			}
@@ -292,7 +303,7 @@ public class ItemsInterfaceController implements Initializable {
 				ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 				try {
 					GridPaneCell cell = thumbnailLoader.onlineLoad();
-					System.out.println(cell.getNode());
+
 					if (cell != null)
 						searchTable.add(cell);
 				} catch (ThumbnailLoadException e1) {
@@ -307,9 +318,10 @@ public class ItemsInterfaceController implements Initializable {
 				}
 
 			}
+			searchModeProperty.set(true);
 			Platform.runLater(() -> {
-				searchModeProperty.set(true);
 				reloadCollection(searchTable);
+
 				txtSearchBar.clear();
 				loadGridPane.setVisible(false);
 			});
@@ -327,7 +339,6 @@ public class ItemsInterfaceController implements Initializable {
 			itensImagesGridPane.getChildren().clear();
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
-				CustomLogger.log(((CollectionItem) cell.getUserData()).getTitleDataBase());
 				int c = GridPaneTable.getImagesGridPaneLastColumn(i, 7);
 				int r = GridPaneTable.getImagesGridPaneLastRow(i, 7);
 
@@ -368,8 +379,6 @@ public class ItemsInterfaceController implements Initializable {
 		});
 	}
 
-
-
 	private void initItensImagesScrollPane() {
 
 		itensImagesScroll.setLayoutY(10);
@@ -394,9 +403,8 @@ public class ItemsInterfaceController implements Initializable {
 
 	public void setCollection(Collections collections) {
 		// TODO Auto-generated method stub
-		System.out.println("setCollection: " + collections);
-		test++;
-		this.completeCollection = collections;
+
+		this.collection = collections;
 
 	}
 

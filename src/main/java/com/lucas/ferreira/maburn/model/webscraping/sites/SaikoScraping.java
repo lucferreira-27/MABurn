@@ -16,9 +16,9 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
-import com.lucas.ferreira.maburn.model.connection.ScrapeEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
+import com.lucas.ferreira.maburn.model.webscraping.ScrapeEngine;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
@@ -38,7 +38,8 @@ public class SaikoScraping extends WebScraping {
 		animeWebData.setSite(getSite());
 
 		try {
-			ScrapeEngine engine = new ScrapeEngine(animeWebData.getUrl(), null);
+			ScrapeEngine engine = new ScrapeEngine(animeWebData.getUrl());
+		
 			document = Jsoup.parse(engine.getPage().asXml());
 
 		} catch (ConnectException e) {

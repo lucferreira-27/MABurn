@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
@@ -21,7 +20,8 @@ public class KitsuResponseAPI implements DatabaseResponse {
 	public KitsuResponseAPI(String url) {
 		// TODO Auto-generated constructor stub
 		try {
-			responseBody = ConnectionModel.connect(url, 3);
+			responseBody = connect(url);
+
 		} catch (ConnectionException e) {
 			// TODO: handle exception
 			throw new ConnectionException(e.getMessage());

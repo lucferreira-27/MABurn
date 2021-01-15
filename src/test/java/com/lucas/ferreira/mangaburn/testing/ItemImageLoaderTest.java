@@ -25,46 +25,5 @@ public class ItemImageLoaderTest {
 	
 	
 	
-	
-	@Test
-	public void addImageViewInImageGridTest() throws MalformedURLException, IOException {
-		MainInterfaceView mainInterfaceView = new MainInterfaceView();
-		mainInterfaceView.setVisibility(false);
-		mainInterfaceView.initAndShowGUI();
-		MainLoader loader = new MainLoader(new AnimeCollection());
-		Collections collections = null;
-		try {
-			collections = (Collections) loader.loadCollection("D:\\AnimeBurn").get();
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-
-		try {
-			long sTime = System.currentTimeMillis();
-			ExecutorService exec = Executors.newFixedThreadPool(1);
-
-			for(CollectionItem item : collections.getItens()) {
-				item.setImageLocal("D:\\Projeto\\"+ StringUtil.stringUtilFile(item.getTitleDataBase()) +".jpg");
-				ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
-				try {
-				GridPaneCell cell = exec.submit(thumbnailLoader).get();
-				CustomLogger.log(cell.getUserData());
-				}catch (Exception e) {
-					// TODO: handle exception
-					System.err.println(e.getMessage());
-					continue;
-				}
-			}
-
-			long eTime = System.currentTimeMillis();
-
-			CustomLogger.log("Exercute Service Time:" + (eTime - sTime) / 1000);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

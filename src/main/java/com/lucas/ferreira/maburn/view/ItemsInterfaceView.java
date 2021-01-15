@@ -195,7 +195,7 @@ public class ItemsInterfaceView extends ViewInterface {
 
 			ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 			try {
-				GridPaneCell cell = thumbnailLoader.call();
+				GridPaneCell cell = thumbnailLoader.downloadLoad();
 				if (cell != null)
 					gridTable.add(cell);
 			} catch (ThumbnailLoadException e1) {
