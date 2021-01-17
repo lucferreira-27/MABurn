@@ -93,7 +93,8 @@ public class WebScrapingUtil {
 	}
 
 	private static String removeMangaHostTrashChapter(String string) {
-		return string.substring(string.lastIndexOf("#") + 1, string.lastIndexOf(" - ")).trim();
+		System.out.println(string);
+		return string.substring(string.indexOf("#") + 1, string.lastIndexOf(" - ")).trim();
 	}
 
 	private static String removeMangaYabuTrashChapter(String string) {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.databases.response.KitsuResponseAPI;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class KitsuDatabase implements Database {
 
@@ -12,6 +13,8 @@ public class KitsuDatabase implements Database {
 	
 	@Override
 	public CollectDatas read(String querry,Category category) {
+		CustomLogger.log("Read - KitsuDatabase - " +"\nquerry: " +querry + " category: " + category);
+
 		String type = null;
 		switch (category) {
 		case ANIME:
@@ -25,6 +28,8 @@ public class KitsuDatabase implements Database {
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
 		// TODO Auto-generated method stub
+		System.out.println("url: " + url + querry);
+
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		CollectDatas datas =  kitsuApi.fetchFirst();
 		return datas;
@@ -32,6 +37,7 @@ public class KitsuDatabase implements Database {
 	}
 	@Override
 	public List<CollectDatas> readAll(String querry,Category category) {
+		CustomLogger.log("ReadAll - KitsuDatabase - " +"\nquerry: " +querry + " category: " + category);
 		String type = null;
 		switch (category) {
 		case ANIME:
@@ -44,6 +50,7 @@ public class KitsuDatabase implements Database {
 		}  
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
+		System.out.println("url: " + url + querry);
 		// TODO Auto-generated method stub
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		List<CollectDatas> datas =  kitsuApi.fetchAll();

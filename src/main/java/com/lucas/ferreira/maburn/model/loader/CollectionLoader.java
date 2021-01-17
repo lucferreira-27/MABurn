@@ -15,7 +15,7 @@ public abstract class CollectionLoader extends Task<Collections>  {
 	protected IntegerProperty connectionItemLength = new SimpleIntegerProperty();
 	protected StringProperty loadProgressLength = new SimpleStringProperty();
 	protected IntegerProperty writeItemLength = new SimpleIntegerProperty();
-	
+
 	{	
 		
 		loadProgressLength.addListener((observable, oldvalue, newvalue) -> {
@@ -23,6 +23,7 @@ public abstract class CollectionLoader extends Task<Collections>  {
 			//CustomLogger.log("Load Progress: " + newvalue);
 			//CustomLogger.log("[" + newvalue + "/" + itemsLength + "]");
 		
+			
 		});
 
 		connectionItemLength.addListener((observable, oldvalue, newvalue) -> {
@@ -45,13 +46,13 @@ public abstract class CollectionLoader extends Task<Collections>  {
 
 	public abstract void setDestination(String destination);
 	
-	public IntegerProperty getConnectinoItemLength() {
+	public IntegerProperty connectionItemLenghtPropery() {
 		return connectionItemLength;
 	}
-	public StringProperty getLoadItemLength() {
+	public StringProperty loadProgressLengthPropery() {
 		return loadProgressLength;
 	}
-	public IntegerProperty getWriteItemLength() {
+	public IntegerProperty writeItemLengthPropery() {
 		return writeItemLength;
 	}
 	

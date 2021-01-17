@@ -20,7 +20,7 @@ public class MangaDownloaded implements CollectionItem {
 	private String name;
 	private String hospedSite;
 	private String destination;
-	private Image cover;
+	private Image image;
 	private String imageUrl;
 	private String link;
 	private String dataUrl;
@@ -66,13 +66,6 @@ public class MangaDownloaded implements CollectionItem {
 		this.destination = destination;
 	}
 
-	public Image getCover() {
-		return cover;
-	}
-
-	public void setCover(Image cover) {
-		this.cover = cover;
-	}
 
 	public List<ChapterDownloaded> getListChapters() {
 		return listChapters;
@@ -121,7 +114,17 @@ public class MangaDownloaded implements CollectionItem {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+	
+	@Override
+	public Image getImage() {
+		return image;
+	}
 
+	@Override
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	
 	@Override
 	public Category getCategory() {
 		return Category.MANGA;
@@ -207,5 +210,7 @@ public class MangaDownloaded implements CollectionItem {
 				+ ", titleDataBase=" + titleDataBase + ", titleFileName=" + titleFileName + ", imageUrl=" + imageUrl
 				+ ", imageLocal=" + imageLocal + ", id=" + id + "]";
 	}
+
+
 
 }

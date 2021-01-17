@@ -28,7 +28,7 @@ public abstract class ViewInterface {
 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setRoot(root);
-	
+		System.out.println(getClass().getResource(fxml));
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 

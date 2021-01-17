@@ -25,8 +25,8 @@ public interface CollectionItem {
 	public void setImageUrl(String imageUrl);
 	public String getImageLocal();
 	public void setImageLocal(String local);
-	public Image getCover();
-	public void setCover(Image cover);
+	public Image getImage();
+	public void setImage(Image image);
 	public int getId();
 	public void setId(int id);
 	public Category getCategory();
@@ -42,6 +42,7 @@ public interface CollectionItem {
 	public List<CollectionSubItem> getListSubItens();
 	public WebScraping getWebScraping();
 	public void setWebScraping(WebScraping webScraping);
+
 
 	
 

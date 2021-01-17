@@ -12,12 +12,7 @@ public class CollectionGridCellComparator implements Comparator<GridPaneCell> {
 		CollectionNodeComparator comparator = new CollectionNodeComparator();
 		int result = comparator.compare(o1.getNode(), o2.getNode());
 
-//		if (result < 0) {
-//			gridTable.replaceCell(o1, o2);
-//		} else if (result > 0) {
-//			gridTable.replaceCell(o2, o1);
-//
-//		}
+
 
 		return result;
 	}

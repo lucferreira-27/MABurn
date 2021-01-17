@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.connection;
+package com.lucas.ferreira.maburn.model.webscraping;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -18,7 +18,10 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 public class ScrapeEngine {
 	private WebClient webClient;
 	private HtmlPage page;
-
+	
+	
+	
+	
 	public ScrapeEngine(String url, String referer) throws ConnectException {
 		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
 		java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
@@ -40,7 +43,7 @@ public class ScrapeEngine {
 		// TODO Auto-generated constructor stub
 		java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.ALL);
 		java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.ALL);
-		webClient = new WebClient(BrowserVersion.BEST_SUPPORTED);
+		webClient = new WebClient(BrowserVersion.FIREFOX_78);
 		
 		webClient.getOptions().setJavaScriptEnabled(true);
 		webClient.getOptions().setCssEnabled(false);
@@ -55,6 +58,7 @@ public class ScrapeEngine {
 
 		connect(url);
 	}
+
 
 	public void connect(String url) throws ConnectException {
 		try {
@@ -117,7 +121,8 @@ public class ScrapeEngine {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 	public WebClient getWebClient() {
 		return webClient;
 	}
@@ -132,5 +137,10 @@ public class ScrapeEngine {
 
 	public void setPage(HtmlPage page) {
 		this.page = page;
+	}
+	
+	public void setRedirectedEnable(boolean enable) {
+		webClient.getOptions().setRedirectEnabled(enable);
+
 	}
 }

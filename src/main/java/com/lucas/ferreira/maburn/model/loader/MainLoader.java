@@ -14,6 +14,11 @@ import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 public class MainLoader {
 	private Collections collection;
 	private CollectionLoader loader;
+	final ExecutorService exec = Executors.newFixedThreadPool(5, r -> {
+		Thread t = new Thread(r);
+		t.setDaemon(true);
+		return t;
+	});
 
 	public MainLoader(CollectionLoader loader) {
 		// TODO Auto-generated constructor stub
@@ -21,14 +26,13 @@ public class MainLoader {
 
 	}
 
-
-
 	public MainLoader(Collections collection) {
 		// TODO Auto-generated constructor stub
 		this.collection = collection;
 		this.loader = new SlowCollectionLoader(collection);
 
 	}
+
 	public MainLoader(Category category) {
 		// TODO Auto-generated constructor stub
 		this.loader = new SlowCollectionLoader(collection);
@@ -36,17 +40,20 @@ public class MainLoader {
 	}
 
 	public CollectionLoader loadCollection(String destination) {
-		
-		final ExecutorService exec = Executors.newFixedThreadPool(5, r -> {
-			Thread t = new Thread(r);
-			t.setDaemon(true);
-			return t;
-		});
 
 		loader.setDestination(destination);
 		exec.submit(loader);
-		
-		
+
+		exec.shutdown();
+
+		return loader;
+	}
+
+	public CollectionLoader reloadCollection(Collections collections) {
+
+		loader.setDestination(collections.getDestination());
+		exec.submit(loader);
+
 		exec.shutdown();
 
 		return loader;
@@ -85,7 +92,8 @@ public class MainLoader {
 
 	private MangaDownloaded loadSelectManga(int id) {
 
-		MangaDownloaded manga = (MangaDownloaded) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
+		MangaDownloaded manga = (MangaDownloaded) collection.getItens().stream().filter(item -> item.getId() == id)
+				.findFirst().get();
 
 		setActualItemInCollection(manga);
 
@@ -95,7 +103,8 @@ public class MainLoader {
 
 	private AnimeDownloaded loadSelectAnime(int id) {
 
-		AnimeDownloaded anime = (AnimeDownloaded) collection.getItens().stream().filter(item -> item.getId() == id).findFirst().get();
+		AnimeDownloaded anime = (AnimeDownloaded) collection.getItens().stream().filter(item -> item.getId() == id)
+				.findFirst().get();
 
 		setActualItemInCollection(anime);
 

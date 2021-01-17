@@ -19,7 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class ItemThumbnailLoader implements Callable<GridPaneCell> {
+public class ItemThumbnailLoader {
 	private GridPaneCell cell;
 	private ImageView imageView;
 	private CollectionItem item;
@@ -41,30 +41,37 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 		return image;
 	}
 
-	@Override
-	public GridPaneCell call() throws Exception {
-		// TODO Auto-generated method stub
-		File file = findImage();
-		InputStream in = new FileInputStream(file);
-		Image image = new Image(in);
-		imageView = new ImageView(image);
-		addImageViewInImageGrid();
-
+	public GridPaneCell downloadLoad() throws ThumbnailLoadException {
+		try {
+			File file = findImage();
+			InputStream in = new FileInputStream(file);
+			Image image = new Image(in);
+			item.setImage(image);
+			addImageViewInImageGrid();
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ThumbnailLoadException(e.getMessage());
+		}
 		return cell;
 	}
 
-	public GridPaneCell onlineLoad() throws Exception {
-		// TODO Auto-generated method stub
-		ImageLoaderModel loader = new ImageLoaderModel();
-		imageView = loader.loadImageViewByUrl(item.getImageUrl());
+	public GridPaneCell onlineLoad() throws ThumbnailLoadException {
+		try {
+			ImageLoaderModel loader = new ImageLoaderModel();
+			Image image = loader.loadImageByUrl(item.getImageUrl());
+			item.setImage(image);
 
-		addImageViewInImageGrid();
-
+			addImageViewInImageGrid();
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ThumbnailLoadException(e.getMessage());
+		}
 		return cell;
 	}
 
 	public GridPaneCell addImageViewInImageGrid() throws IllegalAccessException {
 
+		imageView = new ImageView(item.getImage());
 		imageView.setFitWidth(168.75);
 		imageView.setFitHeight(237.0);
 		imageView.setUserData(item);
@@ -97,8 +104,6 @@ public class ItemThumbnailLoader implements Callable<GridPaneCell> {
 
 		return imageView;
 	}
-
-
 
 	private Pane createPaneEffect(Pane pane) {
 		TransformPanelEffect transform = new TransformPanelEffect();

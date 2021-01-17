@@ -7,7 +7,11 @@ public class GridPaneTable {
 
 	private List<GridPaneCell> cells = new ArrayList<>();;
 	private int columnSize;
-
+	
+	public GridPaneTable() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public GridPaneTable(List<GridPaneCell> cells, int columnSizeMax) {
 		// TODO Auto-generated constructor stub
 		this.cells = cells;
