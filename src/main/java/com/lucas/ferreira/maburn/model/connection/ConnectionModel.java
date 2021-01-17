@@ -78,7 +78,6 @@ public class ConnectionModel implements Callable<String> {
 			url = url.replaceAll(" ", "%20");
 
 			httpConn = Httpsetup(url);
-
 			return inputStreamToString(httpConn);
 		} catch (IOException e) {
 			// TODO: handle exception

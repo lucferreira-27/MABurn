@@ -54,7 +54,7 @@ public class TittleSearchInterfaceController implements Initializable {
 			ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
 		this.itensView = itensView;
-		this.collections = itensView.getCollections();
+		this.collections = itensView.getController().getCollection();
 	}
 	
 	@Override

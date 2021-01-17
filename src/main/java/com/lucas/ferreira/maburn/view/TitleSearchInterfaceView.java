@@ -18,7 +18,7 @@ public class TitleSearchInterfaceView extends ViewInterface {
 	public TitleSearchInterfaceView(ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
 		this.itensView = itensView;
-		this.title = itensView.getCollections().getActualItem();
+		this.title = itensView.getController().getCollection().getActualItem();
 	}
 	
 	@Override

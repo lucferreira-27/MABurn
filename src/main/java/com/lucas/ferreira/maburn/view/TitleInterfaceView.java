@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.view;
 
 import java.io.IOException;
 
+import com.lucas.ferreira.maburn.controller.ItemsInterfaceController;
 import com.lucas.ferreira.maburn.controller.TitleInterfaceController;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
@@ -12,13 +13,21 @@ import javafx.scene.layout.Pane;
 public class TitleInterfaceView extends ViewInterface {
 	private CollectionItem title;
 	private Pane root;
-	private ItemsInterfaceView itensView;
+	private ItemsInterfaceController itemsController;
+	private ItemsInterfaceView itemsView;
+
 	private boolean initializeIsDone = false;
 	
-	public TitleInterfaceView(ItemsInterfaceView itensView) {
+	public TitleInterfaceView(ItemsInterfaceController itemsController) {
 		// TODO Auto-generated constructor stub
-		this.itensView = itensView;
-		this.title = itensView.getCollections().getActualItem();
+		this.itemsView = itemsController.getItensView();
+		this.title = itemsController.getCollection().getActualItem();
+	}
+	
+	public TitleInterfaceView(ItemsInterfaceView itemsView) {
+		// TODO Auto-generated constructor stub
+		this.itemsView = itemsView;
+		this.title = itemsController.getCollection().getActualItem();
 	}
 	
 	@Override
@@ -50,7 +59,7 @@ public class TitleInterfaceView extends ViewInterface {
 			try {
 				initRoot();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto-genserated catch block
 				e.printStackTrace();
 			}
 			CustomLogger.log("> Run TitleInterfaceView");
@@ -61,7 +70,7 @@ public class TitleInterfaceView extends ViewInterface {
 
 
 	private void initRoot() throws IOException {
-		initFXMLLoader(new TitleInterfaceController(this, itensView),root ,"TitleViewFXML.fxml");
+		initFXMLLoader(new TitleInterfaceController(this, itemsView),root ,"TitleViewFXML.fxml");
 
 	}
 	

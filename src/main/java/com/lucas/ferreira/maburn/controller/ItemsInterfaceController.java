@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
@@ -21,6 +22,8 @@ import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.ItemCreater;
 import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
+import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
+import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
@@ -36,7 +39,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -87,12 +89,16 @@ public class ItemsInterfaceController implements Initializable {
 
 	private ItemsInterfaceView itensView;
 	private Collections collection;
+	private CollectionLoader collectionLoader;
 
 	private String querry;
-	private GridPaneTable searchTable = new GridPaneTable(7);
+	private GridPaneTable searchTable = new GridPaneTable();
+	private GridPaneTable collectionTable = new GridPaneTable();
 
 	private BooleanProperty emptyProperty = new SimpleBooleanProperty();
 	private BooleanProperty searchModeProperty = new SimpleBooleanProperty(false);
+	private BooleanProperty reverseModeProperty = new SimpleBooleanProperty(false);
+
 	private StringProperty querryProperty = new SimpleStringProperty();
 
 	public ItemsInterfaceController(ItemsInterfaceView itensView) {
@@ -103,45 +109,77 @@ public class ItemsInterfaceController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		System.out.println("Ok!");
 		initItensImagesScrollPane();
 
-		if (itensView.getCollectionLoader() == null || itensView.getCollectionLoader().isDone()) {
-			CustomLogger.log(loadGridPane.getStyleClass());
+		if (itensView.getCollectionLoader() != null) {
+			collectionLoader = itensView.getCollectionLoader();
+			bindCollectionLoaderProperties();
+		}
+		if (collectionLoader != null && collectionLoader.isDone()) {
 			loadGridPane.setVisible(false);
 			lblLoad.setVisible(false);
-		}
-		if (itensView.getCollectionLoader() != null) {
-			lblLoad.textProperty().bind(itensView.getCollectionLoader().messageProperty());
-
-			itensView.getCollectionLoader().getConnectinoItemLength().addListener((obser, oldvalue, newvalue) -> {
-				lblLoad.textProperty().unbind();
-				Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
-				CustomLogger.log("[Fetch items: " + newvalue.toString() + " ]");
-
-			});
-
-			itensView.getCollectionLoader().getWriteItemLength().addListener((obser, oldvalue, newvalue) -> {
-				Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
-				CustomLogger.log("[Write items: " + newvalue.toString() + " ]");
-
-			});
-
-			itensView.getCollectionLoader().setOnSucceeded((event) -> {
-
-				Platform.runLater(() -> {
-					lblLoad.setVisible(false);
-					loadGridPane.setVisible(false);
-				});
-			});
 		}
 		onClickOnImageGridPane();
 		onSearchBarType();
 
 	}
 
-	public void onClickOnImageGridPane() {
+	private void bindCollectionLoaderProperties() {
 
+		Platform.runLater(() -> {
+			lblLoad.setVisible(true);
+			loadGridPane.setVisible(true);
+			txtSearchBar.setEditable(false);
+		});
+		lblLoad.textProperty().bind(collectionLoader.messageProperty());
+
+		collectionLoader.connectionItemLenghtPropery().addListener((obser, oldvalue, newvalue) -> {
+			lblLoad.textProperty().unbind();
+			Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
+			CustomLogger.log("[Fetch items: " + newvalue.toString() + " ]");
+
+		});
+
+		collectionLoader.writeItemLengthPropery().addListener((obser, oldvalue, newvalue) -> {
+			Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
+			CustomLogger.log("[Write items: " + newvalue.toString() + " ]");
+
+		});
+		if (!collectionLoader.isDone())
+			collectionLoader.setOnSucceeded((event) -> {
+				try {
+					collection = collectionLoader.get();
+
+					addAllItemsInTable();
+					sortImagesGridPane();
+					Platform.runLater(() -> {
+						lblLoad.setVisible(false);
+						loadGridPane.setVisible(false);
+						txtSearchBar.setEditable(true);
+					});
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			});
+		else {
+			addAllItemsInTable();
+			sortImagesGridPane();
+			Platform.runLater(() -> {
+				lblLoad.setVisible(false);
+				loadGridPane.setVisible(false);
+				txtSearchBar.setEditable(true);
+			});
+		}
+
+	}
+
+	public void onClickOnImageGridPane() {
 		itensImagesGridPane.setOnMouseClicked(event -> {
 
 			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
@@ -150,9 +188,9 @@ public class ItemsInterfaceController implements Initializable {
 				if (image.getUserData() instanceof CollectionItem) {
 
 					CollectionItem item = (CollectionItem) image.getUserData();
-					itensView.getCollections().setActualItem(item);
+					collection.setActualItem(item);
 					if (!searchModeProperty.get()) {
-						TitleInterfaceView titleView = new TitleInterfaceView(itensView);
+						TitleInterfaceView titleView = new TitleInterfaceView(this);
 						titleView.loadMainInterfaceFX();
 					} else {
 						TitleSearchInterfaceView titleView = new TitleSearchInterfaceView(itensView);
@@ -175,9 +213,9 @@ public class ItemsInterfaceController implements Initializable {
 		querryProperty.addListener((obs, oldvalue, newvalue) -> {
 			querry = newvalue;
 			if (!searchModeProperty.get())
-				reloadCollection(itensView.getGridTable());
+				reloadTable(collectionTable);
 			else
-				reloadCollection(searchTable);
+				reloadTable(searchTable);
 		});
 
 		searchModeProperty.addListener((obs, oldvalue, newvalue) -> {
@@ -185,8 +223,13 @@ public class ItemsInterfaceController implements Initializable {
 				if (newvalue)
 					lblCollectionName.setText("Result");
 				else
-					lblCollectionName.setText(collection.getCategory() + " Collection");
+					lblCollectionName.setText("Collection");
 			});
+		});
+		reverseModeProperty.addListener((obs, oldvalue, newvalue) -> {
+
+			CustomLogger.log("Filter: " + newvalue);
+
 		});
 
 		txtSearchBar.textProperty().bindBidirectional(querryProperty);
@@ -214,7 +257,7 @@ public class ItemsInterfaceController implements Initializable {
 		});
 	}
 
-	private void reloadCollection(GridPaneTable table) {
+	private void reloadTable(GridPaneTable table) {
 		List<CollectionItem> originalItens = new ArrayList<>();
 		List<CollectionItem> mathItens = new ArrayList<>();
 
@@ -233,25 +276,24 @@ public class ItemsInterfaceController implements Initializable {
 
 			emptyProperty().setValue(true);
 			showSearchOption();
-			replaceGridPaneTable(mathTable);
 		} else if (mathItens.size() > 0) {
 			if (emptyProperty.get()) {
 				emptyProperty().setValue(false);
 			}
-			replaceGridPaneTable(mathTable);
+			replaceTable(mathTable);
 
 		}
 	}
 
-	private void replaceGridPaneTable(GridPaneTable newTable) {
+	private void replaceTable(GridPaneTable newTable) {
 
 		List<GridPaneCell> cells = newTable.getCells();
 		java.util.Collections.sort(cells, new CollectionGridCellComparator());
 		itensImagesGridPane.getChildren().clear();
 		for (int i = 0; i < cells.size(); i++) {
 			GridPaneCell cell = cells.get(i);
-			int c = GridPaneTable.getImagesGridPaneLastColumn(i, itensView.getGridTable().getColumnSize());
-			int r = GridPaneTable.getImagesGridPaneLastRow(i, itensView.getGridTable().getColumnSize());
+			int c = GridPaneTable.getImagesGridPaneLastColumn(i, collectionTable.getColumnSize());
+			int r = GridPaneTable.getImagesGridPaneLastRow(i, collectionTable.getColumnSize());
 
 			cell.setColumn(c);
 			cell.setRow(r);
@@ -261,12 +303,50 @@ public class ItemsInterfaceController implements Initializable {
 
 	}
 
+	private void addAllItemsInTable() {
+		collectionTable.getCells().clear();
+		if (collection.getItens().size() > 0)
+			for (CollectionItem item : collection.getItens()) {
+				try {
+					addItemInTable(item);
+				} catch (ThumbnailLoadException e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+
+	}
+
+	private void addItemInTable(CollectionItem item) throws ThumbnailLoadException {
+
+		ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
+
+		GridPaneCell cell = thumbnailLoader.downloadLoad();
+		if (cell != null)
+			collectionTable.add(cell);
+
+	}
+
+	@FXML
 	public void onClickFilter() {
 
-		if (btnFilter.getText().equals("A-Z"))
-			reverseImagesGridPane();
-		else
-			sortImagesGridPane();
+		if (btnFilter.getText().equals("A-Z")) {
+			btnFilter.setText("Z-A");
+			reverseModeProperty.set(true);
+		} else {
+			btnFilter.setText("A-Z");
+			reverseModeProperty.set(false);
+		}
+		reverseImagesGridPane();
+
+	}
+
+	@FXML
+	public void onClickReload() {
+		MainLoader mainloader = new MainLoader(collection);
+		collectionLoader = mainloader.reloadCollection(collection);
+		bindCollectionLoaderProperties();
+
 	}
 
 	public void onClickButtonSearch() {
@@ -320,7 +400,7 @@ public class ItemsInterfaceController implements Initializable {
 			}
 			searchModeProperty.set(true);
 			Platform.runLater(() -> {
-				reloadCollection(searchTable);
+				reloadTable(searchTable);
 
 				txtSearchBar.clear();
 				loadGridPane.setVisible(false);
@@ -331,41 +411,51 @@ public class ItemsInterfaceController implements Initializable {
 	}
 
 	private void sortImagesGridPane() {
+		searchModeProperty.set(false);
 		Platform.runLater(() -> {
-			GridPaneTable gridTable = itensView.getGridTable();
+			GridPaneTable sortTable = new GridPaneTable(collectionTable.getColumnSize());
 
-			List<GridPaneCell> cells = gridTable.getCells();
-			java.util.Collections.sort(cells, new CollectionGridCellComparator());
+			List<GridPaneCell> cells = collectionTable.getCells();
+			// java.util.Collections.sort(cells, new CollectionGridCellComparator());
 			itensImagesGridPane.getChildren().clear();
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
-				int c = GridPaneTable.getImagesGridPaneLastColumn(i, 7);
-				int r = GridPaneTable.getImagesGridPaneLastRow(i, 7);
+				int c = GridPaneTable.getImagesGridPaneLastColumn(i, collectionTable.getColumnSize());
+				int r = GridPaneTable.getImagesGridPaneLastRow(i, collectionTable.getColumnSize());
 
 				cell.setColumn(c);
 				cell.setRow(r);
 
 				itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow());
-
+				sortTable.add(cell);
 			}
-
-			btnFilter.setText("A-Z");
 
 		});
 	}
 
 	private void reverseImagesGridPane() {
+		if (!reverseModeProperty.get())
+			reverseModeProperty.set(true);
+		else
+			reverseModeProperty.set(false);
 		Platform.runLater(() -> {
-			GridPaneTable gridTable = itensView.getGridTable();
 
-			List<GridPaneCell> cells = gridTable.getCells();
+			List<GridPaneCell> cells = null;
+			if (!searchModeProperty.get())
+
+				cells = collectionTable.getCells();
+			else {
+
+				cells = searchTable.getCells();
+
+			}
 			java.util.Collections.reverse(cells);
 			itensImagesGridPane.getChildren().clear();
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
 
-				int c = GridPaneTable.getImagesGridPaneLastColumn(i, 7);
-				int r = GridPaneTable.getImagesGridPaneLastRow(i, 7);
+				int c = GridPaneTable.getImagesGridPaneLastColumn(i, collectionTable.getColumnSize());
+				int r = GridPaneTable.getImagesGridPaneLastRow(i, collectionTable.getColumnSize());
 
 				cell.setColumn(c);
 				cell.setRow(r);
@@ -373,8 +463,6 @@ public class ItemsInterfaceController implements Initializable {
 				itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow());
 
 			}
-
-			btnFilter.setText("Z-A");
 
 		});
 	}
@@ -396,24 +484,28 @@ public class ItemsInterfaceController implements Initializable {
 			} else
 				size = size > (int) size ? (int) size : (int) size + 1;
 
-			itensView.getGridTable().setColumnSize((int) size);
-			itensView.sortImagesGridPane();
+			collectionTable.setColumnSize((int) size);
+			sortImagesGridPane();
 		});
-	}
-
-	public void setCollection(Collections collections) {
-		// TODO Auto-generated method stub
-
-		this.collection = collections;
-
 	}
 
 	public BooleanProperty emptyProperty() {
 		return emptyProperty;
 	}
 
+	public BooleanProperty reverseModeProperty() {
+		return reverseModeProperty;
+	}
+
 	public BooleanProperty searchModeProperty() {
 		return searchModeProperty;
 	}
 
+	public Collections getCollection() {
+		return collection;
+	}
+
+	public ItemsInterfaceView getItensView() {
+		return itensView;
+	}
 }

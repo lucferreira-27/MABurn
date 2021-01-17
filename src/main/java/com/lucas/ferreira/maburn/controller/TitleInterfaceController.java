@@ -83,7 +83,7 @@ public class TitleInterfaceController implements Initializable {
 		// TODO Auto-generated constructor stub
 		this.titleView = titleView;
 		this.itensView = itensView;
-		this.collections = itensView.getCollections();
+		this.collections = itensView.getController().getCollection();
 	}
 
 	@Override
