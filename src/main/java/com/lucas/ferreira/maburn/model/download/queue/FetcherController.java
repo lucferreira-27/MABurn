@@ -1,96 +1,142 @@
 package com.lucas.ferreira.maburn.model.download.queue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.lucas.ferreira.maburn.exceptions.FetchException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class FetcherController {
 
 	private TitleWebData titleWebData;
-	private CollectionItem item;
 	private WebScraping scraping;
-	private BooleanProperty fetchDone = new SimpleBooleanProperty();
+	private ObjectProperty<TitleWebData> titlePropery = new SimpleObjectProperty<TitleWebData>();
+	private BooleanProperty fetchDonePropery = new SimpleBooleanProperty(false);
 	private static final ExecutorService exec = Executors.newFixedThreadPool(3);
-	private ObservableList<ItemWebData> items;
+	private ObservableList<ItemWebData> obsItems;
+	private BooleanProperty cancel = new SimpleBooleanProperty(false);
 
-	public FetcherController(TitleWebData titleWebData, WebScraping scraping, CollectionItem item) {
-		// TODO Auto-generated constructor stub
+	public FetcherController(TitleWebData titleWebData, WebScraping scraping) {
 		titleWebData.getWebDatas().clear();
 		this.titleWebData = titleWebData;
 		this.scraping = scraping;
-		this.item = item;
-		fetchDone.set(false);
 
-		
-
-	}
-
-	public FetcherController() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void fetchHome() {
-
-
-		scraping.fecthTitle(titleWebData);
-
+		System.out.println(titleWebData.getWebDatas().size());
+		HomeFetcher homeFetcher = new HomeFetcher(titleWebData, scraping);
+		homeFetcher.titlePropery().bindBidirectional(titlePropery);
+		exec.submit(homeFetcher);
 	}
 
-	public void fetchAll() {
+	public ObservableList<ItemWebData> fetchAll() throws FetchException {
+		if (titleWebData.getWebDatas().isEmpty())
+			throw new FetchException("The title has no web data");
+		List<ItemWebData> items = new ArrayList<ItemWebData>();
+		obsItems = FXCollections.observableArrayList(items);
+		for (ItemWebData itemWebData : titleWebData.getWebDatas()) {
+			ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
 
-		titleWebData.getWebDatas().forEach(item -> {
-			ItemFetcher fetcher = new ItemFetcher(item, scraping);
+			fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
+				System.out.println(itemWebData.isFetched());
+				obsItems.add(itemWebData);
 
-			fetcher.getFetchState().addListener((obs, oldvalue, newvalue) -> {
-				if (newvalue) {
-					items.add(item);
-				}
 			});
 
 			exec.submit(fetcher);
-			fetcher.fetch();
-		});
-		fetchDone.set(true);
 
-	}
-
-	public void fetchByIndex(int index) {
-		ItemWebData item = titleWebData.getWebDatas().get(index);
-		ItemFetcher fetcher = new ItemFetcher(item, scraping);
-		fetcher.fetch();
-		fetchDone.set(true);
-
-	}
-
-	public void fetchBetween(int x, int y) {
-		for (int i = x; i < y; i++) {
-			ItemWebData item = titleWebData.getWebDatas().get(i);
-			ItemFetcher fetcher = new ItemFetcher(item, scraping);
-			fetcher.fetch();
 		}
-		fetchDone.set(true);
+		return obsItems;
+
 	}
 
-	// TODO
-//	public void fetchFix() {
-//
-//	}
+	public ObservableList<ItemWebData> fetchByIndex(int index) throws FetchException {
+		if (titleWebData.getWebDatas().isEmpty())
+			throw new FetchException("The title has no web data");
+		List<ItemWebData> items = new ArrayList<ItemWebData>();
+		obsItems = FXCollections.observableArrayList(items);
+		ItemWebData itemWebData = titleWebData.getWebDatas().get(index);
+		ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
 
-	public void fetchUpdate() {
-		DifferenceSynchrony differenceSynchrony = new DifferenceSynchrony(titleWebData.getWebDatas());
-		differenceSynchrony.synch(item).forEach(it -> {
-			ItemFetcher fetcher = new ItemFetcher(it, scraping);
-			fetcher.fetch();
+		fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
+			System.out.println(itemWebData.isFetched());
+			obsItems.add(itemWebData);
+
 		});
-		fetchDone.set(true);
+		if (!cancel.get())
+			exec.submit(fetcher);
+
+		return obsItems;
+
+	}
+
+	public ObservableList<ItemWebData> fetchBetween(int x, int y) throws FetchException {
+		if (titleWebData.getWebDatas().isEmpty())
+			throw new FetchException("The title has no web data");
+
+		List<ItemWebData> items = new ArrayList<ItemWebData>();
+
+		obsItems = FXCollections.observableArrayList(items);
+
+		for (int i = x; i < y; i++) {
+			ItemWebData itemWebData = titleWebData.getWebDatas().get(i);
+			ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
+
+			fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
+				System.out.println(itemWebData.isFetched());
+				obsItems.add(itemWebData);
+
+			});
+
+			exec.submit(fetcher);
+
+		}
+		return obsItems;
+	}
+
+	public ObservableList<ItemWebData> fetchUpdate(CollectionItem targetItem) throws FetchException {
+		if (titleWebData.getWebDatas().isEmpty())
+			throw new FetchException("The title has no web data");
+
+		List<ItemWebData> items = new ArrayList<ItemWebData>();
+
+		obsItems = FXCollections.observableArrayList(items);
+
+		DifferenceSynchrony differenceSynchrony = new DifferenceSynchrony(titleWebData.getWebDatas());
+		List<ItemWebData> result = differenceSynchrony.synch(targetItem);
+		System.out.println("DiffrenceSyncrony Result: " + result.size());
+		for (ItemWebData itemWebData : result) {
+			ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
+			
+			fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
+				System.out.println(itemWebData.isFetched());
+				obsItems.add(itemWebData);
+
+			});
+			
+			exec.submit(fetcher);
+
+		}
+		return obsItems;
+	}
+
+	public void cancel() {
+		cancel.set(true);
+
+		exec.shutdownNow();
 
 	}
 
@@ -108,6 +154,14 @@ public class FetcherController {
 
 	public TitleWebData getTitleWebData() {
 		return titleWebData;
+	}
+
+	public BooleanProperty fetchDonePropery() {
+		return fetchDonePropery;
+	}
+
+	public ObjectProperty<TitleWebData> titlePropery() {
+		return titlePropery;
 	}
 
 }

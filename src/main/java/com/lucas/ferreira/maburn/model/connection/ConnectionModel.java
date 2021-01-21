@@ -23,7 +23,7 @@ public class ConnectionModel implements Callable<String> {
 		while (true) {
 			try {
 				return connect(url);
-			} catch (ConnectionException e) {
+			} catch (Exception e) {
 				// TODO: handle exception
 				attempt++;
 				if (attempt >= attempts) {
@@ -72,8 +72,9 @@ public class ConnectionModel implements Callable<String> {
 	}
 
 	public static String connect(String url) throws ConnectionException {
+		System.out.println("connect: " + url);
 		HttpURLConnection httpConn = null;
-
+		
 		try {
 			url = url.replaceAll(" ", "%20");
 
@@ -81,7 +82,7 @@ public class ConnectionModel implements Callable<String> {
 			return inputStreamToString(httpConn);
 		} catch (IOException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 			int responseCode;
 			try {
 				responseCode = httpConn.getResponseCode();
@@ -98,7 +99,7 @@ public class ConnectionModel implements Callable<String> {
 
 	private static String inputStreamToString(HttpURLConnection httpConn) throws IOException {
 		StringBuilder sb = new StringBuilder();
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader((httpConn.getInputStream())));
 		String output;
 		while ((output = br.readLine()) != null) {

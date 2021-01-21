@@ -1,18 +1,22 @@
 package com.lucas.ferreira.maburn.model.download.queue;
 
+import java.util.concurrent.Callable;
+
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.concurrent.Task;
+import javafx.beans.property.SimpleObjectProperty;
 
-public class ItemFetcher extends Task<ItemWebData> {
+public class ItemFetcher implements Callable<Void> {
 
 	private WebScraping scraping;
 	private ItemWebData item;
-	private BooleanProperty fetchState = new SimpleBooleanProperty();
+	private BooleanProperty fetchStatePropery = new SimpleBooleanProperty();
 
 	public ItemFetcher(ItemWebData item, WebScraping scraping) {
 		// TODO Auto-generated constructor stub
@@ -21,27 +25,37 @@ public class ItemFetcher extends Task<ItemWebData> {
 	}
 
 	@Override
-	protected ItemWebData call() throws Exception {
+	public Void call() throws Exception {
 
-		return fetch();
+		try {
+			fetch();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public ItemWebData fetch() {
-		
+
 		try {
 			scraping.fecthItem(item);
-			fetchState.set(true);
+			
+			
 			item.setFetched(true);
+			fetchStatePropery.set(true);
 		} catch (Exception e) {
 			// TODO: handle exception
 			CustomLogger.log(e);
 			item.setFetched(false);
-			fetchState.set(true);
+			fetchStatePropery.set(true);
 			throw e;
 		}
 		return item;
 	}
-	public BooleanProperty getFetchState() {
-		return fetchState;
+
+	public BooleanProperty fetchStatePropery() {
+		return fetchStatePropery;
 	}
+
 }

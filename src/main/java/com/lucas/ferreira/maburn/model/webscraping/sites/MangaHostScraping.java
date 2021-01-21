@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.lucas.ferreira.maburn.exceptions.FetchException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
@@ -126,6 +127,7 @@ public class MangaHostScraping extends WebScraping {
 			searchTitleWebDatas.add(searchTitle);
 
 		});
+		
 		return searchTitleWebDatas;
 	}
 
@@ -143,6 +145,7 @@ public class MangaHostScraping extends WebScraping {
 			chapterWebDatas.add(chapterWebData);
 
 		});
+
 		return chapterWebDatas;
 
 	}
@@ -154,6 +157,11 @@ public class MangaHostScraping extends WebScraping {
 
 			chapterWebData.addPagesUrl((element.attr("src")));
 		});
+		
+		if(chapterWebData.getListPagesUrl().isEmpty()) {
+			throw new FetchException("No files found");
+		}
+		
 		return chapterWebData;
 
 	}

@@ -35,7 +35,6 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			ItemWebData webData) {
 		// TODO Auto-generated constructor stub
 		initialize(listLink, subItem, listFile, webData);
-
 	}
 
 	public File download() throws IOException {
@@ -47,8 +46,9 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	}
 
 	private File startDownload(URL url) throws IOException {
-		CustomLogger.log(listLink);
-		
+		CustomLogger.log(
+				"Download: " + webData.getName() + "\n URL: " + webData.getUrl() + "\n SubItems: " + listLink.size() +"\nFetched: " + webData.isFetched());
+
 		if (listLink.size() == 1)
 			beginReader(listLink.get(0));
 		else {
@@ -93,7 +93,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 
 			updateState(DownloadState.DOWNLOADING);
 			checkSpeed();
-		
+
 			System.out.println(link);
 			System.out.println(location.getAbsolutePath());
 			fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
@@ -111,36 +111,33 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	}
 
 	public void beginReaderAll(List<String> links) {
-		
+
 		updateState(DownloadState.READY);
 		List<URL> urls = new ArrayList<URL>();
 		List<File> locations = new ArrayList<File>();
 		List<ReadableByteChannel> readables = new ArrayList<ReadableByteChannel>();
-		
-		try { 
-			checkSpeed(); 
-			
-			for(int i = 0; i < links.size();i ++) {
-				
-					
-		
+
+		try {
+			checkSpeed();
+
+			for (int i = 0; i < links.size(); i++) {
+
 				URL url = downloadSetup(links.get(i));
 				urls.add(url);
-				File location = getURLFileProprieres(url,i);
+				File location = getURLFileProprieres(url, i);
 				locations.add(location);
-				
-			//	CustomLogger.log(links.get(i));
-			//	CustomLogger.log(location.getAbsolutePath());
-				
+
+				// CustomLogger.log(links.get(i));
+				// CustomLogger.log(location.getAbsolutePath());
+
 				rbc = Channels.newChannel(httpConn.getInputStream());
 				readables.add(rbc);
 			}
 
-			
-			for(int i = 0; i < urls.size(); i++) {
+			for (int i = 0; i < urls.size(); i++) {
 				File location = locations.get(i);
 				rbc = readables.get(i);
-				
+
 				FileOutputStream fos = new FileOutputStream(location);
 
 				updateState(DownloadState.DOWNLOADING);
@@ -149,7 +146,6 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			}
 			subItem.setDestination(locations.get(0).getParent());
 			updateProgress(1, 1);
-			
 
 			updateState(DownloadState.FINISH);
 		} catch (Exception e) {
@@ -294,7 +290,8 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			@Override
 			public void accept(int value) {
 				// TODO Auto-generated method stub
-				//CustomLogger.log("ACCEPT: \n" +  "VALUE: "+  value +"\nContent Length: " + BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
+				// CustomLogger.log("ACCEPT: \n" + "VALUE: "+ value +"\nContent Length: " +
+				// BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				// CustomLogger.log(progressProperty().getValue().doubleValue());
 

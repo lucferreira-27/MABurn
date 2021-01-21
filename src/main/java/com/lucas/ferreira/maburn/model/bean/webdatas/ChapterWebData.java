@@ -49,6 +49,7 @@ public class ChapterWebData extends ItemWebData {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
 	@Override
 	public Sites getSite() {
 		// TODO Auto-generated method stub
@@ -74,7 +75,9 @@ public class ChapterWebData extends ItemWebData {
 		return download;
 	}
 
-
+	@Override
+	public String toString() {
+		return "ChapterWebData [\n - anime= " + mangaWebData.getName() + ",\n - name=" + name + ",\n - url=" + url + ",\n - fetched= "
+				+ fetched + "\n]";
+	}
 }
-
-

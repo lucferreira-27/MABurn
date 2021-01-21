@@ -39,8 +39,8 @@ public abstract class Downloader<T> extends Task<T> {
 	protected SimpleDoubleProperty speedProperty = new SimpleDoubleProperty();
 
 	protected SimpleDoubleProperty completedProperty = new SimpleDoubleProperty();
-	
-	protected SimpleIntegerProperty downloadFile = new SimpleIntegerProperty(); 
+
+	protected SimpleIntegerProperty downloadFile = new SimpleIntegerProperty();
 
 	protected SimpleStringProperty stateProperty = new SimpleStringProperty();
 
@@ -49,7 +49,6 @@ public abstract class Downloader<T> extends Task<T> {
 	protected SimpleStringProperty actionPauseProperty = new SimpleStringProperty();
 
 	protected SimpleStringProperty actionCancelProperty = new SimpleStringProperty();
-	
 
 	protected BooleanProperty pauseProperty = new SimpleBooleanProperty();
 
@@ -94,7 +93,7 @@ public abstract class Downloader<T> extends Task<T> {
 	public String getActionCancel() {
 		return actionCancelProperty.get();
 	}
-	
+
 	public boolean isFirstInstance() {
 		return firstInstance;
 	}
@@ -130,6 +129,7 @@ public abstract class Downloader<T> extends Task<T> {
 	public SimpleDoubleProperty completedProperty() {
 		return completedProperty;
 	}
+
 	public SimpleIntegerProperty downloadFileProperty() {
 		return downloadFile;
 	}
@@ -169,6 +169,7 @@ public abstract class Downloader<T> extends Task<T> {
 		completedProperty.set(lenght);
 
 	}
+
 	protected void updateDonwloadFile(int n) {
 		downloadFile.set(n);
 	}
@@ -193,6 +194,8 @@ public abstract class Downloader<T> extends Task<T> {
 		this.webData = webData;
 		cancelProperty.set(false);
 		pauseProperty.set(false);
+		updateMessage("[" + webData.getName() + "]");
+
 	}
 
 	public abstract long speedCalculation(Double downloadSpeed, long start, long end, int i);
@@ -222,8 +225,8 @@ public abstract class Downloader<T> extends Task<T> {
 	public String toString() {
 		return "Downloader [\nnameProperty=" + nameProperty + ", \nsizeProperty=" + sizeProperty + ", \nspeedProperty="
 				+ speedProperty + ", \ncompletedProperty=" + completedProperty + ", \nstateProperty=" + stateProperty
-				+ ", \nprogressProperty=" + null + ", \npauseProperty=" + pauseProperty
-				+ ", \ncancelProperty=" + cancelProperty + "]";
+				+ ", \nprogressProperty=" + null + ", \npauseProperty=" + pauseProperty + ", \ncancelProperty="
+				+ cancelProperty + ", \nfetched= " + webData.isFetched() + "]";
 	}
 
 }

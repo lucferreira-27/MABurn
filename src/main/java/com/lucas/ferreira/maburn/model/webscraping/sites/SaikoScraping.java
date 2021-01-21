@@ -30,7 +30,6 @@ public class SaikoScraping extends WebScraping {
 	private String responseBody;
 	private Document document;
 
-
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
 		// TODO Auto-generated method stub
@@ -39,7 +38,7 @@ public class SaikoScraping extends WebScraping {
 
 		try {
 			ScrapeEngine engine = new ScrapeEngine(animeWebData.getUrl());
-		
+
 			document = Jsoup.parse(engine.getPage().asXml());
 
 		} catch (ConnectException e) {
@@ -49,6 +48,7 @@ public class SaikoScraping extends WebScraping {
 		}
 
 		// responseBody = ConnectionModel.connect(animeWebData.getUrl());
+
 		animeWebData.getWebDatas().addAll(fetchEpisodes());
 
 		return animeWebData;
@@ -112,10 +112,10 @@ public class SaikoScraping extends WebScraping {
 				searchTitleWebData.setUrl(result);
 				return Arrays.asList(searchTitleWebData);
 			}
-			}catch (Exception e) {
-				// TODO: handle exception
-				return null;
-			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 	public List<SearchResult> insideSearchFetch(String querry) {
@@ -127,8 +127,6 @@ public class SaikoScraping extends WebScraping {
 		document = Jsoup.parse(responseBody);
 		return fetchAllItensOnTable(document);
 	}
-
-
 
 	private List<SearchResult> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub

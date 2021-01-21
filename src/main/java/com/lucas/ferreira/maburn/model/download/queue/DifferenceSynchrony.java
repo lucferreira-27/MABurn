@@ -44,7 +44,9 @@ public class DifferenceSynchrony {
 			break;
 		case MANGA:
 			reader.findChapterFoldersInMangaFolder((MangaDownloaded) title).forEach(file -> {
-				String name = file.getName().substring(0, file.getName().lastIndexOf("."));
+				String name = file.getName();
+				System.out.println(name);
+
 				avaibleNameItems.add(name);
 			});
 

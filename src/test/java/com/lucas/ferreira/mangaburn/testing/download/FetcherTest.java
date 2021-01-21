@@ -20,7 +20,12 @@ public class FetcherTest {
 		anime.setUrl(TITLE_URL_TEST);
 
 		HomeFetcher fetcher = new HomeFetcher(anime, new AnitubeScraping());
-		fetcher.fetch();
+		try {
+			fetcher.fetch();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertTrue(anime.isFetched());
 	}
 	@Test
