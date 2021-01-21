@@ -42,7 +42,7 @@ public class SearchController {
 			List<SearchResult> searchTitles = scraping.fetchSearchTitle(querry);
 			if (searchTitles == null || searchTitles.isEmpty()) {
 				for (Entry<String, String> title : item.getTitles().entrySet()) {
-					if (title.getValue().equalsIgnoreCase(item.getTitleDataBase()))
+					if (title.getValue().equalsIgnoreCase(item.getTitleDataBase()) || title.getValue().isEmpty())
 						continue;
 
 					queries.add(title.getValue());

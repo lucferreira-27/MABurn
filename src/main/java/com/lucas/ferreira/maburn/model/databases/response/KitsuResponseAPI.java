@@ -109,25 +109,25 @@ public class KitsuResponseAPI implements DatabaseResponse {
 			enTitle = attributes.getJSONObject("titles").getString("en");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			enJpTitle = attributes.getJSONObject("titles").getString("en_jp");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			jaJpTitle = attributes.getJSONObject("titles").getString("ja_jp");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			canonicalTitle = attributes.getString("canonicalTitle");
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			System.err.println("[DataBase] fetchTitles  - " + e.getMessage());
 		}
 		String[] titles = { canonicalTitle, enTitle, enJpTitle, jaJpTitle };
 

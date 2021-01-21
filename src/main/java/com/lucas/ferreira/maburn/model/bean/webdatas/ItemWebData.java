@@ -20,6 +20,7 @@ public abstract class ItemWebData {
 	public abstract Downloader<CollectionSubItem> download(Collections collections);
 
 	public abstract Sites getSite();
+	
 
 	public boolean isFetched() {
 		return fetched;

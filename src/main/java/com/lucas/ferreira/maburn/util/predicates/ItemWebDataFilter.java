@@ -19,8 +19,8 @@ public class ItemWebDataFilter implements Predicate<ItemWebData> {
 		// TODO Auto-generated method stub
 
 		for (String file : filesName) {
-
-			if (file.equals(t.getName())) {
+			//System.out.println("File: " + file + " | ItemWebData: " + t.getName() );
+			if (file.equals(t.getName())) {	
 				return false;
 			}
 		}

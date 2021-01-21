@@ -1,3 +1,4 @@
+
 package com.lucas.ferreira.maburn.controller;
 
 import java.io.File;
@@ -16,12 +17,13 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.download.ItemDownload;
+import com.lucas.ferreira.maburn.model.download.queue.DownloadController;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.queue.FetcherController;
+import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.download.service.DownloadService;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.enums.DownloadType;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.itens.CollectionItem;
 import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
@@ -38,6 +40,7 @@ import com.lucas.ferreira.maburn.view.TitleInterfaceView;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -63,10 +66,10 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private TitleDownloadInterfaceView titleDownloadView;
 	private CollectionItem collectionItemTitle;
 	private TitleWebData webDataTitle;
+	private TitleDownload titleDownload;
 	private WebScraping scraping;
 	private FetcherController fetcherController;
 	private SearchController searchController;
-	private DownloadService service;
 	private ItemDownload itemDownload = null;
 
 	private Button btnHome;
@@ -166,7 +169,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	public TitleDownloadInterfaceController(TitleDownloadInterfaceView titleView) {
 		this.titleDownloadView = titleView;
 		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
-
+		titleDownload = new TitleDownload(collectionItemTitle.getCollections());
 	}
 
 	@Override
@@ -206,6 +209,61 @@ public class TitleDownloadInterfaceController implements Initializable {
 		lblTecTitle.setText(collectionItemTitle.getTitleDataBase());
 	}
 
+	@FXML
+	public void onClickButtonBack() {
+
+		back();
+
+	}
+
+	@FXML
+	public void onClickButtonFetch() {
+		CustomLogger.log("Fetch");
+		new Thread(() -> {
+			if (isSourceSelect(cbSource)) {
+				Platform.runLater(() -> {
+					piLoadFetch.setVisible(true);
+				});
+
+				fetch();
+
+			} else {
+				AlertWindowView.warningAlert("Download Manager", "Missing information",
+						"You need to inform a source before fetch");
+			}
+		}).start();
+
+	}
+
+	@FXML
+	public void onClickButtonDownload() {
+
+		if (cbSource.getValue() != collectionItemTitle.getWebScraping().getSite()) {
+			AlertWindowView.infoAlert("SOURCE CHANGE", "The value of source was change", "Please fetch first");
+			piLoadDownload.setVisible(false);
+			return;
+		}
+		selectDownload();
+
+	}
+
+	@FXML
+	public void onClickButtonPause() {
+
+		if (!titleDownload.getPauseProperty().get())
+			titleDownload.pause();
+		else
+			titleDownload.resume();
+	}
+
+	@FXML
+	public void onClickButtonCancel() {
+		CustomLogger.log("Cancel");
+		titleDownload.cancel();
+		pbTotalProgress.progressProperty().unbind();
+		pbTotalProgress.setProgress(0);
+	}
+
 	private void loadCbSource() {
 		try {
 			CustomLogger.log("Source loadCbSource");
@@ -228,7 +286,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 	}
 
 	private void loadCbSelect() {
-		ObservableList<String> options = FXCollections.observableArrayList("Select All", "Select One");
+		ObservableList<String> options = FXCollections.observableArrayList("Select All", "Select One", "Select Between",
+				"Select Update");
 
 		cbSelect.getItems().addAll(options);
 		cbSelect.getSelectionModel().selectFirst();
@@ -246,70 +305,31 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void loadCbItems() {
 
 		cbItens.getItems().clear();
-		for (ItemWebData sub : items) {
+		if (!webDataTitle.getWebDatas().isEmpty())
+			for (ItemWebData sub : webDataTitle.getWebDatas()) {
 
-			Platform.runLater(() -> {
-				cbItens.getItems().add(sub.getName());
-				System.err.println("CbItems size:  " + cbItens.getItems().size());
+				Platform.runLater(() -> {
+					cbItens.getItems().add(sub.getName());
+					System.out.println(sub.getUrl());
+				});
 
-			});
-
-		}
+			}
 
 	}
 
 	private void downloadController() {
-		btnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig();
-		btnExtra = MainInterfaceView.getInstance().getMenuController().getBtnExtra();
-		btnHome = MainInterfaceView.getInstance().getMenuController().getBtnHome();
 
-		EventHandler<ActionEvent> onClickBtnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig().getOnAction();
-		EventHandler<ActionEvent> onClickBtnHome = MainInterfaceView.getInstance().getMenuController().getBtnExtra().getOnAction();
-		EventHandler<ActionEvent> onClickBtnExtra = MainInterfaceView.getInstance().getMenuController().getBtnHome().getOnAction();
+//		btnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig();
+//		btnExtra = MainInterfaceView.getInstance().getMenuController().getBtnExtra();
+//		btnHome = MainInterfaceView.getInstance().getMenuController().getBtnHome();
+//
+//		EventHandler<ActionEvent> onClickBtnConfig = MainInterfaceView.getInstance().getMenuController().getBtnConfig()
+//				.getOnAction();
+//		EventHandler<ActionEvent> onClickBtnHome = MainInterfaceView.getInstance().getMenuController().getBtnExtra()
+//				.getOnAction();
+//		EventHandler<ActionEvent> onClickBtnExtra = MainInterfaceView.getInstance().getMenuController().getBtnHome()
+//				.getOnAction();
 
-		btnExtra.setOnAction(event -> {
-			if (service != null && !service.isDone())
-
-				if (AlertWindowView.confirmationAlert("Download Service", "Download in progress",
-						"If you exited the download will failed")) {
-					btnExtra.setOnAction(onClickBtnExtra);
-					btnExtra.fire();
-				} else {
-					return;
-				}
-			btnExtra.setOnAction(onClickBtnExtra);
-			btnExtra.fire();
-
-		});
-		btnHome.setOnAction(event -> {
-			if (service != null && !service.isDone())
-				if (AlertWindowView.confirmationAlert("Download Service", "Download in progress",
-						"If you exited the download will failed")) {
-					btnExtra.setOnAction(onClickBtnHome);
-					btnExtra.fire();
-				} else {
-					return;
-				}
-			btnExtra.setOnAction(onClickBtnExtra);
-
-			btnExtra.fire();
-
-		});
-		btnConfig.setOnAction(event -> {
-			if (service != null && !service.isDone())
-
-				if (AlertWindowView.confirmationAlert("Download Service", "Download in progress",
-						"If you exited the download will failed")) {
-					btnExtra.setOnAction(onClickBtnConfig);
-					btnExtra.fire();
-				} else {
-					return;
-				}
-			btnExtra.setOnAction(onClickBtnConfig);
-
-			btnExtra.fire();
-
-		});
 	}
 
 	public void initTable() {
@@ -403,16 +423,6 @@ public class TitleDownloadInterfaceController implements Initializable {
 					setText(null);
 				} else {
 					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
-
-//					downloader.getPauseProperty().addListener((ops, oldValue, newValue) -> {
-//						CustomLogger.log("PauseProperty Listener: " + newValue);
-//						CustomLogger.log("DownloadState: " + downloader.getDownloadState());
-//						if (!newValue) {
-//							btn.setText("PAUSE");
-//						} else if(downloader.getDownloadState().equals(String.valueOf(DownloadState.PAUSING))) {
-//							btn.setText("RESUME");
-//						}
-//					});
 
 					downloader.downloadStateProperty().addListener((obs, oldvalue, newvalue) -> {
 						if (newvalue.equals(String.valueOf(DownloadState.FINISH))) {
@@ -520,25 +530,19 @@ public class TitleDownloadInterfaceController implements Initializable {
 		});
 
 		preventColumnReordering(tableItens);
-	}
+		tableItens.setItems(titleDownload.getObsDownloads());
+		titleDownload.getObsDownloads().addListener(new ListChangeListener<Downloader<CollectionSubItem>>() {
+			@Override
+			public void onChanged(ListChangeListener.Change<? extends Downloader<CollectionSubItem>> c) {
+				// System.out.println("Changed on " + c);
+				if (c.next()) {
+					System.out.println("[Downloader] " + c.getList().get(c.getFrom()));
 
-	@FXML
-	public void onClickButtonBack() {
-
-		if (service != null && !service.isDone()) {
-			if (AlertWindowView.confirmationAlert("Download Service", "Download in progress",
-					"If you exit the download will fail")) {
-				back();
-				return;
-			} else {
-				return;
+				}
 
 			}
-		} else {
-			back();
 
-		}
-
+		});
 	}
 
 	private void back() {
@@ -546,91 +550,35 @@ public class TitleDownloadInterfaceController implements Initializable {
 		titleInterfaceView.loadMainInterfaceFX();
 	}
 
-	@FXML
-	public void onClickButtonFetch() {
-		CustomLogger.log("Fetch");
-		new Thread(() -> {
-			if (isSourceSelect(cbSource)) {
-				Platform.runLater(() -> {
-					piLoadFetch.setVisible(true);
-				});
-				fetch();
-				showHideDatas();
+	private void selectDownload() {
+		try {
+			DownloadController downloadController = new DownloadController(titleDownload, fetcherController);
 
-			} else {
-				AlertWindowView.warningAlert("Download Manager", "Missing information",
-						"You need to inform a source before fetch");
+			int type = cbSelect.getSelectionModel().getSelectedIndex();
+
+			switch (type) {
+
+			case 0:
+				downloadController.downloadAll();
+				break;
+			case 1:
+				downloadController.downloadByIndex(cbItens.getSelectionModel().getSelectedIndex());
+				break;
+			case 2:
+				downloadController.downloadBetween(0, 10);
+				break;
+			case 3:
+				downloadController.downloadUpdate(collectionItemTitle);
+				break;
+
+			default:
+				throw new Exception("Invalid download type");
 			}
-		}).start();
-		;
-	}
-
-	@FXML
-	public void onClickButtonDownload() {
-
-		CustomLogger.log("Download");
-		CustomLogger.log("Fetch Item ...");
-		piLoadDownload.setVisible(true);
-
-		if (cbSource.getValue() != collectionItemTitle.getWebScraping().getSite()) {
-			AlertWindowView.infoAlert("SOURCE CHANGE", "The value of source was change", "Please fetch first");
-			piLoadDownload.setVisible(false);
-
-			return;
+		} catch (Exception e) {
+			// TODO: handle exception
+			AlertWindowView.exceptionAlert(e);
+			e.printStackTrace();
 		}
-
-		if (cbSelect.getValue().equals("Select All")) {
-			new Thread(() -> {
-				downloadAll();
-
-			}).start();
-		} else {
-
-			if (itemDownload == null) {
-				new Thread(() -> {
-					downloadOne();
-
-				}).start();
-
-			} else {
-				new Thread(() -> {
-					downloadInQueue();
-
-				}).start();
-
-			}
-		}
-
-		CustomLogger.log("Fetch!");
-
-	}
-
-	@FXML
-	public void onClickButtonPause() {
-
-		if (!service.getPauseProperty().get()) {
-			CustomLogger.log("btnAction : pause");
-			btnPause.setText("RESUME");
-			if (!(service.getDownloadState() == DownloadState.PAUSING)) {
-				service.setDownloadState(DownloadState.PAUSING);
-
-				service.pause();
-			} else
-				CustomLogger.log("PAUSING, PLEASE WAIT");
-		} else if (!(service.getDownloadState() == DownloadState.PAUSING)) {
-			CustomLogger.log("btnAction : resume");
-			btnPause.setText("PAUSE");
-			service.resume();
-		}
-
-	}
-
-	@FXML
-	public void onClickButtonCancel() {
-		CustomLogger.log("Cancel");
-		service.cancelDownload();
-		pbTotalProgress.progressProperty().unbind();
-		pbTotalProgress.setProgress(0);
 	}
 
 	public static <T> void preventColumnReordering(TableView<T> tableView) {
@@ -643,8 +591,9 @@ public class TitleDownloadInterfaceController implements Initializable {
 		});
 	}
 
-	private void search(String querry) {
+	private void search() {
 
+		String querry = collectionItemTitle.getTitleDataBase();
 		searchController = new SearchController(collectionItemTitle);
 
 		searchController.searchResultProperty().addListener((obs, oldvalue, newvalue) -> {
@@ -681,48 +630,49 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 		piLoadFetch.setVisible(true);
 		webDataTitle.setUrl(result);
-		fetcherController = new FetcherController(webDataTitle, scraping, collectionItemTitle);
-		try {
-			fetcherController.fetchHome();
-		} catch (WebScrapingException e) {
-			// TODO: handle exception
-			AlertWindowView.errorAlert("Fetch error", "Error in " + cbSource.getValue(), e.getMessage());
-		}
-		System.out.println(result);
-		Platform.runLater(() -> lblSearchResult.setText(result));
-		if (items != null)
-			items.clear();
-		items = webDataTitle.getWebDatas();
-		System.err.println("Items size:" + items.size());
-		Platform.runLater(() -> {
-			lblPath.setText("Path: " + collectionItemTitle.getDestination());
-			lblSource.setText("Source: " + cbSource.getValue().getUrl());
+		fetcherController = new FetcherController(webDataTitle, scraping);
+
+		fetcherController.titlePropery().addListener((obs, oldValue, newValue) -> {
+			System.out.println("TitlePropery: " + newValue);
+			if (webDataTitle.isFetched()) {
+				System.out.println("LoadCbItems");
+				loadCbItems();
+				showHideDatas();
+			} else
+				AlertWindowView.errorAlert("Fetch error", "No items found", "");
+			piLoadFetch.setVisible(false);
+
 		});
-		loadCbItems();
-		piLoadFetch.setVisible(false);
+
+		fetcherController.fetchHome();
+
 	}
 
 	private void fetch() {
 
-		CollectionItem item = collectionItemTitle;
-		System.err.println("Scraping: " + cbSource.getValue().getScraping());
-		collectionItemTitle.setWebScraping(cbSource.getValue().getScraping());
 		try {
 
-			scraping = collectionItemTitle.getWebScraping();
-
-			if (item.getCategory() == Category.ANIME)
-				webDataTitle = new AnimeWebData(item.getTitleDataBase());
-			else if (item.getCategory() == Category.MANGA)
-				webDataTitle = new MangaWebData(item.getTitleDataBase());
-
-			search(item.getTitleDataBase());
+			crateWebScraping();
+			createWebDataTitle();
+			search();
 
 		} catch (WebScrapingException e) {
 			// TODO: handle exception
 			AlertWindowView.errorAlert("Fetch error", e.getMessage(), "Please try another site");
 			piLoadFetch.setVisible(false);
 		}
+	}
+
+	private void crateWebScraping() {
+		collectionItemTitle.setWebScraping(cbSource.getValue().getScraping());
+		scraping = collectionItemTitle.getWebScraping();
+	}
+
+	private void createWebDataTitle() {
+		if (collectionItemTitle.getCategory() == Category.ANIME)
+			webDataTitle = new AnimeWebData(collectionItemTitle.getTitleDataBase());
+		else if (collectionItemTitle.getCategory() == Category.MANGA)
+			webDataTitle = new MangaWebData(collectionItemTitle.getTitleDataBase());
 	}
 
 	public void showHideDatas() {
@@ -744,93 +694,6 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	}
 
-	private void downloadAll() {
-		itemDownload = new ItemDownload(collectionItemTitle, DownloadType.DOWNLOAD_ALL);
-		itemDownload.getFetchItemProperty().addListener((observable, oldvalue, newvalue) -> {
-			if (newvalue) {
-				Platform.runLater(() -> piLoadDownload.setVisible(false));
-			}
-		});
-		itemDownload.download();
-		service = itemDownload.getDownloadService();
-		service.getNumberDownloadFile().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> {
-				lblItemsDownloaded.setText("Download: " + newvalue);
-			});
-		});
-		service.getTotalDownloadFile().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> {
-				lblItemsTotal.setText("Total: " + newvalue);
-			});
-		});
-		Platform.runLater(() -> {
-			for (ItemWebData it : service.getItems()) {
-				tableItens.getItems().add(it.getDownloader());
-			}
-			pbTotalProgress.progressProperty().bind(service.progressProperty());
-
-		});
-	}
-
-	private void downloadOne() {
-
-		itemDownload = new ItemDownload(collectionItemTitle, DownloadType.DOWNLOAD_SELECT,
-				cbItens.getSelectionModel().getSelectedIndex());
-		itemDownload.getFetchItemProperty().addListener((observable, oldvalue, newvalue) -> {
-			if (newvalue) {
-				Platform.runLater(() -> piLoadDownload.setVisible(false));
-			}
-		});
-		itemDownload.download();
-		service = itemDownload.getDownloadService();
-		service.getNumberDownloadFile().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> {
-				lblItemsDownloaded.setText("Download: " + newvalue);
-			});
-		});
-		service.getTotalDownloadFile().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> {
-				lblItemsTotal.setText("Total: " + newvalue);
-			});
-		});
-		Platform.runLater(() -> {
-			CustomLogger.log("Test");
-			service.getItems().forEach(it -> {
-				it.getDownloader().setDownloadState(DownloadState.PREPARING);
-			});
-			tableItens.getItems().add(service.getItems().get(service.getItems().size() - 1).getDownloader());
-			pbTotalProgress.progressProperty().bind(service.progressProperty());
-
-		});
-
-	}
-
-	private void downloadInQueue() {
-		itemDownload.addItem(cbItens.getSelectionModel().getSelectedIndex());
-
-		service = itemDownload.getDownloadService();
-		service.getItems().forEach(it -> {
-			CustomLogger.log(it.getDownloader().toString());
-			it.getDownloader().setDownloadState(DownloadState.PREPARING);
-		});
-		service.getNumberDownloadFile().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> {
-				lblItemsDownloaded.setText("Download: " + newvalue);
-			});
-		});
-		service.getTotalDownloadFile().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> {
-				lblItemsTotal.setText("Total: " + newvalue);
-			});
-		});
-		Platform.runLater(() -> {
-			tableItens.getItems().add(service.getItems().get(service.getItems().size() - 1).getDownloader());
-			pbTotalProgress.progressProperty().bind(service.progressProperty());
-
-		});
-
-	}
-
 	public <T> void disableAndSetDefaultValue(ComboBox<T> cb, T value) {
 		CustomLogger.log("!" + value);
 		cb.setValue(value);
@@ -843,10 +706,6 @@ public class TitleDownloadInterfaceController implements Initializable {
 			return false;
 		}
 		return true;
-	}
-
-	public void showLoadInFetchArea() {
-
 	}
 
 }

@@ -29,7 +29,6 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
 
 public class GoyabuScraping extends WebScraping {
@@ -48,14 +47,20 @@ public class GoyabuScraping extends WebScraping {
 
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) {
+		try {
+			animeWebData = (AnimeWebData) titleWebData;
+			animeWebData.setSite(getSite());
 
-		animeWebData = (AnimeWebData) titleWebData;
-		animeWebData.setSite(getSite());
-
-		responseBody = ConnectionModel.connect(animeWebData.getUrl());
-		mainPageUrl = animeWebData.getUrl();
-		animeWebData.getWebDatas().addAll(fetchEpisodesForPageUrl());
-
+			responseBody = ConnectionModel.connect(animeWebData.getUrl());
+			mainPageUrl = animeWebData.getUrl();
+			System.out.println("Before: " + animeWebData.getWebDatas().size());
+			animeWebData.getWebDatas().addAll(fetchEpisodesForPageUrl());
+			System.out.println("After: " + animeWebData.getWebDatas().size());
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		// titleWebData.setFetched(true);
 		return animeWebData;
 	}
 
@@ -75,8 +80,10 @@ public class GoyabuScraping extends WebScraping {
 		try {
 			String result = bingSearch(querry, getSite(), true);
 			if (!isTitlePage(result, "https://goyabu.com/assistir/")) {
-
-				return insideSearchFetch(querry);
+				SearchResult searchTitleWebData = new SearchResult(getSite());
+				searchTitleWebData.setUrl(getTitlePage(result));
+				return Arrays.asList(searchTitleWebData);
+			//	return insideSearchFetch();
 			} else {
 				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(result);
@@ -140,7 +147,8 @@ public class GoyabuScraping extends WebScraping {
 		try {
 			document = Jsoup.parse(responseBody);
 			List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
-
+			futureresponseBodys.clear();
+			
 			if (titleHasPages(document)) {
 				int value = 1;
 				try {
@@ -177,6 +185,7 @@ public class GoyabuScraping extends WebScraping {
 	}
 
 	private void fetchAllEpisodesPage(List<Future<String>> responseBodys, List<EpisodeWebData> episodesWebDatas) {
+		System.out.println("ResponseBodys: " + responseBodys.size());
 		futureresponseBodys.forEach(futureItem -> {
 			try {
 				fetchEpisodePageUrl(Jsoup.parse(futureItem.get()), episodesWebDatas);
@@ -196,6 +205,8 @@ public class GoyabuScraping extends WebScraping {
 	private void nextPage(int i, List<EpisodeWebData> episodeWebDatas) {
 
 		Future<String> futureresponseBody = exec.submit(new ConnectionModel(mainPageUrl + "/page/" + i));
+		System.out.println("futureresponseBodys.add");
+		System.out.println(futureresponseBodys.size());
 		futureresponseBodys.add(futureresponseBody);
 
 	}
@@ -239,7 +250,6 @@ public class GoyabuScraping extends WebScraping {
 
 	private EpisodeWebData fetchVideoUrlDirectDownload(EpisodeWebData episodeWebData) {
 
-		CustomLogger.log(responseBody);
 		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), "script");
 
 		String script = elements.stream()

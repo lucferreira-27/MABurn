@@ -79,13 +79,12 @@ public class EpisodeWebData extends ItemWebData {
 	public Downloader<CollectionSubItem> download(Collections collections) {
 		String itemName = collections.getActualItem().getName();
 		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;
-		 CustomLogger.log(destination);
+		CustomLogger.log(destination);
 
 		CustomLogger.log(destination);
 		EpisodeDownloaded episode = new EpisodeDownloaded();
 		episode.setName(name);
 		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this);
-
 
 		try {
 			ExecutorService exec = Executors.newFixedThreadPool(5);
@@ -93,13 +92,15 @@ public class EpisodeWebData extends ItemWebData {
 			return download;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			CustomLogger.log("!!!!!!");
 			e.printStackTrace();
 			return download;
 		}
 
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "EpisodeWebData [\n - anime= " + animeWebData.getName() + ",\n - name=" + name + ",\n - url=" + url
+				+ ",\n - fetched= " + fetched + "\n]";
+	}
 }

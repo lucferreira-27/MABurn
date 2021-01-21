@@ -1,46 +1,56 @@
 package com.lucas.ferreira.maburn.model.download.queue;
 
+import java.util.concurrent.Callable;
+
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.concurrent.Task;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
-public class HomeFetcher extends Task<TitleWebData> {
+public class HomeFetcher implements Callable<Void> {
 
 	private WebScraping scraping;
 	private TitleWebData title;
-	private BooleanProperty fetchState = new SimpleBooleanProperty();
+	private ObjectProperty<TitleWebData> titlePropery = new SimpleObjectProperty<TitleWebData>();
 
 	public HomeFetcher(TitleWebData title, WebScraping scraping) {
 		// TODO Auto-generated constructor stub
+		System.out.println("HomeFetcher: " +  title.getWebDatas().size());
 		this.scraping = scraping;
 		this.title = title;
 	}
 
 	@Override
-	protected TitleWebData call() throws Exception {
-
-		return fetch();
+	public Void call() throws Exception {
+		try {
+			fetch();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public TitleWebData fetch() {
-
+	public void fetch() throws Exception {
+		title.getWebDatas().clear();
 		try {
 			scraping.fecthTitle(title);
-			fetchState.set(true);
 			title.setFetched(true);
 		} catch (Exception e) {
 			// TODO: handle exception
 			CustomLogger.log(e);
 			title.setFetched(false);
-			fetchState.set(true);
-			throw e;
 
 		}
-		return title;
+		System.out.println(title.getWebDatas().size());
+		titlePropery.set(title);
+
+	}
+
+	public ObjectProperty<TitleWebData> titlePropery() {
+		return titlePropery;
 	}
 
 }

@@ -9,6 +9,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.lucas.ferreira.maburn.exceptions.ConnectionException;
+import com.lucas.ferreira.maburn.exceptions.FetchException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
@@ -60,18 +62,24 @@ public class MangaYabuScraping extends WebScraping {
 	@Override
 	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
-		String result = bingSearch(querry, getSite(), true);
+		String result = null;
 		try {
-			if (!isTitlePage(result, "https://mangayabu.top/manga/")) {
-				return insideSearchFetch(querry);
-			} else {
-				SearchResult searchTitleWebData = new SearchResult(getSite());
-				searchTitleWebData.setUrl(result);
-				return Arrays.asList(searchTitleWebData);
-			}
+			result = bingSearch(querry, getSite(), true);
+			SearchResult searchTitleWebData = new SearchResult(getSite());
+			searchTitleWebData.setUrl(result);
+			return Arrays.asList(searchTitleWebData);
 		} catch (Exception e) {
 			// TODO: handle exception
-			return null;
+
+			try {
+
+				return insideSearchFetch(querry);
+
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+				return null;
+			}
 		}
 
 	}
@@ -130,6 +138,9 @@ public class MangaYabuScraping extends WebScraping {
 
 			chapterWebData.addPagesUrl((element.attr("src")));
 		});
+		if(chapterWebData.getListPagesUrl().isEmpty()) {
+			throw new FetchException("No files found");
+		}
 		return chapterWebData;
 
 		// alignnone size-full wp-image
