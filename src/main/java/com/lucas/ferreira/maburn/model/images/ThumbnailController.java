@@ -1,12 +1,12 @@
-package com.lucas.ferreira.maburn.model.download;
+package com.lucas.ferreira.maburn.model.images;
 
 import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.documents.Documents;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;

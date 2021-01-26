@@ -1,10 +1,10 @@
-package com.lucas.ferreira.maburn.model.databases;
+package com.lucas.ferreira.maburn.model.service;
 
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.databases.response.KitsuResponseAPI;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.service.response.KitsuResponseAPI;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class KitsuDatabase implements Database {

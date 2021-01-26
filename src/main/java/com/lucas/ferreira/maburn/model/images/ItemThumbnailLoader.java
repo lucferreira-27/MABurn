@@ -11,7 +11,7 @@ import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.effects.TransformEffects;
 import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
 import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 import javafx.scene.CacheHint;
 import javafx.scene.image.Image;

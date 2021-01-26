@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 public class AnimeCollection implements Collections {
 	private List<CollectionItem> listAnimes = new ArrayList<>();

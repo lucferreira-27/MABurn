@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -58,15 +59,17 @@ public class SaikoScraping extends WebScraping {
 		// TODO Auto-generated method stub
 		List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
 		Elements elements = scraper.scrapeSnippet(document, "#51 .bnt-area > a");
-		elements.forEach(element -> {
+
+		for (int i = 0; i < elements.size(); i++) {
+			Element element = elements.get(i);
 
 			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
 			episodeWebData.setUrl(element.attr("href"));
-			episodeWebData.setName(element.text());
-			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
-			episodeWebDatas.add(episodeWebData);
 
-		});
+			WebScrapingUtil.renameElementToCustomName(i, episodeWebData);
+			
+			episodeWebDatas.add(episodeWebData);
+		}
 		return episodeWebDatas;
 	}
 

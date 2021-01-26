@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download.queue;
+package com.lucas.ferreira.maburn.fetch;
 
 import java.util.concurrent.Callable;
 

@@ -14,13 +14,13 @@ import com.lucas.ferreira.maburn.model.documents.CollectionDatasReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.SaveCollection;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadImageServiceModel;
+import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
-import com.lucas.ferreira.maburn.model.itens.AnimeItemCreate;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-import com.lucas.ferreira.maburn.model.itens.ItemCreater;
-import com.lucas.ferreira.maburn.model.itens.MangaItemCreate;
+import com.lucas.ferreira.maburn.model.items.AnimeItemCreate;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.ItemCreater;
+import com.lucas.ferreira.maburn.model.items.MangaItemCreate;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.property.StringProperty;

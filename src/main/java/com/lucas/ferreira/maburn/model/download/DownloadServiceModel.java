@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download.service.model;
+package com.lucas.ferreira.maburn.model.download;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,7 +17,7 @@ import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
@@ -31,12 +31,6 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 		// TODO Auto-generated constructor stub
 	}
 
-	public DownloadServiceModel(List<String> listLink, CollectionSubItem subItem, List<File> listFile,
-			ItemWebData webData) {
-		// TODO Auto-generated constructor stub
-		initialize(listLink, subItem, listFile, webData);
-	}
-
 	public File download() throws IOException {
 		updateName(subItem.getName());
 		URL url = downloadSetup(super.listLink.get(0));
@@ -46,8 +40,8 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	}
 
 	private File startDownload(URL url) throws IOException {
-		CustomLogger.log(
-				"Download: " + webData.getName() + "\n URL: " + webData.getUrl() + "\n SubItems: " + listLink.size() +"\nFetched: " + webData.isFetched());
+		CustomLogger.log("Download: " + webData.getName() + "\n URL: " + webData.getUrl() + "\n SubItems: "
+				+ listLink.size() + "\nFetched: " + webData.isFetched());
 
 		if (listLink.size() == 1)
 			beginReader(listLink.get(0));
@@ -107,6 +101,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			// TODO: handle exception
 			e.printStackTrace();
 			updateState(DownloadState.FAILED);
+			failedProperty.set(true);
 		}
 	}
 
@@ -152,6 +147,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			// TODO: handle exception
 			e.printStackTrace();
 			updateState(DownloadState.FAILED);
+			failedProperty.set(true);
 		}
 	}
 
@@ -168,12 +164,10 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 					end = completedProperty.get();
 
 					double downloadeSpeed = end - start;
-//					CustomLogger.log("Speed: " + downloadeSpeed);
-//					CustomLogger.log("Threads: " + Thread.currentThread().getId());
 					updateSpeed(downloadeSpeed);
 
-					if (stateProperty.getValue().equalsIgnoreCase("FAILED")
-							|| stateProperty.getValue().equalsIgnoreCase("FINISH")) {
+					if (stateProperty.getValue() == DownloadState.FAILED
+							|| stateProperty.getValue() == DownloadState.FINISH) {
 						updateSpeed(0);
 						break;
 					}
@@ -199,6 +193,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	private URL downloadSetup(String link) throws IOException {
 		if (link == null) {
 			updateState(DownloadState.FAILED);
+			failedProperty.set(true);
 			CustomLogger.log("Error: " + subItem.getDestination());
 			return null;
 		}
@@ -237,11 +232,24 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	}
 
 	public void pause() {
+		updateState(DownloadState.PAUSING);
 		pauseProperty.set(true);
 	}
 
 	public void resume() {
 		pauseProperty.set(false);
+
+	}
+
+	public void refresh() {
+		try {
+			pauseProperty.set(false);
+			cancelProperty.set(false);
+			download();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

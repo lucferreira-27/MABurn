@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download.queue;
+package com.lucas.ferreira.maburn.fetch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import com.lucas.ferreira.maburn.exceptions.FetchException;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
 import javafx.beans.property.BooleanProperty;
@@ -18,7 +18,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class FetcherController {
+public class FetcherOrchestrator {
 
 	private TitleWebData titleWebData;
 	private WebScraping scraping;
@@ -28,8 +28,7 @@ public class FetcherController {
 	private ObservableList<ItemWebData> obsItems;
 	private BooleanProperty cancel = new SimpleBooleanProperty(false);
 
-	public FetcherController(TitleWebData titleWebData, WebScraping scraping) {
-		titleWebData.getWebDatas().clear();
+	public FetcherOrchestrator(TitleWebData titleWebData, WebScraping scraping) {
 		this.titleWebData = titleWebData;
 		this.scraping = scraping;
 

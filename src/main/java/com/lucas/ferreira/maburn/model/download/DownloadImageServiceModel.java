@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download.service.model;
+package com.lucas.ferreira.maburn.model.download;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +14,7 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DownloadImageServiceModel extends Downloader<File> {
@@ -118,11 +118,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 		return download();
 	}
 
-	@Override
-	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 	public void pause() {
@@ -161,6 +157,12 @@ public class DownloadImageServiceModel extends Downloader<File> {
 	public void kill() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

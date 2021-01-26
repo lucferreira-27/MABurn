@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.databases.response;
+package com.lucas.ferreira.maburn.model.service.response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
-public class KitsuResponseAPI implements DatabaseResponse {
+public class KitsuResponseAPI implements ServiceResponse {
 
 	private static final String DATABASE_URL = "https://kitsu.io/";
 	private String responseBody;

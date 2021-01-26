@@ -5,18 +5,25 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
+import javafx.scene.control.Button;
 
 public abstract class Downloader<T> extends Task<T> {
+
+	private TitleDownload titleDownload;
 
 	private boolean firstInstance = true;
 
@@ -42,9 +49,19 @@ public abstract class Downloader<T> extends Task<T> {
 
 	protected SimpleIntegerProperty downloadFile = new SimpleIntegerProperty();
 
-	protected SimpleStringProperty stateProperty = new SimpleStringProperty();
+	protected SimpleObjectProperty<DownloadState> stateProperty = new SimpleObjectProperty<DownloadState>();
 
 	protected SimpleDoubleProperty downloadProgress = new SimpleDoubleProperty();
+
+	private final Button btnAction1 = new Button();
+	private final Button btnAction2 = new Button();
+
+	private final Button btnOpen = new Button("OPEN");
+	private final Button btnPause = new Button("PAUSE");
+	private final Button btnResume = new Button("RESUME");
+	private final Button btnCancel = new Button("CANCEL");
+	private final Button btnRemove = new Button("REMOVE");
+	private final Button btnRefresh = new Button("REFRESH");
 
 	protected SimpleStringProperty actionPauseProperty = new SimpleStringProperty();
 
@@ -54,11 +71,27 @@ public abstract class Downloader<T> extends Task<T> {
 
 	protected BooleanProperty cancelProperty = new SimpleBooleanProperty();
 
+	protected BooleanProperty failedProperty = new SimpleBooleanProperty();
+
 	public Downloader() {
 		// TODO Auto-generated constructor stub
-		stateProperty.set(String.valueOf(DownloadState.PREPARING));
+		stateProperty.set(DownloadState.PREPARING);
 		cancelProperty.set(false);
 		pauseProperty.set(false);
+
+		btnOpen.setOnAction(event -> actionOnOpen());
+		btnPause.setOnAction(event -> actionOnPause());
+		btnResume.setOnAction(event -> actionOnResume());
+		btnCancel.setOnAction(event -> actionOnCancel());
+		btnRefresh.setOnAction(event -> actionOnRefresh());
+		btnRemove.setOnAction(event -> actionOnRemove());
+
+		btnAction1.setText(btnPause.getText());
+		btnAction1.setOnAction(btnPause.getOnAction());
+
+		btnAction2.setText(btnCancel.getText());
+		btnAction2.setOnAction(btnCancel.getOnAction());
+
 	}
 
 	public String getName() {
@@ -66,7 +99,7 @@ public abstract class Downloader<T> extends Task<T> {
 		return nameProperty.get();
 	}
 
-	public String getDownloadState() {
+	public DownloadState getDownloadState() {
 		return stateProperty.get();
 	}
 
@@ -92,6 +125,14 @@ public abstract class Downloader<T> extends Task<T> {
 
 	public String getActionCancel() {
 		return actionCancelProperty.get();
+	}
+
+	public Button getBtnPause() {
+		return btnAction1;
+	}
+
+	public Button getBtnCancel() {
+		return btnAction2;
 	}
 
 	public boolean isFirstInstance() {
@@ -134,7 +175,7 @@ public abstract class Downloader<T> extends Task<T> {
 		return downloadFile;
 	}
 
-	public SimpleStringProperty downloadStateProperty() {
+	public SimpleObjectProperty<DownloadState> downloadStateProperty() {
 		return stateProperty;
 	}
 
@@ -155,7 +196,7 @@ public abstract class Downloader<T> extends Task<T> {
 	}
 
 	public void setDownloadState(DownloadState state) {
-		stateProperty.set(String.valueOf(state));
+		stateProperty.set(state);
 	}
 
 	protected abstract File download() throws IOException;
@@ -184,16 +225,91 @@ public abstract class Downloader<T> extends Task<T> {
 	}
 
 	protected void updateState(DownloadState state) {
-		stateProperty.set(String.valueOf(state));
+		Platform.runLater(() -> {
+			action(state);
+		});
+		stateProperty.set(state);
 	}
 
-	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData) {
+	private void action(DownloadState state) {
+		switch (state) {
+		case FINISH:
+			btnAction1.setText(btnOpen.getText());
+			btnAction1.setOnAction(btnOpen.getOnAction());
+			break;
+		case FAILED:
+			btnAction1.setText(btnRefresh.getText());
+			btnAction1.setOnAction(btnRefresh.getOnAction());
+
+			btnAction2.setText(btnRemove.getText());
+			btnAction2.setOnAction(btnRemove.getOnAction());
+			break;
+		case PAUSE:
+			btnAction1.setText(btnResume.getText());
+			btnAction1.setOnAction(btnResume.getOnAction());
+			
+			break;
+		case PAUSING:
+			CustomLogger.log("Pausing please wait!");
+			
+			break;
+		case CANCELING:
+			CustomLogger.log("Pausing please wait!");
+			
+			break;
+		case DOWNLOADING:
+			btnAction1.setText(btnPause.getText());
+			btnAction1.setOnAction(btnPause.getOnAction());
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void actionOnOpen() {
+		try {
+			DirectoryModel.openDirectory(subItem.getDestination());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void actionOnPause() {
+		pause();
+	}
+
+	private void actionOnResume() {
+
+		resume();
+	}
+
+	private void actionOnCancel() {
+		kill();
+	}
+
+	private void actionOnRemove() {
+
+		DownloadQueue.getInstance().getDownload(titleDownload.getId()).removeItem(this);
+
+	}
+
+	private void actionOnRefresh() {
+		DownloadQueue.getInstance().getDownload(titleDownload.getId()).refreshItem(this);
+
+	}
+
+	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData,
+			TitleDownload titleDownload) {
 		this.listLink = listLink;
 		this.subItem = subItem;
 		this.listFile = listFile;
 		this.webData = webData;
+		this.titleDownload = titleDownload;
 		cancelProperty.set(false);
 		pauseProperty.set(false);
+
 		updateMessage("[" + webData.getName() + "]");
 
 	}
@@ -207,13 +323,10 @@ public abstract class Downloader<T> extends Task<T> {
 	public void kill() {
 		pauseProperty.set(false);
 		cancelProperty.set(true);
-		firstInstance = false;
+		updateState(DownloadState.CANCELING);
 	}
 
-	public void reset() {
-		pauseProperty.set(false);
-		cancelProperty.set(false);
-	}
+	public abstract void refresh();
 
 	@Override
 	protected T call() throws Exception {

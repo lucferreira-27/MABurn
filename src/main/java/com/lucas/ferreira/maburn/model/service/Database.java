@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.databases;
+package com.lucas.ferreira.maburn.model.service;
 
 import java.util.List;
 

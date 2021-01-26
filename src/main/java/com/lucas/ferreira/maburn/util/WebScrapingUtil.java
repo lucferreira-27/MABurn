@@ -4,11 +4,29 @@ import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
+import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 
 public class WebScrapingUtil {
+	
+	public static void renameElementToCustomName(int i, ItemWebData itemWebData) {
+		String title = null;
+	
+		if(itemWebData instanceof EpisodeWebData) {
+			 title = "Episode ";	
+		}else {
+			title = "Chapter ";
+		}
+		
+		if(i < 9) {
+			title += "0";
+		}
+		title += (i + 1);
+		itemWebData.setName(title);
+	}
+	
 	public static void removeTrashFromStringSearch(SearchResult searh) {
 
 		switch (searh.getSite()) {

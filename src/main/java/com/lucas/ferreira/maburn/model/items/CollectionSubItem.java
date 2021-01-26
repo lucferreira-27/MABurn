@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.itens;
+package com.lucas.ferreira.maburn.model.items;
 
 public interface CollectionSubItem {
 	public CollectionItem getItem();

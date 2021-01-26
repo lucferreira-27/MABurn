@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.itens;
+package com.lucas.ferreira.maburn.model.items;
 
 import java.util.List;
 import java.util.Map;

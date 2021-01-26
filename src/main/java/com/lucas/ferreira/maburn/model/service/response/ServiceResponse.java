@@ -1,9 +1,9 @@
-package com.lucas.ferreira.maburn.model.databases.response;
+package com.lucas.ferreira.maburn.model.service.response;
 
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
-public interface DatabaseResponse {
+public interface ServiceResponse {
 	default String connect(String url) {
 		long start = System.currentTimeMillis();
 		String responseBody = ConnectionModel.connect(url, 3);

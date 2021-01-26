@@ -1,13 +1,13 @@
-package com.lucas.ferreira.maburn.model.itens;
+package com.lucas.ferreira.maburn.model.items;
 
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
-import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.download.ThumbnailController;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.images.ThumbnailController;
+import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 
 public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 	private KitsuDatabase database = new KitsuDatabase();

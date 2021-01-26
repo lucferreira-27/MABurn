@@ -1,16 +1,20 @@
-package com.lucas.ferreira.maburn.model.download.queue;
+package com.lucas.ferreira.maburn.model.download;
 
+import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
+import com.lucas.ferreira.maburn.model.enums.DownloadState;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-public class DownloadController {
+public class DownloadOrchestrator {
 	private TitleDownload titleDownload;
-	private FetcherController fetcherController;
+	private FetcherOrchestrator fetcherController;
 
-	public DownloadController(TitleDownload titleDownload, FetcherController fetcherController) {
+	public DownloadOrchestrator(TitleDownload titleDownload, FetcherOrchestrator fetcherController) {
 		// TODO Auto-generated constructor stub
 		this.titleDownload = titleDownload;
 		this.fetcherController = fetcherController;
@@ -19,20 +23,26 @@ public class DownloadController {
 
 	public void downloadAll() {
 		ObservableList<ItemWebData> obsItems = fetcherController.fetchAll();
-		listenChange(obsItems);
+		titleDownload.setState(DownloadState.DOWNLOADING);
+		Platform.runLater(() ->listenChange(obsItems));
 	}
 
 	public void downloadByIndex(int index) {
 		ObservableList<ItemWebData> obsItems = fetcherController.fetchByIndex(index);
-		listenChange(obsItems);
+		titleDownload.setState(DownloadState.DOWNLOADING);
+
+		Platform.runLater(() ->listenChange(obsItems));
 	}
 	public void downloadBetween(int x, int y) {
 		ObservableList<ItemWebData> obsItems = fetcherController.fetchBetween(x, y);
-		listenChange(obsItems);
+		titleDownload.setState(DownloadState.DOWNLOADING);
+
+		Platform.runLater(() ->listenChange(obsItems));
 	}
 	public void downloadUpdate(CollectionItem targetItem) {
 		ObservableList<ItemWebData> obsItems = fetcherController.fetchUpdate(targetItem);
-		listenChange(obsItems);
+		titleDownload.setState(DownloadState.DOWNLOADING);
+		Platform.runLater(() ->listenChange(obsItems));
 	}
 
 

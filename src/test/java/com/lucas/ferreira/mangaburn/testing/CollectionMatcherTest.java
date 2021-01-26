@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.CollectionMatch;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class CollectionMatcherTest {

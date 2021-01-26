@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.loader;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 public class ListenCollectionLoader extends CollectionLoader {
 
