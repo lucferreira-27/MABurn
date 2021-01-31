@@ -24,9 +24,9 @@ public class EpisodeWebData extends ItemWebData {
 
 	public EpisodeWebData(AnimeWebData animeWebData) {
 		// TODO Auto-generated constructor stub
-		
+
 		this.animeWebData = animeWebData;
-		
+
 	}
 
 	private String downloadLink;
@@ -74,8 +74,6 @@ public class EpisodeWebData extends ItemWebData {
 		this.url = url;
 	}
 
-
-
 	@Override
 	public Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload) {
 		download = new DownloadServiceModel();
@@ -86,11 +84,12 @@ public class EpisodeWebData extends ItemWebData {
 		CustomLogger.log(destination);
 		EpisodeDownloaded episode = new EpisodeDownloaded();
 		episode.setName(name);
-		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this, titleDownload);
-		
+		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this,
+				titleDownload);
+
 		try {
-			ExecutorService exec = Executors.newFixedThreadPool(5);
-			exec.submit(download);
+
+			titleDownload.getExecutorDownloader().submit(download);
 			return download;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

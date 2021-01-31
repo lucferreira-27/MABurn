@@ -58,7 +58,7 @@ public class SaikoScraping extends WebScraping {
 	private List<EpisodeWebData> fetchEpisodes() {
 		// TODO Auto-generated method stub
 		List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, "#51 .bnt-area > a");
+		Elements elements = scraper.scrapeSnippet(document, "#6 .bnt-area > a");
 
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);

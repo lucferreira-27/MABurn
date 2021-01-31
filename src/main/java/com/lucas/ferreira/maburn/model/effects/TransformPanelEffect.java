@@ -20,7 +20,7 @@ public class TransformPanelEffect {
 		case SHADOW:
 			shadowEffect(panel);
 			break;
-		default:
+		default: 
 			break;
 		}
 		return pane;

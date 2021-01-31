@@ -20,7 +20,6 @@ public class ChapterWebData extends ItemWebData {
 	private String name;
 	private String url;
 	private List<String> listPagesUrl = new ArrayList<>();
-	private static ExecutorService exec = Executors.newFixedThreadPool(3);
 
 	public ChapterWebData(MangaWebData mangaWebData) {
 		// TODO Auto-generated constructor stub
@@ -72,7 +71,7 @@ public class ChapterWebData extends ItemWebData {
 		ChapterDownloaded chapter = new ChapterDownloaded();
 		chapter.setName(name);
 		download.initialize(listPagesUrl, chapter, listFile, this, titleDownload);
-		exec.submit(download);
+		titleDownload.getExecutorDownloader().submit(download);
 		
 		return download;
 	}

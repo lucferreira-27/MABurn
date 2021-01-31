@@ -24,7 +24,7 @@ public class FetcherOrchestrator {
 	private WebScraping scraping;
 	private ObjectProperty<TitleWebData> titlePropery = new SimpleObjectProperty<TitleWebData>();
 	private BooleanProperty fetchDonePropery = new SimpleBooleanProperty(false);
-	private static final ExecutorService exec = Executors.newFixedThreadPool(3);
+	private static final ExecutorService exec = Executors.newFixedThreadPool(10);
 	private ObservableList<ItemWebData> obsItems;
 	private BooleanProperty cancel = new SimpleBooleanProperty(false);
 

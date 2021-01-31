@@ -103,6 +103,9 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private Label lblItemsDownloaded;
 
 	@FXML
+	private Label lblItemsFailed;
+
+	@FXML
 	private Label lblTimeRemain;
 
 	@FXML
@@ -167,6 +170,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		initTable();
+
+		initLabels();
 
 		preventColumnReordering(tableItens);
 
@@ -252,11 +257,11 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 		if (titleDownload.getState().get() != DownloadState.PREPARING) {
 			System.out.println("titleDownload.isPausing() " + titleDownload.isPausing());
-			if(titleDownload.isPausing()) {
+			if (titleDownload.isPausing()) {
 				System.out.println("Wait all items pause first!");
 				return;
 			}
-			
+
 			if (!titleDownload.getPauseProperty().get()) {
 				btnPause.setText("RESUME");
 				titleDownload.pause();
@@ -273,16 +278,14 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickButtonCancel() {
-		
+
 		if (titleDownload.getState().get() != DownloadState.PREPARING) {
-			
+
 			CustomLogger.log("Cancel");
 			titleDownload.cancel();
-			
 
 		}
 		System.out.println("The table is empty, any download changed state");
-		
 
 	}
 
@@ -291,6 +294,12 @@ public class TitleDownloadInterfaceController implements Initializable {
 		// TODO Auto-generated method stub
 		String result = AlertWindowView.inputAlet("Link", "Inform new the link");
 		startFetch(result);
+	}
+
+	private void initLabels() {
+		lblItemsDownloaded.setText("Downlaoded: 0");
+		lblItemsFailed.setText("Failed: 0");
+		lblItemsTotal.setText("Total: 0");
 	}
 
 	private void loadCbSource() {
@@ -370,6 +379,17 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void downloadListening() {
 
 		pbTotalProgress.progressProperty().bindBidirectional(titleDownload.getTotalProgressPropery());
+
+		titleDownload.getConcludedDownlods().addListener((obs, oldvalue, newvalue) -> {
+			Platform.runLater(() -> lblItemsDownloaded.setText("Downloaded: " + newvalue));
+		});
+
+		titleDownload.getTotalDownlods().addListener((obs, oldvalue, newvalue) -> {
+			Platform.runLater(() -> lblItemsTotal.setText("Total: " + newvalue));
+		});
+		titleDownload.getFailedDownlods().addListener((obs, oldvalue, newvalue) -> {
+			Platform.runLater(() -> lblItemsFailed.setText("Failed: " + newvalue));
+		});
 
 	}
 
@@ -753,6 +773,10 @@ public class TitleDownloadInterfaceController implements Initializable {
 //		btnCancel.setVisible(true);
 //		btnDownload.setVisible(true);
 
+		Platform.runLater(() -> {
+			lblSource.setText("Source: " + cbSource.getValue().getUrl());
+			lblPath.setText("Path: " + collectionItemTitle.getDestination());
+		});
 		btnDownload.setDisable(false);
 		btnPause.setDisable(false);
 		btnCancel.setDisable(false);

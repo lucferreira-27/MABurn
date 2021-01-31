@@ -65,7 +65,7 @@ public class MenuController implements Initializable {
 	}
 	@FXML
 	public void onClickButtonExtra() {
-		CustomLogger.log("Extra");
+		CustomLogger.log("Downloads");
 		new Thread(() -> {
 			CustomLogger.log("Ok!");
 

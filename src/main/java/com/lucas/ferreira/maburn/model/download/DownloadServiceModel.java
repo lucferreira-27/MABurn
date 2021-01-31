@@ -34,6 +34,10 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	public File download() throws IOException {
 		updateName(subItem.getName());
 		URL url = downloadSetup(super.listLink.get(0));
+		if (url == null) {
+			updateState(DownloadState.FAILED);
+			return null;
+		}
 		startDownload(url);
 
 		return null;
@@ -104,6 +108,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			failedProperty.set(true);
 		}
 	}
+	
 
 	public void beginReaderAll(List<String> links) {
 
@@ -212,7 +217,6 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 			// TODO: handle exception
 			System.err.println("LINK: " + link);
 			e.printStackTrace();
-			updateState(DownloadState.FAILED);
 			return null;
 		}
 
@@ -300,6 +304,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 				// TODO Auto-generated method stub
 				// CustomLogger.log("ACCEPT: \n" + "VALUE: "+ value +"\nContent Length: " +
 				// BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
+				System.out.println(value);
 				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				// CustomLogger.log(progressProperty().getValue().doubleValue());
 

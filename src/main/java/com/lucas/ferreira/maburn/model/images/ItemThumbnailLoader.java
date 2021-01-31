@@ -3,13 +3,11 @@ package com.lucas.ferreira.maburn.model.images;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.concurrent.Callable;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.effects.TransformEffects;
-import com.lucas.ferreira.maburn.model.effects.TransformImagesViewEffect;
 import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
@@ -78,12 +76,17 @@ public class ItemThumbnailLoader {
 		imageView.setCache(true);
 		imageView.setCacheHint(CacheHint.SPEED);
 
-		imageView = createImageEffect(imageView, TransformEffects.BORDER_IMAGE);
-
+		//imageView = createImageEffect(imageView, TransformEffects.BORDER_IMAGE);
+		
 		AnchorPane imageAreaPanel = new AnchorPane(imageView);
+		//Animations card = new Animations(imageAreaPanel);
+		
+		//card.overlay();
+		
+		
 		imageAreaPanel.setCache(true);
 		imageAreaPanel.setCacheHint(CacheHint.SPEED);
-		imageAreaPanel = (AnchorPane) createPaneEffect(imageAreaPanel);
+		//imageAreaPanel = (AnchorPane) createPaneEffect(imageAreaPanel);
 
 		imageAreaPanel.getStyleClass().add("item-image");
 
@@ -96,14 +99,6 @@ public class ItemThumbnailLoader {
 
 	}
 
-	private ImageView createImageEffect(ImageView imageView, TransformEffects effect) {
-
-		TransformImagesViewEffect transformEffect = new TransformImagesViewEffect();
-
-		imageView = transformEffect.addEffect(imageView, effect);
-
-		return imageView;
-	}
 
 	private Pane createPaneEffect(Pane pane) {
 		TransformPanelEffect transform = new TransformPanelEffect();

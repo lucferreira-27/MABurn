@@ -7,6 +7,8 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
 public abstract class ItemWebData {
+	
+	//protected static ExecutorService exec = Executors.newFixedThreadPool(10);
 
 	protected boolean fetched;
 

@@ -48,6 +48,8 @@
 				<Label fx:id="lblItemsTotal" text="Total:" visible="true" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="208" />
 				<Label fx:id="lblTimeRemain" text="Remain:" visible="true" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="230" />
 				<Label fx:id="lblItemsDownloaded" text="Downloaded:" visible="true" AnchorPane.leftAnchor="475" AnchorPane.topAnchor="208" />
+				<Label fx:id="lblItemsFailed" text="Failed:" visible="true" AnchorPane.leftAnchor="475" AnchorPane.topAnchor="230" />
+
 
 				<ProgressIndicator fx:id="piLoadDownload" layoutX="380" layoutY="216" styleClass="ringindicator" visible="false" />
 				<Label fx:id="lblLoadDownload" layoutX="389.0" layoutY="292.0" text="Fetching ${item}" visible="false" />

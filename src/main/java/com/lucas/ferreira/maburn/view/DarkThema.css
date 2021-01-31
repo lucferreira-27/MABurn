@@ -1,3 +1,17 @@
+#txtSearchBar{
+
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2.0;
+    -fx-background-radius: 0.0;
+    -fx-background-color: #1d1d1d;
+    -fx-font-family: Arial, sans-serif;
+    -fx-font-size: 12.0pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
+
+      
+}
+
 .dialog-pane{
     -fx-border-color:black;
     -fx-border-width:2.0px;
@@ -79,7 +93,8 @@
 }
 
 .image-panel-title{
-	-fx-font-size: 9.0pt;
+    -fx-font-size: 11.0pt;
+    -fx-text-align: center;
     -fx-font-family: "Passion One";
     -fx-font-weight: bold;
     -fx-text-fill: white;
@@ -165,7 +180,7 @@
 .table-view .virtual-flow .scroll-bar:vertical .thumb {
    	-fx-background-color: #A32020;
 
-	-fx-pref-height: 3.0;
+	-fx-pref-height: 2.0;
 }
 .table-view .virtual-flow .scroll-bar:vertical .track {
    	-fx-background-color: #1C1C1C;

@@ -15,6 +15,7 @@ import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.effects.Card;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.items.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
@@ -44,8 +45,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -131,6 +136,7 @@ public class ItemsInterfaceController implements Initializable {
 			lblLoad.setVisible(true);
 			loadGridPane.setVisible(true);
 			txtSearchBar.setEditable(false);
+			txtSearchBar.setPromptText("Type here ...");
 		});
 		lblLoad.textProperty().bind(collectionLoader.messageProperty());
 
@@ -157,6 +163,8 @@ public class ItemsInterfaceController implements Initializable {
 						lblLoad.setVisible(false);
 						loadGridPane.setVisible(false);
 						txtSearchBar.setEditable(true);
+					
+					
 					});
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -322,9 +330,11 @@ public class ItemsInterfaceController implements Initializable {
 		ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 
 		GridPaneCell cell = thumbnailLoader.downloadLoad();
-		if (cell != null)
+		if (cell != null) {
+			Card card = new Card(cell);
 			collectionTable.add(cell);
-
+			card.overlay();
+		}
 	}
 
 	@FXML
@@ -384,8 +394,12 @@ public class ItemsInterfaceController implements Initializable {
 				try {
 					GridPaneCell cell = thumbnailLoader.onlineLoad();
 
-					if (cell != null)
+					if (cell != null) {
+						Card card = new Card(cell);
+						card.overlay();	
 						searchTable.add(cell);
+				
+					}
 				} catch (ThumbnailLoadException e1) {
 					// TODO Auto-generated catch block
 
@@ -471,7 +485,7 @@ public class ItemsInterfaceController implements Initializable {
 
 		itensImagesScroll.setLayoutY(10);
 		itensImagesScroll.setLayoutX(200);
-		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 200);
+		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 210);
 		itensImagesScroll.setPannable(false);
 
 		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {
