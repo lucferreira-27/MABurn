@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.ItemsInterfaceController;
 import com.lucas.ferreira.maburn.controller.TitleInterfaceController;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;

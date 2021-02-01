@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 public class CollectionMatch {
 

@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.util.comparator;
 
 import java.util.Comparator;
 
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;

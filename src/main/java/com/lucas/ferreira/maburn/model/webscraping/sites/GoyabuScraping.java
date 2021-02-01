@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
@@ -83,7 +84,7 @@ public class GoyabuScraping extends WebScraping {
 				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(getTitlePage(result));
 				return Arrays.asList(searchTitleWebData);
-			//	return insideSearchFetch();
+				// return insideSearchFetch();
 			} else {
 				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(result);
@@ -148,7 +149,7 @@ public class GoyabuScraping extends WebScraping {
 			document = Jsoup.parse(responseBody);
 			List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
 			futureresponseBodys.clear();
-			
+
 			if (titleHasPages(document)) {
 				int value = 1;
 				try {
@@ -212,32 +213,36 @@ public class GoyabuScraping extends WebScraping {
 	}
 
 	private void fetchEpisodePageUrl(List<EpisodeWebData> episodeWebDatas) throws IOException {
-
 		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
-		elements.forEach(element -> {
+
+		for (int i = 0; i < elements.size(); i++) {
+			Element element = elements.get(i);
 
 			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
 			episodeWebData.setUrl(element.attr("href"));
-			episodeWebData.setName(element.attr("title"));
-			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
-			episodeWebDatas.add(episodeWebData);
 
-		});
+			WebScrapingUtil.renameElementToCustomName(i, episodeWebData);
+			
+			episodeWebDatas.add(episodeWebData);
+		}
+
 	}
 
 	private void fetchEpisodePageUrl(Document doc, List<EpisodeWebData> episodeWebDatas) throws IOException {
 
-		Elements elements = scraper.scrapeSnippet(doc, ".video-title > a");
-		elements.forEach(element -> {
+		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
+
+
+		for (int i = 0; i < elements.size(); i++) {
+			Element element = elements.get(i);
 
 			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
 			episodeWebData.setUrl(element.attr("href"));
-			episodeWebData.setName(element.attr("title"));
-			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
 
+			WebScrapingUtil.renameElementToCustomName(i, episodeWebData);
+			
 			episodeWebDatas.add(episodeWebData);
-
-		});
+		}
 	}
 
 	private boolean titleHasPages(Document doc) {

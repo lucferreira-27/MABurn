@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.util.comparator;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
 public class ItemFileComparator implements Comparator<CollectionSubItem> {
 

@@ -41,6 +41,7 @@ public class DownloadQueue extends Task<Void> {
 	}
 
 	public void addDownload(TitleDownload titleDownload) {
+	
 		if (getDownload(titleDownload.getId()) == null)
 			downloadList.add(titleDownload);
 	}

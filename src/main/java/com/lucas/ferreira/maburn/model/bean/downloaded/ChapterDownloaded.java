@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.model.bean.downloaded;
 
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
 public class ChapterDownloaded implements CollectionSubItem {
 	private MangaDownloaded manga;

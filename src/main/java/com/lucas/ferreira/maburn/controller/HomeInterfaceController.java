@@ -69,7 +69,7 @@ public class HomeInterfaceController implements Initializable {
 
 		try {
 
-
+			System.out.println(Resources.getResourcePath("./"));
 			Image imgAnime = new Image(Resources.getResourceAsStream("icons/anime.png"));
 			Image imgManga = new Image(Resources.getResourceAsStream("icons/manga.png"));
 			Image imgDownloads = new Image(Resources.getResourceAsStream("icons/download.png"));

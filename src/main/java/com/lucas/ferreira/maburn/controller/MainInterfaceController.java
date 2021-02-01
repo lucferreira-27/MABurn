@@ -8,7 +8,7 @@ import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
 import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
 import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.util.CustomLogger;

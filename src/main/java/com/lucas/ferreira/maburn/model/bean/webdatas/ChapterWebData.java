@@ -8,18 +8,18 @@ import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.download.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadServiceModel;
+import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
 public class ChapterWebData extends ItemWebData {
 	private MangaWebData mangaWebData;
-	private Downloader<CollectionSubItem> download = new DownloadServiceModel();
+	private Downloader<CollectionSubItem> download;
 	private String name;
 	private String url;
 	private List<String> listPagesUrl = new ArrayList<>();
-	private static ExecutorService exec = Executors.newFixedThreadPool(3);
 
 	public ChapterWebData(MangaWebData mangaWebData) {
 		// TODO Auto-generated constructor stub
@@ -56,12 +56,12 @@ public class ChapterWebData extends ItemWebData {
 		return mangaWebData.getSite();
 	}
 
-	public Downloader<CollectionSubItem> getDownloader() {
-		return download;
-	}
+
 
 	@Override
-	public Downloader<CollectionSubItem> download(Collections collections) {
+	public Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload) {
+		download = new DownloadServiceModel();
+
 		List<File> listFile = new ArrayList<>();
 		String itemName = collections.getActualItem().getName();
 		for (int i = 0; i < listPagesUrl.size(); i++) {
@@ -70,14 +70,15 @@ public class ChapterWebData extends ItemWebData {
 		}
 		ChapterDownloaded chapter = new ChapterDownloaded();
 		chapter.setName(name);
-		download.initialize(listPagesUrl, chapter, listFile, this);
-		exec.submit(download);
+		download.initialize(listPagesUrl, chapter, listFile, this, titleDownload);
+		titleDownload.getExecutorDownloader().submit(download);
+		
 		return download;
 	}
 
 	@Override
 	public String toString() {
-		return "ChapterWebData [\n - anime= " + mangaWebData.getName() + ",\n - name=" + name + ",\n - url=" + url + ",\n - fetched= "
-				+ fetched + "\n]";
+		return "ChapterWebData [\n - anime= " + mangaWebData.getName() + ",\n - name=" + name + ",\n - url=" + url
+				+ ",\n - fetched= " + fetched + "\n]";
 	}
 }

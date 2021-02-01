@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.documents;
 
 import org.w3c.dom.Document;
 
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class SaveCollection {

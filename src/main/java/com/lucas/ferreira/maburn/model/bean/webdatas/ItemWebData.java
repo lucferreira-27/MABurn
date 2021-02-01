@@ -2,10 +2,13 @@ package com.lucas.ferreira.maburn.model.bean.webdatas;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
+import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
 public abstract class ItemWebData {
+	
+	//protected static ExecutorService exec = Executors.newFixedThreadPool(10);
 
 	protected boolean fetched;
 
@@ -13,11 +16,11 @@ public abstract class ItemWebData {
 
 	public abstract void setName(String name);
 
-	public abstract Downloader<CollectionSubItem> getDownloader();
+
 
 	public abstract String getName();
 
-	public abstract Downloader<CollectionSubItem> download(Collections collections);
+	public abstract Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload);
 
 	public abstract Sites getSite();
 	

@@ -8,22 +8,25 @@ import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.download.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.download.service.model.DownloadServiceModel;
+import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.itens.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class EpisodeWebData extends ItemWebData {
 	private AnimeWebData animeWebData;
-	private Downloader<CollectionSubItem> download = new DownloadServiceModel();
+	private Downloader<CollectionSubItem> download;
 	private String name;
 	private String url;
 
 	public EpisodeWebData(AnimeWebData animeWebData) {
 		// TODO Auto-generated constructor stub
+
 		this.animeWebData = animeWebData;
+
 	}
 
 	private String downloadLink;
@@ -71,12 +74,9 @@ public class EpisodeWebData extends ItemWebData {
 		this.url = url;
 	}
 
-	public Downloader<CollectionSubItem> getDownloader() {
-		return download;
-	}
-
 	@Override
-	public Downloader<CollectionSubItem> download(Collections collections) {
+	public Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload) {
+		download = new DownloadServiceModel();
 		String itemName = collections.getActualItem().getName();
 		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;
 		CustomLogger.log(destination);
@@ -84,11 +84,12 @@ public class EpisodeWebData extends ItemWebData {
 		CustomLogger.log(destination);
 		EpisodeDownloaded episode = new EpisodeDownloaded();
 		episode.setName(name);
-		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this);
+		download.initialize(Arrays.asList(downloadLink), episode, Arrays.asList(new File(destination)), this,
+				titleDownload);
 
 		try {
-			ExecutorService exec = Executors.newFixedThreadPool(5);
-			exec.submit(download);
+
+			titleDownload.getExecutorDownloader().submit(download);
 			return download;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

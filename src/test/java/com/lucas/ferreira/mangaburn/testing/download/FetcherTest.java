@@ -4,10 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.lucas.ferreira.maburn.fetch.HomeFetcher;
+import com.lucas.ferreira.maburn.fetch.ItemFetcher;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.download.queue.HomeFetcher;
-import com.lucas.ferreira.maburn.model.download.queue.ItemFetcher;
 import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
 
 public class FetcherTest {

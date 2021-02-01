@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
@@ -128,6 +129,8 @@ public class AnitubeScraping extends WebScraping {
 		try {
 			List<SearchResult> searchTitleWebDatas = new ArrayList<>();
 			Elements elements = scraper.scrapeSnippet(document, ".aniItem > a");
+			
+
 			elements.forEach(element -> {
 
 				SearchResult searchTitle = new SearchResult(getSite());
@@ -171,7 +174,7 @@ public class AnitubeScraping extends WebScraping {
 		JSONArray players = scriptJson.getJSONArray("playlist").getJSONObject(0).getJSONArray("sources");
 		for (int i = 0; i < players.length(); i++) {
 			JSONObject player = players.getJSONObject(i);
-			String label = player.getString("label").replaceAll("[^\\d]", "");
+			String label = player.getString("label").replaceAll("[\\D]", "");
 			String file = player.getString("file");
 			if (file != null && !file.isEmpty())
 
@@ -201,15 +204,17 @@ public class AnitubeScraping extends WebScraping {
 
 		List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
 		Elements elements = scraper.scrapeSnippet(Jsoup.parse(responseBody), ".pagAniListaContainer.targetClose > a");
-		elements.forEach(element -> {
 
+		for (int i = 0; i < elements.size(); i++) {
 			EpisodeWebData episodeWebData = new EpisodeWebData(animeWebData);
+			
+			Element element = elements.get(i);
+			WebScrapingUtil.renameElementToCustomName(i, episodeWebData);
 			episodeWebData.setUrl(element.attr("href"));
-			episodeWebData.setName(element.attr("title"));
-			WebScrapingUtil.removeTrashFromStringEpisode(episodeWebData, getSite());
 			episodeWebDatas.add(episodeWebData);
+		}
+		
 
-		});
 		return episodeWebDatas;
 
 	}

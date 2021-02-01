@@ -12,9 +12,9 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.databases.Database;
-import com.lucas.ferreira.maburn.model.databases.KitsuDatabase;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.service.Database;
+import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleSearchInterfaceView;

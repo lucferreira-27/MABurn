@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.databases.response.KitsuResponseAPI;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.service.response.KitsuResponseAPI;
 
 public class KitsuAPITest {
 

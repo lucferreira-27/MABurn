@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.itens.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.comparator.SearchResultComparator;
 
