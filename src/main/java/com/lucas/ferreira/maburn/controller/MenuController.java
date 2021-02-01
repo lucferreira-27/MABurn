@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.view.DownloadQueueInterfaceView;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
 
@@ -17,6 +18,7 @@ public class MenuController implements Initializable {
 
 	private HomeInterfaceView homeView = new HomeInterfaceView();
 	private HelperInterfaceView helperView = new HelperInterfaceView();
+	private DownloadQueueInterfaceView queueView=  new DownloadQueueInterfaceView();
 	private InitializeModel initialize;
 	
 	@FXML
@@ -67,6 +69,8 @@ public class MenuController implements Initializable {
 	public void onClickButtonExtra() {
 		CustomLogger.log("Downloads");
 		new Thread(() -> {
+			queueView.loadMainInterfaceFX();
+
 			CustomLogger.log("Ok!");
 
 		}).start();

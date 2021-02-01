@@ -11,6 +11,7 @@ import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.MathUtil;
@@ -24,6 +25,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -35,7 +38,7 @@ public class TitleDownload {
 	private  ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
 
 	
-	private String name;
+	private CollectionItem collectionItem;
 	private Collections collections;
 	private TitleWebData titleWebData;
 
@@ -51,6 +54,9 @@ public class TitleDownload {
 	private IntegerProperty failedDownlods = new SimpleIntegerProperty(0);
 	private IntegerProperty totalDownlods = new SimpleIntegerProperty(0);
 
+	private StringProperty strTotalProgressPropery = new SimpleStringProperty();
+	
+	
 	private double totalProgress;
 	protected ObjectProperty<DownloadState> state = new SimpleObjectProperty<DownloadState>(DownloadState.PREPARING);
 
@@ -81,7 +87,7 @@ public class TitleDownload {
 			}
 		});
 		totalProgressPropery.addListener((obs, oldvalue, newvalue) -> {
-
+			strTotalProgressPropery.set("Total: " + newvalue);
 			if (newvalue.intValue() == 1.0) {
 				state.set(DownloadState.FINISH);
 			}
@@ -97,6 +103,7 @@ public class TitleDownload {
 		// TODO Auto-generated constructor stub
 		this.collections = collections;
 		this.id.set(id);
+		this.collectionItem = collections.getActualItem();
 		obsDownloads = FXCollections.observableArrayList(downloads);
 	}
 
@@ -186,13 +193,12 @@ public class TitleDownload {
 		});
 
 	}
-
-	public String getName() {
-		return name;
+	
+	public CollectionItem getCollectionItem() {
+		return collectionItem;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setCollectionItem(CollectionItem collectionItem) {
+		this.collectionItem = collectionItem;
 	}
 
 	public int getId() {
@@ -249,6 +255,9 @@ public class TitleDownload {
 
 	public IntegerProperty getTotalDownlods() {
 		return totalDownlods;
+	}
+	public StringProperty getStrTotalProgressPropery() {
+		return strTotalProgressPropery;
 	}
 
 	public void setState(DownloadState state) {

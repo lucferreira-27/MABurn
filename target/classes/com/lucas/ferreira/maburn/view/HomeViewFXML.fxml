@@ -36,7 +36,7 @@
 
 
 			</Button>
-			<Button fx:id="btnDownloads" prefWidth="214" prefHeight="122.82" alignment="BOTTOM_CENTER" contentDisplay="TOP" text="DOWNLOADS" GridPane.columnIndex="0" GridPane.rowIndex="2" onAction="#onClickOnManga">
+			<Button fx:id="btnDownloads" prefWidth="214" prefHeight="122.82" alignment="BOTTOM_CENTER" contentDisplay="TOP" text="DOWNLOADS" GridPane.columnIndex="0" GridPane.rowIndex="2" onAction="#onClickOnDownlods">
 
 				<GridPane.margin>
 					<Insets left="200" />
