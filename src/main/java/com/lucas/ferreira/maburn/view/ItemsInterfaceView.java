@@ -56,6 +56,7 @@ public class ItemsInterfaceView extends ViewInterface {
 			controller = new ItemsInterfaceController(this);
 		loader.setController(controller);
 		try {
+			
 			root = loader.<VBox>load();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

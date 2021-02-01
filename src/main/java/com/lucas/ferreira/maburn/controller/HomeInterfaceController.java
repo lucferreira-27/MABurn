@@ -7,6 +7,7 @@ import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
+import com.lucas.ferreira.maburn.view.DownloadQueueInterfaceView;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 
 import javafx.fxml.FXML;
@@ -19,13 +20,12 @@ public class HomeInterfaceController implements Initializable {
 
 	private MainInterfaceController mainController = new MainInterfaceController();
 
-
 	@FXML
 	private Button btnCollectionAnime = new Button();
 
 	@FXML
 	private Button btnCollectionManga = new Button();
-
+ 
 	@FXML
 	private Button btnDownloads = new Button();
 
@@ -39,7 +39,6 @@ public class HomeInterfaceController implements Initializable {
 
 	public void onClickOnAnime() {
 		CustomLogger.log("Anime");
-
 		new Thread(() -> {
 			mainController.selectCollection(new AnimeCollection());
 			ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
@@ -56,6 +55,21 @@ public class HomeInterfaceController implements Initializable {
 				mainController.selectCollection(new MangaCollection());
 				ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
 				itensView.loadMainInterfaceFX();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}).start();
+
+	}
+	public void onClickOnDownlods() {
+		CustomLogger.log("Downloads");
+
+		new Thread(() -> {
+			try {
+				
+				DownloadQueueInterfaceView queue = new DownloadQueueInterfaceView();
+				queue.loadMainInterfaceFX();
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();

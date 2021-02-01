@@ -163,7 +163,10 @@ public class TitleDownloadInterfaceController implements Initializable {
 		this.titleDownloadView = titleView;
 		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
 		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
-		createTitleDownload();
+		if(titleDownload == null) {
+			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
+		}
+		//createTitleDownload();
 
 	}
 

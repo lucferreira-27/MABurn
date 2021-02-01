@@ -304,7 +304,6 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 				// TODO Auto-generated method stub
 				// CustomLogger.log("ACCEPT: \n" + "VALUE: "+ value +"\nContent Length: " +
 				// BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
-				System.out.println(value);
 				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				// CustomLogger.log(progressProperty().getValue().doubleValue());
 
