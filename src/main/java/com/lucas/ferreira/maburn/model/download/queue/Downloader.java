@@ -236,10 +236,12 @@ public abstract class Downloader<T> extends Task<T> {
 		case FINISH:
 			btnAction1.setText(btnOpen.getText());
 			btnAction1.setOnAction(btnOpen.getOnAction());
+			btnAction2.setDisable(true);
 			break;
 		case FAILED:
 			btnAction1.setText(btnRefresh.getText());
 			btnAction1.setOnAction(btnRefresh.getOnAction());
+			btnAction1.setDisable(true);
 
 			btnAction2.setText(btnRemove.getText());
 			btnAction2.setOnAction(btnRemove.getOnAction());

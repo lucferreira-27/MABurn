@@ -58,7 +58,34 @@ public class SaikoScraping extends WebScraping {
 	private List<EpisodeWebData> fetchEpisodes() {
 		// TODO Auto-generated method stub
 		List<EpisodeWebData> episodeWebDatas = new ArrayList<>();
-		Elements elements = scraper.scrapeSnippet(document, "#6 .bnt-area > a");
+		Elements elements1 = new Elements();
+		Elements elements2 = new Elements();
+		try {
+
+			Elements elementsParent1 = scraper.scrapeSnippet(document, "#0");
+			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1");
+			if (elementsParent2 == null) {
+				elements1 = scraper.scrapeSnippet(elementsParent1.html(), "#6 .bnt-area > a");
+				elements2 = scraper.scrapeSnippet(elementsParent1.html(), "#5 .bnt-area > a");
+			}else {
+				try {
+					elements1 = scraper.scrapeSnippet(elementsParent2.html(), "#50 .bnt-area > a");
+					
+				}catch (Exception e) {
+					// TODO: handle exception
+					elements2 = scraper.scrapeSnippet(elementsParent2.html(), "#51 .bnt-area > a");
+				}
+				
+	
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		Elements elements = elements1.size() > elements2.size() ? elements1 : elements2;
 
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);
@@ -67,7 +94,7 @@ public class SaikoScraping extends WebScraping {
 			episodeWebData.setUrl(element.attr("href"));
 
 			WebScrapingUtil.renameElementToCustomName(i, episodeWebData);
-			
+
 			episodeWebDatas.add(episodeWebData);
 		}
 		return episodeWebDatas;

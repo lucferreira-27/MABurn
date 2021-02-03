@@ -31,6 +31,7 @@ import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
+import com.lucas.ferreira.maburn.util.MathUtil;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
@@ -163,10 +164,10 @@ public class TitleDownloadInterfaceController implements Initializable {
 		this.titleDownloadView = titleView;
 		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
 		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
-		if(titleDownload == null) {
+		if (titleDownload == null) {
 			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
 		}
-		//createTitleDownload();
+		// createTitleDownload();
 
 	}
 
@@ -179,7 +180,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 		preventColumnReordering(tableItens);
 
 		if (titleDownload.getState().getValue() != DownloadState.PREPARING) {
-			enableTitleDownloadControlers();
+			
 			downloadListening();
 			System.out.println("Size: " + titleDownload.getTitleWebData().getWebDatas().size());
 			webDataTitle = titleDownload.getTitleWebData();
@@ -382,7 +383,9 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void downloadListening() {
 
 		pbTotalProgress.progressProperty().bindBidirectional(titleDownload.getTotalProgressPropery());
-
+		
+		lblTimeRemain.textProperty().bindBidirectional(titleDownload.getRemain());
+		
 		titleDownload.getConcludedDownlods().addListener((obs, oldvalue, newvalue) -> {
 			Platform.runLater(() -> lblItemsDownloaded.setText("Downloaded: " + newvalue));
 		});
@@ -393,8 +396,11 @@ public class TitleDownloadInterfaceController implements Initializable {
 		titleDownload.getFailedDownlods().addListener((obs, oldvalue, newvalue) -> {
 			Platform.runLater(() -> lblItemsFailed.setText("Failed: " + newvalue));
 		});
+	
 
 	}
+
+
 
 	private void changeTableItems() {
 		tableItens.setItems(titleDownload.getObsDownloads());
@@ -640,7 +646,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 			DownloadOrchestrator downloadController = new DownloadOrchestrator(titleDownload, fetcherController);
 
 			int type = cbSelect.getSelectionModel().getSelectedIndex();
-
+			titleDownload.setState(DownloadState.DOWNLOADING);
 			switch (type) {
 
 			case 0:
@@ -728,6 +734,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 			} else
 				AlertWindowView.errorAlert("Fetch error", "No items found", "");
 			piLoadFetch.setVisible(false);
+			btnDownload.setDisable(false);
 
 		});
 

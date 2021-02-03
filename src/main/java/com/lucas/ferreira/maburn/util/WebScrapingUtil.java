@@ -12,6 +12,8 @@ import com.lucas.ferreira.maburn.model.search.SearchResult;
 public class WebScrapingUtil {
 	
 	public static void renameElementToCustomName(int i, ItemWebData itemWebData) {
+		
+		
 		String title = null;
 	
 		if(itemWebData instanceof EpisodeWebData) {

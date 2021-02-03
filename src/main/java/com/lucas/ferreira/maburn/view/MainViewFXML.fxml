@@ -40,7 +40,7 @@
 
 			</Button>
 
-			<Button fx:id="btnExtra" onAction="#onClickButtonHome"
+			<Button fx:id="btnExtra" onAction="#onClickButtonDownloads"
 				text="Downloads" GridPane.columnIndex="3" GridPane.rowIndex="0">
 				<GridPane.margin>
 					<Insets left="250" />
