@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button ?>
-<?import javafx.scene.control.ComboBox ?>
-<?import javafx.scene.control.Label ?>
-<?import javafx.scene.control.ProgressBar ?>
-<?import javafx.scene.control.ProgressIndicator ?>
-<?import javafx.scene.control.TableColumn ?>
-<?import javafx.scene.control.TableView ?>
-<?import javafx.scene.control.ScrollPane ?>
-<?import javafx.scene.image.ImageView ?>
-<?import javafx.scene.layout.AnchorPane ?>
-<?import javafx.scene.layout.VBox ?>
-<?import javafx.scene.shape.Line ?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 
 <fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-<ScrollPane fx:id="itensImagesScroll"  fitToHeight="true" fitToWidth="true" styleClass="itensImagesScroll" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED">
+<ScrollPane fx:id="itensImagesScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" styleClass="itensImagesScroll" vbarPolicy="AS_NEEDED">
 	<AnchorPane styleClass="downloadPanel" xmlns:fx="http://javafx.com/fxml/1">
 		<!-- TODO Add Nodes -->
 
@@ -35,20 +35,20 @@
 
 				<Line endX="0" endY="100.0" startX="0.0" startY="0.0" styleClass="lineBar" AnchorPane.rightAnchor="400" AnchorPane.topAnchor="33" />
 
-				<Label fx:id="lblTecTitle"  maxWidth="350" styleClass="label-subtitle" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="32" />
+				<Label fx:id="lblTecTitle" maxWidth="350" styleClass="label-subtitle" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="32" />
 				
-				<Button fx:id="btnChangeLink" visible = "false" onAction="#onClickButtonChangeLink" text="CHANGE" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="100" />
+				<Button fx:id="btnChangeLink" onAction="#onClickButtonChangeLink" text="CHANGE" visible="false" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="100" />
 
-				<Label fx:id="lblSearchResult" visible = "false" maxWidth="350" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="60" />
+				<Label fx:id="lblSearchResult" maxWidth="350" visible="false" AnchorPane.leftAnchor="437" AnchorPane.topAnchor="60" />
 				
 				<Label fx:id="lblInformationTitle" alignment="CENTER" styleClass="downloadInformation" text="Download Information" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="150" />
 
-				<Label fx:id="lblSource" text="Source:" visible="true" maxWidth="300" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="208" />
-				<Label fx:id="lblPath" text="Path:" visible="true" maxWidth="300" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="230" />
+				<Label fx:id="lblSource" maxWidth="300" text="Source:" visible="true" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="208" />
+				<Label fx:id="lblPath" maxWidth="300" text="Path:" visible="true" AnchorPane.leftAnchor="32" AnchorPane.topAnchor="230" />
 				<Label fx:id="lblItemsTotal" text="Total:" visible="true" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="208" />
 				<Label fx:id="lblTimeRemain" text="Remain:" visible="true" AnchorPane.leftAnchor="339" AnchorPane.topAnchor="230" />
-				<Label fx:id="lblItemsDownloaded" text="Downloaded:" visible="true" AnchorPane.leftAnchor="475" AnchorPane.topAnchor="208" />
-				<Label fx:id="lblItemsFailed" text="Failed:" visible="true" AnchorPane.leftAnchor="475" AnchorPane.topAnchor="230" />
+				<Label fx:id="lblItemsDownloaded" layoutX="517.0" layoutY="208.0" text="Downloaded:" visible="true" AnchorPane.leftAnchor="517.0" AnchorPane.topAnchor="208.0" />
+				<Label fx:id="lblItemsFailed" layoutX="517.0" layoutY="230.0" text="Failed:" visible="true" AnchorPane.leftAnchor="517.0" AnchorPane.topAnchor="230.0" />
 
 
 				<ProgressIndicator fx:id="piLoadDownload" layoutX="380" layoutY="216" styleClass="ringindicator" visible="false" />
@@ -56,9 +56,9 @@
 				<ProgressBar fx:id="pbTotalProgress" prefHeight="22" prefWidth="759" progress="-1" visible="true" AnchorPane.bottomAnchor="60" AnchorPane.leftAnchor="28" />
 
 				<Label fx:id="lblTotalProgress" text="TOTAL PROGRESS" visible="true" AnchorPane.bottomAnchor="60" AnchorPane.leftAnchor="44" />
-				<Button fx:id="btnPause" onAction="#onClickButtonPause" text="PAUSE" visible="true" AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="28"  disable = "true"/>
-				<Button fx:id="btnCancel" onAction="#onClickButtonCancel" text="CANCEL " visible="true" AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="133"  disable = "true"/>
-				<Button fx:id="btnDownload" onAction="#onClickButtonDownload" text="DOWNLOAD " visible="true" AnchorPane.bottomAnchor="16" AnchorPane.rightAnchor="37" disable = "true" />
+				<Button fx:id="btnPause" disable="true" onAction="#onClickButtonPause" text="PAUSE" visible="true" AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="28" />
+				<Button fx:id="btnCancel" disable="true" onAction="#onClickButtonCancel" text="CANCEL " visible="true" AnchorPane.bottomAnchor="16" AnchorPane.leftAnchor="133" />
+				<Button fx:id="btnDownload" disable="true" onAction="#onClickButtonDownload" text="DOWNLOAD " visible="true" AnchorPane.bottomAnchor="16" AnchorPane.rightAnchor="37" />
 
 
 				<ProgressIndicator fx:id="piLoadFetch" layoutX="156.0" layoutY="33.0" styleClass="ringindicator" visible="false" />

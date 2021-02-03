@@ -6,7 +6,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
-import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.collections.Collections;
@@ -20,10 +19,12 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -31,13 +32,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TitleDownload {
-	
-	
-	private final static int MAXIMUM_NUMBER = 10;
-	
-	private  ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
 
-	
+	private final static int MAXIMUM_NUMBER = 10;
+
+	private ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
+
 	private CollectionItem collectionItem;
 	private Collections collections;
 	private TitleWebData titleWebData;
@@ -46,6 +45,9 @@ public class TitleDownload {
 	private IntegerProperty id = new SimpleIntegerProperty();
 	private ObservableList<Downloader<CollectionSubItem>> obsDownloads;
 	private int obsDownloadRealSize;
+
+	private LongProperty downloadTime = new SimpleLongProperty();
+	private StringProperty remain = new SimpleStringProperty("Remain: ");
 	private DoubleProperty speedProperty = new SimpleDoubleProperty();
 	private BooleanProperty pauseProperty = new SimpleBooleanProperty();
 	private BooleanProperty cancelProperty = new SimpleBooleanProperty();
@@ -54,9 +56,6 @@ public class TitleDownload {
 	private IntegerProperty failedDownlods = new SimpleIntegerProperty(0);
 	private IntegerProperty totalDownlods = new SimpleIntegerProperty(0);
 
-	private StringProperty strTotalProgressPropery = new SimpleStringProperty();
-	
-	
 	private double totalProgress;
 	protected ObjectProperty<DownloadState> state = new SimpleObjectProperty<DownloadState>(DownloadState.PREPARING);
 
@@ -87,16 +86,25 @@ public class TitleDownload {
 			}
 		});
 		totalProgressPropery.addListener((obs, oldvalue, newvalue) -> {
-			strTotalProgressPropery.set("Total: " + newvalue);
+
 			if (newvalue.intValue() == 1.0) {
 				state.set(DownloadState.FINISH);
 			}
 		});
+
+		downloadTime.addListener((obs, oldvalue, newvalue) -> {
+
+		});
+
+		remain.addListener((obs, oldvalue, newvalue) -> {
+			System.out.println("Remain: " + remain);
+		});
+
 		state.addListener((obs, oldvalue, newvalue) -> {
 			CustomLogger.log("Change state from " + oldvalue + " to " + newvalue);
 			CustomLogger.log("[DownloadState] " + newvalue);
 		});
-		 speedCalculate();
+
 	}
 
 	public TitleDownload(Collections collections, int id) {
@@ -105,6 +113,7 @@ public class TitleDownload {
 		this.id.set(id);
 		this.collectionItem = collections.getActualItem();
 		obsDownloads = FXCollections.observableArrayList(downloads);
+		checkSpeed();
 	}
 
 	public void addItem(ItemWebData item) {
@@ -163,40 +172,37 @@ public class TitleDownload {
 		});
 
 		downloader.stateProperty.addListener((obs, oldvalue, newvalue) -> {
-			if (oldvalue == newvalue) {
-				return;
-			}
+			Platform.runLater(() -> {
+				if (oldvalue == newvalue) {
+					return;
+				}
 
-			if (newvalue == DownloadState.FAILED) {
-				totalProgressPropery.set(MathUtil.roundDouble(totalProgress / obsDownloadRealSize, 5));
-				failedDownlods.set(failedDownlods.get() + 1);
-				return;
-			}
-			if (newvalue == DownloadState.FINISH) {
-				concludedDownlods.set(concludedDownlods.get() + 1);
-			}
+				if (newvalue == DownloadState.FAILED) {
+					totalProgressPropery.set(MathUtil.roundDouble(totalProgress / obsDownloadRealSize, 5));
+					failedDownlods.set(failedDownlods.get() + 1);
+					return;
+				}
+				if (newvalue == DownloadState.FINISH) {
+					concludedDownlods.set(concludedDownlods.get() + 1);
+				}
+			});
 		});
 
-//		downloader.sizeProperty().addListener((observable, oldvalue, newvalue) -> {
-//			sizeProperty.set(sizeProperty.subtract(oldvalue.doubleValue()).get());
-//			sizeProperty.set(sizeProperty.add(newvalue.doubleValue()).get());
-//		});
+
 
 		Platform.runLater(() -> {
 			downloader.setOnFailed(event -> {
 				System.err.println("The task failed with the following exception:");
-//				AlertWindowView.errorAlert("Download Service", "The task failed with the following exception:",
-//						exceptionProperty().get().getMessage());
-//				exceptionProperty().get().printStackTrace();
 
 			});
 		});
 
 	}
-	
+
 	public CollectionItem getCollectionItem() {
 		return collectionItem;
 	}
+
 	public void setCollectionItem(CollectionItem collectionItem) {
 		this.collectionItem = collectionItem;
 	}
@@ -256,9 +262,6 @@ public class TitleDownload {
 	public IntegerProperty getTotalDownlods() {
 		return totalDownlods;
 	}
-	public StringProperty getStrTotalProgressPropery() {
-		return strTotalProgressPropery;
-	}
 
 	public void setState(DownloadState state) {
 		this.state.set(state);
@@ -267,22 +270,93 @@ public class TitleDownload {
 	public ObjectProperty<DownloadState> getState() {
 		return state;
 	}
+
 	public ExecutorService getExecutorDownloader() {
 		return executorDownloader;
 	}
+
 	public boolean isPausing() {
 
 		return obsDownloads.stream().anyMatch(d -> d.getDownloadState() == DownloadState.PAUSING);
 	}
 
 	public void speedCalculate() {
-//		long b = System.currentTimeMillis();
-//		totalProgressPropery.addListener((obs, oldvalue, newvalue) -> {
-//			e = System.currentTimeMillis();
-//			CustomLogger.log("[Speed] " + (newvalue.doubleValue()));
-//			
-//
-//		});
+		LongProperty b = new SimpleLongProperty(System.currentTimeMillis());
+		LongProperty e = new SimpleLongProperty(0);
+		totalProgressPropery.addListener((obs, oldvalue, newvalue) -> {
+			e.set(System.currentTimeMillis());
+			CustomLogger.log("[Speed] " + (newvalue.doubleValue()));
+
+		});
+
+	}
+
+	public StringProperty getRemain() {
+		return remain;
+	}
+
+	public void setRemain(StringProperty remain) {
+		this.remain = remain;
+	}
+
+	public void checkSpeed() {
+
+		new Thread(() -> {
+			double start = 0;
+			double end = 1;
+			while (state.get() != DownloadState.FINISH) {
+
+				try {
+					start = totalProgressPropery.get();
+					Thread.sleep(1000);
+					end = totalProgressPropery.get();
+
+					double downloadeSpeed = end - start;
+					if (downloadeSpeed == 0) {
+						// remain.set(9999);
+						continue;
+					}
+					calculateTimeRemain((1 - totalProgressPropery.get()) / downloadeSpeed);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		new Thread(() -> {
+			while (true) {
+				long b = System.currentTimeMillis();
+				try {
+					Thread.sleep(1000);
+					long end = System.currentTimeMillis();
+
+					downloadTime.setValue((end - b) + downloadTime.get());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
+	}
+
+	private void calculateTimeRemain(Double newvalue) {
+		Platform.runLater(() -> {
+			int time = newvalue.intValue();
+			String text;
+			if (time > 60) {
+				time = time / 60;
+				if (time == 1)
+					text = " Minute";
+				else
+					text = " Minutes";
+			} else if (time == 1) {
+				text = " Second";
+			} else {
+				text = " Seconds";
+			}
+			remain.set("Remain: " + time + text);
+		});
 	}
 
 	public void pause() {

@@ -26,6 +26,7 @@
 			<TextField fx:id="txtSearchBar" alignment="CENTER" prefHeight="3" prefWidth="600" GridPane.columnIndex="5" GridPane.rowIndex="1">
 
 
+
 				<GridPane.margin>
 					<Insets left="200" right="200" />
 				</GridPane.margin>

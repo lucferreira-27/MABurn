@@ -66,7 +66,7 @@ public class MenuController implements Initializable {
 
 	}
 	@FXML
-	public void onClickButtonExtra() {
+	public void onClickButtonDownloads() {
 		CustomLogger.log("Downloads");
 		new Thread(() -> {
 			queueView.loadMainInterfaceFX();
