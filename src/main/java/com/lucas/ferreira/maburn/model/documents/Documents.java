@@ -7,9 +7,9 @@ import javax.swing.filechooser.FileSystemView;
 public class Documents {
 	
 	public final static String DOCUMENTS_LOCAL = FileSystemView.getFileSystemView().getDefaultDirectory().getPath()
-			+ "\\MangaBurn";
+			+ "\\MangaBurn\\Documents\\";
 	
-	public final static String DATE_LOCAL = Documents.DOCUMENTS_LOCAL + "\\ColletionsDates.xml";
+	public final static String DATA_LOCAL = Documents.DOCUMENTS_LOCAL + "\\ColletionsDatas.xml";
 	
 	public final static String CONFIG_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Config.xml";
 	

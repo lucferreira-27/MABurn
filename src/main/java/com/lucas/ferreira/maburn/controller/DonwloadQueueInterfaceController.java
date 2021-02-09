@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.download.queue.DownloadQueue;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
+import com.lucas.ferreira.maburn.util.Resources;
+import com.lucas.ferreira.maburn.view.DownloadInQueueInterfaceView;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -25,7 +27,6 @@ public class DonwloadQueueInterfaceController implements Initializable {
 
 	private FXMLLoader loader = new FXMLLoader();
 	private ObservableList<BorderPane> obsBorder;
-
 	private List<BorderPane> borders = new ArrayList<BorderPane>();
 
 
@@ -58,21 +59,24 @@ public class DonwloadQueueInterfaceController implements Initializable {
 
 	private void loadDownloadView() {
 		obsBorder = FXCollections.observableArrayList(borders);
+		
+		System.out.println(getClass().getResource("../view/DownloadInQueueInterfaceView.fxml"));
 		loader.setLocation(getClass().getResource("../view/DownloadInQueueInterfaceView.fxml"));
 		loader.setController(new DownloadInQueueController());
 		new Thread(() -> {
+			DownloadInQueueInterfaceView downloadInQueueInterfaceView;
 			for (TitleDownload title : DownloadQueue.getInstance().getDownloadList()) {
+
 				System.out.println(title.getCollectionItem().getImageLocal());
 				if(obsBorder.stream().filter((b) -> b.getUserData() == title).findAny().isPresent()){
 					continue;
 				}
 				try {
 					BorderPane root = new BorderPane();
-					root.setUserData(title);
+					
+					downloadInQueueInterfaceView = new DownloadInQueueInterfaceView(title, root);
+					downloadInQueueInterfaceView.loadMainInterfaceFX();
 
-					loader.setRoot(root);
-
-					root = loader.load();
 					obsBorder.add(root);
 				} catch (Exception e) {
 					// TODO: handle exception

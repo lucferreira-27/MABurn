@@ -62,7 +62,7 @@ public class AnitubeScraping extends WebScraping {
 	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
 		try {
-			String result = bingSearch(querry, getSite(), true);
+			String result = search(querry, getSite(), true);
 			if (!isTitlePage(result, null)) {
 				return insideSearchFetch(querry);
 			} else {

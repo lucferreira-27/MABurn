@@ -14,7 +14,7 @@ import com.lucas.ferreira.maburn.exceptions.CollectionReaderException;
 
 public class CollectionDatasReader {
 
-	public final static String DATE_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\ColletionsDates.xml";
+	public final static String DATE_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\ColletionsDatas.xml";
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -65,7 +65,7 @@ public class CollectionDatasReader {
 		String local = DATE_LOCAL;
 		File collectionDates = new File(local);
 		if (!collectionDates.exists())
-			throw new CollectionReaderException("ColletionsDates.xml not found in " + local);
+			throw new CollectionReaderException("ColletionsDatas.xml not found in " + local);
 		else
 			return collectionDates;
 	}
@@ -81,7 +81,7 @@ public class CollectionDatasReader {
 			return document;
 		} catch (IOException e) {
 
-			throw new CollectionReaderException("ColletionsDates.xml can't be created " + local);
+			throw new CollectionReaderException("ColletionsDatas.xml can't be created " + local);
 
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

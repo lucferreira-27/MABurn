@@ -12,7 +12,7 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.sites.BingScraping;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
-public class BingSearch {
+public class BingSearch implements SearchEngine {
 	private static final String BING_SEARCH = "https://www.bing.com/search?q=";
 	private static final String FILTER = " site: ";
 	private static final String FORM = "&form=QBTE";

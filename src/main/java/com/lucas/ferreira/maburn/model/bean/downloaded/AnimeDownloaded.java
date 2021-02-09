@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
@@ -17,6 +18,7 @@ import javafx.scene.image.Image;
 
 public class AnimeDownloaded implements CollectionItem {
 	private AnimeCollection animeCollection;
+	private ItemForm form;
 	private String name;
 	private String hospedSite;
 	private String destination;
@@ -35,7 +37,9 @@ public class AnimeDownloaded implements CollectionItem {
 	public AnimeCollection getAnimeCollection() {
 		return animeCollection;
 	}
+	
 
+	
 	public void setAnimeCollection(AnimeCollection animeCollection) {
 		this.animeCollection = animeCollection;
 	}
@@ -245,6 +249,14 @@ public class AnimeDownloaded implements CollectionItem {
 		this.titles = titles;
 	}
 
+	@Override
+	public ItemForm getForm() {
+		// TODO Auto-generated method stub
+		return form;
+	}
+	public void setForm(ItemForm form) {
+		this.form = form;
+	}
 
 
 }

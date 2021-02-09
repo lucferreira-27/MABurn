@@ -62,22 +62,15 @@ public class SaikoScraping extends WebScraping {
 		Elements elements2 = new Elements();
 		try {
 
-			Elements elementsParent1 = scraper.scrapeSnippet(document, "#0");
-			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1");
-			if (elementsParent2 == null) {
-				elements1 = scraper.scrapeSnippet(elementsParent1.html(), "#6 .bnt-area > a");
-				elements2 = scraper.scrapeSnippet(elementsParent1.html(), "#5 .bnt-area > a");
-			}else {
-				try {
-					elements1 = scraper.scrapeSnippet(elementsParent2.html(), "#50 .bnt-area > a");
-					
-				}catch (Exception e) {
-					// TODO: handle exception
-					elements2 = scraper.scrapeSnippet(elementsParent2.html(), "#51 .bnt-area > a");
-				}
-				
-	
-			}
+			Elements elementsParent1 = scraper.scrapeSnippet(document, "#0"); // 720p
+			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1"); // 1080p
+			
+			elements1 = elementsParent1.select(".bnt-area .btn-sa");
+			
+			elements2 = elementsParent2.select(".bnt-area .btn-sa");
+		
+			
+		
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -85,7 +78,7 @@ public class SaikoScraping extends WebScraping {
 		}
 		
 		
-		Elements elements = elements1.size() > elements2.size() ? elements1 : elements2;
+		Elements elements = elements1.size() < elements2.size() ? elements1 : elements2;
 
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);
@@ -134,7 +127,7 @@ public class SaikoScraping extends WebScraping {
 	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
 		try {
-			String result = bingSearch(querry, getSite(), true);
+			String result = search(querry, getSite(), true);
 			if (!isTitlePage(result, "https://saikoanimes.net/anime/")) {
 				return insideSearchFetch(querry);
 			} else {

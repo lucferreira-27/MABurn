@@ -64,7 +64,7 @@ public class MangaYabuScraping extends WebScraping {
 		// TODO Auto-generated method stub
 		String result = null;
 		try {
-			result = bingSearch(querry, getSite(), true);
+			result = search(querry, getSite(), true);
 			SearchResult searchTitleWebData = new SearchResult(getSite());
 			searchTitleWebData.setUrl(result);
 			return Arrays.asList(searchTitleWebData);

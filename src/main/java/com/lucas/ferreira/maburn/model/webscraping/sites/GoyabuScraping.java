@@ -79,7 +79,7 @@ public class GoyabuScraping extends WebScraping {
 	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
 		try {
-			String result = bingSearch(querry, getSite(), true);
+			String result = search(querry, getSite(), true);
 			if (!isTitlePage(result, "https://goyabu.com/assistir/")) {
 				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(getTitlePage(result));
