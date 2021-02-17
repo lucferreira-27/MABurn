@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
@@ -28,10 +30,17 @@ public class KitsuDatabase implements Database {
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
 		// TODO Auto-generated method stub
+		try {
+			querry = URLEncoder.encode(querry, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("url: " + url + querry);
 
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		CollectDatas datas =  kitsuApi.fetchFirst();
+		
 		return datas;
 
 	}

@@ -59,6 +59,7 @@ public class GoyabuScraping extends WebScraping {
 			System.out.println("After: " + animeWebData.getWebDatas().size());
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return null;
 		}
 		// titleWebData.setFetched(true);
@@ -92,6 +93,7 @@ public class GoyabuScraping extends WebScraping {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return null;
 		}
 
@@ -107,7 +109,7 @@ public class GoyabuScraping extends WebScraping {
 		String responseBody = ConnectionModel.connect(url);
 		Document document = Jsoup.parse(responseBody);
 
-		Elements elements = scraper.scrapeSnippet(document, ".userav");
+		Elements elements = scraper.scrapeSnippet(document, ".anime-thumb-single > a");
 		return elements.get(0).attr("href");
 
 	}
@@ -213,7 +215,7 @@ public class GoyabuScraping extends WebScraping {
 	}
 
 	private void fetchEpisodePageUrl(List<EpisodeWebData> episodeWebDatas) throws IOException {
-		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
+		Elements elements = scraper.scrapeSnippet(document, ".anime-episode > a");
 
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);
@@ -230,7 +232,7 @@ public class GoyabuScraping extends WebScraping {
 
 	private void fetchEpisodePageUrl(Document doc, List<EpisodeWebData> episodeWebDatas) throws IOException {
 
-		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
+		Elements elements = scraper.scrapeSnippet(document, ".anime-episode > a");
 
 
 		for (int i = 0; i < elements.size(); i++) {

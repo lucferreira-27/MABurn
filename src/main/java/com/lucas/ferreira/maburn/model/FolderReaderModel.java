@@ -29,7 +29,6 @@ public class FolderReaderModel {
 	public List<File> findMangaFoldersInMangaCollectionFolder(MangaCollection mangaCollection) {
 
 		String local = mangaCollection.getDestination();
-
 		File mangaCollectionFolder = new File(local);
 
 		// Collect only directorys to avoid problems
@@ -73,7 +72,6 @@ public class FolderReaderModel {
 		// Collect only directorys to avoid problems
 		List<File> listAnimeFolders = Arrays
 				.asList(animeCollectionFolder.listFiles((file, name) -> new File(file, name).isDirectory()));
-		CustomLogger.log("CHECK");
 		return listAnimeFolders;
 
 	}

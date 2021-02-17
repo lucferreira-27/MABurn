@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.documents.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -11,14 +12,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
 
 import net.sourceforge.htmlunit.corejs.javascript.EcmaError;
 
-public class XmlOrchestrator {
+public class XmlCollectionOrchestrator {
 
-	private static File file = new File(Documents.DATA_LOCAL);
+	private final  File FILE = new File(Documents.DATA_LOCAL);
 
-	public XmlOrchestrator() {
+	public XmlCollectionOrchestrator() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -31,21 +33,22 @@ public class XmlOrchestrator {
 
 	public boolean create() throws JsonProcessingException {
 		Writer writer = new Writer();
-		writer.writeNewCollectionFormValueAsXml(file);
+		writer.writeNewCollectionFormValueAsXml(FILE);
 		return false;
 	}
 
 	public boolean write(CollectionForm form) throws JsonProcessingException {
 		Writer writer = new Writer();
-		if(!file.exists()) {
+		if (!FILE.exists()) {
 			create();
 		}
-		System.out.println(file);
-		writer.writeCollectionFormValueAsXml(form, file);
+		System.out.println(FILE);
+		writer.writeCollectionFormValueAsXml(form, FILE);
 		return false;
 	}
 
-	public boolean updateById(CollectionForm collectionForm, Integer id, UpdateType type, Object... value) throws Exception {
+	public boolean updateById(CollectionForm collectionForm, Integer id, UpdateType type, Object... value)
+			throws Exception {
 
 		Updater updater = new Updater();
 		try {
@@ -83,6 +86,13 @@ public class XmlOrchestrator {
 
 		Reader reader = new Reader();
 
-		return reader.readCollectionForm(file);
+		return reader.readCollectionForm(FILE);
+	}
+
+	public ItemForm readById(Integer id) throws JsonParseException, JsonMappingException, IOException {
+
+		Reader reader = new Reader();
+
+		return reader.readItemFormById(FILE, id);
 	}
 }

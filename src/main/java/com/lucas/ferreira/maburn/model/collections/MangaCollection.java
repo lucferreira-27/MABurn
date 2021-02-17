@@ -13,6 +13,14 @@ public class MangaCollection implements Collections {
 	private String destination;
 	private MangaDownloaded activeManga;
 	
+	public MangaCollection() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public MangaCollection(String destination){
+		this.destination = destination;
+	}
+	
 	@Override
 	public List<CollectionItem> getItens() {
 		// TODO Auto-generated method stub

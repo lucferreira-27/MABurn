@@ -12,6 +12,15 @@ public class AnimeCollection implements Collections {
 	private String destination;
 	private AnimeDownloaded activeAnime;
 
+	public AnimeCollection(String destination) {
+		// TODO Auto-generated constructor stub
+		this.destination = destination;
+	}
+	
+	public AnimeCollection() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public List<CollectionItem> getItens() {
 		// TODO Auto-generated method stub

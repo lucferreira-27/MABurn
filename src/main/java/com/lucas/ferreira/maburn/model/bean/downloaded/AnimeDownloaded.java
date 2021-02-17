@@ -33,7 +33,17 @@ public class AnimeDownloaded implements CollectionItem {
 	private Map<String, String> titles = new LinkedHashMap<>();
 	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
 	private int id;
-
+	
+	
+	public AnimeDownloaded(String destination) {
+		// TODO Auto-generated constructor stub
+		this.destination = destination;
+	}
+	public AnimeDownloaded() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	public AnimeCollection getAnimeCollection() {
 		return animeCollection;
 	}

@@ -65,7 +65,7 @@ public class DocumentConfiguration {
 		element.setTextContent(value);
 		CustomLogger.log("Elemenet name: " + elementName);
 		CustomLogger.log("Value " + value);
-		parser.tranformContentToXML(doc, ConfigurationReader.CONFIG_LOCAL);
+		parser.tranformContentToXML(doc, Documents.CONFIG_LOCAL);
 	}
 
 	public void setPath(String definePath, CollectionItem item) {
@@ -102,7 +102,7 @@ public class DocumentConfiguration {
 		config.appendChild(animeDestination);
 		config.appendChild(mangaDestination);
 
-		parser.tranformContentToXML(doc, ConfigurationReader.CONFIG_LOCAL);
+		parser.tranformContentToXML(doc, Documents.CONFIG_LOCAL);
 	}
 
 	public boolean isAvailable() {

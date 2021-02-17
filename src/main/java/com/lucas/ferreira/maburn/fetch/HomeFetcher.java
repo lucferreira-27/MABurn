@@ -37,6 +37,7 @@ public class HomeFetcher implements Callable<Void> {
 		title.getWebDatas().clear();
 		try {
 			scraping.fecthTitle(title);
+						
 			title.setFetched(true);
 		} catch (Exception e) {
 			// TODO: handle exception

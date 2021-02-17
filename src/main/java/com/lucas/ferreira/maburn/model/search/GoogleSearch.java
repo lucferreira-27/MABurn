@@ -27,10 +27,10 @@ public class GoogleSearch implements SearchEngine {
 		// TODO Auto-generated constructor stub
 		this.title = title;
 		this.site = site;
-		Platform.runLater(() ->{
+		Platform.runLater(() -> {
 			googleBrowser = new WebView();
 		});
-		while(googleBrowser == null) {
+		while (googleBrowser == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -38,65 +38,48 @@ public class GoogleSearch implements SearchEngine {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	public String search() throws WebScrapingException, ConnectionException {
-		
+
 		String querry;
-		try {
+
 		if (site != null) {
 			querry = GOOGLE_SEARCH + title + FILTER + site.getUrl();
 		} else {
 			querry = GOOGLE_SEARCH + title;
 
 		}
-		CustomLogger.log("querry: "  +  querry);
-		
-		
-//		Task<Void> task = new Task<Void>() {
-//		    @Override public Void call() {
-//				System.err.println("========= S Load =========");
-//				try {
-//				googleBrowser.getEngine().load(querry);
-//				}catch (Exception e) {
-//					// TODO: handle exception
-//					e.printStackTrace();
-//				}
-//				System.err.println("========= E Load =========");
-//		        return null;
-//		    }
-//		};
-//		new Thread(task).start();
-		
-		Platform.runLater(() ->{
-			
+		CustomLogger.log("querry: " + querry);
+
+		Platform.runLater(() -> {
+
 			googleBrowser.getEngine().load(querry);
-			
+
 		});
 		googleScraping = new GoogleScraping(googleBrowser.getEngine());
-		return googleScraping.getFirstMathResult();
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return null;
-		}
+		String result = googleScraping.getFirstMathResult();
+		if (result.contains(site.getUrl()))
+			return result;
+		else
+			throw new WebScrapingException("No results");
+
 	}
+
 	public String searchNoFilter() throws WebScrapingException, ConnectionException {
 		String querry;
-		
+
 		querry = GOOGLE_SEARCH + title + " " + site.getUrl();
 
-		CustomLogger.log("querry: "  +  querry);
-	
-		googleBrowser.getEngine().load(querry); 
+		CustomLogger.log("querry: " + querry);
 
-		
+		googleBrowser.getEngine().load(querry);
+
 		googleScraping = new GoogleScraping(googleBrowser.getEngine());
 		return googleScraping.getFirstMathResult();
 
 	}
-	
 
 	public List<String> searchAll() throws WebScrapingException, ConnectionException {
 		String querry;
@@ -106,13 +89,11 @@ public class GoogleSearch implements SearchEngine {
 			querry = GOOGLE_SEARCH + title;
 
 		}
-		googleBrowser.getEngine().load(querry); 
+		googleBrowser.getEngine().load(querry);
 
 		googleScraping = new GoogleScraping(googleBrowser.getEngine());
 		return googleScraping.getAllResult();
 
 	}
-	
-	
-	
+
 }

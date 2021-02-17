@@ -3,13 +3,22 @@ package com.lucas.ferreira.maburn.model.documents.xml;
 import java.io.File;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 
 public class Updater {
 
 	private Writer writer = new Writer();
-	private static File file = new File("C:\\Users\\lucfe\\Documents\\MangaBurn\\Documents\\Test.xml");
+	private  File file = new File("C:\\Users\\lucfe\\Documents\\MangaBurn\\Documesnts\\Test.xml");
+
+	public void updateAnimeConfigFormDestination(ConfigForm configForm, String value) {
+		file = new File(Documents.CONFIG_LOCAL);
+		configForm.getAnimeConfig().setCollectionDestination(value);
+		
+		writer.writeConfigFromXml(configForm, file);
+	}
 
 	public void updateItemFormByIdTitleDatabase(CollectionForm collectionForm, Integer id, String value)
 			throws JsonProcessingException {

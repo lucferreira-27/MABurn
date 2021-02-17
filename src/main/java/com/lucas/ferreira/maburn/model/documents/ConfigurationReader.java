@@ -15,7 +15,6 @@ import com.lucas.ferreira.maburn.exceptions.CollectionReaderException;
 
 public class ConfigurationReader {
 
-	public final static String CONFIG_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\Config.xml";
 
 	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	private DocumentBuilder builder;
@@ -48,7 +47,7 @@ public class ConfigurationReader {
 	}
 	
 	public File getSettingsFile() throws ConfigurationException {
-		String local = CONFIG_LOCAL;
+		String local = Documents.CONFIG_LOCAL;
 		File config = new File(local);
 		if (!config.exists())
 			throw new ConfigurationException("Config.xml not found in " + local);
@@ -56,16 +55,17 @@ public class ConfigurationReader {
 			return config;
 	}
 	public Document createConfigurationDocument() {
-		String local = CONFIG_LOCAL.substring(0,CONFIG_LOCAL.lastIndexOf("\\"));
+		String local = Documents.CONFIG_LOCAL.substring(0,Documents.CONFIG_LOCAL.lastIndexOf("\\"));
 		File fileLocal = new File(local);
-		File file = new File(CONFIG_LOCAL);
+		File file = new File(Documents.CONFIG_LOCAL);
 		try {
+			System.out.println(file.getAbsolutePath());
 			fileLocal.mkdirs();
 			file.createNewFile();
 			Document document = builder.newDocument();
 			return document;
 		} catch (IOException e) {
-
+			e.printStackTrace();
 			throw new CollectionReaderException("ColletionsDates.xml can't be created " + local);
 
 		}

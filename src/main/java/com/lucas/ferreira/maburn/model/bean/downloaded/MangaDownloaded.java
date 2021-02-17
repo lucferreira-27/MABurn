@@ -33,9 +33,18 @@ public class MangaDownloaded implements CollectionItem {
 
 	private List<ChapterDownloaded> listChapters = new ArrayList<>();
 	private Map<String, String> titles = new LinkedHashMap<>();
-
+	
 	private int id;
 
+	
+	public MangaDownloaded() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public MangaDownloaded(String destination) {
+		this.destination = destination;
+	}
+	
 	public MangaCollection getMangaCollection() {
 		return mangaCollection;
 	}

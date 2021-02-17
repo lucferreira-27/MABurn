@@ -63,21 +63,21 @@ public class SaikoScraping extends WebScraping {
 		try {
 
 			Elements elementsParent1 = scraper.scrapeSnippet(document, "#0"); // 720p
-			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1"); // 1080p
-			
-			elements1 = elementsParent1.select(".bnt-area .btn-sa");
-			
-			elements2 = elementsParent2.select(".bnt-area .btn-sa");
-		
-			
-		
-			
+			elements1 = elementsParent1.select(".bnt-area > a");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
-		
+
+		try {
+
+			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1"); // 1080p
+			elements2 = elementsParent2.select(".bnt-area > a");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
 		Elements elements = elements1.size() < elements2.size() ? elements1 : elements2;
 
 		for (int i = 0; i < elements.size(); i++) {

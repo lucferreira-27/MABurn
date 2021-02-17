@@ -350,7 +350,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 				cbItens.getItems().clear();
 				if (!webDataTitle.getWebDatas().isEmpty())
 					for (ItemWebData sub : webDataTitle.getWebDatas()) {
-
+						System.out.println(sub.getUrl());
 						cbItens.getItems().add(sub.getName());
 
 					}
@@ -745,7 +745,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void fetch() {
 
 		try {
-
+			createTitleDownload();
 			crateWebScraping();
 			createWebDataTitle();
 			search();

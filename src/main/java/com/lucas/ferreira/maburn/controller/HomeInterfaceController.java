@@ -1,10 +1,15 @@
 package com.lucas.ferreira.maburn.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.DownloadQueueInterfaceView;
@@ -17,6 +22,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class HomeInterfaceController implements Initializable {
+	
+	private XmlConfigurationOrchestrator orchestratorConfiguration = new XmlConfigurationOrchestrator();
+	private XmlCollectionOrchestrator orchestratorCollection = new XmlCollectionOrchestrator();
 
 	private MainInterfaceController mainController = new MainInterfaceController();
 
@@ -39,6 +47,15 @@ public class HomeInterfaceController implements Initializable {
 
 	public void onClickOnAnime() {
 		CustomLogger.log("Anime");
+
+//		try {
+//		CollectionForm form =	orchestratorCollection.read();
+//		System.out.println(form.getItems().size());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		new Thread(() -> {
 			mainController.selectCollection(new AnimeCollection());
 			ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
@@ -83,7 +100,6 @@ public class HomeInterfaceController implements Initializable {
 
 		try {
 
-			System.out.println(Resources.getResourcePath("./"));
 			Image imgAnime = new Image(Resources.getResourceAsStream("icons/anime.png"));
 			Image imgManga = new Image(Resources.getResourceAsStream("icons/manga.png"));
 			Image imgDownloads = new Image(Resources.getResourceAsStream("icons/download.png"));

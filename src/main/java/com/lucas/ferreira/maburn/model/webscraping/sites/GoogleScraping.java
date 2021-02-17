@@ -48,7 +48,7 @@ public class GoogleScraping {
 				e.printStackTrace();
 			}
 		}
-		
+	
 		return result.get();
 	}
 

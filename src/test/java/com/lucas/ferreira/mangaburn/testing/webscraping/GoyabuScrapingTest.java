@@ -52,6 +52,7 @@ public class GoyabuScrapingTest {
 		episodeWebData.setUrl(EPISODE_URL_TEST);
 		episodeWebData = (EpisodeWebData) scraping.fecthItem(episodeWebData);
 		int expect = 1;
+		System.out.println(episodeWebData.getAvaiblePlayersDefinitions());
 		int result = episodeWebData.getAvaiblePlayersDefinitions().size();
 		assertThat(expect, is(result));
 

@@ -20,6 +20,10 @@ public class KitsuResponseAPI implements ServiceResponse {
 	public KitsuResponseAPI(String url) {
 		// TODO Auto-generated constructor stub
 		try {
+			
+
+			
+			
 			responseBody = connect(url);
 
 		} catch (ConnectionException e) {
