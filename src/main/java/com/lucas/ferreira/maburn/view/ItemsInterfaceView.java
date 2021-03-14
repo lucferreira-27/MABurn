@@ -3,23 +3,23 @@ package com.lucas.ferreira.maburn.view;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.ItemsInterfaceController;
-import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
+import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class ItemsInterfaceView extends ViewInterface {
 
 	private Pane root;
 	private ItemsInterfaceController controller;
-	private CollectionLoader futureCollections;
-
-	public ItemsInterfaceView(CollectionLoader futureCollections) {
-		this.futureCollections = futureCollections;
+	private DataFetcher dataFetcher;
+	public ItemsInterfaceView(DataFetcher dataFetcher) {
+		this.dataFetcher = dataFetcher;
 
 	}
 
@@ -29,12 +29,11 @@ public class ItemsInterfaceView extends ViewInterface {
 
 		this.root = MainInterfaceView.getInstance().getRoot();
 		new Thread(() -> {
-
+			
 			remove(root); // Removes the previous nodes.
 			initFX(); // Initializes interface.
 
 		}).start();
-
 	}
 
 	private void initFX() {
@@ -65,10 +64,12 @@ public class ItemsInterfaceView extends ViewInterface {
 
 	}
 
-	public CollectionLoader getCollectionLoader() {
-		return futureCollections;
-	}
 
+	
+	public DataFetcher getDataFetcher() {
+		return dataFetcher;
+	}
+	
 	public ItemsInterfaceController getController() {
 		return controller;
 	}

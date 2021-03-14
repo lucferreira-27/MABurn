@@ -18,7 +18,6 @@ import javafx.scene.image.Image;
 
 public class AnimeDownloaded implements CollectionItem {
 	private AnimeCollection animeCollection;
-	private ItemForm form;
 	private String name;
 	private String hospedSite;
 	private String destination;
@@ -33,23 +32,20 @@ public class AnimeDownloaded implements CollectionItem {
 	private Map<String, String> titles = new LinkedHashMap<>();
 	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
 	private int id;
-	
-	
+
 	public AnimeDownloaded(String destination) {
 		// TODO Auto-generated constructor stub
 		this.destination = destination;
 	}
+
 	public AnimeDownloaded() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	public AnimeCollection getAnimeCollection() {
 		return animeCollection;
 	}
-	
 
-	
 	public void setAnimeCollection(AnimeCollection animeCollection) {
 		this.animeCollection = animeCollection;
 	}
@@ -70,7 +66,6 @@ public class AnimeDownloaded implements CollectionItem {
 		this.destination = destination;
 	}
 
-
 	public List<EpisodeDownloaded> getListEpisodes() {
 		return listEpisodes;
 	}
@@ -82,6 +77,8 @@ public class AnimeDownloaded implements CollectionItem {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
+		if (name == null && (destination != null && !destination.isEmpty()))
+			name = destination.substring(destination.lastIndexOf("\\") + 1);
 		return name;
 	}
 
@@ -153,6 +150,7 @@ public class AnimeDownloaded implements CollectionItem {
 		this.imageLocal = local;
 
 	}
+
 	@Override
 	public Image getImage() {
 		// TODO Auto-generated method stub
@@ -164,6 +162,7 @@ public class AnimeDownloaded implements CollectionItem {
 		// TODO Auto-generated method stub
 		this.image = image;
 	}
+
 	@Override
 	public Category getCategory() {
 		// TODO Auto-generated method stub
@@ -196,7 +195,7 @@ public class AnimeDownloaded implements CollectionItem {
 	}
 
 	@Override
-	public void setListSubItens(List<CollectionSubItem> subItems) {
+	public void setListSubItems(List<CollectionSubItem> subItems) {
 		List<EpisodeDownloaded> items = new ArrayList<EpisodeDownloaded>();
 		subItems.forEach(subItem -> items.add((EpisodeDownloaded) subItem));
 		listEpisodes = items;
@@ -259,14 +258,21 @@ public class AnimeDownloaded implements CollectionItem {
 		this.titles = titles;
 	}
 
+
 	@Override
-	public ItemForm getForm() {
+	public ItemForm toForm() {
 		// TODO Auto-generated method stub
+
+		ItemForm form = new ItemForm();
+		form.setCategory(getCategory());
+		form.setDestination(getDestination());
+		form.setTitleDatabase(getTitleDataBase());
+		form.setDataUrl(getDataBaseUrl());
+		form.setImageLocal(getImageLocal());
+		form.setImageUrl(getImageUrl());
+		form.setId(getId());
+
 		return form;
 	}
-	public void setForm(ItemForm form) {
-		this.form = form;
-	}
-
 
 }

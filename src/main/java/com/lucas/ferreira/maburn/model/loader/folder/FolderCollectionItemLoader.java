@@ -65,6 +65,7 @@ public class FolderCollectionItemLoader {
 			if (manga == Category.ANIME)
 				subItem = new EpisodeDownloaded();
 			subItem.setDestination(file.getAbsolutePath());
+			subItem.setName(file.getName());
 			subItems.add(subItem);
 
 		}

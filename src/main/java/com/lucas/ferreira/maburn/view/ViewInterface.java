@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public abstract class ViewInterface {
@@ -32,7 +33,7 @@ public abstract class ViewInterface {
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 
-		root = loader.<VBox>load();
+		root = loader.<StackPane>load();
 
 	}
 

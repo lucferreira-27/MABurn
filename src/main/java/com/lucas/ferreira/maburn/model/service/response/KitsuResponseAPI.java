@@ -70,7 +70,6 @@ public class KitsuResponseAPI implements ServiceResponse {
 		datas.addTitle("en", titles[1]);
 		datas.addTitle("en_jp", titles[2]);
 		datas.addTitle("ja_jp", titles[3]);
-
 		datas.setCategory(category);
 		datas.addPosterImageLink("tiny", images[0]);
 		datas.addPosterImageLink("small", images[1]);

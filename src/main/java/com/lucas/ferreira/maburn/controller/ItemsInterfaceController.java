@@ -4,7 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
@@ -21,8 +22,7 @@ import com.lucas.ferreira.maburn.model.items.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.ItemCreater;
 import com.lucas.ferreira.maburn.model.items.MangaItemCreate;
-import com.lucas.ferreira.maburn.model.loader.CollectionLoader;
-import com.lucas.ferreira.maburn.model.loader.MainLoader;
+import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CustomLogger;
@@ -42,17 +42,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class ItemsInterfaceController implements Initializable {
 
@@ -69,6 +67,8 @@ public class ItemsInterfaceController implements Initializable {
 	private AnchorPane collectionAnchorPane;
 
 	@FXML
+	private VBox vboxLoadArea;
+	@FXML
 	private GridPane searchItemGridPane;
 
 	@FXML
@@ -78,7 +78,13 @@ public class ItemsInterfaceController implements Initializable {
 	private Button btnFilter;
 
 	@FXML
-	private Label lblLoad;
+	private Label lblLoadDataBase;
+	@FXML
+	private Label lblLoadFolderCollectionRead;
+	@FXML
+	private Label lblLoadFolderItemRead;
+	@FXML
+	private Label lblLoadDownlaodImage;
 
 	@FXML
 	private Button btnSearch;
@@ -91,10 +97,12 @@ public class ItemsInterfaceController implements Initializable {
 
 	@FXML
 	private ProgressIndicator loadGridPane;
-
+	@FXML
+	private ProgressBar pbReadProgress;
+	
 	private ItemsInterfaceView itensView;
 	private Collections collection;
-	private CollectionLoader collectionLoader;
+	private DataFetcher collectionLoader;
 
 	private String querry;
 	private GridPaneTable searchTable = new GridPaneTable();
@@ -117,14 +125,24 @@ public class ItemsInterfaceController implements Initializable {
 		System.out.println("Ok!");
 		initItensImagesScrollPane();
 
-		if (itensView.getCollectionLoader() != null) {
-			collectionLoader = itensView.getCollectionLoader();
+//		if (itensView.getCollectionLoader() != null) {
+//			collectionLoader = itensView.getCollectionLoader();
+//			bindCollectionLoaderProperties();
+//		}
+//		if (collectionLoader != null && collectionLoader.isDone()) {
+//			loadGridPane.setVisible(false);
+//			lblLoad.setVisible(false);
+//		}
+
+		if (itensView.getDataFetcher() != null) {
+			collectionLoader = itensView.getDataFetcher();
 			bindCollectionLoaderProperties();
 		}
-		if (collectionLoader != null && collectionLoader.isDone()) {
-			loadGridPane.setVisible(false);
-			lblLoad.setVisible(false);
-		}
+//		if (collectionLoader != null && collectionLoader.isDone()) {
+//			loadGridPane.setVisible(false);
+//			lblLoad.setVisible(false);
+//		}
+
 		onClickOnImageGridPane();
 		onSearchBarType();
 
@@ -133,58 +151,59 @@ public class ItemsInterfaceController implements Initializable {
 	private void bindCollectionLoaderProperties() {
 
 		Platform.runLater(() -> {
-			lblLoad.setVisible(true);
-			loadGridPane.setVisible(true);
+			// vboxLoadArea.setDisable(false);
+			showLoadArea();
 			txtSearchBar.setEditable(false);
 			txtSearchBar.setPromptText("Type here ...");
 		});
-		lblLoad.textProperty().bind(collectionLoader.messageProperty());
-
-		collectionLoader.connectionItemLenghtPropery().addListener((obser, oldvalue, newvalue) -> {
-			lblLoad.textProperty().unbind();
-			Platform.runLater(() -> lblLoad.setText("[Fetch items: " + newvalue.toString() + " ]"));
-			CustomLogger.log("[Fetch items: " + newvalue.toString() + " ]");
-
+		lblLoadDataBase.textProperty().bind(collectionLoader.getLblLoadDataBase());
+		lblLoadFolderCollectionRead.textProperty().bind(collectionLoader.getLblLoadFolderCollectionRead());
+		lblLoadFolderItemRead.textProperty().bind(collectionLoader.getLblLoadFolderItemRead());
+		collectionLoader.getReadProgressProperty().addListener((obs, oldvalue, newvalue) ->{
+			System.out.println("N: " + newvalue.doubleValue());
 		});
+		pbReadProgress.progressProperty().bind(collectionLoader.getReadProgressProperty());
+		try {
 
-		collectionLoader.writeItemLengthPropery().addListener((obser, oldvalue, newvalue) -> {
-			Platform.runLater(() -> lblLoad.setText("[Write items: " + newvalue.toString() + " ]"));
-			CustomLogger.log("[Write items: " + newvalue.toString() + " ]");
+			collectionLoader.getDataFetcherDoneProperty().addListener((obs, oldvalue, newvalue) -> {
 
-		});
-		if (!collectionLoader.isDone())
-			collectionLoader.setOnSucceeded((event) -> {
-				try {
-					collection = collectionLoader.get();
+				collection = collectionLoader.getCollections();
 
-					addAllItemsInTable();
-					sortImagesGridPane();
-					Platform.runLater(() -> {
-						lblLoad.setVisible(false);
-						loadGridPane.setVisible(false);
-						txtSearchBar.setEditable(true);
-					
-					
-					});
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				addAllItemsInTable();
+				sortImagesGridPane();
+				hideLoadArea();
 
 			});
-		else {
-			addAllItemsInTable();
-			sortImagesGridPane();
-			Platform.runLater(() -> {
-				lblLoad.setVisible(false);
-				loadGridPane.setVisible(false);
-				txtSearchBar.setEditable(true);
-			});
+			if (collectionLoader.getDataFetcherDoneProperty().get()) {
+				collection = collectionLoader.getCollections();
+
+				addAllItemsInTable();
+				sortImagesGridPane();
+				hideLoadArea();
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
+	}
 
+	private void showLoadArea() {
+		vboxLoadArea.setVisible(true);
+		lblLoadDataBase.setVisible(true);
+		loadGridPane.setVisible(true);
+	}
+
+	private void hideLoadArea() {
+		Platform.runLater(() -> {
+			vboxLoadArea.setVisible(false);
+			lblLoadDataBase.setVisible(false);
+			lblLoadFolderCollectionRead.setVisible(false);
+			lblLoadFolderItemRead.setVisible(false);
+			loadGridPane.setVisible(false);
+			txtSearchBar.setEditable(true);
+
+		});
 	}
 
 	public void onClickOnImageGridPane() {
@@ -333,7 +352,7 @@ public class ItemsInterfaceController implements Initializable {
 		if (cell != null) {
 			Card card = new Card(cell);
 			collectionTable.add(cell);
-			card.overlay();
+			Platform.runLater(() -> card.overlay());
 		}
 	}
 
@@ -353,8 +372,9 @@ public class ItemsInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickReload() {
-		MainLoader mainloader = new MainLoader(collection);
-		collectionLoader = mainloader.reloadCollection(collection);
+		DataFetcher data = new DataFetcher(collection.getCategory());
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.submit(data);
 		bindCollectionLoaderProperties();
 
 	}
@@ -396,9 +416,9 @@ public class ItemsInterfaceController implements Initializable {
 
 					if (cell != null) {
 						Card card = new Card(cell);
-						card.overlay();	
+						card.overlay();
 						searchTable.add(cell);
-				
+
 					}
 				} catch (ThumbnailLoadException e1) {
 					// TODO Auto-generated catch block
@@ -485,7 +505,7 @@ public class ItemsInterfaceController implements Initializable {
 
 		itensImagesScroll.setLayoutY(10);
 		itensImagesScroll.setLayoutX(200);
-		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 210);
+		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 150);
 		itensImagesScroll.setPannable(false);
 
 		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {

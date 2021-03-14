@@ -32,9 +32,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TitleDownload {
-
+	
 	private final static int MAXIMUM_NUMBER = 10;
-
+	private Integer downloadType = null;
 	private ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
 
 	private CollectionItem collectionItem;
@@ -262,7 +262,13 @@ public class TitleDownload {
 	public IntegerProperty getTotalDownlods() {
 		return totalDownlods;
 	}
-
+	
+	public Integer getDownloadType() {
+		return downloadType;
+	}
+	public void setDownloadType(Integer downloadType) {
+		this.downloadType = downloadType;
+	}
 	public void setState(DownloadState state) {
 		this.state.set(state);
 	}

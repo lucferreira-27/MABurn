@@ -6,16 +6,12 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 
 import com.lucas.ferreira.maburn.controller.MenuController;
 import com.lucas.ferreira.maburn.util.CustomLogger;
-import com.lucas.ferreira.maburn.util.Resources;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -24,13 +20,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MainInterfaceView extends ViewInterface {
 
 	private JFrame frame;
 	private boolean visibility = true;
-	private VBox root = new VBox();
+	private Pane root = new VBox();
 	private final JFXPanel fxPanel = new JFXPanel();
 	private GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	private GridPane menuGridPane = new GridPane();
@@ -65,6 +62,7 @@ public class MainInterfaceView extends ViewInterface {
 		frame.setBackground(Color.BLACK);
 		frame.setVisible(false);
 		frame.setSize(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
+		System.out.println(getClass().getResource("."));
 	 	Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("resources/icon.png"));
 		frame.setIconImage(icon);
 		Platform.runLater(new Runnable() {
@@ -105,7 +103,7 @@ public class MainInterfaceView extends ViewInterface {
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 
-		root = loader.<VBox>load();
+		root = loader.<StackPane>load();
 		
 	}
 	private void initFX(final JFXPanel fxPanel) throws IOException {

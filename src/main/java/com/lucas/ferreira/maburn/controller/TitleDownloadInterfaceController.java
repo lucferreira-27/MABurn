@@ -180,9 +180,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 		preventColumnReordering(tableItens);
 
 		if (titleDownload.getState().getValue() != DownloadState.PREPARING) {
-			
+
 			downloadListening();
-			System.out.println("Size: " + titleDownload.getTitleWebData().getWebDatas().size());
 			webDataTitle = titleDownload.getTitleWebData();
 			fetcherController = new FetcherOrchestrator(webDataTitle, webDataTitle.getSite().getScraping());
 			loadCbItems();
@@ -249,7 +248,9 @@ public class TitleDownloadInterfaceController implements Initializable {
 			return;
 		}
 
-		newTitleDownload();
+	//	newTitleDownload();
+		DownloadQueue.getInstance().addDownload(titleDownload);
+		titleDownload.setTitleWebData(webDataTitle);
 		selectDownload();
 		changeTableItems();
 		downloadListening();
@@ -383,9 +384,9 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void downloadListening() {
 
 		pbTotalProgress.progressProperty().bindBidirectional(titleDownload.getTotalProgressPropery());
-		
+
 		lblTimeRemain.textProperty().bindBidirectional(titleDownload.getRemain());
-		
+
 		titleDownload.getConcludedDownlods().addListener((obs, oldvalue, newvalue) -> {
 			Platform.runLater(() -> lblItemsDownloaded.setText("Downloaded: " + newvalue));
 		});
@@ -396,11 +397,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 		titleDownload.getFailedDownlods().addListener((obs, oldvalue, newvalue) -> {
 			Platform.runLater(() -> lblItemsFailed.setText("Failed: " + newvalue));
 		});
-	
 
 	}
-
-
 
 	private void changeTableItems() {
 		tableItens.setItems(titleDownload.getObsDownloads());
@@ -647,6 +645,11 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 			int type = cbSelect.getSelectionModel().getSelectedIndex();
 			titleDownload.setState(DownloadState.DOWNLOADING);
+//			if (titleDownload.getDownloadType() != type) {
+//				titleDownload.setDownloadType(type);
+//			}else {
+//				
+//			}
 			switch (type) {
 
 			case 0:
@@ -802,6 +805,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 		}
 
 		createTitleDownload();
+
 		titleDownload.setTitleWebData(webDataTitle);
 	}
 

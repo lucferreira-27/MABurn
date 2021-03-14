@@ -3,16 +3,12 @@ package com.lucas.ferreira.maburn.model.documents.xml;
 import java.io.File;
 import java.io.IOException;
 
-import javax.xml.stream.XMLStreamException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 
 public class Writer {
@@ -85,6 +81,23 @@ public class Writer {
 			return false;
 		}
 
+	}
+
+	public boolean writeNewConfigFromXml(File out) {
+		// TODO Auto-generated method stub
+		XmlMapper  xmlMapper = new XmlMapper();
+		xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true );
+		xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		try {
+			xmlMapper.writeValue(out, new ConfigForm());
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 
 }

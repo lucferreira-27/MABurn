@@ -9,7 +9,7 @@
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
 
 	<children>
-
+		
 		<GridPane fx:id="collectioMenuGridPane" alignment="center" hgap="50" vgap="10" styleClass="menuGridPane">
 
 

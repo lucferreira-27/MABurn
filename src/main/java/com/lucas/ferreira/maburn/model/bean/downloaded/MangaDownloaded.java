@@ -18,7 +18,6 @@ import javafx.scene.image.Image;
 
 public class MangaDownloaded implements CollectionItem {
 	private MangaCollection mangaCollection;
-	private ItemForm form;
 	private String name;
 	private String hospedSite;
 	private String destination;
@@ -53,7 +52,11 @@ public class MangaDownloaded implements CollectionItem {
 		this.mangaCollection = mangaCollection;
 	}
 
+	@Override
 	public String getName() {
+		// TODO Auto-generated method stub
+		if (name == null && (destination != null && !destination.isEmpty()))
+			name = destination.substring(destination.lastIndexOf("\\"));
 		return name;
 	}
 
@@ -179,7 +182,7 @@ public class MangaDownloaded implements CollectionItem {
 
 	}
 	@Override
-	public void setListSubItens(List<CollectionSubItem> subItems) {
+	public void setListSubItems(List<CollectionSubItem> subItems) {
 		List<ChapterDownloaded> items = new ArrayList<ChapterDownloaded>();
 		subItems.forEach(subItem -> items.add((ChapterDownloaded) subItem));
 		listChapters = items;
@@ -222,16 +225,14 @@ public class MangaDownloaded implements CollectionItem {
 				+ ", imageLocal=" + imageLocal + ", id=" + id + "]";
 	}
 
-	@Override
-	public ItemForm getForm() {
-		// TODO Auto-generated method stub
-		return form;
-	}
+
+
+
 
 	@Override
-	public void setForm(ItemForm form) {
+	public ItemForm toForm() {
 		// TODO Auto-generated method stub
-		this.form = form;
+		return null;
 	}
 
 

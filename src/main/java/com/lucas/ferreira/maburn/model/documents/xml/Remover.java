@@ -2,13 +2,11 @@ package com.lucas.ferreira.maburn.model.documents.xml;
 
 import java.io.File;
 
-import javax.xml.stream.XMLStreamException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 
 public class Remover {
-	public boolean removeItemFormById(CollectionForm form, Integer id) throws XMLStreamException, JsonProcessingException {
+	public boolean removeItemFormById(CollectionForm form, Integer id) throws  JsonProcessingException {
 		
 		
 		form.getItems().forEach(f ->{

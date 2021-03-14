@@ -18,7 +18,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class FolderCollectionLoader {
 
 	private BooleanProperty loadCompleted = new SimpleBooleanProperty(false);
-
 	public Collections loadCollection(String destination, Category category) {
 		FolderReaderModel reader = new FolderReaderModel();
 		loadCompleted.set(false);
@@ -37,7 +36,7 @@ public class FolderCollectionLoader {
 
 		collection = new MangaCollection(destination);
 		files = reader.findMangaFoldersInMangaCollectionFolder((MangaCollection) collection);
-
+		
 		addItemInCollection(collection, files, Category.MANGA);
 
 		return collection;
@@ -60,14 +59,15 @@ public class FolderCollectionLoader {
 		for (File file : files) {
 
 			CollectionItem item = null;
-
+			
 			if (category == Category.ANIME)
 				item = new AnimeDownloaded();
 			if (category == Category.MANGA) {
 				item = new MangaDownloaded();
 			}
-	
+			
 			item.setDestination(file.getAbsolutePath());
+			
 			collection.getItens().add(item);
 		}
 		loadCompleted.set(true);

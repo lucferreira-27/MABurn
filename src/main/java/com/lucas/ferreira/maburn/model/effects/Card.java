@@ -7,12 +7,15 @@ import org.apache.commons.io.FileUtils;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.loader.folder.FolderCollectionItemLoader;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
@@ -23,6 +26,7 @@ public class Card {
 
 	private BooleanProperty isShowing = new SimpleBooleanProperty(false);
 	private Label lblTitle = new Label();
+	private IntegerProperty numberOfSubItemsProperty = new SimpleIntegerProperty(0);
 	private Label lblNumberOfSubItems = new Label();;
 	private Label lblSizeInDisk = new Label();
 	private Label lblStatus = new Label();
@@ -59,7 +63,7 @@ public class Card {
 			if (item.getDestination() != null)
 				if (newvalue.doubleValue() >= 239) {
 					isShowing.set(true);
-					loadNumberOfItemsLabel();
+					loadNumberOfItemsLabel(item);
 					loadSizeInDiskLabel(item);
 				} else if (isShowing.get()) {
 					isShowing.set(false);
@@ -99,11 +103,6 @@ public class Card {
 		pi.setLayoutX(lblSizeInDisk.getLayoutX() + 90);
 		pi.setLayoutY(lblSizeInDisk.getLayoutY() - 25);
 
-		if (item.getCategory() == Category.ANIME)
-			lblNumberOfSubItems.setText("Episodes: " + item.getListSubItens().size());
-		else
-			lblNumberOfSubItems.setText("Chapters: " + item.getListSubItens().size());
-
 	}
 
 	private void unloadSizeInDiskLabel() {
@@ -123,8 +122,16 @@ public class Card {
 					pi.setVisible(true);
 
 				});
-				long longSize = FileUtils.sizeOfDirectory(new File(item.getDestination()));
+				long longSize = 0;
+				try {
+					longSize = FileUtils.sizeOfDirectory(new File(item.getDestination()));
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.err.println("Card loadSizeInDisk eror: " + e.getMessage());
+
+				}
 				String strSize = DataStorageUtil.converterUnit(BytesUtil.convertBytesToMegasBytes(longSize));
+
 				Platform.runLater(() -> {
 					if (isShowing.get()) {
 						lblSizeInDisk.setVisible(true);
@@ -137,7 +144,29 @@ public class Card {
 
 	}
 
-	private void loadNumberOfItemsLabel() {
+	private void loadNumberOfItemsLabel(CollectionItem item) {
+
+		new Thread(() -> {
+			FolderCollectionItemLoader folderCollectionItemLoader = new FolderCollectionItemLoader();
+			try {
+				item.setListSubItems(folderCollectionItemLoader
+						.loadCollectionItems(item.getDestination(), item.getCategory()).getListSubItens());
+				numberOfSubItemsProperty.set(item.getListSubItens().size());
+			} catch (NullPointerException e) {
+				// TODO: handle exception
+				System.err.println("Card loadNumberOfItem eror: " + e.getMessage());
+				numberOfSubItemsProperty.set(0);
+			}
+
+			Platform.runLater(() -> {
+
+				if (item.getCategory() == Category.ANIME)
+					lblNumberOfSubItems.setText("Episodes: " + numberOfSubItemsProperty.get());
+				else
+					lblNumberOfSubItems.setText("Chapters: " + numberOfSubItemsProperty.get());
+
+			});
+		}).start();
 
 		lblNumberOfSubItems.setVisible(true);
 

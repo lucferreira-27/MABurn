@@ -2,19 +2,13 @@ package com.lucas.ferreira.maburn.model.documents.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
-
-import javax.xml.stream.XMLStreamException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.lucas.ferreira.maburn.model.documents.DocumentCollectionReader;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
-
-import net.sourceforge.htmlunit.corejs.javascript.EcmaError;
 
 public class XmlCollectionOrchestrator {
 
@@ -25,7 +19,7 @@ public class XmlCollectionOrchestrator {
 	}
 
 	public boolean removeById(CollectionForm collectionForm, Integer id)
-			throws JsonProcessingException, XMLStreamException {
+			throws JsonProcessingException {
 		Remover remover = new Remover();
 
 		return remover.removeItemFormById(collectionForm, id);

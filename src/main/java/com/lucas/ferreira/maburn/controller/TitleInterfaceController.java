@@ -19,7 +19,6 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
-import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
@@ -90,9 +89,7 @@ public class TitleInterfaceController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		CollectionItem item = collections.getActualItem();
-		MainLoader loader = new MainLoader(collections);
 		CustomLogger.log("UPDATED SUB ITENS ....");
-		loader.loadAllSubItemInItem(item);
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 
@@ -174,9 +171,7 @@ public class TitleInterfaceController implements Initializable {
 
 	public void onClickButtonUpdate() {
 		CollectionItem item = collections.getActualItem();
-		MainLoader loader = new MainLoader(collections);
 		CustomLogger.log("UPDATED SUB ITENS ....");
-		loader.loadAllSubItemInItem(item);
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 		loadTable(item);
 	}

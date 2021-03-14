@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.lucas.ferreira.maburn.model.collections.Collections;
 
 public class CollectionForm {
 	@JacksonXmlProperty(localName = "item")
@@ -18,5 +19,6 @@ public class CollectionForm {
 	public void setItem(List<ItemForm> items) {
 		this.items = items;
 	}
+	
 	
 }

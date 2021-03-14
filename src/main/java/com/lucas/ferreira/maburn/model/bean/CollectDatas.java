@@ -82,6 +82,8 @@ public class CollectDatas {
 	public void setAvaregeRating(Double avaregeRating) {
 		this.avaregeRating = avaregeRating;
 	}
+	
+	//keys -> 'en', 'en_jp', 'ja_jp' 
 	public Map<String, String> getTitles() {
 		return titles;
 	}

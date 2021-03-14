@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
+import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.documents.Documents;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
 import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;
+import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 import javafx.concurrent.Task;
@@ -18,6 +22,17 @@ public class ThumbnailController extends Task<Void> {
 	public ThumbnailController(CollectionItem item) {
 		// TODO Auto-generated constructor stub
 		this.item = item;
+	}
+	public ThumbnailController(ItemForm itemForm) {
+		// TODO Auto-generated constructor stub
+		if(itemForm.getCategory() == Category.ANIME) {
+			item = new AnimeDownloaded();
+		}
+		if(itemForm.getCategory() == Category.MANGA) {
+			item = new MangaDownloaded();
+		}
+		item.setImageUrl(itemForm.getImageUrl());
+		item.setTitleDataBase(itemForm.getTitleDatabase());
 	}
 
 	@Override

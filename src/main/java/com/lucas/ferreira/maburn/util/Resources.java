@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 public class Resources {
 
-	ClassLoader classLoader = getClass().getClassLoader();
+	private ClassLoader classLoader = getClass().getClassLoader();
 
 	public static InputStream getResourceAsStream(String resource) {
 

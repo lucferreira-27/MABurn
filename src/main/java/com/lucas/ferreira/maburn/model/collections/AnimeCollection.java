@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
@@ -51,6 +52,7 @@ public class AnimeCollection implements Collections {
 	public void setActualItem(CollectionItem obj) {
 		// TODO Auto-generated method stub
 		this.activeAnime = (AnimeDownloaded) obj;
+		activeAnime.setCollections(this);
 	}
 
 	@Override
@@ -74,5 +76,7 @@ public class AnimeCollection implements Collections {
 		this.listAnimes = itens;
 		
 	}
+
+
 
 }

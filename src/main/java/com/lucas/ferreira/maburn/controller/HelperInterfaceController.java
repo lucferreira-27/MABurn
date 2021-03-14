@@ -5,8 +5,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.DirectoryModel;
-import com.lucas.ferreira.maburn.model.documents.ConfigurationReader;
-import com.lucas.ferreira.maburn.model.documents.DocumentConfiguration;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
@@ -29,8 +30,9 @@ public class HelperInterfaceController implements Initializable {
 	@FXML
 	private TextField txtPathMangaCollection;
 
-	private ConfigurationReader config = new ConfigurationReader();
-	private DocumentConfiguration docConfiguration;
+	private XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
+
+	private ConfigForm configForm;
 
 	public HelperInterfaceController() {
 		// TODO Auto-generated constructor stub
@@ -39,23 +41,29 @@ public class HelperInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		if (isPathDefine(Category.MANGA)) {
-			docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
-			String path = docConfiguration.getPath(Category.MANGA);
-			txtPathMangaCollection.setText(path);
-		}
-		if (isPathDefine(Category.ANIME)) {
-			docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
-			String path = docConfiguration.getPath(Category.ANIME);
-			txtPathAnimeCollection.setText(path);
+		try {
+			configForm = configurationOrchestrator.read();
+
+			if (isPathDefine(Category.MANGA)) {
+				String path = configForm.getTitleConfigFormByCategory(Category.MANGA).getCollectionDestination();
+				txtPathMangaCollection.setText(path);
+			}
+			if (isPathDefine(Category.ANIME)) {
+				String path = configForm.getTitleConfigFormByCategory(Category.ANIME).getCollectionDestination();
+				txtPathAnimeCollection.setText(path);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	private boolean isPathDefine(Category category) {
-		docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
+
 		try {
-			String path = docConfiguration.getPath(category);
-			if (path.isEmpty()) {
+
+			String path = configForm.getTitleConfigFormByCategory(category).getCollectionDestination();
+			if (path == null || path.isEmpty()) {
 				return false;
 			}
 			return true;
@@ -75,14 +83,14 @@ public class HelperInterfaceController implements Initializable {
 		}
 		String path = pathDestination.getAbsolutePath();
 		txtPathAnimeCollection.setText(path);
-		docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
-		docConfiguration.setPath(path, Category.ANIME);
+		configForm.getTitleConfigFormByCategory(Category.ANIME).setCollectionDestination(path);
+		configurationOrchestrator.write(configForm);
+
 	}
 
 	public void onClickMangaCollectionPath() {
 		CustomLogger.log("Manga Path");
 
-		
 		File pathDestination = DirectoryModel.selectDirectory(vBoxConfiguration.getScene().getWindow());
 		if (pathDestination == null) {
 			return;
@@ -90,9 +98,8 @@ public class HelperInterfaceController implements Initializable {
 
 		String path = pathDestination.getAbsolutePath();
 		txtPathMangaCollection.setText(path);
-		docConfiguration = new DocumentConfiguration(config.getDocumentConfiguration());
-
-		docConfiguration.setPath(path, Category.MANGA);
+		configForm.getTitleConfigFormByCategory(Category.MANGA).setCollectionDestination(path);
+		configurationOrchestrator.write(configForm);
 
 	}
 

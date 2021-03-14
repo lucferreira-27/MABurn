@@ -2,7 +2,6 @@ package com.lucas.ferreira.maburn.view;
 
 import java.io.IOException;
 
-import com.lucas.ferreira.maburn.controller.ItemsController;
 import com.lucas.ferreira.maburn.controller.ItemsInterfaceController;
 import com.lucas.ferreira.maburn.controller.TitleInterfaceController;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
@@ -31,11 +30,7 @@ public class TitleInterfaceView extends ViewInterface {
 		this.title = itemsController.getCollection().getActualItem();
 	}
 	
-	public TitleInterfaceView(ItemsController itemsController2) {
-		// TODO Auto-generated constructor stub
-		this.itemsView = itemsController2.getItensView();
-		this.title = itemsController2.getCollection().getActualItem();
-	}
+
 
 	@Override
 	public void loadMainInterfaceFX() {

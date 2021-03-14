@@ -26,4 +26,11 @@ public class XmlConfigurationOrchestrator {
 		
 		return writer.writeConfigFromXml(form, FILE);
 	}
+	
+	public boolean create() {
+		
+		Writer writer = new Writer();
+		
+		return writer.writeNewConfigFromXml(FILE);
+	}
 }

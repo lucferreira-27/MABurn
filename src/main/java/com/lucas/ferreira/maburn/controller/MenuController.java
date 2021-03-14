@@ -8,10 +8,12 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.DownloadQueueInterfaceView;
 import com.lucas.ferreira.maburn.view.HelperInterfaceView;
 import com.lucas.ferreira.maburn.view.HomeInterfaceView;
+import com.lucas.ferreira.maburn.view.MainInterfaceView;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 
 public class MenuController implements Initializable {
 

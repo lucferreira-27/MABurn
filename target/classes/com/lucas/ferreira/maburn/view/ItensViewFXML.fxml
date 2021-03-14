@@ -4,12 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <fx:root type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -17,14 +19,13 @@
 	<children>
 
 
-		<GridPane alignment="CENTER"  hgap="0" vgap="2" styleClass="menuSearch" >
+		<GridPane alignment="TOP_CENTER" hgap="0" styleClass="menuSearch" vgap="2" StackPane.alignment="CENTER">
 			<padding>
 				<Insets bottom="0" left="0" right="0" top="0" />
 			</padding>
 
 
-			<TextField fx:id="txtSearchBar" alignment="CENTER" prefHeight="3" prefWidth="600" GridPane.columnIndex="5" GridPane.rowIndex="1">
-
+			<TextField fx:id="txtSearchBar" alignment="TOP_CENTER" prefHeight="3" prefWidth="600" GridPane.columnIndex="5" GridPane.rowIndex="1">
 
 
 				<GridPane.margin>
@@ -34,7 +35,7 @@
 			</TextField>
 
 
-			<Label fx:id = "lblCollectionName" text = "Collection" prefWidth="600"  styleClass="label-title" GridPane.columnIndex="5" GridPane.rowIndex="0" alignment="CENTER">  
+			<Label fx:id="lblCollectionName" alignment="TOP_CENTER" prefWidth="600" styleClass="label-title" text="Collection" GridPane.columnIndex="5">
 				<GridPane.margin>
 					<Insets left="200" right="200" />
 				</GridPane.margin>
@@ -42,58 +43,77 @@
 			</Label>
 
 
-
-
 		</GridPane>
+		<StackPane fx:id="stackPane">
 
 
-
-		<AnchorPane fx:id="collectionAnchorPane" managed="true" styleClass="itensImagesAnchorPane">
-
-			<Button fx:id="btnFilter" layoutX="40" layoutY="15" onAction="#onClickFilter" text="A-Z" />
-			
-			<Button fx:id="btnReload" layoutX="40" layoutY="70" onAction="#onClickReload" text="RELOAD" />
-
-			
-			<ScrollPane fx:id="itensImagesScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="itensImagesScroll" vbarPolicy="ALWAYS" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0">
- 
-
-				<GridPane fx:id="searchItemGridPane" alignment="TOP_CENTER" hgap="1" vgap="1" visible="true">
-
-					<Label fx:id="lblSearch" text="It looks like you don't have ${value} in the collection!" GridPane.columnIndex="0" GridPane.rowIndex="80" />
-					<Button fx:id="btnSearch" onAction="#onClickButtonSearch" text="Search" visible="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="90" />
-
-		
-		
-				</GridPane>
-
-				<GridPane fx:id="itensImagesGridPane" alignment="TOP_CENTER" hgap="5" styleClass="itensImagesGridPane" vgap="5">
+			<AnchorPane fx:id="collectionAnchorPane" layoutY="200" managed="true" prefHeight="252.0" prefWidth="669.0" styleClass="itensImagesAnchorPane" StackPane.alignment="CENTER">
 
 
+				<Button fx:id="btnFilter" layoutX="40" layoutY="15" onAction="#onClickFilter" text="A-Z" />
 
-				</GridPane>
-
-
-	
+				<Button fx:id="btnReload" layoutX="40" layoutY="70" onAction="#onClickReload" text="RELOAD" />
 
 
-
-			</ScrollPane>
-			
+				<ScrollPane fx:id="itensImagesScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="itensImagesScroll" vbarPolicy="ALWAYS" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0">
 
 
+					<GridPane fx:id="searchItemGridPane" alignment="TOP_CENTER" hgap="1" vgap="1" visible="true">
 
-			<ProgressIndicator fx:id="loadGridPane" layoutY="36" styleClass="ringindicator" visible="true" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" />
-
-			<Label fx:id="lblLoad" alignment="center" layoutY="100" visible="true" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="130.0" />
-
-
-				
-				
+						<Label fx:id="lblSearch" text="It looks like you don't have ${value} in the collection!" GridPane.columnIndex="0" GridPane.rowIndex="80" />
+						<Button fx:id="btnSearch" onAction="#onClickButtonSearch" text="Search" visible="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="90" />
 
 
-		</AnchorPane>
+					</GridPane>
 
+					<GridPane fx:id="itensImagesGridPane" alignment="TOP_CENTER" hgap="5" styleClass="itensImagesGridPane" vgap="5" />
+
+
+				</ScrollPane>
+
+
+			</AnchorPane>
+			<VBox fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="true" StackPane.alignment="TOP_CENTER">
+
+
+				<ProgressIndicator fx:id="loadGridPane" prefWidth="197.0" styleClass="ringindicator" visible="true">
+					<VBox.margin>
+						<Insets left="275.0" top="70.0" />
+					</VBox.margin>
+				</ProgressIndicator>
+				<ProgressBar fx:id="pbReadProgress"  prefWidth="593.0" visible="true">
+
+
+				</ProgressBar>
+				<Label fx:id="lblLoadFolderCollectionRead" visible="true">
+					<VBox.margin>
+						<Insets left="200.0" />
+					</VBox.margin>
+
+				</Label>
+				<Label fx:id="lblLoadDataBase" prefWidth="0.0" visible="true">
+					<VBox.margin>
+						<Insets left="200.0" />
+					</VBox.margin>
+
+				</Label>
+				<Label fx:id="lblLoadFolderItemRead" visible="true">
+					<VBox.margin>
+						<Insets left="200.0" />
+					</VBox.margin>
+
+				</Label>
+				<Label fx:id="lblLoadDownlaodImage" visible="true">
+					<VBox.margin>
+						<Insets left="2.0" />
+					</VBox.margin>
+
+				</Label>
+				<StackPane.margin>
+					<Insets top="50.0" />
+				</StackPane.margin>
+			</VBox>
+		</StackPane>
 
 	</children>
 

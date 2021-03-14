@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
@@ -111,6 +113,24 @@ public class ItemForm {
 	public void setCurretScrapingLink(String curretScrapingLink) {
 		this.curretScrapingLink = curretScrapingLink;
 	}
+	
+	public CollectionItem toCollectionItem() {
+		CollectionItem collectionItem = null;
+		if(category == Category.ANIME) {
+			collectionItem = new AnimeDownloaded();
+		}else if(category == Category.MANGA) {
+			collectionItem = new MangaDownloaded();
+		}
+		collectionItem.setDestination(destination);
+		collectionItem.setDestination(destination);
+		collectionItem.setTitleDataBase(titleDatabase);
+		collectionItem.setDataBaseUrl(dataUrl);
+		collectionItem.setImageLocal(imageLocal);
+		collectionItem.setImageUrl(imageUrl);
+		collectionItem.setId(id);
+		return collectionItem;
+	}
+	
 	
 
 	

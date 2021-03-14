@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.download.queue.DownloadQueue;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
-import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.DownloadInQueueInterfaceView;
 
 import javafx.application.Platform;

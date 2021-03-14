@@ -37,14 +37,13 @@ public interface CollectionItem {
 	public void setTitleDataBase(String titleDataBase);
 	public String getTitleFileName();
 	public void addSubItens(List<CollectionSubItem> subItem);
-	public void setListSubItens(List<CollectionSubItem> subItem);
+	public void setListSubItems(List<CollectionSubItem> subItem);
 	public Collections getCollections();
 	public void setCollections(Collections collections);
 	public List<CollectionSubItem> getListSubItens();
 	public WebScraping getWebScraping();
 	public void setWebScraping(WebScraping webScraping);
-	public ItemForm getForm();
-	public void setForm(ItemForm form);
+	public ItemForm toForm();
 
 
 	
