@@ -5,20 +5,20 @@ import java.util.List;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.lucas.ferreira.maburn.model.collections.Collections;
 
 public class CollectionForm {
+
 	@JacksonXmlProperty(localName = "item")
-    @JacksonXmlElementWrapper(localName = "items")
-    private List<ItemForm> items = new ArrayList<>(); 
-	
-	public List<ItemForm> getItems() {
+	@JacksonXmlElementWrapper(localName = "items")
+	private List<ListItemForm> items = new ArrayList<>();
+
+	public List<ListItemForm> getItems() {
 		return items;
 	}
-	
-	public void setItem(List<ItemForm> items) {
+
+	public void setItem(List<ListItemForm> items) {
 		this.items = items;
 	}
-	
-	
+
+
 }

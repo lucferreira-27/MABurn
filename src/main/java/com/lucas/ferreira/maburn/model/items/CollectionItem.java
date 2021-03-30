@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
@@ -43,7 +43,7 @@ public interface CollectionItem {
 	public List<CollectionSubItem> getListSubItens();
 	public WebScraping getWebScraping();
 	public void setWebScraping(WebScraping webScraping);
-	public ItemForm toForm();
+	public ListItemForm toForm();
 
 
 	

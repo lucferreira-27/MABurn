@@ -1,23 +1,31 @@
 package com.lucas.ferreira.maburn.model.documents.xml;
 
-import java.io.File;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 
 public class Remover {
-	public boolean removeItemFormById(CollectionForm form, Integer id) throws  JsonProcessingException {
-		
-		
-		form.getItems().forEach(f ->{
+	public boolean removeItemFormById(CollectionForm form, Integer id) throws JsonProcessingException {
+
+		form.getItems().forEach(f -> {
 			System.out.println(f.getId().equals(id));
 		});
-		
+
 		boolean remove = form.getItems().removeIf(item -> item.getId().equals(id));
-		
-		Writer writer = new Writer();
-		writer.writeCollectionFormValueAsXml(form, new File("C:\\Users\\lucfe\\Documents\\MangaBurn\\Documents\\Test.xml"));
-		
+
+
+		return remove;
+	}
+	public boolean removeItemFormByIdAndWrite(CollectionForm form, Integer id) throws JsonProcessingException {
+
+		form.getItems().forEach(f -> {
+			System.out.println(f.getId().equals(id));
+		});
+
+		boolean remove = form.getItems().removeIf(item -> item.getId().equals(id));
+
+		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+		orchestrator.write(form);
+
 		return remove;
 	}
 

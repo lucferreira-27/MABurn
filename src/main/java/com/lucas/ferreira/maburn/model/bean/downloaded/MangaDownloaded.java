@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
@@ -230,7 +230,7 @@ public class MangaDownloaded implements CollectionItem {
 
 
 	@Override
-	public ItemForm toForm() {
+	public ListItemForm toForm() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,21 +8,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 
 public class XmlCollectionOrchestrator {
 
-	private final  File FILE = new File(Documents.DATA_LOCAL);
+	private final File FILE = new File(Documents.DATA_LOCAL);
 
 	public XmlCollectionOrchestrator() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean removeById(CollectionForm collectionForm, Integer id)
-			throws JsonProcessingException {
+	public boolean removeById(CollectionForm collectionForm, Integer id) throws JsonProcessingException {
 		Remover remover = new Remover();
 
-		return remover.removeItemFormById(collectionForm, id);
+		return remover.removeItemFormByIdAndWrite(collectionForm, id);
 	}
 
 	public boolean create() throws JsonProcessingException {
@@ -48,21 +47,21 @@ public class XmlCollectionOrchestrator {
 		try {
 			switch (type) {
 			case TITLE_DATABASE:
-				updater.updateItemFormByIdTitleDatabase(collectionForm, id, (String) value[0]);
+				updater.updateItemFormByIdTitleDatabase(collectionForm, id, (String) value[0], FILE);
 
 				break;
 			case DESTINATION:
-				updater.updateItemFormByIdDestination(collectionForm, id, (String) value[0]);
+				updater.updateItemFormByIdDestination(collectionForm, id, (String) value[0], FILE);
 
 				break;
 			case IMAGE_LOCAL:
-				updater.updateItemFormByIdImageLocal(collectionForm, id, (String) value[0]);
+				updater.updateItemFormByIdImageLocal(collectionForm, id, (String) value[0], FILE);
 				break;
 			case IMAGE_URL:
-				updater.updateItemFormByIdImageUrl(collectionForm, id, (String) value[0]);
+				updater.updateItemFormByIdImageUrl(collectionForm, id, (String) value[0], FILE);
 				break;
 			case CURRENT_SCRAPING_LINK:
-				updater.updateItemFormByIdCurretScrapingLink(collectionForm, id, (String) value[0]);
+				updater.updateItemFormByIdCurretScrapingLink(collectionForm, id, (String) value[0], FILE);
 
 				break;
 			default:
@@ -83,7 +82,7 @@ public class XmlCollectionOrchestrator {
 		return reader.readCollectionForm(FILE);
 	}
 
-	public ItemForm readById(Integer id) throws JsonParseException, JsonMappingException, IOException {
+	public ListItemForm readById(Integer id) throws JsonParseException, JsonMappingException, IOException {
 
 		Reader reader = new Reader();
 

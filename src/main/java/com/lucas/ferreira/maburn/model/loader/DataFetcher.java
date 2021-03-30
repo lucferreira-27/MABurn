@@ -19,7 +19,7 @@ import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ThumbnailController;
@@ -46,17 +46,18 @@ public class DataFetcher extends Task<Collections> {
 	private FolderCollectionLoader folderCollectionLoader = new FolderCollectionLoader();
 	private Collections collections = null;
 	private ExecutorService executorService;
+	
 	private final BooleanProperty dataFetcherDoneProperty = new SimpleBooleanProperty(false);
 	private final BooleanProperty readDoneProperty = new SimpleBooleanProperty(false);
 	private final BooleanProperty writeDoneProperty = new SimpleBooleanProperty(false);
 	private final IntegerProperty readCountProperty = new SimpleIntegerProperty();
 	private final DoubleProperty readProgressProperty = new SimpleDoubleProperty();
-
 	private final IntegerProperty goalProgressProperty = new SimpleIntegerProperty();
 	private final IntegerProperty downloadImageProgressProperty = new SimpleIntegerProperty();
 	private final StringProperty lblLoadFolderCollectionRead = new SimpleStringProperty();
 	private final StringProperty lblLoadFolderItemRead = new SimpleStringProperty();
 	private final StringProperty lblLoadDataBase = new SimpleStringProperty();
+	
 	private final StringProperty lblLoadDownlaodImage = new SimpleStringProperty();
 	private ConfigForm config;
 	private CollectionForm form;
@@ -101,7 +102,7 @@ public class DataFetcher extends Task<Collections> {
 
 				String itemDestination = item.getDestination();
 
-				for (ItemForm itemForm : form.getItems()) {
+				for (ListItemForm itemForm : form.getItems()) {
 					if (itemDestination.equalsIgnoreCase(itemForm.getDestination())) {
 						return false;
 					}
@@ -129,9 +130,9 @@ public class DataFetcher extends Task<Collections> {
 
 	private void synchronizedDates(Category category, CollectionForm form, List<CollectionItem> newCollectionItems) {
 		List<Future<?>> fuList = new ArrayList<Future<?>>();
-
+ 
 		KitsuDatabase database = new KitsuDatabase();
-		Vector<ItemForm> newItemForms = new Vector<ItemForm>();
+		Vector<ListItemForm> newItemForms = new Vector<ListItemForm>();
 
 		readCountProperty.addListener((obs, oldvalue, newvalue) -> {
 			System.out.println("[READ PROGRESS] = " + newvalue);
@@ -148,7 +149,7 @@ public class DataFetcher extends Task<Collections> {
 				updateLblLoadDataBase("[DATABASE READ] = " + newCollectionItem.getName());
 
 				CollectDatas datas = database.read(newCollectionItem.getName(), category);
-				ItemForm itemForm = collectDatasToItemForm(category, datas);
+				ListItemForm itemForm = collectDatasToItemForm(category, datas);
 				itemForm.setDestination(newCollectionItem.getDestination());
 
 				ThumbnailController controller = new ThumbnailController(itemForm);
@@ -169,7 +170,7 @@ public class DataFetcher extends Task<Collections> {
 			fuList.add(future);
 		}
 
-		FutureList<?> futureList = new FutureList<List<ItemForm>>(fuList);
+		FutureList<?> futureList = new FutureList<List<ListItemForm>>(fuList);
 
 		new Thread(() -> {
 			while (!futureList.isDone()) {
@@ -205,8 +206,8 @@ public class DataFetcher extends Task<Collections> {
 
 	}
 
-	private ItemForm collectDatasToItemForm(Category category, CollectDatas datas) {
-		ItemForm itemForm = new ItemForm();
+	private ListItemForm collectDatasToItemForm(Category category, CollectDatas datas) {
+		ListItemForm itemForm = new ListItemForm();
 		itemForm.setCategory(category);
 		itemForm.setId(datas.getId());
 		itemForm.setTitleDatabase(datas.getCanonicalTitle());
@@ -314,12 +315,12 @@ public class DataFetcher extends Task<Collections> {
 	}
 
 	private List<CollectionItem> filterCategoryItems(Category category, CollectionForm form) {
-		return form.getItems().stream().map(ItemForm::toCollectionItem).filter(i -> i.getCategory() == category)
+		return form.getItems().stream().map(ListItemForm::toCollectionItem).filter(i -> i.getCategory() == category)
 				.collect(Collectors.toList());
 	}
 
 	private List<CollectionItem> filterCollectionPath(String path, CollectionForm form) {
-		return form.getItems().stream().map(ItemForm::toCollectionItem).filter(i -> i.getDestination()
+		return form.getItems().stream().map(ListItemForm::toCollectionItem).filter(i -> i.getDestination()
 				.substring(0, i.getDestination().lastIndexOf("\\")).equalsIgnoreCase(collections.getDestination()))
 				.collect(Collectors.toList());
 	}

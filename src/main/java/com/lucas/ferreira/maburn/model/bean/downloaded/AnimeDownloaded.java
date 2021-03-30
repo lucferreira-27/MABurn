@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
@@ -260,10 +260,10 @@ public class AnimeDownloaded implements CollectionItem {
 
 
 	@Override
-	public ItemForm toForm() {
+	public ListItemForm toForm() {
 		// TODO Auto-generated method stub
 
-		ItemForm form = new ItemForm();
+		ListItemForm form = new ListItemForm();
 		form.setCategory(getCategory());
 		form.setDestination(getDestination());
 		form.setTitleDatabase(getTitleDataBase());

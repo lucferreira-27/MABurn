@@ -16,6 +16,9 @@ import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.TableCollectionItemModel;
 import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
@@ -25,6 +28,7 @@ import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
+import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
 import com.lucas.ferreira.maburn.view.TitleInterfaceView;
@@ -59,6 +63,8 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private Button btnRead;
 	@FXML
+	private Button btnRemove;
+	@FXML
 	private Label lblTitle;
 	@FXML
 	private TextArea txtAreaSynopsis;
@@ -77,8 +83,7 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
-	public TitleInterfaceController(TitleInterfaceView titleView,
-			ItemsInterfaceView itensView) {
+	public TitleInterfaceController(TitleInterfaceView titleView, ItemsInterfaceView itensView) {
 		// TODO Auto-generated constructor stub
 		this.titleView = titleView;
 		this.itensView = itensView;
@@ -100,11 +105,11 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	public void onClickButtonBack() {
 		ItemsInterfaceView itensView = this.itensView;
-		System.out.println("Back: "+collections);
-		//itensView.setCollections(collections);
-		
+		System.out.println("Back: " + collections);
+		// itensView.setCollections(collections);
+
 		itensView.loadMainInterfaceFX();
-		
+
 	}
 
 	private void loadTitleDatas() {
@@ -174,6 +179,46 @@ public class TitleInterfaceController implements Initializable {
 		CustomLogger.log("UPDATED SUB ITENS ....");
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 		loadTable(item);
+	}
+
+	public void onClickButtonRemove() {
+		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+		try {
+			CollectionForm collectionForm = orchestrator.read();
+			orchestrator.removeById(collectionForm, collections.getActualItem().getId());
+			AlertWindowView.infoAlert(collections.getActualItem().getTitleFileName() + " REMOVE!", "SUCCEED!",
+					"Path: " + collections.getDestination());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void onClickButtonHide() {
+		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+		try {
+
+			CollectionForm form = orchestrator.read();
+
+			boolean result = AlertWindowView.confirmationAlert("HIDE TITLE",
+					"Do you want HIDE " + collections.getActualItem().getTitleFileName() + "?",
+					"If the title is hidden, it does not appear in the collection, but it will still be in the MABurn system");
+
+			if (!result)
+				return;
+
+			ListItemForm itemForm = form.getItems().stream()
+					.filter(item -> item.getId() == collections.getActualItem().getId()).findFirst().get();
+
+			itemForm.setBlackList(true);
+			orchestrator.write(form);
+
+			// orchestrator.removeById(collectionForm, collections.getActualItem().getId());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void loadTable(CollectionItem item) {

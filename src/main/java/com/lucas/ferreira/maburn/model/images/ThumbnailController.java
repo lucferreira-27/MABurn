@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.documents.Documents;
-import com.lucas.ferreira.maburn.model.documents.xml.form.ItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
@@ -23,7 +23,7 @@ public class ThumbnailController extends Task<Void> {
 		// TODO Auto-generated constructor stub
 		this.item = item;
 	}
-	public ThumbnailController(ItemForm itemForm) {
+	public ThumbnailController(ListItemForm itemForm) {
 		// TODO Auto-generated constructor stub
 		if(itemForm.getCategory() == Category.ANIME) {
 			item = new AnimeDownloaded();
