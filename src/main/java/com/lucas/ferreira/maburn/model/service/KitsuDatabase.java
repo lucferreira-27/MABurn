@@ -59,6 +59,12 @@ public class KitsuDatabase implements Database {
 		}  
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
+		try {
+			querry = URLEncoder.encode(querry, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("url: " + url + querry);
 		// TODO Auto-generated method stub
 		kitsuApi = new KitsuResponseAPI(url + querry);

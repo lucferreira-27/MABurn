@@ -115,6 +115,7 @@ public class ConnectionModel implements Callable<String> {
 	}
 
 	private static HttpURLConnection Httpsetup(String url) throws IOException {
+		System.out.println("HTTPSETUP:  " + url);
 		URL uc = new URL(url);
 
 		HttpURLConnection httpConn = (HttpURLConnection) uc.openConnection();

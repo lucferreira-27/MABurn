@@ -29,9 +29,8 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
-import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -51,9 +50,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleInterfaceController implements Initializable {
-	private TitleInterfaceView titleView;
-	private ItemsInterfaceView itensView;
+	private Navigator navigator = new Navigator();
 	private Collections collections;
+	private CollectionItem title;
 	@FXML
 	private ImageView imageViewTitle;
 	@FXML
@@ -83,20 +82,21 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
-	public TitleInterfaceController(TitleInterfaceView titleView, ItemsInterfaceView itensView) {
+	public TitleInterfaceController() {
 		// TODO Auto-generated constructor stub
-		this.titleView = titleView;
-		this.itensView = itensView;
-		this.collections = itensView.getController().getCollection();
+
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		CollectionItem item = collections.getActualItem();
+
+		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
+				.get(Interfaces.COLLECTION);
+		collections = collectionController.getCollection();
+		title = collections.getActualItem();
 		CustomLogger.log("UPDATED SUB ITENS ....");
 		CustomLogger.log("UPDATEDED SUB ITENS!");
-		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 
 		loadTitleDatas();
 
@@ -104,11 +104,9 @@ public class TitleInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickButtonBack() {
-		ItemsInterfaceView itensView = this.itensView;
 		System.out.println("Back: " + collections);
+		navigator.back();
 		// itensView.setCollections(collections);
-
-		itensView.loadMainInterfaceFX();
 
 	}
 
@@ -128,6 +126,7 @@ public class TitleInterfaceController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(image);
 		imageViewTitle.setOnMouseClicked(event -> {
@@ -170,8 +169,9 @@ public class TitleInterfaceController implements Initializable {
 	}
 
 	public void onClickButtonDownload() {
-		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
-		titleDownload.loadMainInterfaceFX();
+		navigator.open(Interfaces.TITLE_DOWNLOAD);
+//		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
+//		titleDownload.loadMainInterfaceFX();
 	}
 
 	public void onClickButtonUpdate() {
@@ -299,6 +299,10 @@ public class TitleInterfaceController implements Initializable {
 				header.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
 			}
 		});
+	}
+
+	public CollectionItem getTitle() {
+		return title;
 	}
 
 }

@@ -1,84 +1,104 @@
 package com.lucas.ferreira.maburn.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 
 import com.lucas.ferreira.maburn.controller.MenuController;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.Resources;
+import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class MainInterfaceView extends ViewInterface {
+public class MainInterfaceView {
 
-	private JFrame frame;
+	private final JFXPanel fxPanel = new JFXPanel();
+	private Stage stage;
+	private Scene scenePane;
+	private JFrame loadFrame = new JFrame("LOAD MABurn");
 	private boolean visibility = true;
 	private Pane root = new VBox();
-	private final JFXPanel fxPanel = new JFXPanel();
-	private GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-	private GridPane menuGridPane = new GridPane();
-	private Scene scenePane;
 	private boolean initializeIsDone = false;
 	private MenuController menuController = new MenuController();
 	private static MainInterfaceView app;
-	
-	
+	private FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
+
+	public MainInterfaceView() {
+		// TODO Auto-generated constructor stub
+		Platform.runLater(() -> {
+			stage = new Stage();
+		});
+	}
+
 	public static MainInterfaceView getInstance() {
-		if(app == null) {
+		if (app == null) {
 			app = new MainInterfaceView();
 		}
 		return app;
 	}
-	
-	public void initMainInterfaceView() throws IOException {
-		
-		initFXMLLoader(menuController, root,"MainViewFXML.fxml");
-		initMenuPane();
-		initRoot();
-
-	}
 
 	public void initAndShowGUI() {
 		// This method is invoked on Swing thread
-		CustomLogger.log("> Run MainInterfaceView");
-		frame = new JFrame("MA Burn");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.add(fxPanel, BorderLayout.CENTER);
-		frame.setBackground(Color.BLACK);
-		frame.setVisible(false);
-		frame.setSize(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
-		System.out.println(getClass().getResource("."));
-	 	Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("resources/icon.png"));
-		frame.setIconImage(icon);
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
 
-				try {
-					initFX(fxPanel);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+		CustomLogger.log("> Run MainInterfaceView");
+		frameSettings();
+		initializeFXPanel();
+		waitInitializeIsDone();
+		hideLoadFrame();
+		show();
+
+	}
+
+	private void hideLoadFrame() {
+		// TODO Auto-generated method stub
+
+		Platform.runLater(() -> {
+
+			loadFrame.setVisible(false);
+			loadFrame.dispose();
+
 		});
-		while (!initializeIsDone) {
-			CustomLogger.log("> Loading view");
+
+	}
+
+	private void initializeFXPanel() {
+		Platform.runLater(() -> {
+
+			try {
+//				Navigator navigator = new Navigator();
+//				navigator.open(Interfaces.MAIN);
+				initFX(fxPanel);
+				loadFXML();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				AlertWindowView.exceptionAlert(e);
+				System.exit(0);
+			}
+
+		});
+	}
+
+	private void loadFXML() {
+		fxmlViewLoader.loadInterface("MainViewFXML.fxml", menuController);
+
+	}
+
+	private void waitInitializeIsDone() {
+		while (!initializeIsDone && !fxmlViewLoader.isDone()) {
+			// CustomLogger.log("> Loading view");
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -88,54 +108,69 @@ public class MainInterfaceView extends ViewInterface {
 		}
 	}
 
-	private void initRoot() {
-		// root.setStyle("-fx-background-color: #1C1C1C");
-		super.root = this.root;
-		root.getChildren().add(menuGridPane);
+	private void frameSettings() {
+		Resources resources = new Resources();
+		ImagePanel imageContent = new ImagePanel();
+		loadFrame.getContentPane().add(imageContent);
+
+		String path = "";
+		try {
+			path = resources.getResourceAsString("icons/icon.png");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		java.awt.Image icon = Toolkit.getDefaultToolkit().getImage(path);
+
+		loadFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		loadFrame.setUndecorated(true);
+		loadFrame.pack();
+		loadFrame.setLocationRelativeTo(null);
+		loadFrame.setBackground(new Color(0, 0, 0, 0));
+		loadFrame.setVisible(true);
+		loadFrame.setIconImage(icon);
 
 	}
 
-	@Override
-	protected void initFXMLLoader(Initializable initializable, Pane root, String fxml) throws IOException {
-		// TODO Auto-generated method stub
-		FXMLLoader loader = new FXMLLoader();
-		loader.setRoot(root);
-		loader.setLocation(getClass().getResource(fxml));
-		loader.setController(initializable);
-
-		root = loader.<StackPane>load();
-		
-	}
 	private void initFX(final JFXPanel fxPanel) throws IOException {
 
-		CustomLogger.log("> Initialize MainInterfaceView");
-		initMainInterfaceView();
+		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
+			initializeIsDone = true;
 
+		});
+		CustomLogger.log("> Initialize MainInterfaceView");
 		createScene();
 
-		fxPanel.setScene(scenePane);
 		CustomLogger.log("> Initialization Complete  MainInterfaceView");
-		frame.setVisible(visibility);
-
-		initializeIsDone = true;
 
 	}
 
 	private void createScene() {
-		scenePane = new Scene(root, 600, 300);
-		
-		//BufferedReader reader = new BufferedReader(new InputStreamReader(Resources.getResourceAsStream("DarkThema")));
+		scenePane = new Scene(root);
+		scenePane.getStylesheets().add("com/lucas/ferreira/maburn/view/css/DarkThema.css");
 
-		
-		
-		
+		InputStream in = Resources.getResourceAsStream("icons/icon.png");
+		Image icon = new Image(in);
+		stage.getIcons().add(icon);
+		stage.setTitle("MABurn");
+		stage.setMaximized(true);
 
-		scenePane.getStylesheets().add("com/lucas/ferreira/maburn/view/DarkThema.css");
+		stage.setScene(scenePane);
 
-		fxPanel.setScene(scenePane);
 	}
 
-	private void initMenuPane() {
+	public void hide() {
+		CustomLogger.log("HIDE INTERFACE");
+		Platform.runLater(() -> stage.hide());
+	}
+
+	public void show() {
+		CustomLogger.log("SHOW INTERFACE");
+		Platform.runLater(() -> stage.show());
 
 	}
 
@@ -150,20 +185,22 @@ public class MainInterfaceView extends ViewInterface {
 	public boolean isInitializeDone() {
 		return initializeIsDone;
 	}
-	
+
 	public void setVisibility(boolean visibility) {
 		this.visibility = visibility;
+
+		if (!visibility)
+			hide();
+		else
+			show();
 	}
 
-	@Override
-	protected void loadMainInterfaceFX() {
-		// TODO Auto-generated method stub
-		
+	public boolean IsVisibility() {
+		return visibility;
 	}
-	
+
 	public MenuController getMenuController() {
 		return menuController;
 	}
-
 
 }

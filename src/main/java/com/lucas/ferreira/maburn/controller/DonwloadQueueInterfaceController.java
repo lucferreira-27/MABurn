@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.download.queue.DownloadQueue;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
-import com.lucas.ferreira.maburn.view.DownloadInQueueInterfaceView;
+import com.lucas.ferreira.maburn.view.Components;
+import com.lucas.ferreira.maburn.view.navigator.Builder;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -27,7 +28,6 @@ public class DonwloadQueueInterfaceController implements Initializable {
 	private FXMLLoader loader = new FXMLLoader();
 	private ObservableList<BorderPane> obsBorder;
 	private List<BorderPane> borders = new ArrayList<BorderPane>();
-
 
 	@FXML
 	private BorderPane borderMain;
@@ -58,25 +58,22 @@ public class DonwloadQueueInterfaceController implements Initializable {
 
 	private void loadDownloadView() {
 		obsBorder = FXCollections.observableArrayList(borders);
-		
-		System.out.println(getClass().getResource("../view/DownloadInQueueInterfaceView.fxml"));
-		loader.setLocation(getClass().getResource("../view/DownloadInQueueInterfaceView.fxml"));
-		loader.setController(new DownloadInQueueController());
+
+		Builder builder = new Builder();
 		new Thread(() -> {
-			DownloadInQueueInterfaceView downloadInQueueInterfaceView;
+			// DownloadInQueueInterfaceView downloadInQueueInterfaceView;
 			for (TitleDownload title : DownloadQueue.getInstance().getDownloadList()) {
 
 				System.out.println(title.getCollectionItem().getImageLocal());
-				if(obsBorder.stream().filter((b) -> b.getUserData() == title).findAny().isPresent()){
+				if (obsBorder.stream().filter((b) -> b.getUserData() == title).findAny().isPresent()) {
 					continue;
 				}
 				try {
-					BorderPane root = new BorderPane();
-					
-					downloadInQueueInterfaceView = new DownloadInQueueInterfaceView(title, root);
-					downloadInQueueInterfaceView.loadMainInterfaceFX();
-
-					obsBorder.add(root);
+					Platform.runLater(() -> {
+						BorderPane root = new BorderPane();
+						root = (BorderPane) builder.build(root, Components.DOWNLOAD_IN_QUEUE, title);
+						obsBorder.add(root);
+					});
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -84,7 +81,6 @@ public class DonwloadQueueInterfaceController implements Initializable {
 			}
 
 		}).start();
-		
 
 		obsBorder.addListener(new ListChangeListener<BorderPane>() {
 			@Override
@@ -93,13 +89,13 @@ public class DonwloadQueueInterfaceController implements Initializable {
 					if (c.wasAdded()) {
 
 						Platform.runLater(() -> {
-							
+
 							vboxDownloadList.getChildren().add(c.getList().get(c.getFrom()));
 						});
 
 						return;
 					}
-	
+
 				}
 
 			}

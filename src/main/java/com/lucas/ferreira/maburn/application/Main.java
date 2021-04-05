@@ -1,25 +1,23 @@
 package com.lucas.ferreira.maburn.application;
 
-import com.lucas.ferreira.maburn.view.HomeInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
-
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 public class Main {
 	public static void main(String[] args) {
 
 		// StackDumper.dumpWhenSysOutContains("");
 		
-
 		MainInterfaceView.getInstance().initAndShowGUI();
-		HomeInterfaceView homeInterface = new HomeInterfaceView();
-		homeInterface.loadMainInterfaceFX();
-		
+	//	Navigator.preLoadInterfaces();
+//
+		Navigator navigator = new Navigator();
+		navigator.open(Interfaces.HOME);
+
+//		HomeInterfaceView homeInterface = new HomeInterfaceView();
+//		homeInterface.loadMainInterfaceFX();
 
 	}
 
-	
 }

@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
+import com.lucas.ferreira.maburn.model.CollectionGridPane;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
@@ -17,21 +18,22 @@ import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.effects.Card;
+import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.items.AnimeItemCreate;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.ItemCreater;
 import com.lucas.ferreira.maburn.model.items.MangaItemCreate;
+import com.lucas.ferreira.maburn.model.loader.CollectionCheck;
 import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
-import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleSearchInterfaceView;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -52,7 +54,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class ItemsInterfaceController implements Initializable {
+public class CollectionInterfaceController implements Initializable {
 
 	@FXML
 	private StackPane collectionStackPane;
@@ -99,10 +101,13 @@ public class ItemsInterfaceController implements Initializable {
 	private ProgressIndicator loadGridPane;
 	@FXML
 	private ProgressBar pbReadProgress;
-	
-	private ItemsInterfaceView itensView;
+
+	private HomeInterfaceController homeController;
+	private Navigator navigator = new Navigator();
+	private DataFetcher dataFetcher;
 	private Collections collection;
 	private DataFetcher collectionLoader;
+	private CollectionGridPane collectionGridPane;
 
 	private String querry;
 	private GridPaneTable searchTable = new GridPaneTable();
@@ -111,55 +116,53 @@ public class ItemsInterfaceController implements Initializable {
 	private BooleanProperty emptyProperty = new SimpleBooleanProperty();
 	private BooleanProperty searchModeProperty = new SimpleBooleanProperty(false);
 	private BooleanProperty reverseModeProperty = new SimpleBooleanProperty(false);
-
 	private StringProperty querryProperty = new SimpleStringProperty();
-
-	public ItemsInterfaceController(ItemsInterfaceView itensView) {
-		// TODO Auto-generated constructor stub
-		this.itensView = itensView;
-
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Ok!");
+		CollectionCheck collectionCheck = new CollectionCheck();
+
+		homeController = (HomeInterfaceController) Navigator.getMapNavigator().get(Interfaces.HOME);
+		Category category = homeController.getCategory();
+		collectionGridPane = new CollectionGridPane(category, itensImagesScroll);
+		dataFetcher();
+
+		if (collectionCheck.hasNewItemCollecetion(homeController.getCategory())) {
+			showLoadArea();
+		}
+
 		initItensImagesScrollPane();
 
-//		if (itensView.getCollectionLoader() != null) {
-//			collectionLoader = itensView.getCollectionLoader();
-//			bindCollectionLoaderProperties();
-//		}
-//		if (collectionLoader != null && collectionLoader.isDone()) {
-//			loadGridPane.setVisible(false);
-//			lblLoad.setVisible(false);
-//		}
-
-		if (itensView.getDataFetcher() != null) {
-			collectionLoader = itensView.getDataFetcher();
+		if (dataFetcher != null) {
+			collectionLoader = dataFetcher;
 			bindCollectionLoaderProperties();
 		}
-//		if (collectionLoader != null && collectionLoader.isDone()) {
-//			loadGridPane.setVisible(false);
-//			lblLoad.setVisible(false);
-//		}
 
 		onClickOnImageGridPane();
 		onSearchBarType();
 
 	}
 
+	private void dataFetcher() {
+		Category category = homeController.getCategory();
+		dataFetcher = new DataFetcher(category);
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.submit(dataFetcher);
+		executorService.shutdown();
+	}
+
 	private void bindCollectionLoaderProperties() {
 
 		Platform.runLater(() -> {
 			// vboxLoadArea.setDisable(false);
-			showLoadArea();
+
 			txtSearchBar.setEditable(false);
 			txtSearchBar.setPromptText("Type here ...");
 		});
 		lblLoadDataBase.textProperty().bind(collectionLoader.getLblLoadDataBase());
 		lblLoadFolderCollectionRead.textProperty().bind(collectionLoader.getLblLoadFolderCollectionRead());
 		lblLoadFolderItemRead.textProperty().bind(collectionLoader.getLblLoadFolderItemRead());
-		collectionLoader.getReadProgressProperty().addListener((obs, oldvalue, newvalue) ->{
+		collectionLoader.getReadProgressProperty().addListener((obs, oldvalue, newvalue) -> {
 			System.out.println("N: " + newvalue.doubleValue());
 		});
 		pbReadProgress.progressProperty().bind(collectionLoader.getReadProgressProperty());
@@ -217,11 +220,9 @@ public class ItemsInterfaceController implements Initializable {
 					CollectionItem item = (CollectionItem) image.getUserData();
 					collection.setActualItem(item);
 					if (!searchModeProperty.get()) {
-						TitleInterfaceView titleView = new TitleInterfaceView(this);
-						titleView.loadMainInterfaceFX();
+						navigator.open(Interfaces.TITLE);
 					} else {
-						TitleSearchInterfaceView titleView = new TitleSearchInterfaceView(itensView);
-						titleView.loadMainInterfaceFX();
+						navigator.open(Interfaces.TITLE_SEARCH);
 					}
 				}
 			}
@@ -485,6 +486,7 @@ public class ItemsInterfaceController implements Initializable {
 			}
 			java.util.Collections.reverse(cells);
 			itensImagesGridPane.getChildren().clear();
+
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
 
@@ -539,7 +541,11 @@ public class ItemsInterfaceController implements Initializable {
 		return collection;
 	}
 
-	public ItemsInterfaceView getItensView() {
-		return itensView;
+	public void setDataFetcher(DataFetcher dataFetcher) {
+		this.dataFetcher = dataFetcher;
 	}
+
+//	public ItemsInterfaceView getItensView() {
+//		return itensView;
+//	}
 }

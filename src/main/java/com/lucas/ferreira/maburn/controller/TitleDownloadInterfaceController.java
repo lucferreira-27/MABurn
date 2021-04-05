@@ -4,7 +4,6 @@ package com.lucas.ferreira.maburn.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
-import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
@@ -31,11 +29,10 @@ import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
-import com.lucas.ferreira.maburn.util.MathUtil;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
-import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -59,14 +56,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleDownloadInterfaceController implements Initializable {
-	private TitleDownloadInterfaceView titleDownloadView;
 	private CollectionItem collectionItemTitle;
 	private TitleWebData webDataTitle;
 	private TitleDownload titleDownload;
 	private WebScraping scraping;
 	private FetcherOrchestrator fetcherController;
 	private SearchController searchController;
-
+	private Navigator navigator = new Navigator();
 	@FXML
 	private Button btnFetch;
 
@@ -160,19 +156,22 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<Downloader<CollectionSubItem>, String> clActionCancel;
 
-	public TitleDownloadInterfaceController(TitleDownloadInterfaceView titleView) {
-		this.titleDownloadView = titleView;
-		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
-		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
-		if (titleDownload == null) {
-			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
-		}
-		// createTitleDownload();
+	public TitleDownloadInterfaceController() {
 
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		TitleInterfaceController titleController = (TitleInterfaceController) Navigator.getMapNavigator()
+				.get(Interfaces.TITLE);
+
+		collectionItemTitle = titleController.getTitle();
+		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
+		if (titleDownload == null) {
+			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
+		}
+
 		initTable();
 
 		initLabels();
@@ -242,13 +241,13 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@FXML
 	public void onClickButtonDownload() {
 
-		if (cbSource.getValue() != collectionItemTitle.getWebScraping().getSite()) {
+		if (cbSource.getValue() != scraping.getSite()) {
 			AlertWindowView.infoAlert("SOURCE CHANGE", "The value of source was change", "Please fetch first");
 			piLoadDownload.setVisible(false);
 			return;
 		}
 
-	//	newTitleDownload();
+		// newTitleDownload();
 		DownloadQueue.getInstance().addDownload(titleDownload);
 		titleDownload.setTitleWebData(webDataTitle);
 		selectDownload();
@@ -635,8 +634,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	}
 
 	private void back() {
-		TitleInterfaceView titleInterfaceView = this.titleDownloadView.getTitleInterfaceView();
-		titleInterfaceView.loadMainInterfaceFX();
+		navigator.back();
 	}
 
 	private void selectDownload() {
@@ -688,7 +686,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void search() {
 
 		String querry = collectionItemTitle.getTitleDataBase();
-		searchController = new SearchController(collectionItemTitle);
+		searchController = new SearchController(collectionItemTitle, scraping);
 
 		searchController.searchResultProperty().addListener((obs, oldvalue, newvalue) -> {
 
@@ -761,8 +759,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	}
 
 	private void crateWebScraping() {
-		collectionItemTitle.setWebScraping(cbSource.getValue().getScraping());
-		scraping = collectionItemTitle.getWebScraping();
+		scraping = cbSource.getValue().getScraping();
 	}
 
 	private void createWebDataTitle() {

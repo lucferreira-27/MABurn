@@ -21,8 +21,6 @@ public class KitsuResponseAPI implements ServiceResponse {
 		// TODO Auto-generated constructor stub
 		try {
 			
-
-			
 			
 			responseBody = connect(url);
 

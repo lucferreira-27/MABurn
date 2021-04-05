@@ -28,7 +28,6 @@ public class MangaDownloaded implements CollectionItem {
 	private String titleDataBase;
 	private String titleFileName;
 	private String imageLocal;
-	private WebScraping webScraping;
 
 	private List<ChapterDownloaded> listChapters = new ArrayList<>();
 	private Map<String, String> titles = new LinkedHashMap<>();
@@ -206,18 +205,7 @@ public class MangaDownloaded implements CollectionItem {
 		this.mangaCollection = (MangaCollection) collections;
 	}
 
-	@Override
-	public WebScraping getWebScraping() {
-		// TODO Auto-generated method stub
-		return webScraping;
-	}
 
-	@Override
-	public void setWebScraping(WebScraping webScraping) {
-		// TODO Auto-generated method stub
-		this.webScraping = webScraping;
-
-	}
 	@Override
 	public String toString() {
 		return "MangaDownloaded [name=" + name + ", destination=" + destination + ", dataUrl=" + dataUrl
@@ -225,14 +213,20 @@ public class MangaDownloaded implements CollectionItem {
 				+ ", imageLocal=" + imageLocal + ", id=" + id + "]";
 	}
 
-
-
-
-
 	@Override
 	public ListItemForm toForm() {
 		// TODO Auto-generated method stub
-		return null;
+
+		ListItemForm form = new ListItemForm();
+		form.setCategory(getCategory());
+		form.setDestination(getDestination());
+		form.setTitleDatabase(getTitleDataBase());
+		form.setDataUrl(getDataBaseUrl());
+		form.setImageLocal(getImageLocal());
+		form.setImageUrl(getImageUrl());
+		form.setId(getId());
+
+		return form;
 	}
 
 

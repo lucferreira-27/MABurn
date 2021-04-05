@@ -24,9 +24,9 @@ public class SearchController {
 	private CollectionItem item;
 	private WebScraping scraping;
 
-	public SearchController(CollectionItem item) {
+	public SearchController(CollectionItem item, WebScraping scraping) {
 		// TODO Auto-generated constructor stub
-		this.scraping = item.getWebScraping();
+		this.scraping = scraping;
 		this.item = item;
 		
 		querryProperty.addListener((obs, oldvalue, newvalue) ->{

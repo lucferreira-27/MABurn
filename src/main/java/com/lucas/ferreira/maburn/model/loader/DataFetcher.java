@@ -46,7 +46,6 @@ public class DataFetcher extends Task<Collections> {
 	private FolderCollectionLoader folderCollectionLoader = new FolderCollectionLoader();
 	private Collections collections = null;
 	private ExecutorService executorService;
-	
 	private final BooleanProperty dataFetcherDoneProperty = new SimpleBooleanProperty(false);
 	private final BooleanProperty readDoneProperty = new SimpleBooleanProperty(false);
 	private final BooleanProperty writeDoneProperty = new SimpleBooleanProperty(false);
@@ -68,7 +67,10 @@ public class DataFetcher extends Task<Collections> {
 	}
 
 	public void fetch() throws JsonParseException, JsonMappingException, IOException {
-
+		
+		
+	
+		
 		Platform.runLater(() -> {
 			stateProperty().addListener((obs, oldvalue, newvalue) -> {
 				System.out.println("STATE: " + newvalue);

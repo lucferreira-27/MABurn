@@ -2,8 +2,6 @@ package com.lucas.ferreira.maburn.controller;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,9 +13,8 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
-import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
-import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleSearchInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,14 +22,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class TittleSearchInterfaceController implements Initializable {
-	private ItemsInterfaceView itensView;
 	private Collections collections;
-	
-	
+	private Navigator navigator = new Navigator();
+
 	@FXML
 	private ImageView imageViewTitle;
 	@FXML
@@ -49,35 +44,30 @@ public class TittleSearchInterfaceController implements Initializable {
 	@FXML
 	private Label lblAverageRating;
 
-	
-	public TittleSearchInterfaceController(TitleSearchInterfaceView titleView,
-			ItemsInterfaceView itensView) {
+	public TittleSearchInterfaceController() {
 		// TODO Auto-generated constructor stub
-		this.itensView = itensView;
-		this.collections = itensView.getController().getCollection();
+
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		loadTitleDatas();
 
 	}
+
 	@FXML
 	public void onClickButtonBack() {
-		ItemsInterfaceView itensView = this.itensView;
-		System.out.println("Back: "+collections);
-		//itensView.setCollections(collections);
-		
-		itensView.loadMainInterfaceFX();
-		
+		System.out.println("Back: " + collections);
+		navigator.back();
 	}
+
 	@FXML
 	public void onClickButtonAdd() {
-			
+
 		String dest = collections.getDestination() + "\\" + collections.getActualItem().getTitleFileName();
 		File newItem = new File(dest);
-		if(!newItem.exists()) {
+		if (!newItem.exists()) {
 			System.out.println("Mkdir: " + dest);
 			newItem.mkdir();
 		}
@@ -85,10 +75,11 @@ public class TittleSearchInterfaceController implements Initializable {
 
 	private void loadTitleDatas() {
 
+		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
+				.get(Interfaces.COLLECTION);
+		collections = collectionController.getCollection();
 		CollectionItem item = collections.getActualItem();
 
-		
-		
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(item.getImage());
 		imageViewTitle.setOnMouseClicked(event -> {
@@ -97,7 +88,6 @@ public class TittleSearchInterfaceController implements Initializable {
 
 		});
 		loadInformation(item);
-
 
 	}
 
@@ -126,11 +116,5 @@ public class TittleSearchInterfaceController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
-
-
-	
-
-
 
 }

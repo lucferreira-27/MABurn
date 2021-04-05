@@ -28,7 +28,6 @@ public class AnimeDownloaded implements CollectionItem {
 	private String imageUrl;
 	private String imageLocal;
 	private Image image;
-	private WebScraping webScraping;
 	private Map<String, String> titles = new LinkedHashMap<>();
 	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
 	private int id;
@@ -226,18 +225,18 @@ public class AnimeDownloaded implements CollectionItem {
 		this.animeCollection = (AnimeCollection) collections;
 	}
 
-	@Override
-	public WebScraping getWebScraping() {
-		// TODO Auto-generated method stub
-		return webScraping;
-	}
-
-	@Override
-	public void setWebScraping(WebScraping webScraping) {
-		// TODO Auto-generated method stub
-		this.webScraping = webScraping;
-
-	}
+//	@Override
+//	public WebScraping getWebScraping() {
+//		// TODO Auto-generated method stub
+//		return webScraping;
+//	}
+//
+//	@Override
+//	public void setWebScraping(WebScraping webScraping) {
+//		// TODO Auto-generated method stub
+//		this.webScraping = webScraping;
+//
+//	}
 
 	@Override
 	public String toString() {

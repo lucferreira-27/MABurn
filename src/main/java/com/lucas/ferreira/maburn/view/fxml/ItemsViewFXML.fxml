@@ -73,7 +73,7 @@
 
 
 			</AnchorPane>
-			<VBox fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="true" StackPane.alignment="TOP_CENTER">
+			<VBox fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="false" StackPane.alignment="TOP_CENTER">
 
 
 				<ProgressIndicator fx:id="loadGridPane" prefWidth="197.0" styleClass="ringindicator" visible="true">

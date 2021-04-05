@@ -41,8 +41,8 @@ public interface CollectionItem {
 	public Collections getCollections();
 	public void setCollections(Collections collections);
 	public List<CollectionSubItem> getListSubItens();
-	public WebScraping getWebScraping();
-	public void setWebScraping(WebScraping webScraping);
+//	public WebScraping getWebScraping();
+//	public void setWebScraping(WebScraping webScraping);
 	public ListItemForm toForm();
 
 
