@@ -31,6 +31,7 @@ import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
+import com.lucas.ferreira.maburn.view.AlertWindowView;
 
 public class GoyabuScraping extends WebScraping {
 	private Scraper scraper = new Scraper();
@@ -60,6 +61,7 @@ public class GoyabuScraping extends WebScraping {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			AlertWindowView.exceptionAlert(e);
 			return null;
 		}
 		// titleWebData.setFetched(true);

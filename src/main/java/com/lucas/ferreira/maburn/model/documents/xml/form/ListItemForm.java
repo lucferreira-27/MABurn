@@ -26,7 +26,7 @@ public class ListItemForm extends ItemForm {
 	private List<SiteForm> sitesSearched = new ArrayList<SiteForm>();
 	private List<String> scrapingLinks = new ArrayList<String>();
 	private List<String> updateScrapingLinks = new ArrayList<String>();
-	private String curretScrapingLink;
+	private SiteForm curretScrapingLink;
 
 	public Category getCategory() {
 		return category;
@@ -132,11 +132,11 @@ public class ListItemForm extends ItemForm {
 		this.updateScrapingLinks = updateScrapingLinks;
 	}
 
-	public String getCurretScrapingLink() {
+	public SiteForm getCurretScrapingLink() {
 		return curretScrapingLink;
 	}
 
-	public void setCurretScrapingLink(String curretScrapingLink) {
+	public void setCurretScrapingLink(SiteForm curretScrapingLink) {
 		this.curretScrapingLink = curretScrapingLink;
 	}
 

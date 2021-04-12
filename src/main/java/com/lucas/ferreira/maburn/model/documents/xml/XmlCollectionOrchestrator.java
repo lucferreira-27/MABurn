@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.SiteForm;
 
 public class XmlCollectionOrchestrator {
 
@@ -61,7 +62,7 @@ public class XmlCollectionOrchestrator {
 				updater.updateItemFormByIdImageUrl(collectionForm, id, (String) value[0], FILE);
 				break;
 			case CURRENT_SCRAPING_LINK:
-				updater.updateItemFormByIdCurretScrapingLink(collectionForm, id, (String) value[0], FILE);
+				updater.updateItemFormByIdCurretScrapingLink(collectionForm, id, (SiteForm) value[0], FILE);
 
 				break;
 			default:

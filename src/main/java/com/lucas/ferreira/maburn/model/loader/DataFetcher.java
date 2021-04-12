@@ -27,6 +27,7 @@ import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.loader.folder.FolderCollectionLoader;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.FutureList;
+import com.lucas.ferreira.maburn.util.LanguageReader;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -56,21 +57,17 @@ public class DataFetcher extends Task<Collections> {
 	private final StringProperty lblLoadFolderCollectionRead = new SimpleStringProperty();
 	private final StringProperty lblLoadFolderItemRead = new SimpleStringProperty();
 	private final StringProperty lblLoadDataBase = new SimpleStringProperty();
-	
+
 	private final StringProperty lblLoadDownlaodImage = new SimpleStringProperty();
 	private ConfigForm config;
 	private CollectionForm form;
 
 	public DataFetcher(Category category) {
-		// TODO Auto-generated constructor stub
 		this.category = category;
 	}
 
 	public void fetch() throws JsonParseException, JsonMappingException, IOException {
-		
-		
-	
-		
+
 		Platform.runLater(() -> {
 			stateProperty().addListener((obs, oldvalue, newvalue) -> {
 				System.out.println("STATE: " + newvalue);
@@ -83,7 +80,7 @@ public class DataFetcher extends Task<Collections> {
 			collections = new AnimeCollection();
 			collections.setDestination(config.getAnimeConfig().getCollectionDestination());
 
-			updateLblLoadFolderCollectionRead("READ FOLDER: " + config.getAnimeConfig().getCollectionDestination());
+			updateLblLoadFolderCollectionRead(config.getAnimeConfig().getCollectionDestination());
 
 			collections = folderCollectionLoader.loadCollection(config.getAnimeConfig().getCollectionDestination(),
 					category);
@@ -92,7 +89,7 @@ public class DataFetcher extends Task<Collections> {
 			collections = new MangaCollection();
 			collections.setDestination(config.getMangaConfig().getCollectionDestination());
 
-			updateLblLoadFolderCollectionRead("READ FOLDER: " + config.getMangaConfig().getCollectionDestination());
+			updateLblLoadFolderCollectionRead(config.getMangaConfig().getCollectionDestination());
 
 			collections = folderCollectionLoader.loadCollection(config.getMangaConfig().getCollectionDestination(),
 					category);
@@ -132,14 +129,13 @@ public class DataFetcher extends Task<Collections> {
 
 	private void synchronizedDates(Category category, CollectionForm form, List<CollectionItem> newCollectionItems) {
 		List<Future<?>> fuList = new ArrayList<Future<?>>();
- 
+
 		KitsuDatabase database = new KitsuDatabase();
 		Vector<ListItemForm> newItemForms = new Vector<ListItemForm>();
 
 		readCountProperty.addListener((obs, oldvalue, newvalue) -> {
-			System.out.println("[READ PROGRESS] = " + newvalue);
-			updateMessage("[READ PROGRESS] = " + newvalue + "/" + goalProgressProperty.get());
-			updateLblLoadFolderItemRead("[READ PROGRESS] = " + newvalue + "/" + goalProgressProperty.get());
+			updateMessage(newvalue + "/" + goalProgressProperty.get());
+			updateLblLoadFolderItemRead(newvalue + "/" + goalProgressProperty.get());
 			readProgressProperty.set((double) newvalue.intValue() / goalProgressProperty.get());
 		});
 
@@ -147,8 +143,7 @@ public class DataFetcher extends Task<Collections> {
 			System.out.println(newCollectionItem.getName());
 			Thread fetch = new Thread(() -> {
 
-				updateMessage("[DATABASE READ] = " + newCollectionItem.getName());
-				updateLblLoadDataBase("[DATABASE READ] = " + newCollectionItem.getName());
+				updateLblLoadDataBase(newCollectionItem.getName());
 
 				CollectDatas datas = database.read(newCollectionItem.getName(), category);
 				ListItemForm itemForm = collectDatasToItemForm(category, datas);
@@ -232,33 +227,44 @@ public class DataFetcher extends Task<Collections> {
 	public IntegerProperty getReadCountProperty() {
 		return readCountProperty;
 	}
+
 	public DoubleProperty getReadProgressProperty() {
 		return readProgressProperty;
 	}
+
 	public IntegerProperty getGoalProgressProperty() {
 		return goalProgressProperty;
 	}
 
 	private void updateLblLoadFolderCollectionRead(String value) {
 		Platform.runLater(() -> {
-			lblLoadFolderCollectionRead.set(value);
+			String lbl = LanguageReader.read("LABEL_PATH");
+			lbl = lbl.replace("${value}", value);
+			lblLoadFolderCollectionRead.set(lbl);
 		});
 	}
 
 	private void updateLblLoadDataBase(String value) {
 		Platform.runLater(() -> {
-			lblLoadDataBase.set(value);
+			String lbl = LanguageReader.read("LABEL_FETCH");
+			lbl = lbl.replace("${value}", value);
+			lblLoadDataBase.set(lbl);
 		});
 	}
 
 	private void updateLblLoadFolderItemRead(String value) {
 		Platform.runLater(() -> {
-			lblLoadFolderItemRead.set(value);
+			String lbl = LanguageReader.read("LABEL_READ_ITEM");
+			lbl = lbl.replace("${value}", value);
+			lblLoadFolderItemRead.set(lbl);
 		});
 	}
 
 	private void updateLblLoadDownlaodImage(String value) {
 		Platform.runLater(() -> {
+			String lbl = LanguageReader.read("LABEL_PATH");
+			lbl = lbl.replaceAll("${value}", value);
+			lblLoadFolderCollectionRead.set(lbl);
 			lblLoadDownlaodImage.set(value);
 		});
 	}
@@ -300,11 +306,11 @@ public class DataFetcher extends Task<Collections> {
 			CollectionForm form = orchestratorCollection.read();
 
 			List<CollectionItem> list;
-			
+
 			list = filterCategoryItems(category, form);
 			list = filterCollectionPath(collections.getDestination(), form);
 			collections.setItens(list);
-			
+
 			dataFetcherDoneProperty.set(true);
 			return collections;
 

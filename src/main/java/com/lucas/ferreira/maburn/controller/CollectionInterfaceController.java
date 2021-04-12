@@ -30,6 +30,7 @@ import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
+import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -45,14 +46,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class CollectionInterfaceController implements Initializable {
 
@@ -69,7 +69,7 @@ public class CollectionInterfaceController implements Initializable {
 	private AnchorPane collectionAnchorPane;
 
 	@FXML
-	private VBox vboxLoadArea;
+	private AnchorPane vboxLoadArea;
 	@FXML
 	private GridPane searchItemGridPane;
 
@@ -81,12 +81,18 @@ public class CollectionInterfaceController implements Initializable {
 
 	@FXML
 	private Label lblLoadDataBase;
+
 	@FXML
 	private Label lblLoadFolderCollectionRead;
+
 	@FXML
 	private Label lblLoadFolderItemRead;
+
 	@FXML
-	private Label lblLoadDownlaodImage;
+	private Label lblPorcentage;
+
+//	@FXML
+//	private Label lblLoadDownlaodImage;
 
 	@FXML
 	private Button btnSearch;
@@ -98,7 +104,10 @@ public class CollectionInterfaceController implements Initializable {
 	private Label lblCollectionName;
 
 	@FXML
-	private ProgressIndicator loadGridPane;
+	private Label lblPath;
+
+	@FXML
+	private ImageView loadImageLoadArea;
 	@FXML
 	private ProgressBar pbReadProgress;
 
@@ -121,7 +130,8 @@ public class CollectionInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CollectionCheck collectionCheck = new CollectionCheck();
-
+		Image imgReadFolder = new Image(Resources.getResourceAsStream("icons/load_collection_icon.png"));
+		loadImageLoadArea.setImage(imgReadFolder);
 		homeController = (HomeInterfaceController) Navigator.getMapNavigator().get(Interfaces.HOME);
 		Category category = homeController.getCategory();
 		collectionGridPane = new CollectionGridPane(category, itensImagesScroll);
@@ -160,8 +170,13 @@ public class CollectionInterfaceController implements Initializable {
 			txtSearchBar.setPromptText("Type here ...");
 		});
 		lblLoadDataBase.textProperty().bind(collectionLoader.getLblLoadDataBase());
-		lblLoadFolderCollectionRead.textProperty().bind(collectionLoader.getLblLoadFolderCollectionRead());
+		// lblLoadFolderCollectionRead.textProperty().bind(collectionLoader.getLblLoadFolderCollectionRead());
+		lblPath.textProperty().bind(collectionLoader.getLblLoadFolderCollectionRead());
+		pbReadProgress.progressProperty().addListener((obs, oldvalue, newvalue) -> {
+			lblPorcentage.setText(String.valueOf(newvalue.doubleValue()));
+		});
 		lblLoadFolderItemRead.textProperty().bind(collectionLoader.getLblLoadFolderItemRead());
+
 		collectionLoader.getReadProgressProperty().addListener((obs, oldvalue, newvalue) -> {
 			System.out.println("N: " + newvalue.doubleValue());
 		});
@@ -194,16 +209,16 @@ public class CollectionInterfaceController implements Initializable {
 	private void showLoadArea() {
 		vboxLoadArea.setVisible(true);
 		lblLoadDataBase.setVisible(true);
-		loadGridPane.setVisible(true);
+		loadImageLoadArea.setVisible(true);
 	}
 
 	private void hideLoadArea() {
 		Platform.runLater(() -> {
 			vboxLoadArea.setVisible(false);
 			lblLoadDataBase.setVisible(false);
-			lblLoadFolderCollectionRead.setVisible(false);
+			// lblLoadFolderCollectionRead.setVisible(false);
 			lblLoadFolderItemRead.setVisible(false);
-			loadGridPane.setVisible(false);
+			loadImageLoadArea.setVisible(false);
 			txtSearchBar.setEditable(true);
 
 		});
@@ -376,7 +391,10 @@ public class CollectionInterfaceController implements Initializable {
 		DataFetcher data = new DataFetcher(collection.getCategory());
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(data);
-		bindCollectionLoaderProperties();
+
+		new Thread(() -> {
+			bindCollectionLoaderProperties();
+		}).start();
 
 	}
 
@@ -384,7 +402,7 @@ public class CollectionInterfaceController implements Initializable {
 		// TODO Auto-generated method stub
 		List<CollectionItem> items = new ArrayList<CollectionItem>();
 		new Thread(() -> {
-			loadGridPane.setVisible(true);
+			loadImageLoadArea.setVisible(true);
 			System.out.println("Search " + querry);
 			Database database = new KitsuDatabase();
 			database.readAll(querry, collection.getCategory()).forEach(data -> {
@@ -438,7 +456,7 @@ public class CollectionInterfaceController implements Initializable {
 				reloadTable(searchTable);
 
 				txtSearchBar.clear();
-				loadGridPane.setVisible(false);
+				loadImageLoadArea.setVisible(false);
 			});
 
 		}).start();
@@ -507,7 +525,7 @@ public class CollectionInterfaceController implements Initializable {
 
 		itensImagesScroll.setLayoutY(10);
 		itensImagesScroll.setLayoutX(200);
-		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 150);
+		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 200);
 		itensImagesScroll.setPannable(false);
 
 		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {

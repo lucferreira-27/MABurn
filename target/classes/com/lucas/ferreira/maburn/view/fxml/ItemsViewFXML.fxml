@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -73,46 +75,23 @@
 
 
 			</AnchorPane>
-			<VBox fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="false" StackPane.alignment="TOP_CENTER">
+			<AnchorPane fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="false" StackPane.alignment="TOP_CENTER">
 
+				<ImageView fx:id="loadImageLoadArea" fitHeight="82.69" fitWidth="87.03" layoutX="253.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
 
-				<ProgressIndicator fx:id="loadGridPane" prefWidth="197.0" styleClass="ringindicator" visible="true">
-					<VBox.margin>
-						<Insets left="275.0" top="70.0" />
-					</VBox.margin>
-				</ProgressIndicator>
-				<ProgressBar fx:id="pbReadProgress"  prefWidth="593.0" visible="true">
+				</ImageView>
+				<ProgressBar fx:id="pbReadProgress" layoutX="129.0" layoutY="113.0" prefHeight="18.0" prefWidth="334.0" visible="true" />
+			<!--		<Label fx:id="lblLoadFolderCollectionRead" layoutX="130.0" layoutY="137.0" text="folderRead" visible="true" /> -->
+				<Label fx:id="lblLoadDataBase" layoutX="132.0" layoutY="168.0" prefHeight="17.0" prefWidth="334.0" text="database" visible="true" />
+			<Label fx:id="lblLoadFolderItemRead" layoutX="129.0" layoutY="194.0" text="itemRead" visible="true" /> 
+				<Label fx:id="lblPorcentage" layoutX="472.0" layoutY="114.0" text="0" />
+				<Label fx:id="lblPathReferer" layoutX="129.0" layoutY="94.0" text="Path:  " />
+				<Label fx:id="lblPath" layoutX="161.0" layoutY="95.0" text="Path here" />
 
-
-				</ProgressBar>
-				<Label fx:id="lblLoadFolderCollectionRead" visible="true">
-					<VBox.margin>
-						<Insets left="200.0" />
-					</VBox.margin>
-
-				</Label>
-				<Label fx:id="lblLoadDataBase" prefWidth="0.0" visible="true">
-					<VBox.margin>
-						<Insets left="200.0" />
-					</VBox.margin>
-
-				</Label>
-				<Label fx:id="lblLoadFolderItemRead" visible="true">
-					<VBox.margin>
-						<Insets left="200.0" />
-					</VBox.margin>
-
-				</Label>
-				<Label fx:id="lblLoadDownlaodImage" visible="true">
-					<VBox.margin>
-						<Insets left="2.0" />
-					</VBox.margin>
-
-				</Label>
 				<StackPane.margin>
 					<Insets top="50.0" />
 				</StackPane.margin>
-			</VBox>
+			</AnchorPane>
 		</StackPane>
 
 	</children>

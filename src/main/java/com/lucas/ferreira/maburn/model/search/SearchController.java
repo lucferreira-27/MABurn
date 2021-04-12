@@ -85,7 +85,7 @@ public class SearchController {
 		return searchResult;
 	}
 
-	public BooleanProperty searchFailedtProperty() {
+	public BooleanProperty searchFailedProperty() {
 		return searchFailed;
 	}
 

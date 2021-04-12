@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.SiteForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 
 public class Updater {
@@ -58,7 +59,7 @@ public class Updater {
 
 	}
 
-	public void updateItemFormByIdCurretScrapingLink(CollectionForm collectionForm, Integer id, String value, File file)
+	public void updateItemFormByIdCurretScrapingLink(CollectionForm collectionForm, Integer id, SiteForm value, File file)
 			throws JsonProcessingException {
 
 		ListItemForm itemForm = getById(collectionForm, id);

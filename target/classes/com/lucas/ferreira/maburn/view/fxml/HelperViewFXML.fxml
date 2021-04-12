@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<fx:root type="javafx.scene.layout.VBox"
-	xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1">
+<fx:root spacing="30.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
-	<VBox fx:id ="vBoxConfiguration" alignment="TOP_CENTER" spacing= "15">
-		<Label fx:id="lblConfiguration" text="Configuration"></Label>
+	<VBox fx:id="vBoxConfiguration" alignment="TOP_CENTER" spacing="15">
+      <HBox>
+         <children>
+      		<Label fx:id="lblConfiguration" text="Configuration" />
+         </children>
+      </HBox>
 
 		<HBox fx:id="hBoxAnimeColletion" alignment="CENTER" spacing="10">
-			<Button fx:id="btnAnimeCollection" text="Anime Collection Path" onAction="#onClickAnimeCollectionPath"></Button>
-			<TextField styleClass="path" fx:id="txtPathAnimeCollection" promptText="Undefined"></TextField>
+			<Button fx:id="btnAnimeCollection" onAction="#onClickAnimeCollectionPath" text="Anime Collection Path" />
+			<TextField fx:id="txtPathAnimeCollection" promptText="Undefined" styleClass="path" />
 		</HBox>
 
 		<HBox fx:id="hBoxMangaColletion" alignment="CENTER" spacing="10">
-			<Button fx:id="btnMangaCollection" text="Manga Collection Path" onAction="#onClickMangaCollectionPath"></Button>
-			<TextField styleClass="path" fx:id="txtPathMangaCollection" promptText="Undefined"></TextField>
+			<Button fx:id="btnMangaCollection" onAction="#onClickMangaCollectionPath" text="Manga Collection Path" />
+			<TextField fx:id="txtPathMangaCollection" promptText="Undefined" styleClass="path" />
 		</HBox>
 
 
 	</VBox>
+   <VBox fx:id="vBoxConfiguration1" alignment="TOP_CENTER" spacing="15" visible="false">
+      <children>
+         <HBox>
+            <children>
+               <Label fx:id="lblConfiguration1" text="Sites" />
+            </children>
+         </HBox>
+         <HBox fx:id="hBoxAnimeColletion1" alignment="CENTER" spacing="10">
+            <children>
+               <Button fx:id="btnAnimeCollection1" onAction="#onClickAnimeCollectionPath" text="Anime Collection Path" />
+               <TextField fx:id="txtPathAnimeCollection1" promptText="Undefined" styleClass="path" />
+            </children>
+         </HBox>
+         <HBox fx:id="hBoxMangaColletion1" alignment="CENTER" spacing="10">
+            <children>
+               <Button fx:id="btnMangaCollection1" onAction="#onClickMangaCollectionPath" text="Manga Collection Path" />
+               <TextField fx:id="txtPathMangaCollection1" promptText="Undefined" styleClass="path" />
+            </children>
+         </HBox>
+      </children>
+   </VBox>
 
 
 </fx:root>
