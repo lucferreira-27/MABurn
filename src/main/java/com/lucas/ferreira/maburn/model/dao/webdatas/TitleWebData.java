@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.bean.webdatas;
+package com.lucas.ferreira.maburn.model.dao.webdatas;
 
 import java.util.List;
 

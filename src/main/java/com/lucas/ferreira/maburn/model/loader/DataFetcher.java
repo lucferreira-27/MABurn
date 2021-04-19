@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
@@ -70,7 +70,7 @@ public class DataFetcher extends Task<Collections> {
 
 		Platform.runLater(() -> {
 			stateProperty().addListener((obs, oldvalue, newvalue) -> {
-				System.out.println("STATE: " + newvalue);
+				System.out.println("STATE: " + newvalue + " " +collections.getItens().size());
 			});
 		});
 		config = orchestratorConfiguration.read();
@@ -158,8 +158,9 @@ public class DataFetcher extends Task<Collections> {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				readCountProperty.set(readCountProperty.add(1).get());
+				
+				Platform.runLater(() -> readCountProperty.set(readCountProperty.add(1).get()));
+				
 				newItemForms.add(itemForm);
 			});
 

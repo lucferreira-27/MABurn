@@ -23,7 +23,7 @@ public class ImagePanel extends JPanel {
 		setOpaque(false);
 		setLayout(new GridBagLayout());
 		try {
-			InputStream in = Resources.getResourceAsStream("icons/icon.png");
+			InputStream in = Resources.getResourceAsStream("template/frame.png");
 			img = ImageIO.read(in);
 		} catch (IOException ex) {
 			Logger.getLogger(CircleScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -39,6 +39,6 @@ public class ImagePanel extends JPanel {
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(64, 62);
+		return new Dimension(546, 230);
 	}
 }

@@ -4,13 +4,14 @@ import java.io.File;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
+import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,6 +19,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class FolderCollectionLoader {
 
 	private BooleanProperty loadCompleted = new SimpleBooleanProperty(false);
+	private FolderCollectionItemLoader itemLoader = new FolderCollectionItemLoader();
 	public Collections loadCollection(String destination, Category category) {
 		FolderReaderModel reader = new FolderReaderModel();
 		loadCompleted.set(false);
@@ -49,7 +51,6 @@ public class FolderCollectionLoader {
 
 		collection = new AnimeCollection(destination);
 		files = reader.findAnimeFoldersInAnimeCollectionFolder((AnimeCollection) collection);
-
 		addItemInCollection(collection, files, Category.ANIME);
 		return collection;
 
@@ -60,13 +61,19 @@ public class FolderCollectionLoader {
 
 			CollectionItem item = null;
 			
-			if (category == Category.ANIME)
+			if (category == Category.ANIME) {
 				item = new AnimeDownloaded();
-			if (category == Category.MANGA) {
+				item = itemLoader.loadCollectionItems(file.getAbsolutePath(), category);
+
+			}if (category == Category.MANGA) {
 				item = new MangaDownloaded();
+				item = itemLoader.loadCollectionItems(file.getAbsolutePath(), category);
+
 			}
 			
 			item.setDestination(file.getAbsolutePath());
+			
+			
 			
 			collection.getItens().add(item);
 		}

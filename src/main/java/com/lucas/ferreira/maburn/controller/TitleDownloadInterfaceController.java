@@ -13,10 +13,10 @@ import java.util.ResourceBundle;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
 import com.lucas.ferreira.maburn.model.TableConfig;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
@@ -83,7 +83,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private Button btnNewFetch;
 
 	@FXML
-	private ComboBox<Sites> cbSource;
+	private ComboBox<String> cbSource;
 
 	@FXML
 	private ComboBox<String> cbSelect;
@@ -194,6 +194,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 		}
 
+		btnNewFetch.setDisable(true);
 		loadCbSelect();
 		loadCbSource();
 
@@ -270,6 +271,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 		}).start();
 	}
 
+	// Recover Fetch
 	@FXML
 	public void onClickButtonNewFetch() {
 		newFetch();
@@ -278,7 +280,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@FXML
 	public void onClickButtonDownload() {
 
-		if (cbSource.getValue() != scraping.getSite()) {
+		if (getCbSourceValue() != scraping.getSite()) {
 			AlertWindowView.infoAlert("SOURCE CHANGE", "The value of source was change", "Please fetch first");
 			piLoadDownload.setVisible(false);
 			return;
@@ -344,21 +346,35 @@ public class TitleDownloadInterfaceController implements Initializable {
 		lblItemsDownloaded.setText("Downlaoded: 0");
 		lblItemsFailed.setText("Failed: 0");
 		lblItemsTotal.setText("Total: 0");
+		lblSearchResult.setWrapText(true);
 	}
 
 	private void loadCbSource() {
 		try {
 			CustomLogger.log("Source loadCbSource");
-			List<Sites> sitesOptions = new ArrayList<Sites>();
+			List<String> sitesOptions = new ArrayList<String>();
 
 			for (Sites site : Sites.values()) {
 				if (site.getCategory() == collectionItemTitle.getCategory()) {
-					sitesOptions.add(site);
+					sitesOptions.add(site.toString());
 
 				}
 			}
 
-			ObservableList<Sites> options = FXCollections.observableArrayList(sitesOptions);
+			cbSource.valueProperty().addListener((obs, oldvalue, newvalue) -> {
+				Object value = cbSource.getValue();
+				try {
+					if (!value.toString().equals("Source")) {
+						btnNewFetch.setDisable(false);
+					}
+				} catch (ClassCastException e) {
+					// TODO: handle exception
+					btnNewFetch.setDisable(false);
+				}
+
+			});
+
+			ObservableList<String> options = FXCollections.observableArrayList(sitesOptions);
 
 			cbSource.getItems().addAll(options);
 		} catch (Exception e) {
@@ -507,6 +523,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 			lblSearchResult.setVisible(true);
 			btnReplaceLink.setVisible(true);
 			btnNewFetch.setVisible(true);
+			btnNewFetch.setDisable(false);
 		});
 		collectionItemTitle.setLink(result);
 	}
@@ -521,6 +538,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 			if (webDataTitle.isFetched()) {
 				loadCbItems();
 				saveFetchLink(scraping.getSite(), result);
+				btnReplaceLink.setDisable(false);
 				enableTitleDownloadControlers();
 
 			} else
@@ -548,7 +566,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 			siteForm.setSiteName(site);
 
 			itemForm.setCurretScrapingLink(siteForm);
-			Platform.runLater(() -> cbSource.setValue(site));
+			Platform.runLater(() -> cbSource.setValue(site.toString()));
 
 			orchestrator.write(form);
 			showItemDetails(link);
@@ -575,7 +593,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	private void createFetch() {
 		createTitleDownload();
-		crateWebScraping();
+		createWebScraping();
 		createWebDataTitle();
 	}
 
@@ -584,8 +602,18 @@ public class TitleDownloadInterfaceController implements Initializable {
 		createWebDataTitle();
 	}
 
-	private void crateWebScraping() {
-		scraping = cbSource.getValue().getScraping();
+	private void createWebScraping() {
+		scraping = getCbSourceValue().getScraping();
+
+	}
+
+	private Sites getCbSourceValue() {
+		for (Sites site : Sites.values()) {
+			if (site.toString() == cbSource.getValue()) {
+				return site;
+			}
+		}
+		return null;
 	}
 
 	private void recoverWebScraping(SiteForm siteForm) {

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.function.IntConsumer;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;

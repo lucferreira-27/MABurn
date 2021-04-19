@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.bean.downloaded;
+package com.lucas.ferreira.maburn.model.dao.downloaded;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,6 +28,8 @@ public class AnimeDownloaded implements CollectionItem {
 	private String imageUrl;
 	private String imageLocal;
 	private Image image;
+	private Double score;
+	private String date;
 	private Map<String, String> titles = new LinkedHashMap<>();
 	private List<EpisodeDownloaded> listEpisodes = new ArrayList<>();
 	private int id;
@@ -224,7 +226,29 @@ public class AnimeDownloaded implements CollectionItem {
 		// TODO Auto-generated method stub
 		this.animeCollection = (AnimeCollection) collections;
 	}
+	@Override
+	public Double getScore() {
+		// TODO Auto-generated method stub
+		return score;
+	}
 
+	@Override
+	public void setScore(Double score) {
+		// TODO Auto-generated method stub
+		this.score = score;
+	}
+
+	@Override
+	public String getDate() {
+		// TODO Auto-generated method stub
+		return date;
+	}
+
+	@Override
+	public void setDate(String date) {
+		// TODO Auto-generated method stub
+		this.date = date;
+	}
 //	@Override
 //	public WebScraping getWebScraping() {
 //		// TODO Auto-generated method stub
@@ -273,5 +297,7 @@ public class AnimeDownloaded implements CollectionItem {
 
 		return form;
 	}
+
+
 
 }

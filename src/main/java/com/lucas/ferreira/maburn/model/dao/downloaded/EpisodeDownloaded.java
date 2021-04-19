@@ -1,6 +1,6 @@
-package com.lucas.ferreira.maburn.model.bean.downloaded;
+package com.lucas.ferreira.maburn.model.dao.downloaded;
 
-import com.lucas.ferreira.maburn.model.bean.GenericItem;
+import com.lucas.ferreira.maburn.model.dao.GenericItem;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 

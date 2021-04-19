@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.bean.webdatas;
+package com.lucas.ferreira.maburn.model.dao.webdatas;
 
 import java.io.File;
 import java.util.Arrays;
@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.dao.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.download.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;

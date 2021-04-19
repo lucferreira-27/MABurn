@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.bean;
+package com.lucas.ferreira.maburn.model.dao;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

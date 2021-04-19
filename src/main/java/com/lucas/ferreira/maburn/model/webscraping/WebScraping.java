@@ -3,8 +3,8 @@ package com.lucas.ferreira.maburn.model.webscraping;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.BingSearch;
 import com.lucas.ferreira.maburn.model.search.GoogleSearch;

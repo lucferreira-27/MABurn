@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.service.response.KitsuResponseAPI;
 import com.lucas.ferreira.maburn.util.CustomLogger;

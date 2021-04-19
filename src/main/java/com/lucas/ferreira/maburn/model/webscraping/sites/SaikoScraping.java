@@ -12,11 +12,11 @@ import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
+import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.ScrapeEngine;

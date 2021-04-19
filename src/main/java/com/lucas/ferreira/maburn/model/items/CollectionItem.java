@@ -43,6 +43,11 @@ public interface CollectionItem {
 	public List<CollectionSubItem> getListSubItens();
 //	public WebScraping getWebScraping();
 //	public void setWebScraping(WebScraping webScraping);
+	public Double getScore();
+	public void setScore(Double score);
+	public String getDate();
+	public void setDate(String date);
+	
 	public ListItemForm toForm();
 
 

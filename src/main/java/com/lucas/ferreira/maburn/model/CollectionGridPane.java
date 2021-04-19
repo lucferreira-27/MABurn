@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.effects.Card;
+import com.lucas.ferreira.maburn.model.effects.NormalCard;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
@@ -74,7 +75,7 @@ public class CollectionGridPane {
 
 		GridPaneCell cell = thumbnailLoader.downloadLoad();
 		if (cell != null) {
-			Card card = new Card(cell);
+			Card card = new NormalCard(cell);
 			table.add(cell);
 			Platform.runLater(() -> card.overlay());
 		}

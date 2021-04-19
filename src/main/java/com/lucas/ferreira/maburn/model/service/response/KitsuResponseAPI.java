@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 

@@ -113,18 +113,6 @@ public class MainInterfaceView {
 		ImagePanel imageContent = new ImagePanel();
 		loadFrame.getContentPane().add(imageContent);
 
-		String path = "";
-		try {
-			path = resources.getResourceAsString("icons/icon.png");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		java.awt.Image icon = Toolkit.getDefaultToolkit().getImage(path);
 
 		loadFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loadFrame.setUndecorated(true);
@@ -132,7 +120,6 @@ public class MainInterfaceView {
 		loadFrame.setLocationRelativeTo(null);
 		loadFrame.setBackground(new Color(0, 0, 0, 0));
 		loadFrame.setVisible(true);
-		loadFrame.setIconImage(icon);
 
 	}
 

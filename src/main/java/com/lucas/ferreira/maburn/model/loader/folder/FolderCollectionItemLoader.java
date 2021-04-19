@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.ChapterDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.ChapterDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.EpisodeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;

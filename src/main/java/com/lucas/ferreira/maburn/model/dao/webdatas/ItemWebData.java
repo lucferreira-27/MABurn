@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.bean.webdatas;
+package com.lucas.ferreira.maburn.model.dao.webdatas;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;

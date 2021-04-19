@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.bean.downloaded;
+package com.lucas.ferreira.maburn.model.dao.downloaded;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,7 +28,8 @@ public class MangaDownloaded implements CollectionItem {
 	private String titleDataBase;
 	private String titleFileName;
 	private String imageLocal;
-
+	private Double score;
+	private String date;
 	private List<ChapterDownloaded> listChapters = new ArrayList<>();
 	private Map<String, String> titles = new LinkedHashMap<>();
 	
@@ -55,7 +56,7 @@ public class MangaDownloaded implements CollectionItem {
 	public String getName() {
 		// TODO Auto-generated method stub
 		if (name == null && (destination != null && !destination.isEmpty()))
-			name = destination.substring(destination.lastIndexOf("\\"));
+			name = destination.substring(destination.lastIndexOf("\\")  + 1);
 		return name;
 	}
 
@@ -204,7 +205,29 @@ public class MangaDownloaded implements CollectionItem {
 		// TODO Auto-generated method stub
 		this.mangaCollection = (MangaCollection) collections;
 	}
+	@Override
+	public Double getScore() {
+		// TODO Auto-generated method stub
+		return score;
+	}
 
+	@Override
+	public void setScore(Double score) {
+		// TODO Auto-generated method stub
+		this.score = score;
+	}
+
+	@Override
+	public String getDate() {
+		// TODO Auto-generated method stub
+		return date;
+	}
+
+	@Override
+	public void setDate(String date) {
+		// TODO Auto-generated method stub
+		this.date = date;
+	}
 
 	@Override
 	public String toString() {

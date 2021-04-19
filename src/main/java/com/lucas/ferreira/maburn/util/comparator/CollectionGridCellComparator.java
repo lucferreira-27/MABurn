@@ -12,8 +12,6 @@ public class CollectionGridCellComparator implements Comparator<GridPaneCell> {
 		CollectionNodeComparator comparator = new CollectionNodeComparator();
 		int result = comparator.compare(o1.getNode(), o2.getNode());
 
-
-
 		return result;
 	}
 

@@ -2,9 +2,9 @@ package com.lucas.ferreira.maburn.model.items;
 
 import java.io.IOException;
 
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ThumbnailController;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
@@ -65,7 +65,9 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 		anime.setImageUrl(collectDatas.getPosterImageLink("medium"));
 		anime.setId(collectDatas.getId());
 		anime.setAnimeCollection(collection);
-
+		anime.setScore(collectDatas.getAvaregeRating());
+		anime.setDate(collectDatas.getPublishedDate());
+		
 		return anime;
 	}
 

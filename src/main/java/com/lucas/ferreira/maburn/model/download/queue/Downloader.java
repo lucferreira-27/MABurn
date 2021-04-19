@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.DirectoryModel;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;

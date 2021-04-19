@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.model.download;
 
 import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;

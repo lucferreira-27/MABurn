@@ -3,10 +3,10 @@ package com.lucas.ferreira.maburn.model.documents.xml.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.EpisodeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
+import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.EpisodeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 

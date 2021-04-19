@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.model.items;
 
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 
 public interface ItemCreater<T> {
 

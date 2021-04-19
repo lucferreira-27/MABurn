@@ -22,36 +22,36 @@
 		<Button fx:id="btnBack" layoutX="200.0" layoutY="0.0" onAction="#onClickButtonBack" text="Back" />
 
 
-		<ImageView fx:id="imageViewTitle" disable="false" fitHeight="325.0" fitWidth="321.0" pickOnBounds="true" preserveRatio="true" styleClass="image-title" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="123" />
+		<ImageView fx:id="imageViewTitle" disable="false" fitHeight="325.0" fitWidth="321.0" layoutX="200.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true" styleClass="image-title" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="112.0" />
 
 
 		
-			<AnchorPane layoutX="534.0" layoutY="110.0" prefHeight="308.0" prefWidth="830.0" styleClass="fetchPanel" AnchorPane.leftAnchor="534.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="110.0">
+			<AnchorPane layoutX="534.0" layoutY="110.0" prefHeight="328.0" prefWidth="887.0" styleClass="fetchPanel" AnchorPane.leftAnchor="534.0" AnchorPane.rightAnchor="183.0" AnchorPane.topAnchor="110.0">
 
-				<ProgressBar fx:id="pbTotalProgress" layoutX="30.0" layoutY="226.0" prefHeight="22" prefWidth="768.0" progress="-1" visible="true" />
+				<ProgressBar fx:id="pbTotalProgress" layoutX="30.0" layoutY="226.0" prefHeight="22" prefWidth="817.0" progress="-1" visible="true" />
 
 
 
-				<Button fx:id="btnFetch" layoutX="36.0" layoutY="20.0" onAction="#onClickButtonFetch" prefHeight="33.0" prefWidth="133.0" text="Fetch" />
-				<ComboBox fx:id="cbSelect" disable="true" layoutX="36.0" layoutY="75.0" prefHeight="33.0" prefWidth="131.0" />
-				<ComboBox fx:id="cbSource" layoutX="221.0" layoutY="20.0" prefHeight="33.0" prefWidth="110.0" value="Source" />
-				<ComboBox fx:id="cbItens" disable="true" layoutX="221.0" layoutY="75.0" maxWidth="160" prefHeight="33.0" prefWidth="110.0" value="Items" />
+				<Button fx:id="btnFetch" layoutX="44.0" layoutY="60.0" onAction="#onClickButtonFetch" prefHeight="33.0" prefWidth="146.0" text="Retrieve" />
+				<ComboBox fx:id="cbSelect" disable="true" layoutX="43.0" layoutY="114.0" prefHeight="33.0" prefWidth="131.0" />
+				<ComboBox fx:id="cbSource" layoutX="43.0" layoutY="21.0" prefHeight="33.0" prefWidth="296.0" value="Source" />
+				<ComboBox fx:id="cbItens" disable="true" layoutX="196.0" layoutY="114.0" maxWidth="160" prefHeight="33.0" prefWidth="145.0" value="Items" />
 			
-				<Line endX="0" endY="156.75" layoutX="380.0" layoutY="18.0" startX="0.0" startY="-18.0" styleClass="lineBar" />
+				<Line endX="0" endY="152.75" layoutX="406.0" layoutY="22.0" startX="0.0" startY="-18.0" styleClass="lineBar" />
 			
-				<Label fx:id="lblTecTitle" alignment="CENTER" layoutX="432.0" layoutY="22.0" maxWidth="350" prefHeight="21.0" prefWidth="350.0" styleClass="label-subtitle" />
+				<Label fx:id="lblTecTitle" alignment="CENTER" layoutX="450.0" layoutY="23.0" maxWidth="350.0" prefHeight="21.0" prefWidth="376.0" styleClass="label-subtitle" />
 				
-				<Button fx:id="btnReplaceLink" layoutX="432.0" layoutY="130.0" onAction="#onClickButtonReplaceLink" text="Replace" visible="true" />
-				<Button fx:id="btnNewFetch" layoutX="556.0" layoutY="130.0" onAction="#onClickButtonNewFetch" text="New Fetch" visible="true" />
+				<Button fx:id="btnReplaceLink" disable="true" layoutX="519.0" layoutY="130.0" onAction="#onClickButtonReplaceLink" prefHeight="33.0" prefWidth="218.0" text="Replace" visible="true" />
+				<Button fx:id="btnNewFetch" disable="true" layoutX="196.0" layoutY="60.0" onAction="#onClickButtonNewFetch" prefHeight="33.0" prefWidth="143.0" text="Fetch" visible="true" />
 			
-				<Label fx:id="lblSearchResult" layoutX="432.0" layoutY="65.0" maxWidth="350" text="Link:" />
+				<Label fx:id="lblSearchResult" layoutX="432.0" layoutY="63.0" maxWidth="410.0" text="Link: " wrapText="true" />
 				
 				<Label fx:id="lblInformationTitle" alignment="CENTER" layoutX="286.0" layoutY="146.0" styleClass="downloadInformation" text="Download Information" visible="false" />
 			
-				<Label fx:id="lblSource" layoutX="184.0" layoutY="195.0" maxWidth="300" text="Source:" visible="true" />
-				<Label fx:id="lblPath" layoutX="432.0" layoutY="96.0" maxWidth="300" text="Path:" visible="true" />
-				<Label fx:id="lblItemsTotal" layoutX="29.0" layoutY="262.0" text="Total:" visible="true" />
-				<Label fx:id="lblTimeRemain" layoutX="29.0" layoutY="195.0" text="Remain:" visible="true" />
+				<Label fx:id="lblSource" layoutX="172.0" layoutY="292.0" maxWidth="300" text="Source:" visible="true" />
+				<Label fx:id="lblPath" layoutX="433.0" layoutY="102.0" maxWidth="300" text="Path:" visible="true" />
+				<Label fx:id="lblItemsTotal" layoutX="33.0" layoutY="262.0" text="Total:" visible="true" />
+				<Label fx:id="lblTimeRemain" layoutX="30.0" layoutY="292.0" text="Remain:" visible="true" />
 				<Label fx:id="lblItemsDownloaded" layoutX="144.0" layoutY="262.0" text="Downloaded:" visible="true" />
 				<Label fx:id="lblItemsFailed" layoutX="302.0" layoutY="262.0" text="Failed:" visible="true" />
 			
@@ -60,9 +60,9 @@
 				<Label fx:id="lblLoadDownload" layoutX="389.0" layoutY="292.0" text="Fetching ${item}" visible="false" />
 			
 				<Label fx:id="lblTotalProgress" text="TOTAL PROGRESS" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="44.0" />
-				<Button fx:id="btnPause" disable="true" layoutX="415.0" layoutY="256.0" onAction="#onClickButtonPause" text="PAUSE" visible="true" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="415.0" />
-				<Button fx:id="btnCancel" disable="true" layoutX="526.0" layoutY="256.0" onAction="#onClickButtonCancel" text="CANCEL " visible="true" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="526.0" />
-				<Button fx:id="btnDownload" disable="true" layoutX="663.0" layoutY="256.0" onAction="#onClickButtonDownload" text="DOWNLOAD " visible="true" AnchorPane.bottomAnchor="28.0" AnchorPane.rightAnchor="31.0" />
+				<Button fx:id="btnPause" disable="true" layoutX="529.0" layoutY="258.0" onAction="#onClickButtonPause" prefHeight="36.0" prefWidth="159.0" text="PAUSE" visible="true" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="529.0" />
+				<Button fx:id="btnCancel" disable="true" layoutX="724.0" layoutY="255.0" onAction="#onClickButtonCancel" prefHeight="36.0" prefWidth="123.0" text="CANCEL " visible="true" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="724.0" />
+				<Button fx:id="btnDownload" disable="true" layoutX="248.0" layoutY="187.0" onAction="#onClickButtonDownload" prefHeight="33.0" prefWidth="314.0" text="DOWNLOAD " visible="true" AnchorPane.bottomAnchor="108.0" AnchorPane.rightAnchor="325.0" />
 			
 			
 				<ProgressIndicator fx:id="piLoadFetch" layoutX="156.0" layoutY="33.0" styleClass="ringindicator" visible="false" />

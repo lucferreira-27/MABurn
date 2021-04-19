@@ -2,9 +2,9 @@ package com.lucas.ferreira.maburn.util;
 
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ChapterWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;

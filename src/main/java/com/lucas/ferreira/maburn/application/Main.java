@@ -10,13 +10,11 @@ public class Main {
 		// StackDumper.dumpWhenSysOutContains("");
 		
 		MainInterfaceView.getInstance().initAndShowGUI();
-	//	Navigator.preLoadInterfaces();
-//
+
+
 		Navigator navigator = new Navigator();
 		navigator.open(Interfaces.HOME);
 
-//		HomeInterfaceView homeInterface = new HomeInterfaceView();
-//		homeInterface.loadMainInterfaceFX();
 
 	}
 

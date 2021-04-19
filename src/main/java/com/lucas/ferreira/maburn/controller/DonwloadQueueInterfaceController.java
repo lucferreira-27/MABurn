@@ -25,7 +25,6 @@ import javafx.scene.layout.VBox;
 
 public class DonwloadQueueInterfaceController implements Initializable {
 
-	private FXMLLoader loader = new FXMLLoader();
 	private ObservableList<BorderPane> obsBorder;
 	private List<BorderPane> borders = new ArrayList<BorderPane>();
 
@@ -53,7 +52,12 @@ public class DonwloadQueueInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		loadDownloadView();
+		if (DownloadQueue.getInstance().getDownloadList().size() == 0) {
+			
+		} else {
+
+			loadDownloadView();
+		}
 	}
 
 	private void loadDownloadView() {
@@ -62,6 +66,7 @@ public class DonwloadQueueInterfaceController implements Initializable {
 		Builder builder = new Builder();
 		new Thread(() -> {
 			// DownloadInQueueInterfaceView downloadInQueueInterfaceView;
+
 			for (TitleDownload title : DownloadQueue.getInstance().getDownloadList()) {
 
 				System.out.println(title.getCollectionItem().getImageLocal());

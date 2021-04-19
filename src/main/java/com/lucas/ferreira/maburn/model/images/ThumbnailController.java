@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.bean.downloaded.MangaDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;

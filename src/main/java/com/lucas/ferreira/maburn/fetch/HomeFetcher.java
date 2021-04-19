@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.fetch;
 
 import java.util.concurrent.Callable;
 
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
