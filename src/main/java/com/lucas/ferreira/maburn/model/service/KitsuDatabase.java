@@ -1,8 +1,10 @@
 package com.lucas.ferreira.maburn.model.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.service.response.KitsuResponseAPI;
 import com.lucas.ferreira.maburn.util.CustomLogger;
@@ -28,10 +30,17 @@ public class KitsuDatabase implements Database {
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
 		// TODO Auto-generated method stub
+		try {
+			querry = URLEncoder.encode(querry, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("url: " + url + querry);
 
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		CollectDatas datas =  kitsuApi.fetchFirst();
+		
 		return datas;
 
 	}
@@ -50,6 +59,12 @@ public class KitsuDatabase implements Database {
 		}  
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
+		try {
+			querry = URLEncoder.encode(querry, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("url: " + url + querry);
 		// TODO Auto-generated method stub
 		kitsuApi = new KitsuResponseAPI(url + querry);

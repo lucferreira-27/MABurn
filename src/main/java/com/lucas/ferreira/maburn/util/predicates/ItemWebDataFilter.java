@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.util.predicates;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 
 public class ItemWebDataFilter implements Predicate<ItemWebData> {
 

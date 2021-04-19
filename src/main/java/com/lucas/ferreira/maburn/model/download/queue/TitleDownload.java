@@ -6,9 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
@@ -32,9 +32,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TitleDownload {
-
+	
 	private final static int MAXIMUM_NUMBER = 10;
-
+	private Integer downloadType = null;
 	private ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
 
 	private CollectionItem collectionItem;
@@ -262,7 +262,13 @@ public class TitleDownload {
 	public IntegerProperty getTotalDownlods() {
 		return totalDownlods;
 	}
-
+	
+	public Integer getDownloadType() {
+		return downloadType;
+	}
+	public void setDownloadType(Integer downloadType) {
+		this.downloadType = downloadType;
+	}
 	public void setState(DownloadState state) {
 		this.state.set(state);
 	}

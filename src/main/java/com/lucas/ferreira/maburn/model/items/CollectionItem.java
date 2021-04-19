@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
@@ -36,12 +37,18 @@ public interface CollectionItem {
 	public void setTitleDataBase(String titleDataBase);
 	public String getTitleFileName();
 	public void addSubItens(List<CollectionSubItem> subItem);
-	public void setListSubItens(List<CollectionSubItem> subItem);
+	public void setListSubItems(List<CollectionSubItem> subItem);
 	public Collections getCollections();
 	public void setCollections(Collections collections);
 	public List<CollectionSubItem> getListSubItens();
-	public WebScraping getWebScraping();
-	public void setWebScraping(WebScraping webScraping);
+//	public WebScraping getWebScraping();
+//	public void setWebScraping(WebScraping webScraping);
+	public Double getScore();
+	public void setScore(Double score);
+	public String getDate();
+	public void setDate(String date);
+	
+	public ListItemForm toForm();
 
 
 	

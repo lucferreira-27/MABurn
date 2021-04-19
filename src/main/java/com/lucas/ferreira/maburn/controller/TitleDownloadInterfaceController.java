@@ -12,11 +12,15 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
 import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
-import com.lucas.ferreira.maburn.model.DirectoryModel;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
+import com.lucas.ferreira.maburn.model.TableConfig;
+import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.SiteForm;
 import com.lucas.ferreira.maburn.model.download.DownloadOrchestrator;
 import com.lucas.ferreira.maburn.model.download.queue.DownloadQueue;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
@@ -30,42 +34,35 @@ import com.lucas.ferreira.maburn.model.search.SearchController;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
-import com.lucas.ferreira.maburn.util.LanguageReader;
-import com.lucas.ferreira.maburn.util.MathUtil;
-import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
-import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ProgressBarTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class TitleDownloadInterfaceController implements Initializable {
-	private TitleDownloadInterfaceView titleDownloadView;
 	private CollectionItem collectionItemTitle;
 	private TitleWebData webDataTitle;
 	private TitleDownload titleDownload;
 	private WebScraping scraping;
 	private FetcherOrchestrator fetcherController;
 	private SearchController searchController;
+	private Navigator navigator = new Navigator();
+	private XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+	private TableConfig tableConfig;
 
 	@FXML
 	private Button btnFetch;
@@ -80,10 +77,13 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private Button btnDownload;
 
 	@FXML
-	private Button btnChangeLink;
+	private Button btnReplaceLink;
 
 	@FXML
-	private ComboBox<Sites> cbSource;
+	private Button btnNewFetch;
+
+	@FXML
+	private ComboBox<String> cbSource;
 
 	@FXML
 	private ComboBox<String> cbSelect;
@@ -160,35 +160,41 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<Downloader<CollectionSubItem>, String> clActionCancel;
 
-	public TitleDownloadInterfaceController(TitleDownloadInterfaceView titleView) {
-		this.titleDownloadView = titleView;
-		collectionItemTitle = titleView.getTitleInterfaceView().getTitle();
-		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
-		if (titleDownload == null) {
-			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
-		}
-		// createTitleDownload();
+	public TitleDownloadInterfaceController() {
 
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		initTable();
+
+		tableConfig = new TableConfig(tableItens, clName, clSize, clSpeed, clCompleted, clProgress, clState,
+				clActionPause, clActionCancel);
+
+		TitleInterfaceController titleController = (TitleInterfaceController) Navigator.getMapNavigator()
+				.get(Interfaces.TITLE);
+
+		collectionItemTitle = titleController.getTitle();
+		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
+		if (titleDownload == null) {
+			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
+		}
+
+		tableConfig.initTable(titleDownload.getObsDownloads());
 
 		initLabels();
 
-		preventColumnReordering(tableItens);
+		// preventColumnReordering(tableItens);
 
 		if (titleDownload.getState().getValue() != DownloadState.PREPARING) {
-			
+
 			downloadListening();
-			System.out.println("Size: " + titleDownload.getTitleWebData().getWebDatas().size());
 			webDataTitle = titleDownload.getTitleWebData();
 			fetcherController = new FetcherOrchestrator(webDataTitle, webDataTitle.getSite().getScraping());
 			loadCbItems();
 
 		}
 
+		btnNewFetch.setDisable(true);
 		loadCbSelect();
 		loadCbSource();
 
@@ -223,7 +229,33 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickButtonFetch() {
-		CustomLogger.log("Fetch");
+
+		try {
+			ListItemForm itemForm = orchestrator.readById(titleDownload.getId());
+			SiteForm siteForm = itemForm.getCurretScrapingLink();
+			if (siteForm.getItemLink() == null || siteForm.getItemLink().isEmpty()) {
+				newFetch();
+			} else {
+				recoverLastFetch(siteForm);
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			AlertWindowView.exceptionAlert(e);
+		}
+
+	}
+
+	private void recoverLastFetch(SiteForm siteForm) {
+		// TODO Auto-generated method stub
+		recoverFetch(siteForm);
+		startFetch(siteForm.getItemLink());
+		scraping = siteForm.getSiteName().getScraping();
+	}
+
+	private void newFetch() {
+		// TODO Auto-generated method stub
 		new Thread(() -> {
 			if (isSourceSelect(cbSource)) {
 				Platform.runLater(() -> {
@@ -237,19 +269,26 @@ public class TitleDownloadInterfaceController implements Initializable {
 						"You need to inform a source before fetch");
 			}
 		}).start();
+	}
 
+	// Recover Fetch
+	@FXML
+	public void onClickButtonNewFetch() {
+		newFetch();
 	}
 
 	@FXML
 	public void onClickButtonDownload() {
 
-		if (cbSource.getValue() != collectionItemTitle.getWebScraping().getSite()) {
+		if (getCbSourceValue() != scraping.getSite()) {
 			AlertWindowView.infoAlert("SOURCE CHANGE", "The value of source was change", "Please fetch first");
 			piLoadDownload.setVisible(false);
 			return;
 		}
 
-		newTitleDownload();
+		// newTitleDownload();
+		DownloadQueue.getInstance().addDownload(titleDownload);
+		titleDownload.setTitleWebData(webDataTitle);
 		selectDownload();
 		changeTableItems();
 		downloadListening();
@@ -289,36 +328,53 @@ public class TitleDownloadInterfaceController implements Initializable {
 			titleDownload.cancel();
 
 		}
-		System.out.println("The table is empty, any download changed state");
+		System.out.println("The table is empty, any download will change the state");
 
 	}
 
 	@FXML
-	public void onClickButtonChangeLink() {
+	public void onClickButtonReplaceLink() {
 		// TODO Auto-generated method stub
 		String result = AlertWindowView.inputAlet("Link", "Inform new the link");
-		startFetch(result);
+		if (result != null & !result.isEmpty()) {
+			lblSearchResult.setText(result);
+			startFetch(result);
+		}
 	}
 
 	private void initLabels() {
 		lblItemsDownloaded.setText("Downlaoded: 0");
 		lblItemsFailed.setText("Failed: 0");
 		lblItemsTotal.setText("Total: 0");
+		lblSearchResult.setWrapText(true);
 	}
 
 	private void loadCbSource() {
 		try {
 			CustomLogger.log("Source loadCbSource");
-			List<Sites> sitesOptions = new ArrayList<Sites>();
+			List<String> sitesOptions = new ArrayList<String>();
 
 			for (Sites site : Sites.values()) {
 				if (site.getCategory() == collectionItemTitle.getCategory()) {
-					sitesOptions.add(site);
+					sitesOptions.add(site.toString());
 
 				}
 			}
 
-			ObservableList<Sites> options = FXCollections.observableArrayList(sitesOptions);
+			cbSource.valueProperty().addListener((obs, oldvalue, newvalue) -> {
+				Object value = cbSource.getValue();
+				try {
+					if (!value.toString().equals("Source")) {
+						btnNewFetch.setDisable(false);
+					}
+				} catch (ClassCastException e) {
+					// TODO: handle exception
+					btnNewFetch.setDisable(false);
+				}
+
+			});
+
+			ObservableList<String> options = FXCollections.observableArrayList(sitesOptions);
 
 			cbSource.getItems().addAll(options);
 		} catch (Exception e) {
@@ -350,25 +406,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 				cbItens.getItems().clear();
 				if (!webDataTitle.getWebDatas().isEmpty())
 					for (ItemWebData sub : webDataTitle.getWebDatas()) {
-
-						cbItens.getItems().add(sub.getName());
-
-					}
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		});
-
-	}
-
-	private void loadCbItems(List<ItemWebData> items) {
-		Platform.runLater(() -> {
-			try {
-				cbItens.getItems().clear();
-				if (!items.isEmpty())
-					for (ItemWebData sub : items) {
-
+						System.out.println(sub.getUrl());
 						cbItens.getItems().add(sub.getName());
 
 					}
@@ -383,9 +421,9 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private void downloadListening() {
 
 		pbTotalProgress.progressProperty().bindBidirectional(titleDownload.getTotalProgressPropery());
-		
+
 		lblTimeRemain.textProperty().bindBidirectional(titleDownload.getRemain());
-		
+
 		titleDownload.getConcludedDownlods().addListener((obs, oldvalue, newvalue) -> {
 			Platform.runLater(() -> lblItemsDownloaded.setText("Downloaded: " + newvalue));
 		});
@@ -396,249 +434,15 @@ public class TitleDownloadInterfaceController implements Initializable {
 		titleDownload.getFailedDownlods().addListener((obs, oldvalue, newvalue) -> {
 			Platform.runLater(() -> lblItemsFailed.setText("Failed: " + newvalue));
 		});
-	
 
 	}
-
-
 
 	private void changeTableItems() {
-		tableItens.setItems(titleDownload.getObsDownloads());
-	}
-
-	public void initTable() {
-		tableItens.setItems(titleDownload.getObsDownloads());
-		clName.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, String>("name"));
-		clName.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-
-				if (empty || item == null) {
-					setText(null);
-				} else {
-					setText(item);
-
-				}
-
-			};
-		});
-		clSize.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("size"));
-		clSize.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, Double>() {
-			@Override
-			protected void updateItem(Double item, boolean empty) {
-				super.updateItem(item, empty);
-
-				if (empty || item == null) {
-					setText(null);
-				} else {
-					setText(DataStorageUtil.converterUnit(item));
-
-				}
-
-			};
-		});
-		clSpeed.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("speed"));
-		clSpeed.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, Double>() {
-			@Override
-			protected void updateItem(Double item, boolean empty) {
-				super.updateItem(item, empty);
-
-				if (empty || item == null) {
-					setText(null);
-				} else {
-					setText(DataStorageUtil.converterSpeedUnit(item));
-
-				}
-
-			};
-		});
-		clCompleted.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("completed"));
-		clCompleted.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, Double>() {
-			@Override
-			protected void updateItem(Double item, boolean empty) {
-				super.updateItem(item, empty);
-
-				if (empty || item == null) {
-					setText(null);
-				} else {
-					setText(DataStorageUtil.converterUnit(item));
-
-				}
-
-			};
-		});
-		clProgress.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("progress"));
-		clProgress.setCellFactory(ProgressBarTableCell.<Downloader<CollectionSubItem>>forTableColumn());
-		clState.setCellValueFactory(
-				new PropertyValueFactory<Downloader<CollectionSubItem>, DownloadState>("downloadState"));
-		clState.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, DownloadState>() {
-			@Override
-			protected void updateItem(DownloadState item, boolean empty) {
-				super.updateItem(item, empty);
-
-				if (empty || item == null) {
-					setText(null);
-				} else {
-					setText(String.valueOf(item));
-
-				}
-
-			};
-		});
-		clActionPause
-				.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, String>("actionPause"));
-		clActionPause.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, String>() {
-
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty) {
-					setGraphic(null);
-					setText(null);
-				} else {
-
-					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
-
-					final Button btn = downloader.getBtnPause();
-
-//					if(downloader.getDownloadState() == DownloadState.FINISH) {
-//						btn.setText("OPEN");
-//			
-//					}else {
-//						btn.setText("PAUSE");
-//						
-//					}
-					setGraphic(btn);
-//					downloader.downloadStateProperty().addListener((obs, oldvalue, newvalue) -> {
-//						// System.out.println("[" + downloader.getName() + "] STATE: " +
-//						// downloader.getDownloadState());
-//						Platform.runLater(() -> {
-//							if (newvalue.equals(String.valueOf(DownloadState.FINISH))
-//									&& !btn.getText().equalsIgnoreCase("OPEN")) {
-//								System.out.println(downloader.getName() + " -> OPEN");
-//								btn.setText("OPEN");
-//
-//							}
-//						});
-//					});
-				}
-//					btn.setOnAction(event -> {
-//						if (!downloader.getDownloadState().equals(String.valueOf(DownloadState.FINISH))) {
-//							if (!downloader.getPauseProperty().get()) {
-//								CustomLogger.log("btnAction : pause");
-//								btn.setText("RESUME");
-//								if (!downloader.getDownloadState().equals(String.valueOf(DownloadState.PAUSING))) {
-//									downloader.setDownloadState(DownloadState.PAUSING);
-//
-//									downloader.pause();
-//								} else
-//									CustomLogger.log("PAUSING, PLEASE WAIT");
-//							} else if (!downloader.getDownloadState().equals(String.valueOf(DownloadState.PAUSING))) {
-//								CustomLogger.log("btnAction : resume");
-//								btn.setText("PAUSE");
-//								downloader.resume();
-//							}
-//						} else {
-//							btn.setText("OPEN");
-//
-//							CollectionSubItem subItem = downloader.getSubItem();
-//							try {
-//								DirectoryModel.openDirectory(subItem.getDestination());
-//							} catch (IOException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//						}
-//
-//					});
-//					setGraphic(btn);
-//					setText(null);
-//				}
-//				;
-
-			}
-		});
-		clActionCancel
-				.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, String>("actionCancel"));
-		clActionCancel.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, String>() {
-
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty) {
-					setGraphic(null);
-					setText(null);
-				} else {
-
-					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
-
-					final Button btn = downloader.getBtnCancel();
-
-					setGraphic(btn);
-					return;
-				}
-
-				final Button btn = new Button("CANCEL");
-
-				super.updateItem(item, empty);
-				if (empty) {
-					setGraphic(null);
-					setText(null);
-				} else {
-					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
-
-					downloader.downloadStateProperty().addListener((obs, oldvalue, newvalue) -> {
-						if (newvalue.equals(String.valueOf(DownloadState.FINISH))) {
-							Platform.runLater(() -> btn.setDisable(true));
-
-						}
-					});
-
-					downloader.getCancelProperty().addListener((ops, oldValue, newValue) -> {
-						CustomLogger.log("CANCEL ACTION FOR: " + downloader.getItemWebData().getName());
-						CustomLogger.log("CancelProperty: " + newValue);
-						CustomLogger.log("DownlaodState: " + downloader.getDownloadState());
-						if (!newValue) {
-							btn.setText("CANCEL");
-						} else {
-
-							btn.setText("REMOVE");
-						}
-					});
-
-					btn.setOnAction(event -> {
-						if (!downloader.getDownloadState().equals(String.valueOf(DownloadState.FINISH))) {
-							if (!downloader.getCancelProperty().get()) {
-								CustomLogger.log("btnAction : cancel");
-								downloader.setDownloadState(DownloadState.CANCELING);
-								downloader.kill();
-
-							} else {
-								CustomLogger.log("btnAction : remove");
-
-								tableItens.getItems().remove(downloader);
-
-							}
-
-						}
-
-					});
-					setGraphic(btn);
-					setText(null);
-				}
-				;
-
-			}
-		});
-
-		preventColumnReordering(tableItens);
-
+		tableConfig.changeTableItems(titleDownload.getObsDownloads());
 	}
 
 	private void back() {
-		TitleInterfaceView titleInterfaceView = this.titleDownloadView.getTitleInterfaceView();
-		titleInterfaceView.loadMainInterfaceFX();
+		navigator.back();
 	}
 
 	private void selectDownload() {
@@ -647,6 +451,11 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 			int type = cbSelect.getSelectionModel().getSelectedIndex();
 			titleDownload.setState(DownloadState.DOWNLOADING);
+//			if (titleDownload.getDownloadType() != type) {
+//				titleDownload.setDownloadType(type);
+//			}else {
+//				
+//			}
 			switch (type) {
 
 			case 0:
@@ -672,43 +481,30 @@ public class TitleDownloadInterfaceController implements Initializable {
 		}
 	}
 
-	public static <T> void preventColumnReordering(TableView<T> tableView) {
-		System.out.println((LanguageReader.read("LABEL_TABLE_EMPTY")));
-		tableView.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
-		Platform.runLater(() -> {
-			for (Node header : tableView.lookupAll(".column-header")) {
-				header.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
-			}
-		});
-	}
-
 	private void search() {
 
 		String querry = collectionItemTitle.getTitleDataBase();
-		searchController = new SearchController(collectionItemTitle);
+		searchController = new SearchController(collectionItemTitle, scraping);
 
 		searchController.searchResultProperty().addListener((obs, oldvalue, newvalue) -> {
 
 			String result = newvalue.getUrl();
 
-			Platform.runLater(() -> {
-				lblSearchResult.setText(result);
-				lblSearchResult.setVisible(true);
-				btnChangeLink.setVisible(true);
-			});
-			collectionItemTitle.setLink(result);
+			showItemDetails(result);
 			startFetch(result);
 
 		});
 
-		searchController.searchFailedtProperty().addListener((obs, oldvalue, newvalue) -> {
+		searchController.searchFailedProperty().addListener((obs, oldvalue, newvalue) -> {
 			if (newvalue)
 				Platform.runLater(() -> {
 
 					if (AlertWindowView.confirmationAlert("Fetch error", "MABurn could not find the title link",
 							"You want manually put the link?")) {
 
-						String input = AlertWindowView.inputAlet("Manual fetch", "Please put the title link");
+						String input = AlertWindowView.inputAlet("Manual fetch", "Please insert the title link");
+						System.out.println("CHANGE LINK: " + input);
+						lblSearchResult.setText(input);
 						startFetch(input);
 					}
 				});
@@ -721,6 +517,17 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	}
 
+	private void showItemDetails(String result) {
+		Platform.runLater(() -> {
+			lblSearchResult.setText(result);
+			lblSearchResult.setVisible(true);
+			btnReplaceLink.setVisible(true);
+			btnNewFetch.setVisible(true);
+			btnNewFetch.setDisable(false);
+		});
+		collectionItemTitle.setLink(result);
+	}
+
 	private void startFetch(String result) {
 
 		piLoadFetch.setVisible(true);
@@ -730,7 +537,10 @@ public class TitleDownloadInterfaceController implements Initializable {
 		fetcherController.titlePropery().addListener((obs, oldValue, newValue) -> {
 			if (webDataTitle.isFetched()) {
 				loadCbItems();
+				saveFetchLink(scraping.getSite(), result);
+				btnReplaceLink.setDisable(false);
 				enableTitleDownloadControlers();
+
 			} else
 				AlertWindowView.errorAlert("Fetch error", "No items found", "");
 			piLoadFetch.setVisible(false);
@@ -742,12 +552,36 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	}
 
+	private void saveFetchLink(Sites site, String link) {
+		CollectionForm form;
+		try {
+			form = orchestrator.read();
+
+			ListItemForm itemForm = form.getItems().stream().filter(item -> item.getId() == titleDownload.getId())
+					.findFirst().get();
+			SiteForm siteForm = new SiteForm();
+
+			siteForm.setItemLink(link);
+
+			siteForm.setSiteName(site);
+
+			itemForm.setCurretScrapingLink(siteForm);
+			Platform.runLater(() -> cbSource.setValue(site.toString()));
+
+			orchestrator.write(form);
+			showItemDetails(link);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	private void fetch() {
 
 		try {
 
-			crateWebScraping();
-			createWebDataTitle();
+			createFetch();
 			search();
 
 		} catch (WebScrapingException e) {
@@ -757,10 +591,38 @@ public class TitleDownloadInterfaceController implements Initializable {
 		}
 	}
 
-	private void crateWebScraping() {
-		collectionItemTitle.setWebScraping(cbSource.getValue().getScraping());
-		scraping = collectionItemTitle.getWebScraping();
+	private void createFetch() {
+		createTitleDownload();
+		createWebScraping();
+		createWebDataTitle();
 	}
+
+	private void recoverFetch(SiteForm siteForm) {
+		recoverWebScraping(siteForm);
+		createWebDataTitle();
+	}
+
+	private void createWebScraping() {
+		scraping = getCbSourceValue().getScraping();
+
+	}
+
+	private Sites getCbSourceValue() {
+		for (Sites site : Sites.values()) {
+			if (site.toString() == cbSource.getValue()) {
+				return site;
+			}
+		}
+		return null;
+	}
+
+	private void recoverWebScraping(SiteForm siteForm) {
+		scraping = siteForm.getSiteName().getScraping();
+	}
+
+//	private void crateWebScraping() {
+//		scraping = cbSource.getValue().getScraping();
+//	}
 
 	private void createWebDataTitle() {
 		if (collectionItemTitle.getCategory() == Category.ANIME)
@@ -771,20 +633,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 
 	public void enableTitleDownloadControlers() {
 
-//		piLoadFetch.setVisible(false);
-//		lblSource.setVisible(true);
-//		lblPath.setVisible(true);
-//		lblItemsTotal.setVisible(true);
-//		lblTimeRemain.setVisible(true);
-//		lblItemsDownloaded.setVisible(true);
-//		pbTotalProgress.setVisible(true);
-//		lblTotalProgress.setVisible(true);
-//		btnPause.setVisible(true);
-//		btnCancel.setVisible(true);
-//		btnDownload.setVisible(true);
-
 		Platform.runLater(() -> {
-			lblSource.setText("Source: " + cbSource.getValue().getUrl());
+			lblSource.setText("Source: " + scraping.getSite().getUrl());
 			lblPath.setText("Path: " + collectionItemTitle.getDestination());
 		});
 		btnDownload.setDisable(false);
@@ -794,15 +644,6 @@ public class TitleDownloadInterfaceController implements Initializable {
 		cbSource.setDisable(false);
 		cbSelect.setDisable(false);
 
-	}
-
-	private void newTitleDownload() {
-		if (titleDownload != null) {
-			deleteTitleDownload();
-		}
-
-		createTitleDownload();
-		titleDownload.setTitleWebData(webDataTitle);
 	}
 
 	public void createTitleDownload() {
@@ -831,6 +672,10 @@ public class TitleDownloadInterfaceController implements Initializable {
 			return false;
 		}
 		return true;
+	}
+
+	public void setTitleDownload(TitleDownload titleDownload) {
+		this.titleDownload = titleDownload;
 	}
 
 }

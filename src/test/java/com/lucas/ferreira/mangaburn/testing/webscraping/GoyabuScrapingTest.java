@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
 import com.lucas.ferreira.maburn.util.CustomLogger;
@@ -52,6 +52,7 @@ public class GoyabuScrapingTest {
 		episodeWebData.setUrl(EPISODE_URL_TEST);
 		episodeWebData = (EpisodeWebData) scraping.fecthItem(episodeWebData);
 		int expect = 1;
+		System.out.println(episodeWebData.getAvaiblePlayersDefinitions());
 		int result = episodeWebData.getAvaiblePlayersDefinitions().size();
 		assertThat(expect, is(result));
 

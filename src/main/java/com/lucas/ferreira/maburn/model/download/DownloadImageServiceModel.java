@@ -11,8 +11,8 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
@@ -68,8 +68,8 @@ public class DownloadImageServiceModel extends Downloader<File> {
 		fileName += type;
 
 		CustomLogger.log(("[Download Image] (" + link + ")"));
-
-		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\" + fileName);
+		System.out.println(location.getAbsolutePath());
+		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\"  +fileName);
 		double size = (double) httpConn.getContentLength() / 1048576;
 
 		byte[] b = new byte[BUFFER_SIZE];

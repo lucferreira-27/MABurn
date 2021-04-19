@@ -8,7 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
@@ -20,6 +20,8 @@ public class KitsuResponseAPI implements ServiceResponse {
 	public KitsuResponseAPI(String url) {
 		// TODO Auto-generated constructor stub
 		try {
+			
+			
 			responseBody = connect(url);
 
 		} catch (ConnectionException e) {
@@ -66,7 +68,6 @@ public class KitsuResponseAPI implements ServiceResponse {
 		datas.addTitle("en", titles[1]);
 		datas.addTitle("en_jp", titles[2]);
 		datas.addTitle("ja_jp", titles[3]);
-
 		datas.setCategory(category);
 		datas.addPosterImageLink("tiny", images[0]);
 		datas.addPosterImageLink("small", images[1]);

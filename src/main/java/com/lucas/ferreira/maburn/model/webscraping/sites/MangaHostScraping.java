@@ -9,11 +9,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.lucas.ferreira.maburn.exceptions.FetchException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ChapterWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
@@ -64,10 +64,12 @@ public class MangaHostScraping extends WebScraping {
 
 		try {
 
-			result = bingSearch(querry, getSite(), true);
+			result = search(querry, getSite(), true);
 
 			if (!isTitlePage(result, "https://mangahosted.com/manga/")) {
-				return insideSearchFetch(querry);
+				SearchResult searchTitleWebData = new SearchResult(getSite());
+				searchTitleWebData.setUrl(getTitlePage(result));
+				return Arrays.asList(searchTitleWebData);
 			} else {
 				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(result);
@@ -102,6 +104,7 @@ public class MangaHostScraping extends WebScraping {
 		// TODO Auto-generated method stub
 		if (super.isTitlePage(url, expectedUrl)) {
 			int bars = url.split("/").length;
+			System.out.println("bars: " + bars);
 			if (bars == 4)
 				return true;
 		}
@@ -117,8 +120,11 @@ public class MangaHostScraping extends WebScraping {
 
 	private List<SearchResult> fetchAllItensOnTable(Document document) {
 		// TODO Auto-generated method stub
+		
 		List<SearchResult> searchTitleWebDatas = new ArrayList<>();
+		
 		Elements elements = scraper.scrapeSnippet(document, ".table.table-search.table-hover > tbody > tr > td > a");
+		
 		elements.forEach(element -> {
 
 			SearchResult searchTitle = new SearchResult(getSite());

@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.service;
 
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
 
 public interface Database {

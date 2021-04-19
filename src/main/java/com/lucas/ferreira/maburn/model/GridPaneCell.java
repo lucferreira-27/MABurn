@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model;
 
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
+
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -63,6 +65,13 @@ public class GridPaneCell {
 	@Override
 	public String toString() {
 		return "GridPaneCell [node=" + node + ", row=" + row + ", column=" + column + "]";
+	}
+
+	public int compareTo(GridPaneCell a) {
+		// TODO Auto-generated method stub
+		String str1 =  ((CollectionItem)this.getUserData()).getTitleDataBase();
+		String str2 =  ((CollectionItem)a.getUserData()).getTitleDataBase();
+		return str1.compareTo(str2);
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -15,11 +17,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.util.converter.NumberStringConverter;
 
 public class DownloadInQueueController implements Initializable {
 	private TitleDownload item;
-
+	private Navigator navigator = new Navigator();
 	@FXML
 	private Label lblTitleName;
 
@@ -81,7 +82,7 @@ public class DownloadInQueueController implements Initializable {
 			});
 		});
 
-		btnOpen.setDisable(true);
+		btnOpen.setDisable(false);
 		btnRemove.setDisable(true);
 
 		btnOpen.setOnAction(event -> onClickOnButtonOpen());
@@ -106,6 +107,10 @@ public class DownloadInQueueController implements Initializable {
 	private void onClickOnButtonOpen() {
 //		TitleInterfaceView titleView = new TitleInterfaceView(this);
 //		titleView.loadMainInterfaceFX();
+		TitleDownloadInterfaceController controller = (TitleDownloadInterfaceController) Navigator.getMapNavigator()
+				.get(Interfaces.TITLE_DOWNLOAD);
+		controller.setTitleDownload(item);
+		navigator.open(Interfaces.TITLE_DOWNLOAD);
 	}
 
 	@FXML

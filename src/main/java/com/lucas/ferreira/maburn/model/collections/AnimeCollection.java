@@ -3,7 +3,8 @@ package com.lucas.ferreira.maburn.model.collections;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lucas.ferreira.maburn.model.bean.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
+import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
@@ -12,6 +13,15 @@ public class AnimeCollection implements Collections {
 	private String destination;
 	private AnimeDownloaded activeAnime;
 
+	public AnimeCollection(String destination) {
+		// TODO Auto-generated constructor stub
+		this.destination = destination;
+	}
+	
+	public AnimeCollection() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public List<CollectionItem> getItens() {
 		// TODO Auto-generated method stub
@@ -42,6 +52,7 @@ public class AnimeCollection implements Collections {
 	public void setActualItem(CollectionItem obj) {
 		// TODO Auto-generated method stub
 		this.activeAnime = (AnimeDownloaded) obj;
+		activeAnime.setCollections(this);
 	}
 
 	@Override
@@ -65,5 +76,7 @@ public class AnimeCollection implements Collections {
 		this.listAnimes = itens;
 		
 	}
+
+
 
 }

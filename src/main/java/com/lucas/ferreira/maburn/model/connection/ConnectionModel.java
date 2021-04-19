@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.concurrent.Callable;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
@@ -71,12 +74,13 @@ public class ConnectionModel implements Callable<String> {
 
 	}
 
-	public static String connect(String url) throws ConnectionException {
+	public static String connect(String url) throws ConnectionException{
+		
 		System.out.println("connect: " + url);
 		HttpURLConnection httpConn = null;
 		
 		try {
-			url = url.replaceAll(" ", "%20");
+			
 
 			httpConn = Httpsetup(url);
 			return inputStreamToString(httpConn);
@@ -111,6 +115,7 @@ public class ConnectionModel implements Callable<String> {
 	}
 
 	private static HttpURLConnection Httpsetup(String url) throws IOException {
+		System.out.println("HTTPSETUP:  " + url);
 		URL uc = new URL(url);
 
 		HttpURLConnection httpConn = (HttpURLConnection) uc.openConnection();

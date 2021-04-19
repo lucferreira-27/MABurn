@@ -14,21 +14,23 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.TableCollectionItemModel;
-import com.lucas.ferreira.maburn.model.bean.CollectDatas;
 import com.lucas.ferreira.maburn.model.collections.Collections;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
+import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
-import com.lucas.ferreira.maburn.model.loader.MainLoader;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
-import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleDownloadInterfaceView;
-import com.lucas.ferreira.maburn.view.TitleInterfaceView;
+import com.lucas.ferreira.maburn.view.AlertWindowView;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -48,9 +50,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleInterfaceController implements Initializable {
-	private TitleInterfaceView titleView;
-	private ItemsInterfaceView itensView;
+	private Navigator navigator = new Navigator();
 	private Collections collections;
+	private CollectionItem title;
 	@FXML
 	private ImageView imageViewTitle;
 	@FXML
@@ -59,6 +61,8 @@ public class TitleInterfaceController implements Initializable {
 	private Button btnWatch;
 	@FXML
 	private Button btnRead;
+	@FXML
+	private Button btnRemove;
 	@FXML
 	private Label lblTitle;
 	@FXML
@@ -78,23 +82,21 @@ public class TitleInterfaceController implements Initializable {
 	@FXML
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
-	public TitleInterfaceController(TitleInterfaceView titleView,
-			ItemsInterfaceView itensView) {
+	public TitleInterfaceController() {
 		// TODO Auto-generated constructor stub
-		this.titleView = titleView;
-		this.itensView = itensView;
-		this.collections = itensView.getController().getCollection();
+
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		CollectionItem item = collections.getActualItem();
-		MainLoader loader = new MainLoader(collections);
+
+		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
+				.get(Interfaces.COLLECTION);
+		collections = collectionController.getCollection();
+		title = collections.getActualItem();
 		CustomLogger.log("UPDATED SUB ITENS ....");
-		loader.loadAllSubItemInItem(item);
 		CustomLogger.log("UPDATEDED SUB ITENS!");
-		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 
 		loadTitleDatas();
 
@@ -102,12 +104,10 @@ public class TitleInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickButtonBack() {
-		ItemsInterfaceView itensView = this.itensView;
-		System.out.println("Back: "+collections);
-		//itensView.setCollections(collections);
-		
-		itensView.loadMainInterfaceFX();
-		
+		System.out.println("Back: " + collections);
+		navigator.back();
+		// itensView.setCollections(collections);
+
 	}
 
 	private void loadTitleDatas() {
@@ -126,6 +126,7 @@ public class TitleInterfaceController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(image);
 		imageViewTitle.setOnMouseClicked(event -> {
@@ -168,17 +169,56 @@ public class TitleInterfaceController implements Initializable {
 	}
 
 	public void onClickButtonDownload() {
-		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
-		titleDownload.loadMainInterfaceFX();
+		navigator.open(Interfaces.TITLE_DOWNLOAD);
+//		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
+//		titleDownload.loadMainInterfaceFX();
 	}
 
 	public void onClickButtonUpdate() {
 		CollectionItem item = collections.getActualItem();
-		MainLoader loader = new MainLoader(collections);
 		CustomLogger.log("UPDATED SUB ITENS ....");
-		loader.loadAllSubItemInItem(item);
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 		loadTable(item);
+	}
+
+	public void onClickButtonRemove() {
+		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+		try {
+			CollectionForm collectionForm = orchestrator.read();
+			orchestrator.removeById(collectionForm, collections.getActualItem().getId());
+			AlertWindowView.infoAlert(collections.getActualItem().getTitleFileName() + " REMOVE!", "SUCCEED!",
+					"Path: " + collections.getDestination());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void onClickButtonHide() {
+		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+		try {
+
+			CollectionForm form = orchestrator.read();
+
+			boolean result = AlertWindowView.confirmationAlert("HIDE TITLE",
+					"Do you want HIDE " + collections.getActualItem().getTitleFileName() + "?",
+					"If the title is hidden, it does not appear in the collection, but it will still be in the MABurn system");
+
+			if (!result)
+				return;
+
+			ListItemForm itemForm = form.getItems().stream()
+					.filter(item -> item.getId() == collections.getActualItem().getId()).findFirst().get();
+
+			itemForm.setBlackList(true);
+			orchestrator.write(form);
+
+			// orchestrator.removeById(collectionForm, collections.getActualItem().getId());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void loadTable(CollectionItem item) {
@@ -259,6 +299,10 @@ public class TitleInterfaceController implements Initializable {
 				header.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
 			}
 		});
+	}
+
+	public CollectionItem getTitle() {
+		return title;
 	}
 
 }

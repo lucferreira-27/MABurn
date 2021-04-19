@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<fx:root prefHeight="225.0" prefWidth="593.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+      				<ProgressIndicator fx:id="sortCollectionLoad" layoutX="270.0" layoutY="21.0" />
+        <ProgressBar fx:id="pbReadProgress" layoutX="129.0" layoutY="113.0" prefHeight="18.0" prefWidth="334.0" visible="false" />
+
+        <Label fx:id="lblLoadDataBase" layoutX="130.0" layoutY="137.0" prefHeight="17.0" prefWidth="58.0" text="Fetch: " visible="true" />
+        <Label fx:id="lblLoadFolderItemRead" layoutX="130.0" layoutY="160.0" text="Read: " visible="true" />
+        <Label fx:id="lblPorcentage" layoutX="472.0" layoutY="114.0" text="0" />
+        <Label fx:id="lblPath" layoutX="129.0" layoutY="88.0" text="" />
+      <ImageView fx:id="loadGridPane" fitHeight="82.69" fitWidth="87.03" layoutX="253.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../resources/icons/load_collection_icon.png" />
+         </image>
+      </ImageView>
+    </children>
+</fx:root>

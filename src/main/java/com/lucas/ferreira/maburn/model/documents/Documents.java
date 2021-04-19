@@ -6,12 +6,12 @@ import javax.swing.filechooser.FileSystemView;
 
 public class Documents {
 	
-	public final static String DOCUMENTS_LOCAL = FileSystemView.getFileSystemView().getDefaultDirectory().getPath()
-			+ "\\MangaBurn";
+	public final static String DOCUMENTS_LOCAL = System.getProperty("user.home")
+			+ "\\MABurn";
 	
-	public final static String DATE_LOCAL = Documents.DOCUMENTS_LOCAL + "\\ColletionsDates.xml";
+	public final static String DATA_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\ColletionsDatas.xml";
 	
-	public final static String CONFIG_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Config.xml";
+	public final static String CONFIG_LOCAL = Documents.DOCUMENTS_LOCAL + "\\Documents\\Config.xml";
 	
 	public final static String FILES_LOCAL = DOCUMENTS_LOCAL + "\\Files";
 	
@@ -22,6 +22,7 @@ public class Documents {
 	public final static String THUMBNAILS_LOCAL_MANGAS = THUMBNAILS_LOCAL + "\\Mangas\\";
 
 	public static void createDocumentFolders() {
+		System.out.println(DOCUMENTS_LOCAL);
 		String local = DOCUMENTS_LOCAL;
 		if (!(new File(local).exists())) {
 			File fileLocal = new File(local);

@@ -3,12 +3,11 @@ package com.lucas.ferreira.maburn.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
-import com.lucas.ferreira.maburn.model.collections.MangaCollection;
-import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.util.Resources;
-import com.lucas.ferreira.maburn.view.DownloadQueueInterfaceView;
-import com.lucas.ferreira.maburn.view.ItemsInterfaceView;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,15 +16,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class HomeInterfaceController implements Initializable {
+	private Navigator navigator = new Navigator();
+	private Category category;
 
-	private MainInterfaceController mainController = new MainInterfaceController();
+	private DataFetcher dataFetcher;
 
 	@FXML
 	private Button btnCollectionAnime = new Button();
 
 	@FXML
 	private Button btnCollectionManga = new Button();
- 
+
 	@FXML
 	private Button btnDownloads = new Button();
 
@@ -38,43 +39,39 @@ public class HomeInterfaceController implements Initializable {
 	}
 
 	public void onClickOnAnime() {
-		CustomLogger.log("Anime");
-		new Thread(() -> {
-			mainController.selectCollection(new AnimeCollection());
-			ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
-			itensView.loadMainInterfaceFX();
-		}).start();
+
+		category = Category.ANIME;
+		navigator.open(Interfaces.COLLECTION);
+
+//		CustomLogger.log("Anime");
+//		data = new DataFetcher(Category.ANIME);
+//		ExecutorService executorService = Executors.newSingleThreadExecutor();
+//		executorService.submit(data);
+//		executorService.shutdown();
+		// ItemsInterfaceView itensView = new ItemsInterfaceView(data);
+		// itensView.loadMainInterfaceFX();
 
 	}
 
 	public void onClickOnManga() {
-		CustomLogger.log("Manga");
+		
+		category = Category.MANGA;
+		navigator.open(Interfaces.COLLECTION);
 
-		new Thread(() -> {
-			try {
-				mainController.selectCollection(new MangaCollection());
-				ItemsInterfaceView itensView = new ItemsInterfaceView(mainController.getFutureCollection());
-				itensView.loadMainInterfaceFX();
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		}).start();
+//		CustomLogger.log("Manga");
+//		ExecutorService executorService = Executors.newSingleThreadExecutor();
+//		executorService.submit(dataFetcher);
+//		executorService.shutdown();
+//		FXMLViewLoader loader = new FXMLViewLoader();
+//		loader.loadInterface("ItensViewFXML.fxml", new CollectionInterfaceController());
+		// ItemsInterfaceView itensView = new ItemsInterfaceView(data);
+		// itensView.loadMainInterfaceFX();
 
 	}
-	public void onClickOnDownlods() {
-		CustomLogger.log("Downloads");
 
-		new Thread(() -> {
-			try {
-				
-				DownloadQueueInterfaceView queue = new DownloadQueueInterfaceView();
-				queue.loadMainInterfaceFX();
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-		}).start();
+	public void onClickOnDownlods() {
+
+		navigator.open(Interfaces.DOWNLOADS);
 
 	}
 
@@ -83,7 +80,6 @@ public class HomeInterfaceController implements Initializable {
 
 		try {
 
-			System.out.println(Resources.getResourcePath("./"));
 			Image imgAnime = new Image(Resources.getResourceAsStream("icons/anime.png"));
 			Image imgManga = new Image(Resources.getResourceAsStream("icons/manga.png"));
 			Image imgDownloads = new Image(Resources.getResourceAsStream("icons/download.png"));
@@ -97,6 +93,9 @@ public class HomeInterfaceController implements Initializable {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+	public Category getCategory() {
+		return category;
 	}
 
 }

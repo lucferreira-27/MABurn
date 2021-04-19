@@ -12,11 +12,11 @@ import org.jsoup.select.Elements;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
+import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.ScrapeEngine;
@@ -62,30 +62,23 @@ public class SaikoScraping extends WebScraping {
 		Elements elements2 = new Elements();
 		try {
 
-			Elements elementsParent1 = scraper.scrapeSnippet(document, "#0");
-			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1");
-			if (elementsParent2 == null) {
-				elements1 = scraper.scrapeSnippet(elementsParent1.html(), "#6 .bnt-area > a");
-				elements2 = scraper.scrapeSnippet(elementsParent1.html(), "#5 .bnt-area > a");
-			}else {
-				try {
-					elements1 = scraper.scrapeSnippet(elementsParent2.html(), "#50 .bnt-area > a");
-					
-				}catch (Exception e) {
-					// TODO: handle exception
-					elements2 = scraper.scrapeSnippet(elementsParent2.html(), "#51 .bnt-area > a");
-				}
-				
-	
-			}
-			
+			Elements elementsParent1 = scraper.scrapeSnippet(document, "#0"); // 720p
+			elements1 = elementsParent1.select(".bnt-area > a");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
-		
-		Elements elements = elements1.size() > elements2.size() ? elements1 : elements2;
+
+		try {
+
+			Elements elementsParent2 = scraper.scrapeSnippet(document, "#1"); // 1080p
+			elements2 = elementsParent2.select(".bnt-area > a");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		Elements elements = elements1.size() < elements2.size() ? elements1 : elements2;
 
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);
@@ -134,7 +127,7 @@ public class SaikoScraping extends WebScraping {
 	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
 		try {
-			String result = bingSearch(querry, getSite(), true);
+			String result = search(querry, getSite(), true);
 			if (!isTitlePage(result, "https://saikoanimes.net/anime/")) {
 				return insideSearchFetch(querry);
 			} else {

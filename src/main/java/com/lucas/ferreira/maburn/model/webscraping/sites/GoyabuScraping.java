@@ -20,17 +20,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.AnimeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.EpisodeWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
+import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
+import com.lucas.ferreira.maburn.view.AlertWindowView;
 
 public class GoyabuScraping extends WebScraping {
 	private Scraper scraper = new Scraper();
@@ -59,6 +60,8 @@ public class GoyabuScraping extends WebScraping {
 			System.out.println("After: " + animeWebData.getWebDatas().size());
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+			AlertWindowView.exceptionAlert(e);
 			return null;
 		}
 		// titleWebData.setFetched(true);
@@ -79,7 +82,7 @@ public class GoyabuScraping extends WebScraping {
 	public List<SearchResult> fetchSearchTitle(String querry) {
 		// TODO Auto-generated method stub
 		try {
-			String result = bingSearch(querry, getSite(), true);
+			String result = search(querry, getSite(), true);
 			if (!isTitlePage(result, "https://goyabu.com/assistir/")) {
 				SearchResult searchTitleWebData = new SearchResult(getSite());
 				searchTitleWebData.setUrl(getTitlePage(result));
@@ -92,6 +95,7 @@ public class GoyabuScraping extends WebScraping {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return null;
 		}
 
@@ -107,7 +111,7 @@ public class GoyabuScraping extends WebScraping {
 		String responseBody = ConnectionModel.connect(url);
 		Document document = Jsoup.parse(responseBody);
 
-		Elements elements = scraper.scrapeSnippet(document, ".userav");
+		Elements elements = scraper.scrapeSnippet(document, ".anime-thumb-single > a");
 		return elements.get(0).attr("href");
 
 	}
@@ -213,7 +217,7 @@ public class GoyabuScraping extends WebScraping {
 	}
 
 	private void fetchEpisodePageUrl(List<EpisodeWebData> episodeWebDatas) throws IOException {
-		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
+		Elements elements = scraper.scrapeSnippet(document, ".anime-episode > a");
 
 		for (int i = 0; i < elements.size(); i++) {
 			Element element = elements.get(i);
@@ -230,7 +234,7 @@ public class GoyabuScraping extends WebScraping {
 
 	private void fetchEpisodePageUrl(Document doc, List<EpisodeWebData> episodeWebDatas) throws IOException {
 
-		Elements elements = scraper.scrapeSnippet(document, ".video-title > a");
+		Elements elements = scraper.scrapeSnippet(document, ".anime-episode > a");
 
 
 		for (int i = 0; i < elements.size(); i++) {

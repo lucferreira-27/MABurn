@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ChapterWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.MangaWebData;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
 import com.lucas.ferreira.maburn.util.CustomLogger;

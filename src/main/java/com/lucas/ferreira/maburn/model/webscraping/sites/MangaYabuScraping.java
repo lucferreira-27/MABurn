@@ -11,11 +11,11 @@ import org.jsoup.select.Elements;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 import com.lucas.ferreira.maburn.exceptions.FetchException;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ChapterWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.MangaWebData;
-import com.lucas.ferreira.maburn.model.bean.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ChapterWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.MangaWebData;
+import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
@@ -64,7 +64,7 @@ public class MangaYabuScraping extends WebScraping {
 		// TODO Auto-generated method stub
 		String result = null;
 		try {
-			result = bingSearch(querry, getSite(), true);
+			result = search(querry, getSite(), true);
 			SearchResult searchTitleWebData = new SearchResult(getSite());
 			searchTitleWebData.setUrl(result);
 			return Arrays.asList(searchTitleWebData);
