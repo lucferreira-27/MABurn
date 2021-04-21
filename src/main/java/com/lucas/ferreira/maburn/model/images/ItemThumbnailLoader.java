@@ -76,23 +76,17 @@ public class ItemThumbnailLoader {
 		imageView.setCache(true);
 		imageView.setCacheHint(CacheHint.SPEED);
 
-		//imageView = createImageEffect(imageView, TransformEffects.BORDER_IMAGE);
 		
 		AnchorPane imageAreaPanel = new AnchorPane(imageView);
-		//Animations card = new Animations(imageAreaPanel);
-		
-		//card.overlay();
+
 		
 		
 		imageAreaPanel.setCache(true);
 		imageAreaPanel.setCacheHint(CacheHint.SPEED);
-		//imageAreaPanel = (AnchorPane) createPaneEffect(imageAreaPanel);
 
 		imageAreaPanel.getStyleClass().add("item-image");
 
 		cell = new GridPaneCell(imageAreaPanel);
-		// gridTable.add(cell);
-
 		imageView.setLayoutX(3);
 		imageView.setLayoutY(3);
 		return cell;

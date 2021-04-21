@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -132,7 +133,7 @@ public class CollectionInterfaceController implements Initializable {
 	private CollectionGridPane collectionGridPane;
 	private CollectionFilter filter = new CollectionFilter();
 	private CollectionCheck collectionCheck = new CollectionCheck();
-
+	private Category category;
 	private String querry;
 	private GridPaneTable searchTable = new GridPaneTable();
 	private GridPaneTable collectionTable = new GridPaneTable();
@@ -144,35 +145,42 @@ public class CollectionInterfaceController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		
-//		final ObservableList<Node> children = itensImagesGridPane.getChildren();
-//
-//		InvalidationListener listener = new InvalidationListener() {
-//
-//			private int size = children.size();
-//
-//			@Override
-//			public void invalidated(Observable o) {
-//
-//				if (children.size() > 0) {
-//					GridPaneCell cell = (GridPaneCell) children.get(children.size() - 1).getUserData();
-//					CollectionItem item = (CollectionItem) cell.getUserData();
-//					System.out.println("Image GridPane: " + item.getTitleDataBase() + " - " + (children.size() + 1));
-//				}
-//			}
-//
-//		};
-//
-//		itensImagesGridPane.getChildren().addListener(listener);
 
+		homeController = (HomeInterfaceController) Navigator.getMapNavigator().get(Interfaces.HOME);
+		if (homeController == null || homeController.getCategory() == null) {
+			return;
+		}
+		final ObservableList<Node> children = itensImagesGridPane.getChildren();
+
+		InvalidationListener listener = new InvalidationListener() {
+
+			private int size = children.size();
+
+			@Override
+			public void invalidated(Observable o) {
+
+				if (children.size() > 0) {
+					GridPaneCell cell = (GridPaneCell) children.get(children.size() - 1).getUserData();
+
+				}
+			}
+
+		};
+
+		
+		itensImagesGridPane.getChildren().addListener(listener);
 
 		Image imgReadFolder = new Image(Resources.getResourceAsStream("icons/load_collection_icon.png"));
 		loadImageLoadArea.setImage(imgReadFolder);
-		homeController = (HomeInterfaceController) Navigator.getMapNavigator().get(Interfaces.HOME);
 
-		Category category = homeController.getCategory();
+		category = homeController.getCategory();
+		
+		if (category == Category.ANIME)
+			lblCollectionName.setText("Anime Collection");
+		else if(category == Category.MANGA) {
+			lblCollectionName.setText("Manga Collection");
 
+		}
 		collectionGridPane = new CollectionGridPane(category, itensImagesScroll);
 
 		itensImagesGridPane.visibleProperty().addListener((obs, oldvalue, newvalue) -> {
@@ -225,8 +233,7 @@ public class CollectionInterfaceController implements Initializable {
 		if (collectionLoader.getDataFetcherDoneProperty().get()) {
 			imagesGridPaneSetup();
 		}
-		
-		
+
 		Platform.runLater(() -> {
 			txtSearchBar.setEditable(false);
 			txtSearchBar.setPromptText("Type here ...");
@@ -257,7 +264,9 @@ public class CollectionInterfaceController implements Initializable {
 
 	private void tableSetter() {
 		addAllItemsInTable();
+		// firstImagesGridPaneSort(collectionTable);
 		sortImagesGridPane(collectionTable);
+
 	}
 
 	private void defaultFilter() {
@@ -334,7 +343,12 @@ public class CollectionInterfaceController implements Initializable {
 				if (newvalue)
 					lblCollectionName.setText("Result");
 				else {
-					lblCollectionName.setText("Collection");
+					if (category == Category.ANIME)
+						lblCollectionName.setText("Anime Collection");
+					else if(category == Category.MANGA) {
+						lblCollectionName.setText("Manga Collection");
+
+					}
 					sortImagesGridPane(collectionTable);
 				}
 			});
@@ -423,6 +437,9 @@ public class CollectionInterfaceController implements Initializable {
 
 	private void addAllItemsInTable() {
 
+		collection.getItens().sort((n1, n2) -> {
+			return n1.getTitleDataBase().compareTo(n2.getTitleDataBase());
+		});
 		collectionTable.getCells().clear();
 		if (collection.getItens().size() > 0)
 			for (CollectionItem item : collection.getItens()) {
@@ -473,8 +490,6 @@ public class CollectionInterfaceController implements Initializable {
 		}
 		searchModeProperty.set(false);
 		dataFetcher();
-
-		
 
 	}
 
@@ -547,14 +562,42 @@ public class CollectionInterfaceController implements Initializable {
 
 	}
 
+	private void firstImagesGridPaneSort(GridPaneTable table) {
+		try {
+
+			List<GridPaneCell> cells = table.getCells();
+
+			Platform.runLater(() -> {
+				itensImagesGridPane.getChildren().clear();
+			});
+
+			for (int i = 0; i < cells.size(); i++) {
+				AddCellInGridPane(cells, i, 100);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		if (filter.getActiveFilter() == null) {
+
+			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.ASC);
+
+		}
+
+	}
+
 	private void sortImagesGridPane(GridPaneTable table) {
 		Platform.runLater(() -> {
 
 			try {
+
 				List<GridPaneCell> cells = table.getCells();
+
 				itensImagesGridPane.getChildren().clear();
+
 				for (int i = 0; i < cells.size(); i++) {
-					AddCellInGridPane(cells, i);
+					AddCellInGridPane(cells, i, -1);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -569,22 +612,27 @@ public class CollectionInterfaceController implements Initializable {
 		});
 	}
 
-	private void AddCellInGridPane(List<GridPaneCell> cells, int i) {
+	private void AddCellInGridPane(List<GridPaneCell> cells, int i, long waitTime) {
 		GridPaneCell cell = cells.get(i);
 		int c = GridPaneTable.getImagesGridPaneLastColumn(i, collectionTable.getColumnSize());
 		int r = GridPaneTable.getImagesGridPaneLastRow(i, collectionTable.getColumnSize());
 		cell.setColumn(c);
 		cell.setRow(r);
 		cell.getNode().setUserData(cell);
-		itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow());
+		if (waitTime == -1)
+			itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow());
+		else {
+			Platform.runLater(() -> itensImagesGridPane.add(cell.getNode(), cell.getColumn(), cell.getRow()));
+			try {
+				Thread.sleep(waitTime);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void initItensImagesScrollPane() {
-
-		itensImagesScroll.setLayoutY(10);
-		itensImagesScroll.setLayoutX(200);
-		itensImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 200);
-		itensImagesScroll.setPannable(false);
 
 		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {
 			double imageWith = 168.75;

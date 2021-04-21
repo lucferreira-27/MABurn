@@ -8,13 +8,11 @@ public class Main {
 	public static void main(String[] args) {
 
 		// StackDumper.dumpWhenSysOutContains("");
-		
-		MainInterfaceView.getInstance().initAndShowGUI();
 
+		MainInterfaceView.getInstance().initAndShowGUI();
 
 		Navigator navigator = new Navigator();
 		navigator.open(Interfaces.HOME);
-
 
 	}
 

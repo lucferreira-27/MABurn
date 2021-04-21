@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -39,12 +40,12 @@ public class FXMLViewLoader {
 		});
 	}
 
-	public void loadInterface(String fxml, Initializable initializable) {
+	public void loadInterface(String fxml, Initializable initializable, boolean visibility) {
 
 		this.root = MainInterfaceView.getInstance().getRoot();
 		new Thread(() -> {
 			remove(root); // Removes the previous nodes.
-			initFX(fxml, initializable); // Initializes interface.
+			initFX(fxml, initializable, visibility); // Initializes interface.
 		}).start();
 
 	}
@@ -67,6 +68,7 @@ public class FXMLViewLoader {
 					root.getChildren().set(0, (Node) fxmlLoaded);
 
 				}
+				Navigator.getMapNodesComponts().put(initializable, (Node) fxmlLoaded);
 				// root.getChildren().add((Node) fxmlLoaded);
 			});
 
@@ -76,10 +78,22 @@ public class FXMLViewLoader {
 		}
 	}
 
+	public void hideComponent(Initializable initializable) {
+		this.root = MainInterfaceView.getInstance().getRoot();
+
+		Platform.runLater(() -> {
+			Node component = Navigator.getMapNodesComponts().get(initializable);
+			if (root.getChildren().contains(component)) {
+				root.getChildren().get(0).setVisible(false);
+			}
+		});
+
+	}
+
 	public void addCompomentInRoot(String fxml, Initializable initializable, Pane root) {
 
 		try {
-			initFXMLLoader(initializable, root, fxml);
+			initFXMLLoader(initializable, root, fxml, true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,12 +105,12 @@ public class FXMLViewLoader {
 		return loaded.get();
 	}
 
-	private void initFX(String fxml, Initializable initializable) {
+	private void initFX(String fxml, Initializable initializable, boolean visibility) {
 		CustomLogger.log("> Run " + fxml);
 		Platform.runLater(() -> {
 
 			try {
-				initFXMLLoader(initializable, root, fxml);
+				initFXMLLoader(initializable, root, fxml, visibility);
 				loaded.set(true);
 
 			} catch (IOException e) {
@@ -117,7 +131,8 @@ public class FXMLViewLoader {
 		});
 	}
 
-	private void initFXMLLoader(Initializable initializable, Pane root, String fxml) throws IOException {
+	private void initFXMLLoader(Initializable initializable, Pane root, String fxml, boolean visibility)
+			throws IOException {
 
 		loader.setRoot(root);
 		System.out.println(fxml);
@@ -130,6 +145,7 @@ public class FXMLViewLoader {
 		// Navigator.getMapRoot().put(initializable, (Pane) fxmlLoaded);
 		if (root == null || fxmlLoaded == root) {
 			root = (Pane) fxmlLoaded;
+			root.setVisible(visibility);
 			return;
 		}
 		root.getChildren().add((Node) fxmlLoaded);

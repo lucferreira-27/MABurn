@@ -20,9 +20,16 @@
     -fx-font-family: Arial, sans-serif;
     -fx-font-size: 12.0pt;
     -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
-    -fx-border-radius: 10 10 10 10;
-    -fx-background-radius: 10 10 10 ;
+
+
+}
+
+
+.menu-nav{
+    -fx-background-color: #A32020;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-border-insets: 0px 0px 10px 0px;
+    -fx-background-insets: 0px 0px 10px 0px;
 
 }
 

@@ -7,6 +7,7 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.fxml.FXML;
@@ -18,26 +19,34 @@ import javafx.scene.image.ImageView;
 public class HomeInterfaceController implements Initializable {
 	private Navigator navigator = new Navigator();
 	private Category category;
-
 	private DataFetcher dataFetcher;
 
-	@FXML
-	private Button btnCollectionAnime = new Button();
+	private static final String TEMPLATE_PATH = "template/home/";
 
 	@FXML
-	private Button btnCollectionManga = new Button();
+	private ImageView imgAnimes;
 
 	@FXML
-	private Button btnDownloads = new Button();
+	private ImageView imgMangas;
 
 	@FXML
-	private Button btnCalendar = new Button();
+	private ImageView imgSettings;
+
+	@FXML
+	private ImageView imgDownloads;
+
+	@FXML
+	private ImageView imgBugReport;
+
+	@FXML
+	private ImageView imgCalendar;
 
 	public HomeInterfaceController() {
 		// TODO Auto-generated constructor stub
 
 	}
 
+	@FXML
 	public void onClickOnAnime() {
 
 		category = Category.ANIME;
@@ -53,8 +62,9 @@ public class HomeInterfaceController implements Initializable {
 
 	}
 
+	@FXML
 	public void onClickOnManga() {
-		
+
 		category = Category.MANGA;
 		navigator.open(Interfaces.COLLECTION);
 
@@ -69,10 +79,16 @@ public class HomeInterfaceController implements Initializable {
 
 	}
 
+	@FXML
 	public void onClickOnDownlods() {
 
 		navigator.open(Interfaces.DOWNLOADS);
 
+	}
+
+	@FXML
+	public void onClickOnSettings() {
+		navigator.open(Interfaces.CONFIGURATION);
 	}
 
 	@Override
@@ -80,20 +96,67 @@ public class HomeInterfaceController implements Initializable {
 
 		try {
 
-			Image imgAnime = new Image(Resources.getResourceAsStream("icons/anime.png"));
-			Image imgManga = new Image(Resources.getResourceAsStream("icons/manga.png"));
-			Image imgDownloads = new Image(Resources.getResourceAsStream("icons/download.png"));
-			Image imgCalendar = new Image(Resources.getResourceAsStream("icons/calendar.png"));
+			imgAnimes.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_01.png")));
+			imgAnimes.hoverProperty().addListener((event) -> {
+				if (imgAnimes.isHover())
+					imgAnimes.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_01.png")));
+				else
+					imgAnimes.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_01.png")));
 
-			btnCollectionAnime.setGraphic(new ImageView(imgAnime));
-			btnCollectionManga.setGraphic(new ImageView(imgManga));
-			btnDownloads.setGraphic(new ImageView(imgDownloads));
-			btnCalendar.setGraphic(new ImageView(imgCalendar));
+			});
+
+			imgMangas.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_02.png")));
+			imgMangas.hoverProperty().addListener((event) -> {
+				if (imgMangas.isHover())
+					imgMangas.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_02.png")));
+				else
+					imgMangas.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_02.png")));
+
+			});
+			imgCalendar.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_03.png")));
+			imgCalendar.hoverProperty().addListener((event) -> {
+				if (imgCalendar.isHover())
+					imgCalendar.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_03.png")));
+				else
+					imgCalendar
+							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_03.png")));
+
+			});
+
+			imgDownloads.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_05.png")));
+			imgDownloads.hoverProperty().addListener((event) -> {
+				if (imgDownloads.isHover())
+					imgDownloads.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_05.png")));
+				else
+					imgDownloads
+							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_05.png")));
+
+			});
+			imgSettings.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_04.png")));
+			imgSettings.hoverProperty().addListener((event) -> {
+				if (imgSettings.isHover())
+					imgSettings.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_04.png")));
+				else
+					imgSettings
+							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_04.png")));
+
+			});
+			imgBugReport.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_06.png")));
+			imgBugReport.hoverProperty().addListener((event) -> {
+				if (imgBugReport.isHover())
+					imgBugReport.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_06.png")));
+				else
+					imgBugReport
+							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_06.png")));
+
+			});
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
+
 	public Category getCategory() {
 		return category;
 	}

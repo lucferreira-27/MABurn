@@ -12,6 +12,7 @@ import com.lucas.ferreira.maburn.controller.MenuController;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -79,7 +80,7 @@ public class MainInterfaceView {
 //				Navigator navigator = new Navigator();
 //				navigator.open(Interfaces.MAIN);
 				initFX(fxPanel);
-				loadFXML();
+//				loadFXML();
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -92,12 +93,12 @@ public class MainInterfaceView {
 	}
 
 	private void loadFXML() {
-		fxmlViewLoader.loadInterface("MainViewFXML.fxml", menuController);
+		fxmlViewLoader.loadInterface("MainViewFXML.fxml", menuController, true);
 
 	}
 
 	private void waitInitializeIsDone() {
-		while (!initializeIsDone && !fxmlViewLoader.isDone()) {
+		while (!initializeIsDone) {
 			// CustomLogger.log("> Loading view");
 			try {
 				Thread.sleep(50);
@@ -125,12 +126,15 @@ public class MainInterfaceView {
 
 	private void initFX(final JFXPanel fxPanel) throws IOException {
 
-		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
-			initializeIsDone = true;
-
-		});
+//		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
+//			initializeIsDone = true;
+//
+//		});
 		CustomLogger.log("> Initialize MainInterfaceView");
 		createScene();
+		Navigator navigator = new Navigator();
+		navigator.open(Interfaces.COLLECTION); // preload collection.
+		initializeIsDone = true;
 
 		CustomLogger.log("> Initialization Complete  MainInterfaceView");
 
@@ -145,7 +149,8 @@ public class MainInterfaceView {
 		stage.getIcons().add(icon);
 		stage.setTitle("MABurn");
 		stage.setMaximized(true);
-
+		stage.setMinWidth(1232);
+		stage.setMinHeight(771);
 		stage.setScene(scenePane);
 
 	}
