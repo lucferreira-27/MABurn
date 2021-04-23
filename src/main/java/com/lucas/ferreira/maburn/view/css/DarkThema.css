@@ -37,6 +37,14 @@
     -fx-background-color: #1C1C1C;
 }
 
+#apMenu{
+   -fx-background-color: #2b2b2a;
+   /**  -fx-background-color: #1C1C1C; **/
+    -fx-border-width: 1.0;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10;
+}
+
 .dialog-pane {
     -fx-border-color: black;
     -fx-border-width: 2.0px;

@@ -133,7 +133,7 @@ public class MainInterfaceView {
 		CustomLogger.log("> Initialize MainInterfaceView");
 		createScene();
 		Navigator navigator = new Navigator();
-		navigator.open(Interfaces.COLLECTION); // preload collection.
+		navigator.preload(Interfaces.COLLECTION); // preload collection.
 		initializeIsDone = true;
 
 		CustomLogger.log("> Initialization Complete  MainInterfaceView");
@@ -149,8 +149,8 @@ public class MainInterfaceView {
 		stage.getIcons().add(icon);
 		stage.setTitle("MABurn");
 		stage.setMaximized(true);
-		stage.setMinWidth(1232);
-		stage.setMinHeight(771);
+//		stage.setMinWidth(1232);
+//		stage.setMinHeight(771);
 		stage.setScene(scenePane);
 
 	}

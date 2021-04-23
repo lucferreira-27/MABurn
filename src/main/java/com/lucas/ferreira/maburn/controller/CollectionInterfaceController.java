@@ -2,7 +2,6 @@ package com.lucas.ferreira.maburn.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -10,7 +9,6 @@ import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.CollectionFilter;
-import com.lucas.ferreira.maburn.model.CollectionGridPane;
 import com.lucas.ferreira.maburn.model.CollectionMatch;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
@@ -44,9 +42,12 @@ import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -76,7 +77,7 @@ public class CollectionInterfaceController implements Initializable {
 	private GridPane itensImagesGridPane;
 
 	@FXML
-	private ScrollPane itensImagesScroll;
+	private ScrollPane itemsImagesScroll;
 
 	@FXML
 	private AnchorPane collectionAnchorPane;
@@ -125,23 +126,26 @@ public class CollectionInterfaceController implements Initializable {
 	private ProgressBar pbReadProgress;
 	@FXML
 	private ProgressIndicator sortCollectionLoad;
+
 	private HomeInterfaceController homeController;
 	private Navigator navigator = new Navigator();
 	private DataFetcher dataFetcher;
 	private Collections collection;
 	private DataFetcher collectionLoader;
-	private CollectionGridPane collectionGridPane;
 	private CollectionFilter filter = new CollectionFilter();
 	private CollectionCheck collectionCheck = new CollectionCheck();
 	private Category category;
 	private String querry;
 	private GridPaneTable searchTable = new GridPaneTable();
 	private GridPaneTable collectionTable = new GridPaneTable();
-
 	private BooleanProperty emptyProperty = new SimpleBooleanProperty();
 	private BooleanProperty searchModeProperty = new SimpleBooleanProperty(false);
 	private BooleanProperty reverseModeProperty = new SimpleBooleanProperty(false);
 	private StringProperty querryProperty = new SimpleStringProperty();
+
+	private IntegerProperty propertyItemsTotal = new SimpleIntegerProperty();
+
+	private BooleanProperty propertyFullLoaded = new SimpleBooleanProperty(false);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -150,44 +154,61 @@ public class CollectionInterfaceController implements Initializable {
 		if (homeController == null || homeController.getCategory() == null) {
 			return;
 		}
+		propertyFullLoaded.set(false);
+
+//		try {
+//			if (fullLoadedProperty.get()) {
+//				if (itensImagesGridPane.getChildren().size() == 0) {
+//					if (homeController.getCategory() == Category.ANIME && animeCollectionTable.getCells().size() > 0) {
+//						System.out.println("HomeController: " + homeController.getCategory());
+//						System.out.println("Category: " + category);
+//						System.out.println("AnimeCollectionTable: " + animeCollectionTable.getCells().size());
+//						sortImagesGridPane(animeCollectionTable);
+//					} else if (homeController.getCategory() == Category.MANGA
+//							&& mangaCollectionTable.getCells().size() > 0) {
+//						System.out.println("HomeController: " + homeController.getCategory());
+//						System.out.println("Category: " + category);
+//						System.out.println("MangaCollectionTable: " + mangaCollectionTable.getCells().size());
+//						sortImagesGridPane(mangaCollectionTable);
+//					} else
+//						throw new Exception("Error in recover collection!");
+//					onClickOnImageGridPane();
+//					onSearchBarType();
+//				}
+//				return;
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.err.println("Category: " + category + "\n HomeController Category: " + homeController.getCategory());
+//			// e.printStackTrace();
+//		}
+
 		final ObservableList<Node> children = itensImagesGridPane.getChildren();
 
-		InvalidationListener listener = new InvalidationListener() {
-
-			private int size = children.size();
-
-			@Override
-			public void invalidated(Observable o) {
-
-				if (children.size() > 0) {
-					GridPaneCell cell = (GridPaneCell) children.get(children.size() - 1).getUserData();
-
-				}
-			}
-
-		};
-
-		
-		itensImagesGridPane.getChildren().addListener(listener);
+		children.addListener((InvalidationListener) o -> {
+			int size = children.size();
+			propertyItemsTotal.set(size);
+			System.out.println(size);
+		});
 
 		Image imgReadFolder = new Image(Resources.getResourceAsStream("icons/load_collection_icon.png"));
 		loadImageLoadArea.setImage(imgReadFolder);
 
 		category = homeController.getCategory();
-		
+
 		if (category == Category.ANIME)
 			lblCollectionName.setText("Anime Collection");
-		else if(category == Category.MANGA) {
+		else if (category == Category.MANGA) {
 			lblCollectionName.setText("Manga Collection");
 
 		}
-		collectionGridPane = new CollectionGridPane(category, itensImagesScroll);
 
 		itensImagesGridPane.visibleProperty().addListener((obs, oldvalue, newvalue) -> {
 			if (!newvalue) {
 				showSortLoad();
 			} else {
 				hideSortLoad();
+				propertyFullLoaded.set(true);
 			}
 		});
 
@@ -345,7 +366,7 @@ public class CollectionInterfaceController implements Initializable {
 				else {
 					if (category == Category.ANIME)
 						lblCollectionName.setText("Anime Collection");
-					else if(category == Category.MANGA) {
+					else if (category == Category.MANGA) {
 						lblCollectionName.setText("Manga Collection");
 
 					}
@@ -376,7 +397,7 @@ public class CollectionInterfaceController implements Initializable {
 		lblSearch.setVisible(true);
 		btnSearch.setVisible(true);
 		searchItemGridPane.setVisible(true);
-		itensImagesScroll.setContent(searchItemGridPane);
+		itemsImagesScroll.setContent(searchItemGridPane);
 	}
 
 	private void hideSearchOption() {
@@ -384,8 +405,7 @@ public class CollectionInterfaceController implements Initializable {
 			lblSearch.setVisible(false);
 			btnSearch.setVisible(false);
 			searchItemGridPane.setVisible(false);
-
-			itensImagesScroll.setContent(itensImagesGridPane);
+			itemsImagesScroll.setContent(itensImagesGridPane);
 		});
 	}
 
@@ -470,11 +490,11 @@ public class CollectionInterfaceController implements Initializable {
 	@FXML
 	public void onClickFilter() {
 
-		if (filter.getActiveFilter() == CollectionFilterType.DESC) {
+		if (filter.propertyActiveFilter().get() == CollectionFilterType.DESC) {
 			btnFilter.setText("Z-A");
 			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.ASC);
 			reverseModeProperty.set(true);
-		} else if (filter.getActiveFilter() == CollectionFilterType.ASC) {
+		} else if (filter.propertyActiveFilter().get() == CollectionFilterType.ASC) {
 			btnFilter.setText("A-Z");
 			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.DESC);
 			reverseModeProperty.set(false);
@@ -562,30 +582,30 @@ public class CollectionInterfaceController implements Initializable {
 
 	}
 
-	private void firstImagesGridPaneSort(GridPaneTable table) {
-		try {
-
-			List<GridPaneCell> cells = table.getCells();
-
-			Platform.runLater(() -> {
-				itensImagesGridPane.getChildren().clear();
-			});
-
-			for (int i = 0; i < cells.size(); i++) {
-				AddCellInGridPane(cells, i, 100);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-
-		if (filter.getActiveFilter() == null) {
-
-			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.ASC);
-
-		}
-
-	}
+//	private void firstImagesGridPaneSort(GridPaneTable table) {
+//		try {
+//
+//			List<GridPaneCell> cells = table.getCells();
+//
+//			Platform.runLater(() -> {
+//				itensImagesGridPane.getChildren().clear();
+//			});
+//
+//			for (int i = 0; i < cells.size(); i++) {
+//				AddCellInGridPane(cells, i, 100);
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//
+//		if (filter.getActiveFilter() == null) {
+//
+//			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.ASC);
+//
+//		}
+//
+//	}
 
 	private void sortImagesGridPane(GridPaneTable table) {
 		Platform.runLater(() -> {
@@ -604,7 +624,7 @@ public class CollectionInterfaceController implements Initializable {
 				e.printStackTrace();
 			}
 
-			if (filter.getActiveFilter() == null) {
+			if (filter.propertyActiveFilter().get() == null) {
 
 				filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.ASC);
 
@@ -633,11 +653,14 @@ public class CollectionInterfaceController implements Initializable {
 	}
 
 	private void initItensImagesScrollPane() {
+		itemsImagesScroll.setLayoutY(10);
+		itemsImagesScroll.setLayoutX(200);
+		itemsImagesScroll.setPrefViewportHeight(MainInterfaceView.getInstance().getRoot().getScene().getHeight() - 150);
+		itemsImagesScroll.setPannable(false);
 
-		itensImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {
+		itemsImagesScroll.widthProperty().addListener((obs, oldvalue, newvalue) -> {
 			double imageWith = 168.75;
 			double width = newvalue.doubleValue();
-
 			double size = width / imageWith;
 			if ((int) size <= 0) {
 				size = 1;
@@ -669,8 +692,29 @@ public class CollectionInterfaceController implements Initializable {
 		return collection;
 	}
 
-	public void setDataFetcher(DataFetcher dataFetcher) {
-		this.dataFetcher = dataFetcher;
+	public GridPane getItensImagesGridPane() {
+		// TODO Auto-generated method stub
+		return itensImagesGridPane;
+	}
+
+	public BooleanProperty propertyFullLoaded() {
+		return propertyFullLoaded;
+	}
+
+	public IntegerProperty propertyItemTotal() {
+		return propertyItemsTotal;
+	}
+
+	public ObjectProperty<CollectionFilterType> propertyFilter() {
+		return null;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public CollectionFilter getFilter() {
+		return filter;
 	}
 
 //	public ItemsInterfaceView getItensView() {

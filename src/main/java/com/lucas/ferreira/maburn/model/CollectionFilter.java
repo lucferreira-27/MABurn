@@ -12,11 +12,13 @@ import com.lucas.ferreira.maburn.util.comparator.FilterDescComparator;
 import com.lucas.ferreira.maburn.util.comparator.FilterScoreComparator;
 
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.GridPane;
 
 public class CollectionFilter {
 
-	private CollectionFilterType activeFilter;
+	private ObjectProperty<CollectionFilterType> propertyActiveFilter = new SimpleObjectProperty<CollectionFilterType>();
 
 	public CollectionFilter() {
 	}
@@ -24,7 +26,7 @@ public class CollectionFilter {
 	public void filter(GridPaneTable collectionTable, GridPane gridPaneTable, CollectionFilterType filter) {
 
 		GridPane table = gridPaneTable;
-		activeFilter = filter;
+		propertyActiveFilter.set(filter);
 		switch (filter) {
 		case ASC:
 			filterOrderAsc(table, collectionTable);
@@ -103,7 +105,7 @@ public class CollectionFilter {
 		addCellsInGridPane(cells, table, collectionTable);
 	}
 
-	public CollectionFilterType getActiveFilter() {
-		return activeFilter;
+	public ObjectProperty<CollectionFilterType> propertyActiveFilter() {
+		return propertyActiveFilter;
 	}
 }

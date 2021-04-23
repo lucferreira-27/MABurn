@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.view;
 
+import com.lucas.ferreira.maburn.controller.CollectionMenuController;
 import com.lucas.ferreira.maburn.controller.DownloadInQueueController;
 import com.lucas.ferreira.maburn.controller.MenuController;
 
@@ -7,8 +8,8 @@ import javafx.fxml.Initializable;
 
 public enum Components {
 	MENU("MenuViewFXML.fxml", new MenuController()),
-	DOWNLOAD_IN_QUEUE("DownloadInQueueInterfaceView.fxml", new DownloadInQueueController());
-
+	DOWNLOAD_IN_QUEUE("DownloadInQueueInterfaceView.fxml", new DownloadInQueueController()),
+	COLLECTION_MENU("CollectionImagesMenu.fxml", new CollectionMenuController());
 	private Initializable controller;
 	private String fxml;
 

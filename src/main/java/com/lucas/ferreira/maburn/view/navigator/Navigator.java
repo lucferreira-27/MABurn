@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.view.navigator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,39 +20,50 @@ public class Navigator {
 
 	private static Map<Interfaces, Initializable> mapNavigator = new HashMap<Interfaces, Initializable>();
 	private static List<Interfaces> interfacesList = new ArrayList<Interfaces>();
-	private static Map<Initializable,Node> mapNodesComponts = new HashMap<Initializable,Node>();
-	
-	// **DEFAULT MENU ALL INTERFACES CONTAINS**
-	private void addMenu() {
-		Initializable menuController = Components.MENU.getController();
-		String fxml = Components.MENU.getFxml();
+	private static Map<Initializable, Node> mapNodesComponts = new HashMap<Initializable, Node>();
+
+	private void loadComponent(Components component) {
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
-		fxmlViewLoader.loadComponent(fxml, menuController, 0);
+		try {
+			fxmlViewLoader.loadComponent(component);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
-	private void hideMenu() {
-		Initializable menuController = Components.MENU.getController();
+
+	private void hideComponenet(Components component) {
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
-		fxmlViewLoader.hideComponent(menuController);
+
+		fxmlViewLoader.hideComponent(component);
+
 	}
-	
+
 	public void open(Interfaces interfaces) {
 
 		Initializable controller = interfaces.getController();
 		String fxml = interfaces.getFxml();
 		System.out.println("> OPENING: " + fxml + " | " + interfaces.name() + " MapNavigator: " + mapNavigator.size());
 
-		mapNavigator.put(interfaces, interfaces.getController());
+		mapNavigator.put(interfaces, interfaces.getController()); 
 		interfacesList.add(interfaces);
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
 
+		loadComponents(interfaces);
+	}
+
+	private void loadComponents(Interfaces interfaces) {
 		if (interfaces == Interfaces.HOME) {
-			hideMenu();
-		}else {
-			addAllComponents();
+			hideComponenet(Components.MENU);
+			return;
+		}
+		loadComponent(Components.MENU);
+		if (interfaces == Interfaces.COLLECTION) {
+			loadComponent(Components.COLLECTION_MENU);
 		}
 	}
+
 	public void preload(Interfaces interfaces) {
 		Initializable controller = interfaces.getController();
 		String fxml = interfaces.getFxml();
@@ -59,11 +71,11 @@ public class Navigator {
 
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
-		
+
 		if (interfaces == Interfaces.HOME) {
-			hideMenu();
-		}else {
-			addAllComponents();
+			hideComponenet(Components.MENU);
+		} else {
+			loadComponent(Components.MENU);
 		}
 	}
 
@@ -83,8 +95,8 @@ public class Navigator {
 
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
+		loadComponents(interfaces);
 
-		addAllComponents();
 	}
 
 	public Interfaces getParent() {
@@ -97,9 +109,7 @@ public class Navigator {
 		return interfaces;
 	}
 
-	private void addAllComponents() {
-		addMenu();
-	}
+
 
 //	public static void preLoadInterfaces() {
 //		for (Interfaces interfaces : Interfaces.values()) {
@@ -113,7 +123,6 @@ public class Navigator {
 	public static Map<Interfaces, Initializable> getMapNavigator() {
 		return mapNavigator;
 	}
-
 
 	public static Map<Initializable, Node> getMapNodesComponts() {
 		return mapNodesComponts;

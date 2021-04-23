@@ -35,7 +35,7 @@ public class SearchCard implements Card {
 	public void overlay() {
 		CollectionItem item = ((CollectionItem) cell.getUserData());
 		String title = item.getTitleDataBase();
-		String score = item.getScore().toString();
+		String score = item.getScore() == null ? "0.00" : item.getScore().toString();
 		String date = item.getDate();
 		Animations animation = new Animations((Pane) cell.getNode());
 

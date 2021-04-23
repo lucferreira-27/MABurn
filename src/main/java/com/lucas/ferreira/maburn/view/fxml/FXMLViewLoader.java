@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
@@ -13,8 +14,11 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class FXMLViewLoader {
 	private static FXMLLoader loader;
@@ -50,41 +54,63 @@ public class FXMLViewLoader {
 
 	}
 
-	public void loadComponent(String fxml, Initializable initializable, int position) {
+	public void loadComponent(Components components) throws IOException {
+
 		this.root = MainInterfaceView.getInstance().getRoot();
+		Initializable initializable = components.getController();
+		String fxml = components.getFxml();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(fxml));
+		loader.setController(initializable);
+		Node fxmlLoaded = loader.load();
+		Platform.runLater(() -> {
+			switch (components) {
+			case MENU:
+				root.getChildren().set(0, fxmlLoaded);
+				break;
+			case COLLECTION_MENU:
+				StackPane stackPane = (StackPane) root.getChildren().get(1);
+				System.out.println("NODE: " + fxmlLoaded);
+				StackPane.setAlignment(fxmlLoaded, Pos.BOTTOM_CENTER);
+				stackPane.getChildren().add(fxmlLoaded);
+				break;
+			case DOWNLOAD_IN_QUEUE:
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource(fxml));
-			loader.setController(initializable);
+				break;
+			default:
+				break;
+			}
+			Navigator.getMapNodesComponts().put(initializable, fxmlLoaded);
 
-			Object fxmlLoaded = loader.load();
-			Platform.runLater(() -> {
-				try {
-					root.getChildren().set(position, (Node) fxmlLoaded);
+		});
 
-				} catch (IndexOutOfBoundsException e) {
-					// TODO: handle exception
-					root.getChildren().set(0, (Node) fxmlLoaded);
-
-				}
-				Navigator.getMapNodesComponts().put(initializable, (Node) fxmlLoaded);
-				// root.getChildren().add((Node) fxmlLoaded);
-			});
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
 	}
 
-	public void hideComponent(Initializable initializable) {
+	public void hideComponent(Components components) {
 		this.root = MainInterfaceView.getInstance().getRoot();
-
 		Platform.runLater(() -> {
-			Node component = Navigator.getMapNodesComponts().get(initializable);
-			if (root.getChildren().contains(component)) {
-				root.getChildren().get(0).setVisible(false);
+			Node component;
+			Initializable initializable = components.getController();
+			switch (components) {
+			case MENU:
+				component = Navigator.getMapNodesComponts().get(initializable);
+				if (root.getChildren().contains(component)) {
+					root.getChildren().get(0).setVisible(false);
+				}
+				break;
+			case COLLECTION_MENU:
+				StackPane stackPane = (StackPane) root.getChildren().get(2);
+				component = Navigator.getMapNodesComponts().get(initializable);
+				if (stackPane.getChildren().contains(component)) {
+					int index = stackPane.getChildren().size() - 1;
+					stackPane.getChildren().get(index).setVisible(false);
+				}
+				break;
+			case DOWNLOAD_IN_QUEUE:
+
+				break;
+			default:
+				break;
 			}
 		});
 

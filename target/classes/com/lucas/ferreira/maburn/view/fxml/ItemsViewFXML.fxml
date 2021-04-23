@@ -9,246 +9,216 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefWidth="1156.0" stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
-	<children>
+   <children>
+      <StackPane prefHeight="150.0" prefWidth="1156.0">
+         <children>
+            <BorderPane prefHeight="200.0" prefWidth="2048.0">
+               <center>
+                  <StackPane fx:id="stackPane" prefWidth="1252.0" BorderPane.alignment="CENTER">
+      
+            
+                           <AnchorPane fx:id="collectionAnchorPane" layoutY="200" managed="true" prefHeight="252.0" prefWidth="826.0" styleClass="itensImagesAnchorPane" StackPane.alignment="CENTER">
+      
+            
+                              <Button fx:id="btnFilter" layoutX="40" layoutY="15" onAction="#onClickFilter" text="A-Z" />
+      
+                              <Button fx:id="btnReload" layoutX="40" layoutY="70" onAction="#onClickReload" text="RELOAD" />
+      
+                  
+                              <ScrollPane fx:id="itemsImagesScroll" fitToWidth="true" hbarPolicy="NEVER" layoutX="149.0" layoutY="12.0" pannable="true" prefHeight="630.0" prefViewportHeight="800.0" prefWidth="867.0" styleClass="itensImagesScroll" vbarPolicy="ALWAYS" AnchorPane.leftAnchor="149.0" AnchorPane.rightAnchor="140.0">
+      
+                  
+                                 <GridPane fx:id="searchItemGridPane" alignment="TOP_CENTER" hgap="1" vgap="1" visible="true">
+      
+                                          <Label fx:id="lblSearch" text="It looks like you don't have ${value} in the collection!" GridPane.columnIndex="0" GridPane.rowIndex="80" />
+                              <Button fx:id="btnSearch" onAction="#onClickButtonSearch" text="Search" visible="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="90" />
+                              <columnConstraints>
+                                 <ColumnConstraints />
+                              </columnConstraints>
+                              <rowConstraints>
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                                 <RowConstraints />
+                              </rowConstraints>
+      
+                  
+                                 </GridPane>
+      
+                                       <GridPane fx:id="itensImagesGridPane" alignment="TOP_CENTER" hgap="5" styleClass="itensImagesGridPane" vgap="5" />
+      
+                  
+                              </ScrollPane>
+      
+            
+                           </AnchorPane>
+                     <ProgressIndicator fx:id="sortCollectionLoad" layoutX="270.0" layoutY="21.0" visible="false" StackPane.alignment="CENTER">
+                        <StackPane.margin>
+                           <Insets />
+                        </StackPane.margin>
+                     </ProgressIndicator>
+      
+                           <AnchorPane fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="false" StackPane.alignment="TOP_CENTER">
+      
+                              <ImageView fx:id="loadImageLoadArea" fitHeight="82.69" fitWidth="87.03" layoutX="253.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" />
+                        <ProgressBar fx:id="pbReadProgress" layoutX="129.0" layoutY="113.0" prefHeight="18.0" prefWidth="334.0" visible="true" />
+                        <!--		<Label fx:id="lblLoadFolderCollectionRead" layoutX="130.0" layoutY="137.0" text="folderRead" visible="true" /> -->
+                        <Label fx:id="lblLoadDataBase" layoutX="130.0" layoutY="137.0" prefHeight="17.0" text="Fetch: " visible="true" />
+                        <Label fx:id="lblLoadFolderItemRead" layoutX="130.0" layoutY="160.0" text="Read: " visible="true" />
+                        <Label fx:id="lblPorcentage" layoutX="472.0" layoutY="114.0" text="0" />
+                        <Label fx:id="lblPath" layoutX="129.0" layoutY="88.0" text="" />
+      
+                              <StackPane.margin>
+                           <Insets top="50.0" />
+                        </StackPane.margin>
+                     </AnchorPane>
+                     <padding>
+                        <Insets bottom="70.0" />
+                     </padding>
+                  </StackPane>
+               </center>
+               <top>
+      
+            
+                        <GridPane alignment="TOP_CENTER" hgap="0" styleClass="menuSearch" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets bottom="0" left="0" right="0" top="0" />
+                     </padding>
+      
+            
+                           <TextField fx:id="txtSearchBar" alignment="TOP_CENTER" prefHeight="36.0" prefWidth="655.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      
+            
+                              <GridPane.margin>
+                           <Insets left="175.0" right="10.0" />
+                        </GridPane.margin>
+      
+                           </TextField>
+      
+            
+                           <Label fx:id="lblCollectionName" alignment="TOP_CENTER" prefWidth="600" styleClass="label-title" text="Collection" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <GridPane.margin>
+                           <Insets left="10.0" right="200.0" />
+                        </GridPane.margin>
+      
+                           </Label>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+      
+            
+                        </GridPane>
+               </top>
+            </BorderPane>
 
+         </children>
+      </StackPane>
+      <Pane prefHeight="595.0" prefWidth="1156.0" style="-fx-background-color: #1C1C1C;" />
 
-		<GridPane alignment="TOP_CENTER" hgap="0" styleClass="menuSearch" StackPane.alignment="CENTER">
-			<padding>
-				<Insets bottom="0" left="0" right="0" top="0" />
-			</padding>
-
-
-			<TextField fx:id="txtSearchBar" alignment="TOP_CENTER" prefHeight="36.0" prefWidth="655.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-
-
-				<GridPane.margin>
-					<Insets left="175.0" right="10.0" />
-				</GridPane.margin>
-
-			</TextField>
-
-
-			<Label fx:id="lblCollectionName" alignment="TOP_CENTER" prefWidth="600" styleClass="label-title" text="Collection" GridPane.columnIndex="2" GridPane.rowIndex="1">
-				<GridPane.margin>
-					<Insets left="10.0" right="200.0" />
-				</GridPane.margin>
-
-			</Label>
-
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-
-
-
-		</GridPane>
-		<StackPane fx:id="stackPane">
-
-
-			<AnchorPane fx:id="collectionAnchorPane" layoutY="200" managed="true" prefHeight="252.0" prefWidth="669.0" styleClass="itensImagesAnchorPane" StackPane.alignment="CENTER">
-
-
-				<Button fx:id="btnFilter" layoutX="40" layoutY="15" onAction="#onClickFilter" text="A-Z" />
-
-				<Button fx:id="btnReload" layoutX="40" layoutY="70" onAction="#onClickReload" text="RELOAD" />
-
-
-				<ScrollPane fx:id="itensImagesScroll" fitToWidth="true" hbarPolicy="NEVER" layoutX="135.0" layoutY="12.0" pannable="true" prefViewportHeight="800.0" styleClass="itensImagesScroll" vbarPolicy="ALWAYS" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="140.0">
-
-
-					<GridPane fx:id="searchItemGridPane" alignment="TOP_CENTER" hgap="1" vgap="1" visible="true">
-
-						<Label fx:id="lblSearch" text="It looks like you don't have ${value} in the collection!" GridPane.columnIndex="0" GridPane.rowIndex="80" />
-						<Button fx:id="btnSearch" onAction="#onClickButtonSearch" text="Search" visible="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="90" />
-                  <columnConstraints>
-                     <ColumnConstraints />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                     <RowConstraints />
-                  </rowConstraints>
-
-
-
-
-
-					</GridPane>
-
-					<GridPane fx:id="itensImagesGridPane" alignment="TOP_CENTER" hgap="5" styleClass="itensImagesGridPane" vgap="5" />
-
-
-				</ScrollPane>
-
-
-			</AnchorPane>
-			<ProgressIndicator fx:id="sortCollectionLoad" layoutX="270.0" layoutY="21.0" visible="false" StackPane.alignment="CENTER">
-            <StackPane.margin>
-               <Insets />
-            </StackPane.margin></ProgressIndicator>
-         <AnchorPane fx:id="apMenu" maxHeight="241.0" maxWidth="1600.0" prefHeight="241.0" prefWidth="1284.0" StackPane.alignment="BOTTOM_LEFT">
-
-            <children>
-               <ImageView fx:id="imgMenu" fitHeight="50.0" fitWidth="50.0" layoutX="800.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <ImageView fx:id="imgStorage" fitHeight="30.0" fitWidth="30.0" layoutX="115.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblStorage" layoutX="159.0" layoutY="71.0" text="Storage" textFill="WHITE" />
-               <ImageView fx:id="imgFilter" fitHeight="30.0" fitWidth="30.0" layoutX="115.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblFilter" layoutX="159.0" layoutY="143.0" text="Filter" textFill="WHITE" />
-               <ImageView fx:id="imgVariant" fitHeight="30.0" fitWidth="30.0" layoutX="365.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblVariant" layoutX="409.0" layoutY="70.0" text="#NULL" textFill="WHITE" />
-               <ImageView fx:id="imgCollectionItems" fitHeight="30.0" fitWidth="30.0" layoutX="365.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblCollectionItems" layoutX="409.0" layoutY="143.0" text="Collection Items" textFill="WHITE" />
-               <ImageView fx:id="imgCollectionPath" fitHeight="30.0" fitWidth="30.0" layoutX="609.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblCollectionPath" layoutX="653.0" layoutY="70.0" text="Collection Path" textFill="WHITE" />
-               <ImageView fx:id="imgHideitems" fitHeight="30.0" fitWidth="30.0" layoutX="609.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblHideItems" layoutX="653.0" layoutY="142.0" text="Hide Items" textFill="WHITE" />
-               <ImageView fx:id="imgFavoriteItems" fitHeight="30.0" fitWidth="30.0" layoutX="886.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
-         
-               </ImageView>
-               <Label fx:id="lblFavoritesItems" layoutX="930.0" layoutY="136.0" text="Favorite Items" textFill="WHITE" />
-            </children>
-
-
-         </AnchorPane>
-
-			<AnchorPane fx:id="vboxLoadArea" maxHeight="225.0" maxWidth="593.0" visible="false" StackPane.alignment="TOP_CENTER">
-
-				<ImageView fx:id="loadImageLoadArea" fitHeight="82.69" fitWidth="87.03" layoutX="253.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-
-				</ImageView>
-				<ProgressBar fx:id="pbReadProgress" layoutX="129.0" layoutY="113.0" prefHeight="18.0" prefWidth="334.0" visible="true" />
-			<!--		<Label fx:id="lblLoadFolderCollectionRead" layoutX="130.0" layoutY="137.0" text="folderRead" visible="true" /> -->
-				<Label fx:id="lblLoadDataBase" layoutX="130.0" layoutY="137.0" prefHeight="17.0" text="Fetch: " visible="true" />
-				<Label fx:id="lblLoadFolderItemRead" layoutX="130.0" layoutY="160.0" text="Read: " visible="true" />
-				<Label fx:id="lblPorcentage" layoutX="472.0" layoutY="114.0" text="0" />
-				<Label fx:id="lblPath" layoutX="129.0" layoutY="88.0" text="" />
-
-				<StackPane.margin>
-					<Insets top="50.0" />
-				</StackPane.margin>
-			</AnchorPane>
-		</StackPane>
-
-	</children>
+   </children>
 
 
 </fx:root>

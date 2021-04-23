@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -21,6 +22,47 @@ public class  Animations {
 		rectangle.setOpacity(0.5);
 		pane.getChildren().add(rectangle);
 	
+	}
+	public void moveMenuCollection(AnchorPane menu,int start ,int end, double duration) {
+		KeyFrame keyFrameDown = new KeyFrame(Duration.seconds(duration), ev -> {
+
+			if (menu.getHeight() >= end) {
+				timeline.stop();
+				return;
+			}
+			menu.setMinHeight(menu.getHeight() + 7);
+
+		});
+		
+		
+		KeyFrame keyFrameUp = new KeyFrame(Duration.seconds(duration), ev -> {
+			if (menu.getHeight() <= start) {
+				timeline.stop();
+				return;
+			}
+			menu.setMinHeight(menu.getHeight() - 8);
+
+		});
+		
+		
+		timeline.setCycleCount(Animation.INDEFINITE);
+
+		menu.setOnMouseEntered(event -> {
+			timeline.stop();
+			timeline.getKeyFrames().clear();
+			timeline.getKeyFrames().add(keyFrameDown);
+			timeline.play();
+
+		});
+
+		menu.setOnMouseExited(event -> {
+			timeline.stop();
+			timeline.getKeyFrames().clear();
+			timeline.getKeyFrames().add(keyFrameUp);
+			timeline.play();
+
+		});
+		
 	}
 	
 	public Rectangle overlay(ImageView imageView) {
