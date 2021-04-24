@@ -2,10 +2,12 @@ package com.lucas.ferreira.maburn.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.CollectionFilter;
@@ -47,7 +49,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -56,7 +57,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
@@ -64,6 +67,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -90,8 +94,6 @@ public class CollectionInterfaceController implements Initializable {
 	@FXML
 	private TextField txtSearchBar;
 
-	@FXML
-	private Button btnFilter;
 
 	@FXML
 	private Label lblLoadDataBase;
@@ -122,6 +124,13 @@ public class CollectionInterfaceController implements Initializable {
 
 	@FXML
 	private ImageView loadImageLoadArea;
+
+	@FXML
+	private ImageView imgReload;
+
+	@FXML
+	private ImageView imgFilter;
+
 	@FXML
 	private ProgressBar pbReadProgress;
 	@FXML
@@ -188,11 +197,9 @@ public class CollectionInterfaceController implements Initializable {
 		children.addListener((InvalidationListener) o -> {
 			int size = children.size();
 			propertyItemsTotal.set(size);
-			System.out.println(size);
 		});
 
-		Image imgReadFolder = new Image(Resources.getResourceAsStream("icons/load_collection_icon.png"));
-		loadImageLoadArea.setImage(imgReadFolder);
+		imagesAndIconsSetter();
 
 		category = homeController.getCategory();
 
@@ -228,6 +235,88 @@ public class CollectionInterfaceController implements Initializable {
 
 		onClickOnImageGridPane();
 		onSearchBarType();
+
+	}
+
+	private void imagesAndIconsSetter() {
+		loadImageLoadArea.setImage(new Image(Resources.getResourceAsStream("icons/load_collection_icon.png")));
+		reloadIcon();
+		filterIcon();
+	}
+
+	private void reloadIcon() {
+
+		
+		Image imgSynchWhite = new Image(Resources.getResourceAsStream("icons/sync_white.png"));
+		Image imgSynchRed = new Image(Resources.getResourceAsStream("icons/sync_red.png"));
+
+		
+		imgReload.setImage(imgSynchWhite);
+		imgReload.setUserData(false);
+		imgReload.hoverProperty().addListener((o -> {
+			if (!(Boolean) imgReload.getUserData())
+				if (imgReload.isHover()) {
+					imgReload.setImage(imgSynchRed);
+				} else {
+					imgReload.setImage(imgSynchWhite);
+
+				}
+		}));
+		imgReload.setOnMouseClicked(event -> {
+
+			imgReload.setUserData(true);
+			imgReload.setImage(imgSynchRed);
+			imgReload.setRotate(30);
+			reloadCollection();
+
+			sortCollectionLoad.visibleProperty().addListener((obs, oldvalue, newvalue) -> {
+				if (!newvalue) {
+					imgReload.setRotate(0);
+					imgReload.setImage(imgSynchWhite);
+					imgReload.setUserData(false);
+				}
+			});
+
+		});
+	}
+
+	private void filterIcon() {
+		
+	    final ContextMenu contextMenu = new ContextMenu();
+		contextMenu.setOnAction(e -> System.out.print(((MenuItem)e.getTarget()).getText()));
+	   
+	     List<MenuItem> items = Arrays.asList(CollectionFilterType.values()).stream().map(f -> new MenuItem(f.name())).collect(Collectors.toList());
+	    
+		contextMenu.getItems().addAll(items);
+		
+		imgFilter.setOnContextMenuRequested(event -> {
+			contextMenu.show(imgFilter, event.getScreenX(), event.getScreenY());
+		});
+		Image imgFilterWhite = new Image(Resources.getResourceAsStream("icons/filter_white.png"));
+		Image imgFilterRed = new Image(Resources.getResourceAsStream("icons/filter_red.png"));
+		
+		
+		
+		imgFilter.setImage(imgFilterWhite);
+		imgFilter.setUserData(false);
+
+		imgFilter.setOnMouseClicked(event -> {
+			
+			if(event.getButton() == MouseButton.SECONDARY) {
+				return;
+			}
+			
+			if (!(Boolean) imgFilter.getUserData()) {
+				imgFilter.setUserData(true);
+				imgFilter.setImage(imgFilterRed);
+				onClickFilter();
+			} else {
+				imgFilter.setImage(imgFilterWhite);
+				imgFilter.setUserData(false);
+				onClickFilter();
+
+			}
+		});
 
 	}
 
@@ -491,26 +580,24 @@ public class CollectionInterfaceController implements Initializable {
 	public void onClickFilter() {
 
 		if (filter.propertyActiveFilter().get() == CollectionFilterType.DESC) {
-			btnFilter.setText("Z-A");
+		//	btnFilter.setText("Z-A");
 			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.ASC);
 			reverseModeProperty.set(true);
 		} else if (filter.propertyActiveFilter().get() == CollectionFilterType.ASC) {
-			btnFilter.setText("A-Z");
+		//	btnFilter.setText("A-Z");
 			filter.filter(collectionTable, itensImagesGridPane, CollectionFilterType.DESC);
 			reverseModeProperty.set(false);
 		}
 
 	}
 
-	@FXML
-	public void onClickReload() {
+	public void reloadCollection() {
 		if (dataFetcher.isRunning()) {
 			CustomLogger.log("AN OTHER RELOAD IS RUNNING!");
 			return;
 		}
 		searchModeProperty.set(false);
 		dataFetcher();
-
 	}
 
 	public void onClickButtonSearch() {
