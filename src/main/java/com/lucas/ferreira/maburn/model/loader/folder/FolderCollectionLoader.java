@@ -15,11 +15,15 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FolderCollectionLoader {
 
 	private BooleanProperty loadCompleted = new SimpleBooleanProperty(false);
 	private FolderCollectionItemLoader itemLoader = new FolderCollectionItemLoader();
+	private ObservableList<CollectionItem> obsItems =FXCollections.observableArrayList();
+
 	public Collections loadCollection(String destination, Category category) {
 		FolderReaderModel reader = new FolderReaderModel();
 		loadCompleted.set(false);
@@ -32,13 +36,28 @@ public class FolderCollectionLoader {
 		return null;
 	}
 
+	public ObservableList<CollectionItem> loadCollectionAsync(String destination, Category category, ObservableList<CollectionItem> obsItems) {
+		this.obsItems = obsItems;
+		FolderReaderModel reader = new FolderReaderModel();
+		new Thread(() -> {
+			if (category == Category.MANGA) {
+				loadMangaCollection(reader, destination);
+			}
+			if (category == Category.ANIME) {
+				loadAnimeCollection(reader, destination);
+			}
+		}).start();;
+		return obsItems;
+
+	}
+
 	private Collections loadMangaCollection(FolderReaderModel reader, String destination) {
 		Collections collection;
 		List<File> files;
 
 		collection = new MangaCollection(destination);
 		files = reader.findMangaFoldersInMangaCollectionFolder((MangaCollection) collection);
-		
+
 		addItemInCollection(collection, files, Category.MANGA);
 
 		return collection;
@@ -60,23 +79,23 @@ public class FolderCollectionLoader {
 		for (File file : files) {
 
 			CollectionItem item = null;
-			
+
 			if (category == Category.ANIME) {
 				item = new AnimeDownloaded();
-				item = itemLoader.loadCollectionItems(file.getAbsolutePath(), category);
-
-			}if (category == Category.MANGA) {
-				item = new MangaDownloaded();
-				item = itemLoader.loadCollectionItems(file.getAbsolutePath(), category);
+				// item = itemLoader.loadCollectionItems(file.getAbsolutePath(), category);
 
 			}
-			
+			if (category == Category.MANGA) {
+				item = new MangaDownloaded();
+				// item = itemLoader.loadCollectionItems(file.getAbsolutePath(), category);
+
+			}
+
 			item.setDestination(file.getAbsolutePath());
-			
-			
-			
-			collection.getItens().add(item);
+			obsItems.add(item);
+
 		}
+		collection.getItens().addAll(obsItems);
 		loadCompleted.set(true);
 	}
 

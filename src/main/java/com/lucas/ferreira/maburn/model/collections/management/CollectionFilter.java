@@ -1,9 +1,11 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.collections.management;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.model.GridPaneCell;
+import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.enums.CollectionFilterType;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;

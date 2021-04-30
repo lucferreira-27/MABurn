@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.CollectionMatch;
+import com.lucas.ferreira.maburn.model.collections.management.CollectionMatch;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;

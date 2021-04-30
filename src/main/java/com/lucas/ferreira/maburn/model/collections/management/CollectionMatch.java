@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model;
+package com.lucas.ferreira.maburn.model.collections.management;
 
 import java.util.List;
 import java.util.stream.Collectors;

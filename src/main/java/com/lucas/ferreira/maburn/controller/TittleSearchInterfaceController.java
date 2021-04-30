@@ -77,7 +77,7 @@ public class TittleSearchInterfaceController implements Initializable {
 
 		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.COLLECTION);
-		collections = collectionController.getCollection();
+		collections = collectionController.getCollectionGridPane().getCollection();
 		CollectionItem item = collections.getActualItem();
 
 		lblTitle.setText(item.getTitleDataBase());

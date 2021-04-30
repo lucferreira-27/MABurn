@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.lucas.ferreira.maburn.controller.CollectionInterfaceController;
+import com.lucas.ferreira.maburn.controller.HomeInterfaceController;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
@@ -28,6 +30,8 @@ import com.lucas.ferreira.maburn.model.loader.folder.FolderCollectionLoader;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.FutureList;
 import com.lucas.ferreira.maburn.util.LanguageReader;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -38,6 +42,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
 public class DataFetcher extends Task<Collections> {
@@ -46,6 +53,7 @@ public class DataFetcher extends Task<Collections> {
 	private XmlCollectionOrchestrator orchestratorCollection = new XmlCollectionOrchestrator();
 	private FolderCollectionLoader folderCollectionLoader = new FolderCollectionLoader();
 	private Collections collections = null;
+	private ObservableList<CollectionItem> futureCollection = FXCollections.observableArrayList();
 	private ExecutorService executorService;
 	private final BooleanProperty dataFetcherDoneProperty = new SimpleBooleanProperty(false);
 	private final BooleanProperty readDoneProperty = new SimpleBooleanProperty(false);
@@ -62,20 +70,77 @@ public class DataFetcher extends Task<Collections> {
 	private ConfigForm config;
 	private CollectionForm form;
 
-	public DataFetcher(Category category) {
-		this.category = category;
+	public DataFetcher() {
 	}
 
 	public void fetch() throws JsonParseException, JsonMappingException, IOException {
 
 		Platform.runLater(() -> {
 			stateProperty().addListener((obs, oldvalue, newvalue) -> {
-				System.out.println("STATE: " + newvalue + " " +collections.getItens().size());
+				System.out.println("STATE: " + newvalue);
 			});
 		});
+
+//		futureCollection.addListener(new ListChangeListener<CollectionItem>() {
+//			@Override
+//			public void onChanged(ListChangeListener.Change<? extends CollectionItem> c) {
+//				if (c.next()) {
+//					CollectionItem item = c.getList().get(c.getFrom());
+//					System.out.println("AddItems Collection Async Size: " + item.getDestination());
+//			//		sortImagesGridPaneAsync(collectionTable, collection.getItens().size() - 1);
+//				}
+//
+//			}
+//
+//		});
+
 		config = orchestratorConfiguration.read();
 		form = orchestratorCollection.read();
 
+		loadLocalCollection();
+
+		// loadLocalCollectionAsync();
+
+		List<CollectionItem> newCollectionItems = null;
+
+		newCollectionItems = newItemsFound();
+
+		if (newCollectionItems.size() <= 0) {
+			goalProgressProperty.set(1);
+			return;
+		}
+
+		executorService = Executors
+				.newFixedThreadPool(newCollectionItems.size() <= 10 ? newCollectionItems.size() : 10);
+
+		goalProgressProperty.set(newCollectionItems.size());
+
+		synchronizedDates(category, form, newCollectionItems);
+
+	}
+
+	private List<CollectionItem> newItemsFound() {
+		List<CollectionItem> newCollectionItems;
+		if (form.getItems() != null)
+			newCollectionItems = collections.getItens().stream().filter((item) -> {
+
+				String itemDestination = item.getDestination();
+
+				for (ListItemForm itemForm : form.getItems()) {
+					if (itemDestination.equalsIgnoreCase(itemForm.getDestination())) {
+						return false;
+					}
+				}
+				return true;
+
+			}).collect(Collectors.toList());
+		else
+			newCollectionItems = collections.getItens();
+
+		return newCollectionItems;
+	}
+
+	private void loadLocalCollection() {
 		if (category == Category.ANIME) {
 			collections = new AnimeCollection();
 			collections.setDestination(config.getAnimeConfig().getCollectionDestination());
@@ -94,37 +159,30 @@ public class DataFetcher extends Task<Collections> {
 			collections = folderCollectionLoader.loadCollection(config.getMangaConfig().getCollectionDestination(),
 					category);
 		}
-		List<CollectionItem> newCollectionItems = null;
+	}
 
-		if (form.getItems() != null)
-			newCollectionItems = collections.getItens().stream().filter((item) -> {
+	private ObservableList<CollectionItem> loadLocalCollectionAsync() {
+		if (category == Category.ANIME) {
+			collections = new AnimeCollection();
+			collections.setDestination(config.getAnimeConfig().getCollectionDestination());
 
-				String itemDestination = item.getDestination();
+			updateLblLoadFolderCollectionRead(config.getAnimeConfig().getCollectionDestination());
 
-				for (ListItemForm itemForm : form.getItems()) {
-					if (itemDestination.equalsIgnoreCase(itemForm.getDestination())) {
-						return false;
-					}
-				}
-				return true;
+			folderCollectionLoader.loadCollectionAsync(config.getAnimeConfig().getCollectionDestination(), category,
+					futureCollection);
+			return futureCollection;
 
-			}).collect(Collectors.toList());
-		else
-			newCollectionItems = collections.getItens();
-		if (newCollectionItems.size() <= 0) {
-			goalProgressProperty.set(1);
-			return;
-		}
-		if (newCollectionItems.size() <= 10) {
-			executorService = Executors.newFixedThreadPool(newCollectionItems.size());
-		} else {
-			executorService = Executors.newFixedThreadPool(10);
+		} else if (category == Category.MANGA) {
+			collections = new MangaCollection();
+			collections.setDestination(config.getMangaConfig().getCollectionDestination());
+
+			updateLblLoadFolderCollectionRead(config.getMangaConfig().getCollectionDestination());
+			folderCollectionLoader.loadCollectionAsync(config.getMangaConfig().getCollectionDestination(), category,
+					futureCollection);
+			return futureCollection;
 
 		}
-		goalProgressProperty.set(newCollectionItems.size());
-
-		synchronizedDates(category, form, newCollectionItems);
-
+		return null;
 	}
 
 	private void synchronizedDates(Category category, CollectionForm form, List<CollectionItem> newCollectionItems) {
@@ -158,9 +216,9 @@ public class DataFetcher extends Task<Collections> {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				Platform.runLater(() -> readCountProperty.set(readCountProperty.add(1).get()));
-				
+
 				newItemForms.add(itemForm);
 			});
 
@@ -298,10 +356,38 @@ public class DataFetcher extends Task<Collections> {
 		return writeDoneProperty;
 	}
 
+//	@Override
+//	protected Collections call() throws Exception {
+//		// TODO Auto-generated method stub
+//		try {
+//			fetch();
+//
+//			CollectionForm form = orchestratorCollection.read();
+//
+//			List<CollectionItem> list;
+//
+//			list = filterCategoryItems(category, form);
+//			list = filterCollectionPath(collections.getDestination(), form);
+//			collections.setItens(list);
+//
+//			dataFetcherDoneProperty.set(true);
+//			return collections;
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			throw new Exception(e);
+//		}
+//
+//	}
 	@Override
 	protected Collections call() throws Exception {
 		// TODO Auto-generated method stub
 		try {
+
+			HomeInterfaceController controller = (HomeInterfaceController) Navigator.getMapNavigator()
+					.get(Interfaces.HOME);
+			category = controller.getCategory();
 			fetch();
 
 			CollectionForm form = orchestratorCollection.read();
@@ -336,6 +422,10 @@ public class DataFetcher extends Task<Collections> {
 
 	public Collections getCollections() {
 		return collections;
+	}
+
+	public ObservableList<CollectionItem> getFutureCollections() {
+		return futureCollection;
 	}
 
 }

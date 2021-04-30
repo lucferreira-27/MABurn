@@ -41,6 +41,7 @@ public class ItemThumbnailLoader {
 
 	public GridPaneCell downloadLoad() throws ThumbnailLoadException {
 		try {
+
 			File file = findImage();
 			InputStream in = new FileInputStream(file);
 			Image image = new Image(in);
@@ -48,6 +49,7 @@ public class ItemThumbnailLoader {
 			addImageViewInImageGrid();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			throw new ThumbnailLoadException(e.getMessage());
 		}
 		return cell;
@@ -75,7 +77,6 @@ public class ItemThumbnailLoader {
 		imageView.setUserData(item);
 		imageView.setCache(true);
 		imageView.setCacheHint(CacheHint.SPEED);
-
 		
 		AnchorPane imageAreaPanel = new AnchorPane(imageView);
 

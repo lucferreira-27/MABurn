@@ -93,7 +93,7 @@ public class TitleInterfaceController implements Initializable {
 
 		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.COLLECTION);
-		collections = collectionController.getCollection();
+		collections = collectionController.getCollectionGridPane().getCollection();
 		title = collections.getActualItem();
 		CustomLogger.log("UPDATED SUB ITENS ....");
 		CustomLogger.log("UPDATEDED SUB ITENS!");

@@ -16,6 +16,7 @@ import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
@@ -103,19 +104,21 @@ public class CollectionMenuController implements Initializable {
 
 		collectionController = (CollectionInterfaceController) Navigator.getMapNavigator().get(Interfaces.COLLECTION);
 
-		collectionController.propertyFullLoaded().addListener((obs, oldvalue, newvalue) -> {
+		collectionController.getCollectionGridPane().propertyFullLoaded().addListener((obs, oldvalue, newvalue) -> {
 			if (newvalue) {
-				Animations animations = new Animations(apMenu);
-				animations.moveMenuCollection(apMenu, 30, 230, 0.001);
-				loadMenuIcons();
-				setCollectionPathLabel();
-				setHideItemsLabel();
-				setFilterActive();
-				setStorageLabel();
-				setFavoriteLabel();
-				setVariantLabel();
-				listenImagesGridPaneSize();
-				listenFilterActive();
+				Platform.runLater(() -> {
+					Animations animations = new Animations(apMenu);
+					animations.moveMenuCollection(apMenu, 30, 230, 0.001);
+					loadMenuIcons();
+					setCollectionPathLabel();
+					setHideItemsLabel();
+					setFilterActive();
+					setStorageLabel();
+					setFavoriteLabel();
+					setVariantLabel();
+					listenImagesGridPaneSize();
+					listenFilterActive();
+				});
 			}
 		});
 //		collection = collectionController.getCollection();
@@ -123,7 +126,6 @@ public class CollectionMenuController implements Initializable {
 //		Platform.runLater(() -> lblCollectionItems.setText(String.valueOf(collection.getItens().size())));
 
 	}
-
 
 	private void loadMenuIcons() {
 		imgMenu.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + "collection_menu.png")));
@@ -151,9 +153,10 @@ public class CollectionMenuController implements Initializable {
 	}
 
 	private void listenFilterActive() {
-		collectionController.getFilter().propertyActiveFilter().addListener((obs, oldvalue, newvalue) -> {
-			lblFilter.setText(newvalue.name());
-		});
+		collectionController.getCollectionGridPane().getFilter().propertyActiveFilter()
+				.addListener((obs, oldvalue, newvalue) -> {
+					lblFilter.setText(newvalue.name());
+				});
 	}
 
 	private void setHideItemsLabel() {
@@ -174,21 +177,25 @@ public class CollectionMenuController implements Initializable {
 		}
 		lblCollectionPath.setText(path);
 	}
+
 	private void setFilterActive() {
-		
-		String filter = collectionController.getFilter().propertyActiveFilter().getName();
-		if(filter.isEmpty()) {
+
+		String filter = collectionController.getCollectionGridPane().getFilter().propertyActiveFilter().getName();
+		if (filter.isEmpty()) {
 			filter = "None";
 		}
-		
+
 		lblFilter.setText(filter);
 	}
-	private void setStorageLabel(){
+
+	private void setStorageLabel() {
 		lblStorage.setText("0");
 	}
+
 	private void setFavoriteLabel() {
 		lblFavoritesItems.setText("0");
 	}
+
 	private void setVariantLabel() {
 		lblVariant.setText("0");
 	}

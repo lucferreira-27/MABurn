@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -126,6 +127,8 @@ public class FXMLViewLoader {
 		}
 
 	}
+	
+
 
 	public boolean isDone() {
 		return loaded.get();

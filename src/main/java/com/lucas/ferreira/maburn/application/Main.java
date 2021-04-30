@@ -7,8 +7,6 @@ import com.lucas.ferreira.maburn.view.navigator.Navigator;
 public class Main {
 	public static void main(String[] args) {
 
-		// StackDumper.dumpWhenSysOutContains("");
-
 		MainInterfaceView.getInstance().initAndShowGUI();
 
 		Navigator navigator = new Navigator();

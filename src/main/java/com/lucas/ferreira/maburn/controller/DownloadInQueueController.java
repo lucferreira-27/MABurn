@@ -105,8 +105,6 @@ public class DownloadInQueueController implements Initializable {
 
 	@FXML
 	private void onClickOnButtonOpen() {
-//		TitleInterfaceView titleView = new TitleInterfaceView(this);
-//		titleView.loadMainInterfaceFX();
 		TitleDownloadInterfaceController controller = (TitleDownloadInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.TITLE_DOWNLOAD);
 		controller.setTitleDownload(item);
@@ -115,8 +113,7 @@ public class DownloadInQueueController implements Initializable {
 
 	@FXML
 	private void onClickOnButtonRemove() {
-//		TitleInterfaceView titleView = new TitleInterfaceView(this);
-//		titleView.loadMainInterfaceFX();
+
 	}
 
 	@FXML
