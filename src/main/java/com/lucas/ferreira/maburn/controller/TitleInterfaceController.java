@@ -27,6 +27,7 @@ import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
+import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.Interfaces;
@@ -44,12 +45,15 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 
 public class TitleInterfaceController implements Initializable {
+	private static final String ICON_PATH = "icons/";
 	private Navigator navigator = new Navigator();
 	private Collections collections;
 	private CollectionItem title;
@@ -73,6 +77,23 @@ public class TitleInterfaceController implements Initializable {
 	private Label lblPublishedDate;
 	@FXML
 	private Label lblAverageRating;
+
+	@FXML
+	private ImageView imgStatus;
+	@FXML
+	private ImageView imgPublishedDate;
+	@FXML
+	private ImageView imgAverageRating;
+
+	@FXML
+	private ImageView imgDownload;
+	@FXML
+	private ImageView imgUpdate;
+	@FXML
+	private ImageView imgHide;
+	@FXML
+	private ImageView imgRemove;
+
 	@FXML
 	private TableView<TableCollectionItemModel> tableItens;
 	@FXML
@@ -91,6 +112,22 @@ public class TitleInterfaceController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 
+		setIcon(imgStatus, "Status", "details_icon_01.png");
+		setIcon(imgPublishedDate, "Published", "details_icon_02.png");
+		setIcon(imgAverageRating, "Rating", "details_icon_03.png");
+
+		imgDownload.setOnMouseClicked((event) -> onClickButtonDownload());
+		setIconHoverOn(imgDownload, "Download", "tool_white_02.png", "tool_red_02.png");
+
+		imgUpdate.setOnMouseClicked((event) -> onClickButtonUpdate());
+		setIconHoverOn(imgUpdate, "Update", "tool_white_03.png", "tool_red_03.png");
+
+		imgHide.setOnMouseClicked((event) -> onClickButtonHide());
+		setIconHoverOn(imgHide, "Hide", "tool_white_01.png", "tool_red_01.png");
+
+		imgRemove.setOnMouseClicked((event) -> onClickButtonRemove());
+		setIconHoverOn(imgRemove, "Remove", "tool_white_04.png", "tool_red_04.png");
+
 		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.COLLECTION);
 		collections = collectionController.getCollectionGridPane().getCollection();
@@ -99,6 +136,30 @@ public class TitleInterfaceController implements Initializable {
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 
 		loadTitleDatas();
+
+	}
+
+	private void setIconHoverOn(ImageView icon, String tip, String firstImage, String secondImage) {
+		Tooltip tooltip = new Tooltip(tip);
+		tooltip.setShowDelay(Duration.seconds(0.5));
+		Tooltip.install(icon, tooltip);
+		icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + firstImage)));
+
+		icon.hoverProperty().addListener((event) -> {
+
+			if (icon.isHover())
+				icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + secondImage)));
+			else
+				icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + firstImage)));
+
+		});
+	}
+
+	private void setIcon(ImageView icon, String tip, String firstImage) {
+		Tooltip tooltip = new Tooltip(tip);
+		tooltip.setShowDelay(Duration.seconds(0.5));
+		Tooltip.install(icon, tooltip);
+		icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + firstImage)));
 
 	}
 
@@ -148,11 +209,11 @@ public class TitleInterfaceController implements Initializable {
 		Platform.runLater(() -> {
 			txtAreaSynopsis.setText(datas.getSynopsis());
 			txtAreaSynopsis.setVisible(true);
-			lblStatus.setText(lblStatus.getText() + ": " + datas.getStatus());
+			lblStatus.setText(datas.getStatus().substring(0, 1).toUpperCase() + datas.getStatus().substring(1));
 			lblStatus.setVisible(true);
-			lblPublishedDate.setText(lblPublishedDate.getText() + ": " + datas.getPublishedDate());
+			lblPublishedDate.setText(datas.getPublishedDate().replaceAll("-", "/"));
 			lblPublishedDate.setVisible(true);
-			lblAverageRating.setText(lblAverageRating.getText() + ": " + datas.getAvaregeRating());
+			lblAverageRating.setText(String.valueOf(datas.getAvaregeRating()));
 			lblAverageRating.setVisible(true);
 		});
 	}

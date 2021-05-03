@@ -15,26 +15,21 @@ import com.lucas.ferreira.maburn.model.collections.management.CollectionSearch;
 import com.lucas.ferreira.maburn.model.collections.management.CollectionStatus;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.CollectionFilterType;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -122,41 +117,33 @@ public class CollectionInterfaceController implements Initializable {
 	private Category category;
 	private String querry;
 	private StringProperty querryProperty = new SimpleStringProperty();
-	private IntegerProperty propertyItemsTotal = new SimpleIntegerProperty();
-	private BooleanProperty propertyFullLoaded = new SimpleBooleanProperty(false);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		HomeInterfaceController homeController = (HomeInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.HOME);
 		if (homeController == null || homeController.getCategory() == null) {
 			return;
 		}
+
 		category = homeController.getCategory();
 
 		collectionLoadArea = new CollectionLoadArea(vboxLoadArea, lblLoadDataBase, lblLoadFolderItemRead,
 				loadImageLoadArea, sortCollectionLoad, lblPath, lblPorcentage, pbReadProgress,
-				collectionGridPane.getDataFetcher());
+				collectionGridPane.propertyDataFetcher());
 
 		collectionSearch = new CollectionSearch(sortCollectionLoad, loadImageLoadArea);
 
-		propertyFullLoaded.set(false);
-
+//		if (collectionGridPane.propertyFullLoaded().get())
+//			collectionGridPane.rebuild();
+//		els
 		collectionGridPane.build(category, itensImagesGridPane, itemsImagesScroll, collectionLoadArea, querryProperty);
-
-		final ObservableList<Node> children = itensImagesGridPane.getChildren();
-
-		children.addListener((InvalidationListener) o -> {
-			int size = children.size();
-			propertyItemsTotal.set(size);
-		});
-
 		imagesAndIconsSetter();
-
 		setCollectionName();
 
 		collectionLoadArea.bindLoadInfo();
-		onClickOnImageGridPane();
+//		onClickOnImageGridPane();
 		onSearchBarType();
 
 	}
@@ -183,20 +170,27 @@ public class CollectionInterfaceController implements Initializable {
 
 				}
 		}));
+
+		collectionGridPane.getImagesGridPane().visibleProperty().addListener((obs, oldvalue, newvalue) -> {
+			if (newvalue) {
+				imgReload.setRotate(0);
+				imgReload.setImage(imgSynchWhite);
+				imgReload.setUserData(false);
+
+			}
+		});
+
 		imgReload.setOnMouseClicked(event -> {
 
+			if ((Boolean) imgFilter.getUserData()) {
+				onClickFilter();
+				activeFilteWhiteIcon(new Image(Resources.getResourceAsStream("icons/filter_white.png")));
+			}
 			imgReload.setUserData(true);
 			imgReload.setImage(imgSynchRed);
 			imgReload.setRotate(30);
-			collectionGridPane.reload();
 
-			sortCollectionLoad.visibleProperty().addListener((obs, oldvalue, newvalue) -> {
-				if (!newvalue) {
-					imgReload.setRotate(0);
-					imgReload.setImage(imgSynchWhite);
-					imgReload.setUserData(false);
-				}
-			});
+			collectionGridPane.reload();
 
 		});
 	}
@@ -227,12 +221,10 @@ public class CollectionInterfaceController implements Initializable {
 			}
 
 			if (!(Boolean) imgFilter.getUserData()) {
-				imgFilter.setUserData(true);
-				imgFilter.setImage(imgFilterRed);
+				activeFilterRedIcon(imgFilterRed);
 				onClickFilter();
 			} else {
-				imgFilter.setImage(imgFilterWhite);
-				imgFilter.setUserData(false);
+				activeFilteWhiteIcon(imgFilterWhite);
 				onClickFilter();
 
 			}
@@ -240,29 +232,14 @@ public class CollectionInterfaceController implements Initializable {
 
 	}
 
-	public void onClickOnImageGridPane() {
-		itensImagesGridPane.setOnMouseClicked(event -> {
+	public void activeFilterRedIcon(Image imgFilterRed) {
+		imgFilter.setUserData(true);
+		imgFilter.setImage(imgFilterRed);
+	}
 
-			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
-				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
-				ImageView image = (ImageView) pane.getChildren().get(0);
-				if (image.getUserData() instanceof CollectionItem) {
-
-					CollectionItem item = (CollectionItem) image.getUserData();
-					collectionGridPane.getCollection().setActualItem(item);
-					if (propertyStatus.get() == CollectionStatus.COLLECTION_LOCAL) {
-						navigator.open(Interfaces.TITLE);
-						return;
-					}
-					if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
-						navigator.open(Interfaces.TITLE_SEARCH);
-						return;
-
-					}
-				}
-			}
-
-		});
+	public void activeFilteWhiteIcon(Image imgFilterWhite) {
+		imgFilter.setUserData(false);
+		imgFilter.setImage(imgFilterWhite);
 	}
 
 	public void onSearchBarType() {
@@ -352,6 +329,8 @@ public class CollectionInterfaceController implements Initializable {
 
 		new Thread(() -> {
 
+			collectionGridPane.getPropertyStatus().set(CollectionStatus.COLLECTION_SEARCH);
+
 			GridPaneTable searchTable = collectionSearch.search(querry, collection, category);
 			Platform.runLater(() -> collectionGridPane.swichTableSearch(searchTable, querry));
 
@@ -368,14 +347,6 @@ public class CollectionInterfaceController implements Initializable {
 	public GridPane getItensImagesGridPane() {
 		// TODO Auto-generated method stub
 		return itensImagesGridPane;
-	}
-
-	public BooleanProperty propertyFullLoaded() {
-		return propertyFullLoaded;
-	}
-
-	public IntegerProperty propertyItemTotal() {
-		return propertyItemsTotal;
 	}
 
 	public CollectionGridPane getCollectionGridPane() {

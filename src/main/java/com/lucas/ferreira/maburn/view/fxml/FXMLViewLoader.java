@@ -17,13 +17,17 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class FXMLViewLoader {
 	private static FXMLLoader loader;
-
+	private VBox vBox = new VBox();
+	private ScrollPane scrollPane = new ScrollPane();
+	
 	static {
 		loader = new FXMLLoader();
 	}
@@ -78,6 +82,7 @@ public class FXMLViewLoader {
 			case DOWNLOAD_IN_QUEUE:
 
 				break;
+
 			default:
 				break;
 			}

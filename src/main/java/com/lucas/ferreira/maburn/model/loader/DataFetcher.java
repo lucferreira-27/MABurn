@@ -98,7 +98,7 @@ public class DataFetcher extends Task<Collections> {
 		form = orchestratorCollection.read();
 
 		loadLocalCollection();
-
+		
 		// loadLocalCollectionAsync();
 
 		List<CollectionItem> newCollectionItems = null;
@@ -384,7 +384,6 @@ public class DataFetcher extends Task<Collections> {
 	protected Collections call() throws Exception {
 		// TODO Auto-generated method stub
 		try {
-
 			HomeInterfaceController controller = (HomeInterfaceController) Navigator.getMapNavigator()
 					.get(Interfaces.HOME);
 			category = controller.getCategory();

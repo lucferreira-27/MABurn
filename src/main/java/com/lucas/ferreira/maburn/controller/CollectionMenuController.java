@@ -147,7 +147,7 @@ public class CollectionMenuController implements Initializable {
 
 	private void listenImagesGridPaneSize() {
 		setFilterActive();
-		collectionController.propertyItemTotal().addListener((obs, oldvalue, newvalue) -> {
+		collectionController.getCollectionGridPane().propertyItemTotal().addListener((obs, oldvalue, newvalue) -> {
 			lblCollectionItems.setText(String.valueOf(newvalue.intValue()));
 		});
 	}

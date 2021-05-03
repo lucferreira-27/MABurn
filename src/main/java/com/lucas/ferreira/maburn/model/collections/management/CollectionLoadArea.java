@@ -3,13 +3,14 @@ package com.lucas.ferreira.maburn.model.collections.management;
 import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.util.MathUtil;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class CollectionLoadArea {
-	private final DataFetcher dataFetcher;
+	private DataFetcher dataFetcher;
 
 	private final Pane loadArea;
 	private final Label lblLoadDataBase;
@@ -22,7 +23,7 @@ public class CollectionLoadArea {
 
 	public CollectionLoadArea(Pane loadArea, Label lblLoadDataBase, Label lblLoadFolderItemRead,
 			ImageView loadImageLoadArea, ProgressIndicator sortCollectionLoad, Label lblPath, Label lblPorcentage,
-			ProgressIndicator pbReadProgress, DataFetcher dataFetcher) {
+			ProgressIndicator pbReadProgress, ObjectProperty<DataFetcher> propertyDataFetcher) {
 		// TODO Auto-generated constructor stub
 
 		this.loadArea = loadArea;
@@ -33,7 +34,12 @@ public class CollectionLoadArea {
 		this.sortCollectionLoad = sortCollectionLoad;
 		this.pbReadProgress = pbReadProgress;
 		this.lblPath = lblPath;
-		this.dataFetcher = dataFetcher;
+
+		propertyDataFetcher.addListener((obs, oldvalue, newvalue) -> {
+			this.dataFetcher = newvalue;
+		});
+
+		this.dataFetcher = propertyDataFetcher.get();
 
 	}
 
@@ -45,9 +51,7 @@ public class CollectionLoadArea {
 		pbReadProgress.progressProperty().addListener((obs, oldvalue, newvalue) -> {
 			lblPorcentage.setText(String.valueOf(MathUtil.roundDouble(newvalue.doubleValue(), 1) * 100));
 		});
-		dataFetcher.getReadProgressProperty().addListener((obs, oldvalue, newvalue) -> {
-			System.out.println("N: " + newvalue.doubleValue());
-		});
+
 	}
 
 	public void showQuickLoad() {

@@ -85,7 +85,7 @@ public class ItemThumbnailLoader {
 		imageAreaPanel.setCache(true);
 		imageAreaPanel.setCacheHint(CacheHint.SPEED);
 
-		imageAreaPanel.getStyleClass().add("item-image");
+//		imageAreaPanel.getStyleClass().add("item-image");
 
 		cell = new GridPaneCell(imageAreaPanel);
 		imageView.setLayoutX(3);

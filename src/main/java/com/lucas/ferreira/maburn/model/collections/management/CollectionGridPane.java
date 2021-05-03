@@ -19,26 +19,37 @@ import com.lucas.ferreira.maburn.model.loader.CollectionCheck;
 import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
+import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
+import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class CollectionGridPane {
 
+	private Navigator navigator = new Navigator();
 	private GridPaneTable table = new GridPaneTable();
 	private GridPaneTable tableSearch = new GridPaneTable();
+	private GridPaneTable mathTable;
 	private GridPane imagesGridPane = new GridPane();
 	// private LoadArea loadArea = new LoadArea();
 	private ScrollPane itemsImagesScroll;
-	private DataFetcher dataFetcher = new DataFetcher();
+	private ObjectProperty<DataFetcher> propertyDataFetcher = new SimpleObjectProperty<DataFetcher>();
 	private CollectionCheck collectionCheck = new CollectionCheck();
 	private CollectionFilter filter = new CollectionFilter();
 
@@ -50,6 +61,7 @@ public class CollectionGridPane {
 	private BooleanProperty propertyFullLoaded = new SimpleBooleanProperty(false);
 
 	private CollectionLoadArea collectionLoadArea;
+	private IntegerProperty propertyItemsTotal = new SimpleIntegerProperty();
 
 	public CollectionGridPane() {
 		// TODO Auto-generated constructor stub
@@ -64,6 +76,13 @@ public class CollectionGridPane {
 		this.category = category;
 		this.queryProperty = query;
 
+		build();
+
+	}
+
+	public void build() {
+		propertyDataFetcher.set(new DataFetcher());
+
 		propertyStatus.set(CollectionStatus.COLLECTION_LOCAL);
 
 		propertyFullLoaded.set(false);
@@ -75,24 +94,27 @@ public class CollectionGridPane {
 				collectionLoadArea.hideQuickLoad();
 			}
 		});
-		
-		
+
 		queryProperty.addListener((obs, oldvalue, newvalue) -> {
 
 			String querry = newvalue;
 			if (propertyStatus.get() == CollectionStatus.COLLECTION_LOCAL) {
-				swichTableLocal(table,querry);
+				swichTableLocal(table, querry);
 				return;
 			}
 			if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
-				swichTableLocal(tableSearch,querry);
+				swichTableLocal(tableSearch, querry);
 				return;
 			}
-			
 
 		});
-		
-		
+
+		final ObservableList<Node> children = imagesGridPane.getChildren();
+
+		children.addListener((InvalidationListener) o -> {
+			int size = children.size();
+			propertyItemsTotal.set(size);
+		});
 
 		if (collectionCheck.hasNewItemCollecetion(category)) {
 			collectionLoadArea.showArea();
@@ -101,7 +123,8 @@ public class CollectionGridPane {
 		dataFetcher();
 
 		initItemsImagesScrollPane();
-
+		onClickOnImageGridPane();
+		DataFetcher dataFetcher = propertyDataFetcher.get();
 		if (dataFetcher.getDataFetcherDoneProperty().get()) {
 			imagesGridPaneSetup();
 		}
@@ -109,26 +132,16 @@ public class CollectionGridPane {
 		dataFetcher.getDataFetcherDoneProperty().addListener((obs, oldvalue, newvalue) -> {
 			imagesGridPaneSetup();
 		});
-
 	}
 
-	public void rebuild(Collections collection) {
+	public void rebuild() {
 
-		dataFetcher();
-
-		if (dataFetcher.getDataFetcherDoneProperty().get()) {
-			imagesGridPaneSetup();
-		}
-		dataFetcher.getDataFetcherDoneProperty().addListener((o) -> {
-			imagesGridPaneSetup();
-		});
-
-		initItemsImagesScrollPane();
+		imagesGridPaneSetup();
 
 	}
 
 	private void imagesGridPaneSetup() {
-		collection = dataFetcher.getCollections();
+		collection = propertyDataFetcher.get().getCollections();
 		tableSetter();
 		collectionLoadArea.hideArea();
 		propertyFullLoaded.set(true);
@@ -151,12 +164,13 @@ public class CollectionGridPane {
 	}
 
 	private void reloadCollection() {
-		if (dataFetcher.isRunning()) {
+		if (propertyDataFetcher.get().isRunning()) {
 			CustomLogger.log("AN OTHER RELOAD IS RUNNING!");
 			return;
 		}
-		propertyStatus.set(CollectionStatus.COLLECTION_LOCAL);
-		dataFetcher();
+		build();
+		// propertyStatus.set(CollectionStatus.COLLECTION_LOCAL);
+//		dataFetcher();
 	}
 
 	public void filter() {
@@ -170,12 +184,13 @@ public class CollectionGridPane {
 	}
 
 	private void dataFetcher() {
+		propertyDataFetcher.set(new DataFetcher());
+		DataFetcher dataFetcher = propertyDataFetcher.get();
 		imagesGridPane.setVisible(false);
-		
-
 		dataFetcher.stateProperty().addListener((obs, oldvalue, newvalue) -> {
 			if (newvalue == State.SUCCEEDED) {
 				imagesGridPane.setVisible(true);
+				propertyFullLoaded.set(true);
 				defaultFilter();
 			}
 		});
@@ -184,8 +199,32 @@ public class CollectionGridPane {
 		executorService.shutdown();
 	}
 
+	private void onClickOnImageGridPane() {
+		imagesGridPane.setOnMouseClicked(event -> {
+
+			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
+				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
+				ImageView image = (ImageView) pane.getChildren().get(0);
+				if (image.getUserData() instanceof CollectionItem) {
+
+					CollectionItem item = (CollectionItem) image.getUserData();
+					collection.setActualItem(item);
+					if (propertyStatus.get() == CollectionStatus.COLLECTION_LOCAL) {
+						navigator.open(Interfaces.TITLE);
+						return;
+					}
+					if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
+						navigator.open(Interfaces.TITLE_SEARCH);
+						return;
+
+					}
+				}
+			}
+
+		});
+	}
+
 	private void addAllItemsInTable() {
-		System.out.println("addAllItemsInTable");
 		collection.getItens().sort((n1, n2) -> {
 			return n1.getTitleDataBase().compareTo(n2.getTitleDataBase());
 		});
@@ -252,13 +291,14 @@ public class CollectionGridPane {
 		Platform.runLater(() -> {
 			GridPaneTable sortTable = new GridPaneTable(table.getColumnSize());
 			List<GridPaneCell> cells = null;
+
 			if (propertyStatus.get() == CollectionStatus.COLLECTION_LOCAL)
 				cells = table.getCells();
-			if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
+			else if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
 				cells = tableSearch.getCells();
-
+				java.util.Collections.sort(cells, new CollectionGridCellComparator());
 			}
-			// java.util.Collections.sort(cells, new CollectionGridCellComparator());
+
 			imagesGridPane.getChildren().clear();
 			for (int i = 0; i < cells.size(); i++) {
 				GridPaneCell cell = cells.get(i);
@@ -281,7 +321,7 @@ public class CollectionGridPane {
 		propertyStatus.set(CollectionStatus.COLLECTION_SEARCH);
 		List<CollectionItem> mathItens = new ArrayList<>();
 
-		GridPaneTable mathTable = new GridPaneTable(table.getColumnSize());
+		mathTable = new GridPaneTable(table.getColumnSize());
 
 		table.getCells().stream().forEach(cell -> mathItens.add((CollectionItem) cell.getUserData()));
 
@@ -309,7 +349,7 @@ public class CollectionGridPane {
 		List<CollectionItem> originalItens = new ArrayList<>();
 		List<CollectionItem> mathItens = new ArrayList<>();
 
-		GridPaneTable mathTable = new GridPaneTable(table.getColumnSize());
+		mathTable = new GridPaneTable(table.getColumnSize());
 
 		table.getCells().forEach(cell -> originalItens.add((CollectionItem) cell.getUserData()));
 		mathItens = CollectionMatch.locale(originalItens, querry);
@@ -320,8 +360,6 @@ public class CollectionGridPane {
 				mathTable.add(table.getCells().get(i));
 			}
 		}
-
-		System.out.println("Querry Math Itens: " + mathItens.size());
 
 		if (mathItens.size() == 0) {
 			propertyEmptyCollection.setValue(true);
@@ -358,13 +396,17 @@ public class CollectionGridPane {
 		return propertyFullLoaded;
 	}
 
+	public IntegerProperty propertyItemTotal() {
+		return propertyItemsTotal;
+	}
+
 	public ObjectProperty<CollectionStatus> getPropertyStatus() {
 		return propertyStatus;
 	}
 
-	public DataFetcher getDataFetcher() {
-		return dataFetcher;
-	}
+	public ObjectProperty<DataFetcher> propertyDataFetcher() {
+		return propertyDataFetcher;
+	};
 
 	public CollectionFilter getFilter() {
 		return filter;
@@ -374,5 +416,8 @@ public class CollectionGridPane {
 		return collection;
 	}
 
+	public GridPane getImagesGridPane() {
+		return imagesGridPane;
+	}
 
 }
