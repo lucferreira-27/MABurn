@@ -77,21 +77,7 @@ public class BingSearchTest {
 		CustomLogger.log("Fails: " + fails);
 	}
 
-	@Test
-	public void searchSaikoStressTest() {
-		int fails = 0;
-		for(int i = 0; i < 100; i++) {
-			BingSearch bingSearch = new BingSearch(names.get(i), Sites.SAIKO);
-			try {
-			CustomLogger.log(bingSearch.search());
-			}catch (Exception e) {
-				// TODO: handle exception
-				System.err.println("Fail: " + names.get(i));
-				fails++;
-			}
-		}
-		CustomLogger.log("Fails: " + fails);
-	}
+
 
 	@Test
 	public void searchMangaHostStressTest() {

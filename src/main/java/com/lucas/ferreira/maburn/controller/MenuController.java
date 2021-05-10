@@ -43,19 +43,22 @@ public class MenuController implements Initializable {
 
 	@FXML
 	public void onClickButtonHome() {
-
+		Navigator.getInterfacesList().clear();
 		navigator.open(Interfaces.HOME);
 
 	}
 
 	@FXML
 	public void onClickButtonConfiguration() {
+		Navigator.getInterfacesList().clear();
+
 		navigator.open(Interfaces.CONFIGURATION);
 
 	}
 
 	@FXML
 	public void onClickButtonDownloads() {
+		Navigator.getInterfacesList().clear();
 
 		navigator.open(Interfaces.DOWNLOADS);
 

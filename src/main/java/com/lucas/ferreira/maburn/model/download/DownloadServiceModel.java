@@ -71,10 +71,13 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 		String destination = path.substring(0, path.lastIndexOf("\\") + 1);
 
 		File location = new File(destination);
-		double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
+		new Thread(() ->{
+			double size = BytesUtil.convertBytesToMegasBytes(httpConn.getContentLength());
+			updateSize(size + sizeProperty.get());
+		}).start();
 
 		location.mkdirs();
-		updateSize(size + sizeProperty.get());
+		
 		File file = new File(location.getAbsolutePath() + "\\" + fileName + type);
 		return file;
 	}

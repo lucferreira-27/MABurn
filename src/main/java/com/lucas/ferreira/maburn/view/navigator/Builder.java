@@ -21,5 +21,11 @@ public class Builder {
 		fxmlViewLoader.addCompomentInRoot(fxml, initializable, root);
 		return root;
 	}
+	public Pane build(Pane root,String fxml ,Initializable initializable, Object userData) {
+		root.setUserData(userData);
 
+		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
+		fxmlViewLoader.addCompomentInRoot(fxml, initializable, root);
+		return root;
+	}
 }

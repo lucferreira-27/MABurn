@@ -25,8 +25,6 @@ import javafx.scene.layout.VBox;
 
 public class DonwloadQueueInterfaceController implements Initializable {
 
-	private ObservableList<BorderPane> obsBorder;
-	private List<BorderPane> borders = new ArrayList<BorderPane>();
 
 	@FXML
 	private BorderPane borderMain;
@@ -53,7 +51,7 @@ public class DonwloadQueueInterfaceController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		if (DownloadQueue.getInstance().getDownloadList().size() == 0) {
-			
+
 		} else {
 
 			loadDownloadView();
@@ -61,50 +59,34 @@ public class DonwloadQueueInterfaceController implements Initializable {
 	}
 
 	private void loadDownloadView() {
-		obsBorder = FXCollections.observableArrayList(borders);
 
 		Builder builder = new Builder();
-		new Thread(() -> {
-			// DownloadInQueueInterfaceView downloadInQueueInterfaceView;
 
+		// DownloadInQueueInterfaceView downloadInQueueInterfaceView;
+		Platform.runLater(() -> {
 			for (TitleDownload title : DownloadQueue.getInstance().getDownloadList()) {
 
 				System.out.println(title.getCollectionItem().getImageLocal());
-				if (obsBorder.stream().filter((b) -> b.getUserData() == title).findAny().isPresent()) {
-					continue;
-				}
+//				if (obsBorder.stream().filter((b) -> b.getUserData() == title).findAny().isPresent()) {
+//					continue;
+//				}
 				try {
-					Platform.runLater(() -> {
-						BorderPane root = new BorderPane();
-						root = (BorderPane) builder.build(root, Components.DOWNLOAD_IN_QUEUE, title);
-						obsBorder.add(root);
-					});
+
+					DownloadInQueueController controller = new DownloadInQueueController();
+					BorderPane root = new BorderPane();
+					root = (BorderPane) builder.build(root, Components.DOWNLOAD_IN_QUEUE.getFxml(), controller, title);
+					System.out.println(title.getCollectionItem().getTitleDataBase());
+					// obsBorder.add(root);
+					vboxDownloadList.getChildren().add(root);
+
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}
 			}
-
-		}).start();
-
-		obsBorder.addListener(new ListChangeListener<BorderPane>() {
-			@Override
-			public void onChanged(ListChangeListener.Change<? extends BorderPane> c) {
-				if (c.next()) {
-					if (c.wasAdded()) {
-
-						Platform.runLater(() -> {
-
-							vboxDownloadList.getChildren().add(c.getList().get(c.getFrom()));
-						});
-
-						return;
-					}
-
-				}
-
-			}
 		});
+
+
 	}
 
 }

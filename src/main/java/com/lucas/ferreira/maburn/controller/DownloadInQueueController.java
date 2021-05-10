@@ -56,8 +56,9 @@ public class DownloadInQueueController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-
 		item = (TitleDownload) root.getUserData();
+		System.out.println(item.getCollectionItem().getTitleDataBase());
+		System.out.println(item.getId());
 
 		lblTitleName.setText(item.getCollectionItem().getTitleDataBase());
 
@@ -105,9 +106,11 @@ public class DownloadInQueueController implements Initializable {
 
 	@FXML
 	private void onClickOnButtonOpen() {
+		System.out.println(item.getCollectionItem().getTitleDataBase());
+		System.out.println(item.getId());
 		TitleDownloadInterfaceController controller = (TitleDownloadInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.TITLE_DOWNLOAD);
-		controller.setTitleDownload(item);
+		controller.setCollectionItemTitle(item.getCollectionItem());
 		navigator.open(Interfaces.TITLE_DOWNLOAD);
 	}
 
@@ -118,6 +121,7 @@ public class DownloadInQueueController implements Initializable {
 
 	@FXML
 	private void onClickOnButtonPause() {
+
 //		TitleInterfaceView titleView = new TitleInterfaceView(this);
 //		titleView.loadMainInterfaceFX();
 		if (item.getState().get() != DownloadState.FINISH && item.getState().get() != DownloadState.FAILED) {

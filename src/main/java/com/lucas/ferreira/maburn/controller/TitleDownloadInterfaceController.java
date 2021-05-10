@@ -167,13 +167,20 @@ public class TitleDownloadInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+		if (collectionItemTitle != null)
+			System.err.println("COLLECTION: " + collectionItemTitle.getTitleDataBase());
+
 		tableConfig = new TableConfig(tableItens, clName, clSize, clSpeed, clCompleted, clProgress, clState,
 				clActionPause, clActionCancel);
 
 		TitleInterfaceController titleController = (TitleInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.TITLE);
+		System.out.println("Last: " + Navigator.getLastInterface());
+		System.out.println("History: " + Navigator.getInterfacesList());
+		if (Navigator.getLastInterface() != Interfaces.DOWNLOADS) {
+			collectionItemTitle = titleController.getTitle();
+		}
 
-		collectionItemTitle = titleController.getTitle();
 		titleDownload = DownloadQueue.getInstance().getDownload(collectionItemTitle.getId());
 		if (titleDownload == null) {
 			titleDownload = new TitleDownload(collectionItemTitle.getCollections(), collectionItemTitle.getId());
@@ -231,6 +238,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 	public void onClickButtonFetch() {
 
 		try {
+			System.out.println();
 			ListItemForm itemForm = orchestrator.readById(titleDownload.getId());
 			SiteForm siteForm = itemForm.getCurretScrapingLink();
 			if (siteForm.getItemLink() == null || siteForm.getItemLink().isEmpty()) {
@@ -674,8 +682,8 @@ public class TitleDownloadInterfaceController implements Initializable {
 		return true;
 	}
 
-	public void setTitleDownload(TitleDownload titleDownload) {
-		this.titleDownload = titleDownload;
+	public void setCollectionItemTitle(CollectionItem collectionItemTitle) {
+		this.collectionItemTitle = collectionItemTitle;
 	}
 
 }

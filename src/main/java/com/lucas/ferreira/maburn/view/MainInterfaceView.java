@@ -1,10 +1,8 @@
 package com.lucas.ferreira.maburn.view;
 
 import java.awt.Color;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 
@@ -16,11 +14,13 @@ import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainInterfaceView {
 
@@ -152,6 +152,13 @@ public class MainInterfaceView {
 //		stage.setMinWidth(1232);
 //		stage.setMinHeight(771);
 		stage.setScene(scenePane);
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent t) {
+		        Platform.exit();
+		        System.exit(0);
+		    }
+		});
 
 	}
 

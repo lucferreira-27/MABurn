@@ -75,11 +75,7 @@ public class WebScrapingUtil {
 			obj.setName(removeGoyabuTrashEpisode(obj.getName()));
 			obj.setName("Episode " + obj.getName());
 			break;
-		case SAIKO:
 
-			obj.setName(removeSaikoTrashEpisode(obj.getName()));
-			obj.setName("Episode " + obj.getName());
-			break;
 
 		default:
 			break;

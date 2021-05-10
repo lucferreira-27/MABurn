@@ -16,10 +16,11 @@ import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class DownloadSingleTest {
-	private File file = new File("D:\\One Piece Anitube\\Anime");
-	private String link = "https://video.wixstatic.com/video/4f75e1_c816b7423c2b4a6197ae4a8c08c54862/1080p/mp4/file.mp4";
+	private File file = new File("D:\\One Piece Anitube\\Anime.mp4");
+	String erro = "http://video.wixstatic.com\\video\\e6f1d1_078a56f5fed343148b6cc18ae6e771ba\\1080p\\mp4\\file.mp4";
+	private String link = "http://video.wixstatic.com/video/e6f1d1_078a56f5fed343148b6cc18ae6e771ba/1080p/mp4/file.mp4/";
 	private HttpURLConnection httpConn;
-	private String referer = "https://goyabu.com";
+	private String referer = "https://betteranime.net";
 	private URL url ;
 	@Before
 	public void setUp() {
@@ -76,7 +77,7 @@ public class DownloadSingleTest {
 
 				i += length;
 
-
+				System.out.println(i);
 				try {
 					os.write(b, 0, length);
 				} catch (IndexOutOfBoundsException e) {
