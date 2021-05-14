@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping;
+package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 public class MangaScraped implements TitleScraped {
 	private String titleUrl;
 	private Sites site;
-	private List<ItemScraped> itemsScraped = new ArrayList<ItemScraped>();
+	private List<String> chapters = new ArrayList<String>();
 
 	public MangaScraped(String titleUrl, Sites site) {
 		this.titleUrl = titleUrl;
@@ -25,7 +25,7 @@ public class MangaScraped implements TitleScraped {
 	}
 	
 	@Override
-	public List<ItemScraped> getItemsScraped() {
-		return itemsScraped;
+	public List<String> getItemsScraped() {
+		return chapters;
 	}
 }	

@@ -9,7 +9,7 @@ public class BrowserBurn {
 	private static Playwright playwright;
 	public static void create(BrowserType browserType) {
 		playwright = Playwright.create();
-		browser = browserType.launch();
+		browser = browserType.launch(new BrowserType.LaunchOptions().setHeadless(true));
 	}
 	public static void stop() {
 		

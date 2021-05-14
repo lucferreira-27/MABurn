@@ -1,14 +1,56 @@
 package com.lucas.ferreira.maburn.model.webscraping;
 
-public interface AutoBrowser {
-	
-	
-	public void launch();
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Page.NavigateOptions;
+import com.microsoft.playwright.options.WaitUntilState;
+import com.microsoft.playwright.Playwright;
 
-	public TitleScraped scrapeTitle(String titleUrl);
+public class AutoBrowser {
+	private Playwright playwright;
+	private BrowserContext context;
+
 	
-	public ItemScraped scrapeItem(String itemUrl);
+	public AutoBrowser(Playwright playwright) {
+		// TODO Auto-generated constructor stub
+		this.playwright = playwright;
+	}
 	
-	
-	public void close();
+	protected void launch() {
+		context = playwright.firefox().launch().newContext();
+	}
+	protected void launch(boolean headless) {
+		context = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(headless)).newContext();
+	}
+	protected Page newPage() {
+		if (playwright == null) {
+			return null;
+		}
+
+		Page page = context.newPage();
+		return page;
+
+	}
+	protected Page newPage(RulesProperties rulesProperties) {
+		if (playwright == null) {
+			return null;
+		}
+		
+		NavigateOptions options = new NavigateOptions();
+		options.setTimeout(rulesProperties.getTimeOut());
+		options.setWaitUntil(WaitUntilState.DOMCONTENTLOADED);
+		
+		Page page = context.newPage();
+		
+		
+		
+		return page;
+
+	}
+
+	protected void close() {
+		playwright.close();
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping;
+package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +10,8 @@ public class EpisodeScraped implements ItemScraped{
 	private Map<Definition,String> videoLinks = new HashMap<Definition,String>();
 	private AnimeScraped animeScraped;
 	
-	public EpisodeScraped(AnimeScraped titleScraped,Map<Definition,String> videoLinks) {
+	public EpisodeScraped(Map<Definition,String> videoLinks) {
 		// TODO Auto-generated constructor stub
-		this.animeScraped = titleScraped;
 		this.videoLinks = videoLinks;
 	}
 	
@@ -25,5 +24,17 @@ public class EpisodeScraped implements ItemScraped{
 	public Map<Definition, String> getVideoLinks() {
 		return videoLinks;
 	}
+
+	@Override
+	public Object getValues() {
+		// TODO Auto-generated method stub
+		return videoLinks;
+	}
+
+	@Override
+	public String toString() {
+		return "EpisodeScraped [videoLinks=" + videoLinks + ", animeScraped=" + animeScraped + "]";
+	}
+	
 
 }

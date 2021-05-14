@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping;
+package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class AnimeScraped implements TitleScraped{
 		
 	private String titleUrl;
 	private Sites site;
-	private List<ItemScraped> itemsScraped = new ArrayList<ItemScraped>();
+	private List<String> episodes = new ArrayList<String>();
 	
 	public AnimeScraped(String titleUrl, Sites site) {
 		this.titleUrl = titleUrl;
@@ -28,8 +28,12 @@ public class AnimeScraped implements TitleScraped{
 	}
 
 
+
+
+
 	@Override
-	public List<ItemScraped> getItemsScraped() {
-		return itemsScraped;
+	public List<String> getItemsScraped() {
+		// TODO Auto-generated method stub
+		return episodes;
 	}
 }

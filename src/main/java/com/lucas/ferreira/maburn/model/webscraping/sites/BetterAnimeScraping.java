@@ -17,6 +17,7 @@ import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.search.SearchResult;
 import com.lucas.ferreira.maburn.model.webscraping.BrowserBurn;
+import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
 import com.lucas.ferreira.maburn.model.webscraping.Scraper;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.WebScrapingUtil;
@@ -30,6 +31,8 @@ import com.microsoft.playwright.Playwright;
 public class BetterAnimeScraping extends WebScraping {
 	private AnimeWebData animeWebData;
 	private Page page;
+
+	private Evaluate evaluate = new Evaluate();
 
 	@Override
 	public TitleWebData fecthTitle(TitleWebData titleWebData) throws WebScrapingException {
@@ -57,13 +60,12 @@ public class BetterAnimeScraping extends WebScraping {
 	}
 
 	private List<ItemWebData> fetchEpisodesUrl() {
-		String sel = "#listaEpisodios  a";
-		String scriptStreaming = "() => { \n" + "let episodios = document.querySelectorAll('#listaEpisodios  a') \n"
-				+ "let txtEpisodios = [] \n" + "episodios.forEach(e =>{  \n" + "	if(e.classList.length == 0){  \n"
-				+ "		txtEpisodios.push(e.href)  \n" + "} \n" + "})\n" + "return txtEpisodios}";
+
+		String script = evaluate.findTitleScript(getSite());
+
 		List<ItemWebData> episodeWebDatas = new ArrayList<>();
 
-		List<String> episodes = (ArrayList<String>) page.evaluate(scriptStreaming);
+		List<String> episodes = (ArrayList<String>) page.evaluate(script);
 
 		for (int i = 0; i < episodes.size(); i++) {
 
@@ -86,16 +88,12 @@ public class BetterAnimeScraping extends WebScraping {
 		// TODO Auto-generated method stub
 		page = newPage();
 		gotoPage(itemWebData.getUrl());
-		String content = page.content();
 
-		int index = content.indexOf("[{\"file\":");
-		String cutContent = content.substring("[{\"file\":".length() + index);
-		String src = (cutContent.substring(0, cutContent.indexOf("}],")));
-		src = src.replace("480p", "1080p").replace("\\/", "/").replace("\"", "");
-		if (src.contains("video.wixstatic.com"))
-			src = "http://" + src.substring(src.indexOf("video.wixstatic.com"),
-					"file.mp4".length() + src.lastIndexOf("file.mp4"));
-		
+		String script = evaluate.findItemScript(getSite());
+
+		String src = (String) page.evaluate(script);
+
+
 		((EpisodeWebData) itemWebData).setDownloadLink(src);
 		page.close();
 		return itemWebData;

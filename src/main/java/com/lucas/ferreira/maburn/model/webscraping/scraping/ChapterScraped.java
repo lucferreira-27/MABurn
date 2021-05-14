@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping;
+package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,9 @@ public class ChapterScraped implements ItemScraped {
 	private List<String> pagesLinks = new ArrayList<String>();
 	private MangaScraped mangaScraped;
 
-	public ChapterScraped(MangaScraped mangaScraped, List<String> pagesLinks) {
+	public ChapterScraped(List<String> pagesLinks) {
 		// TODO Auto-generated constructor stub
 		this.pagesLinks = pagesLinks;
-		this.mangaScraped = mangaScraped;
 	}
 
 	@Override
@@ -22,6 +21,17 @@ public class ChapterScraped implements ItemScraped {
 
 	public List<String> getPagesLinks() {
 		return pagesLinks;
+	}
+
+	@Override
+	public Object getValues() {
+		// TODO Auto-generated method stub
+		return pagesLinks;
+	}
+
+	@Override
+	public String toString() {
+		return "ChapterScraped [pagesLinks=" + pagesLinks + ", mangaScraped=" + mangaScraped + "]";
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping;
+package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
 import java.util.List;
 
@@ -8,5 +8,5 @@ public interface TitleScraped {
 	
 	Sites getSite();
 	String getTitleUrl();
-	List<ItemScraped> getItemsScraped();
+	List<String> getItemsScraped();
 }

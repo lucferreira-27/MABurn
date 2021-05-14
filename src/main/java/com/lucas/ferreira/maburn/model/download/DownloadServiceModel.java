@@ -86,6 +86,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 
 		updateState(DownloadState.READY);
 		try {
+			System.out.println("LINK: " + link);
 			URL url = downloadSetup(link);
 			File location = getURLFileProprieres(url, 0);
 			rbc = Channels.newChannel(httpConn.getInputStream());
