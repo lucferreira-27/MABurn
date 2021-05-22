@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <StackPane prefHeight="900" prefWidth="1600.0" style="-fx-background-color: #1C1C1C;">
+      <children>
+         <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <left>
+               <StackPane prefHeight="727.0" prefWidth="407.0" BorderPane.alignment="CENTER">
+                  <children>
+                     <VBox maxHeight="727.0" maxWidth="407.0" prefHeight="727.0" prefWidth="407.0" spacing="20.0" style="-fx-background-color: #272727;">
+                        <children>
+                           <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="407.0" spacing="30.0">
+                              <children>
+                                 <Label text="Total:" />
+                                 <Label text="Complete:" />
+                                 <Label text="Failed:" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </VBox>
+                  </children>
+               </StackPane>
+            </left>
+            <top>
+               <Label style="-fx-font-size: 36;" text="One Piece" BorderPane.alignment="CENTER">
+                  <BorderPane.margin>
+                     <Insets />
+                  </BorderPane.margin>
+                  <padding>
+                     <Insets top="50.0" />
+                  </padding>
+               </Label>
+            </top>
+            <center>
+               <Group BorderPane.alignment="TOP_CENTER">
+                  <children>
+                     <AnchorPane minHeight="0.0" prefHeight="513.0" prefWidth="531.0">
+                        <children>
+                           <StackPane layoutX="110.0" layoutY="171.0" prefHeight="210.0" prefWidth="326.0">
+                              <children>
+                                 <AnchorPane maxHeight="175.0" maxWidth="310.0" prefHeight="200.0" prefWidth="310.0" />
+                              </children>
+                           </StackPane>
+                           <HBox layoutX="22.0" layoutY="95.0" minWidth="0.0" prefHeight="30.0" prefWidth="351.0" spacing="10.0">
+                              <children>
+                                 <ImageView fx:id="imgSource" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/source.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label style="-fx-font-size: 20;" text="Source" />
+                              </children>
+                           </HBox>
+                           <HBox layoutX="22.0" layoutY="144.0" minWidth="0.0" prefHeight="54.0" prefWidth="488.0" spacing="20.0">
+                              <children>
+                                 <ComboBox fx:id="cbSource" prefWidth="225.0" promptText="Source">
+                                    <HBox.margin>
+                                       <Insets right="30.0" />
+                                    </HBox.margin>
+                                 </ComboBox>
+                                 <AnchorPane>
+                                    <children>
+                                       <ImageView fx:id="imgFetch" fitHeight="36.0" fitWidth="36.0" layoutX="6.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../../../../../resources/icons/fetch_small.png" />
+                                          </image>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                       </ImageView>
+                                       <Label layoutX="1.0" layoutY="39.0" prefHeight="15.0" prefWidth="49.0" style="-fx-font-size: 9; -fx-border-color: white; -fx-border-radius: 20;" text="FETCH">
+                                          <padding>
+                                             <Insets left="10.0" right="10.0" />
+                                          </padding>
+                                       </Label>
+                                       <ImageView fx:id="imgRecover" fitHeight="36.0" fitWidth="36.0" layoutX="78.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../../../../../resources/icons/recover_small.png" />
+                                          </image>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                       </ImageView>
+                                       <Label layoutX="66.0" layoutY="38.0" prefHeight="15.0" prefWidth="66.0" style="-fx-font-size: 9; -fx-border-color: white; -fx-border-radius: 20;" text="RECOVER">
+                                          <padding>
+                                             <Insets left="10.0" right="10.0" />
+                                          </padding>
+                                       </Label>
+                                    </children>
+                                 </AnchorPane>
+                              </children>
+                           </HBox>
+                           <HBox layoutX="21.0" layoutY="254.0" minHeight="0.0" minWidth="0.0" prefHeight="28.0" prefWidth="490.0" spacing="10.0">
+                              <children>
+                                 <ImageView fx:id="imgChoose" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/title-download/choose_white_icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label style="-fx-font-size: 20;" text="Choose the chapters" />
+                              </children>
+                           </HBox>
+                           <HBox layoutX="19.0" layoutY="304.0" minWidth="0.0" prefHeight="48.0" prefWidth="512.0" spacing="40.0">
+                              <children>
+                                 <ComboBox fx:id="cbSelect" prefWidth="225.0" promptText="Select" />
+                                 <ComboBox fx:id="cbItems" prefWidth="225.0" promptText="Items">
+                                    <HBox.margin>
+                                       <Insets />
+                                    </HBox.margin>
+                                 </ComboBox>
+                              </children>
+                           </HBox>
+                           <HBox layoutX="222.0" layoutY="405.0" minWidth="0.0">
+                              <children>
+                                 <VBox>
+                                    <children>
+                                       <ImageView fx:id="imgDownloadStart" fitHeight="48.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../../../../../resources/icons/download_medium_title.png" />
+                                          </image>
+                                          <VBox.margin>
+                                             <Insets bottom="10.0" left="22.0" />
+                                          </VBox.margin>
+                                          <cursor>
+                                             <Cursor fx:constant="HAND" />
+                                          </cursor>
+                                       </ImageView>
+                                       <Label prefHeight="30.0" prefWidth="101.0" style="-fx-font-size: 20; -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20;" text="START" textFill="WHITE">
+                                          <padding>
+                                             <Insets left="20.0" right="20.0" />
+                                          </padding>
+                                       </Label>
+                                    </children>
+                                 </VBox>
+                              </children>
+                           </HBox>
+                           <TextArea fx:id="txtFetchMsg" editable="false" layoutX="297.0" layoutY="199.0" minHeight="0.0" prefHeight="41.0" prefWidth="228.0" text="Erro" visible="false" wrapText="true" />
+                        </children>
+                        <padding>
+                           <Insets bottom="200.0" />
+                        </padding>
+                     </AnchorPane>
+                  </children>
+               </Group>
+            </center>
+            <right>
+               <VBox prefHeight="797.0" prefWidth="416.0" BorderPane.alignment="CENTER">
+                  <children>
+                     <AnchorPane>
+                        <children>
+                           <Pane style="-fx-border-color: white;">
+                              <children>
+                                 <ImageView fx:id="imgThumbnail" fitHeight="190.0" fitWidth="362.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+                              </children>
+                           </Pane>
+                        </children>
+                     </AnchorPane>
+                     <Label style="-fx-background-size: 24;" text="Source:" visible="false" />
+                     <Label style="-fx-background-size: 24;" text="Site title:" visible="false" />
+                     <Label style="-fx-background-size: 24;" text="Chapters:" visible="false" />
+                     <Label style="-fx-background-size: 24;" text="Delay" visible="false" />
+                  </children>
+               </VBox>
+            </right>
+         </BorderPane>
+      </children>
+   </StackPane>
+</fx:root>

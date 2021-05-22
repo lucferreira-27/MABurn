@@ -3,14 +3,17 @@ package com.lucas.ferreira.maburn.view;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 import javax.swing.JFrame;
 
 import com.lucas.ferreira.maburn.controller.MenuController;
+import com.lucas.ferreira.maburn.fetch.FetchTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
+import com.microsoft.playwright.impl.Driver;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -114,7 +117,6 @@ public class MainInterfaceView {
 		ImagePanel imageContent = new ImagePanel();
 		loadFrame.getContentPane().add(imageContent);
 
-
 		loadFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		loadFrame.setUndecorated(true);
 		loadFrame.pack();
@@ -153,11 +155,18 @@ public class MainInterfaceView {
 //		stage.setMinHeight(771);
 		stage.setScene(scenePane);
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		    @Override
-		    public void handle(WindowEvent t) {
-		        Platform.exit();
-		        System.exit(0);
-		    }
+			@Override
+			public void handle(WindowEvent t) {
+				try {
+					Files.delete(FetchTitle.getDriverPath());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					Platform.exit();
+					System.exit(0);
+				}
+			}
 		});
 
 	}

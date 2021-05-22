@@ -9,21 +9,20 @@ import com.microsoft.playwright.options.WaitUntilState;
 public class PageNavigate {
 
 	private Page page;
-	private CustomNavigateOptions customNavigateOptions;
+	private Options options;
 
-	public PageNavigate(Page page, CustomNavigateOptions customNavigateOptions) {
+	public PageNavigate(Page page, Options options) {
 		// TODO Auto-generated constructor stub
 		this.page = page;
-		this.customNavigateOptions = customNavigateOptions;
+		this.options = options;
 	}
 
 	public void navigate(String url) {
 
-		Options options = customNavigateOptions.getOptions();
 
 		String query = options.getSelectQuery();
 		//Double timeout = options.getTimeout();
-
+		System.out.println(query);
 		NavigateOptions navigateOptions = new NavigateOptions();
 
 		if (options.getLoadLevel().equals("DOM_COMPLETE"))

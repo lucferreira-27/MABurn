@@ -17,8 +17,7 @@ import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class DownloadSingleTest {
 	private File file = new File("D:\\One Piece Anitube\\Anime.mp4");
-	String erro = "http://video.wixstatic.com\\video\\e6f1d1_078a56f5fed343148b6cc18ae6e771ba\\1080p\\mp4\\file.mp4";
-	private String link = "http://video.wixstatic.com/video/e6f1d1_078a56f5fed343148b6cc18ae6e771ba/1080p/mp4/file.mp4/";
+	private String link = "http://video.wixstatic.com/video/e6f1d1_b1ff1d6bc4144325873b1febfeccdf15/1080p/mp4/file.mp4";
 	private HttpURLConnection httpConn;
 	private String referer = "https://betteranime.net";
 	private URL url ;

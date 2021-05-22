@@ -20,14 +20,16 @@ import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.Icon;
+import com.lucas.ferreira.maburn.util.IconConfig;
 import com.lucas.ferreira.maburn.util.LanguageReader;
-import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.Interfaces;
@@ -45,12 +47,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 public class TitleInterfaceController implements Initializable {
 	private static final String ICON_PATH = "icons/";
@@ -111,22 +111,30 @@ public class TitleInterfaceController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		Icon iconStatus = new Icon(imgStatus, new IconConfig(ICON_PATH, Icons.STATUS, "Status"));
+		iconStatus.setProperties();
 
-		setIcon(imgStatus, "Status", "details_icon_01.png");
-		setIcon(imgPublishedDate, "Published", "details_icon_02.png");
-		setIcon(imgAverageRating, "Rating", "details_icon_03.png");
+		Icon iconPublished = new Icon(imgPublishedDate, new IconConfig(ICON_PATH, Icons.PUBLISHED, "Published"));
+		iconPublished.setProperties();
 
-		imgDownload.setOnMouseClicked((event) -> onClickButtonDownload());
-		setIconHoverOn(imgDownload, "Download", "tool_white_02.png", "tool_red_02.png");
+		Icon iconRating = new Icon(imgAverageRating, new IconConfig(ICON_PATH, Icons.RATING, "Rating"));
+		iconRating.setProperties();
+		
+		System.out.println(Icons.RATING.getIconName());
+		
+		Icon iconDownload = new Icon(imgDownload, new IconConfig(ICON_PATH,Icons.DOWNLOAD_2, "Download"));
+		iconDownload.setProperties((event) -> onClickButtonDownload());
 
-		imgUpdate.setOnMouseClicked((event) -> onClickButtonUpdate());
-		setIconHoverOn(imgUpdate, "Update", "tool_white_03.png", "tool_red_03.png");
+		Icon iconUpdate = new Icon(imgUpdate, new IconConfig(ICON_PATH, Icons.UPDATE_2, "Update"));
+		iconUpdate.setProperties((event) -> onClickButtonUpdate());
 
-		imgHide.setOnMouseClicked((event) -> onClickButtonHide());
-		setIconHoverOn(imgHide, "Hide", "tool_white_01.png", "tool_red_01.png");
+		Icon iconHide = new Icon(imgHide, new IconConfig(ICON_PATH, Icons.HIDE, "Hide"));
+		iconHide.setProperties((event) -> onClickButtonHide());
 
-		imgRemove.setOnMouseClicked((event) -> onClickButtonRemove());
-		setIconHoverOn(imgRemove, "Remove", "tool_white_04.png", "tool_red_04.png");
+		Icon iconRemove = new Icon(imgRemove, new IconConfig(ICON_PATH, Icons.REMOVE, "Remove"));
+		iconRemove.setProperties((event) -> onClickButtonRemove());
+
+		
 
 		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.COLLECTION);
@@ -136,30 +144,6 @@ public class TitleInterfaceController implements Initializable {
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 
 		loadTitleDatas();
-
-	}
-
-	private void setIconHoverOn(ImageView icon, String tip, String firstImage, String secondImage) {
-		Tooltip tooltip = new Tooltip(tip);
-		tooltip.setShowDelay(Duration.seconds(0.5));
-		Tooltip.install(icon, tooltip);
-		icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + firstImage)));
-
-		icon.hoverProperty().addListener((event) -> {
-
-			if (icon.isHover())
-				icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + secondImage)));
-			else
-				icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + firstImage)));
-
-		});
-	}
-
-	private void setIcon(ImageView icon, String tip, String firstImage) {
-		Tooltip tooltip = new Tooltip(tip);
-		tooltip.setShowDelay(Duration.seconds(0.5));
-		Tooltip.install(icon, tooltip);
-		icon.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + firstImage)));
 
 	}
 
@@ -230,7 +214,7 @@ public class TitleInterfaceController implements Initializable {
 	}
 
 	public void onClickButtonDownload() {
-		navigator.open(Interfaces.TITLE_DOWNLOAD);
+		navigator.open(Interfaces.TITLE__DOWNLOAD);
 //		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
 //		titleDownload.loadMainInterfaceFX();
 	}

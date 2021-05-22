@@ -1,9 +1,49 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
-import java.util.List;
+import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
+import com.lucas.ferreira.maburn.model.webscraping.ItemNavigateOptions;
+import com.lucas.ferreira.maburn.model.webscraping.Options;
+import com.lucas.ferreira.maburn.model.webscraping.RulesProperties;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Frame.AddScriptTagOptions;
 
-import javafx.collections.ObservableList;
+public abstract class  ItemScraping extends Scraping {
+	
+	private Sites site;
+	
+	private BrowserContext context;
+	
+	public ItemScraping(Sites site, BrowserContext context) {
+		// TODO Auto-generated constructor stub
+		this.site = site;
+		this.context = context;
+	}
+	
+	
+	public ItemScraped scrapeItem(String url) {
+		// TODO Auto-generated method stub
+		Page page = context.newPage();
+		Evaluate evaluate = new Evaluate();
+		String script = evaluate.findItemScript(site); 
+		
+		RulesProperties rulesProperties = readScrapingSiteRules(site);
+		Options options = getOptions(new ItemNavigateOptions(rulesProperties));
 
-public interface ItemScraping {
-	public ItemScraped scrapeItem(String url);
+
+		navigate(url, page, options);
+		
+		ItemScraped itemScraped = scrape(page, script, options);
+
+		page.close();
+		return itemScraped;
+	}
+
+
+	protected abstract  ItemScraped scrape(Page page, String script, Options options);
+	
+
+
+	
 }

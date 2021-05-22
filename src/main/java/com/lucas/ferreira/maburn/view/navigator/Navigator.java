@@ -62,6 +62,9 @@ public class Navigator {
 		if (interfaces == Interfaces.COLLECTION) {
 			loadComponent(Components.COLLECTION_MENU);
 		}
+		if(interfaces == Interfaces.TITLE_DOWNLOAD) {
+			loadComponent(Components.DOWNLOAD_CARD);
+		}
 	}
 
 	public void preload(Interfaces interfaces) {

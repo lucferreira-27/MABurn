@@ -2,8 +2,10 @@ package com.lucas.ferreira.maburn.view;
 
 import com.lucas.ferreira.maburn.controller.CollectionInterfaceController;
 import com.lucas.ferreira.maburn.controller.DonwloadQueueInterfaceController;
+import com.lucas.ferreira.maburn.controller.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.HelperInterfaceController;
 import com.lucas.ferreira.maburn.controller.HomeInterfaceController;
+import com.lucas.ferreira.maburn.controller.TitleDownloadController;
 import com.lucas.ferreira.maburn.controller.TitleDownloadInterfaceController;
 import com.lucas.ferreira.maburn.controller.TitleInterfaceController;
 import com.lucas.ferreira.maburn.controller.TittleSearchInterfaceController;
@@ -16,10 +18,13 @@ public enum Interfaces {
 	TITLE("TitleViewFXML.fxml", new TitleInterfaceController()),
 	TITLE_SEARCH("TitleSearchViewFXML.fxml", new TittleSearchInterfaceController()),
 	TITLE_DOWNLOAD("TitleDownloadViewFXML.fxml", new TitleDownloadInterfaceController()),
+	TITLE__DOWNLOAD("TitleDownload.fxml", new TitleDownloadController()),
+
 	DOWNLOADS("DownloadQueueView.fxml", new DonwloadQueueInterfaceController()),
 	CONFIGURATION("HelperViewFXML.fxml", new HelperInterfaceController()), 
 	CALENDAR("", null),
-	COLLECTION("ItemsViewFXML.fxml", new CollectionInterfaceController());
+	COLLECTION("ItemsViewFXML.fxml", new CollectionInterfaceController()),
+	DOWNLOAD_CARD("DownloadCard.fxml", new DownloadCardController());
 
 	private Initializable controller;
 	private String fxml;

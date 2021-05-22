@@ -13,7 +13,10 @@ public enum Sites {
 	GOYABU("https://goyabu.com", Category.ANIME, new GoyabuScraping()),
 	BETTER_ANIME("https://betteranime.net", Category.ANIME, new BetterAnimeScraping()),
 	MANGA_HOST("https://mangahosted.com", Category.MANGA, new MangaHostScraping()),
-	MANGA_YABU("https://mangayabu.top", Category.MANGA, new MangaYabuScraping());
+	MANGA_YABU("https://mangayabu.top", Category.MANGA, new MangaYabuScraping()),
+	MY_ANIMES_ONLINE("https://www.myanimesonline.biz", Category.ANIME, null),
+	MANGA_OWL("https://mangaowl.net", Category.MANGA, null),
+	GOGO_ANIME("https://www1.gogoanime.ai/", Category.ANIME, null);
 
 	private String url;
 	private Category category;

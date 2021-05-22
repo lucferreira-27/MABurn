@@ -23,9 +23,11 @@ public class BrowserPage {
 		this.page = page;
 		alive = true;
 	}
-	public BrowserPage(BrowserContext context) {
+	public BrowserPage(Playwright playwright,BrowserContext context) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
+		this.playwright = playwright;
+
 		alive = true;
 	}
 	public Playwright getPlaywright() {
