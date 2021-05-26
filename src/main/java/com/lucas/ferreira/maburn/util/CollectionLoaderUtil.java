@@ -6,12 +6,12 @@ import java.io.IOException;
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class CollectionLoaderUtil {
 
 
-	public static boolean isRequiredFilesAvailable(CollectionItem item) {
+	public static boolean isRequiredFilesAvailable(CollectionTitle item) {
 		ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 		try {
 			thumbnailLoader.findImage();
@@ -23,7 +23,7 @@ public class CollectionLoaderUtil {
 
 	}
 
-	public static void getRequiredFiles(CollectionItem item) {
+	public static void getRequiredFiles(CollectionTitle item) {
 		// TODO Auto-generated method stub
 		DownloadImageServiceModel downloadImageServiceModel = new DownloadImageServiceModel(item.getImageUrl(),
 				new File(item.getImageLocal().substring(0, item.getImageLocal().lastIndexOf("."))));

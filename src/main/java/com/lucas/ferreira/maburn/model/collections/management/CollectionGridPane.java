@@ -14,7 +14,7 @@ import com.lucas.ferreira.maburn.model.effects.NormalCard;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.CollectionFilterType;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.loader.CollectionCheck;
 import com.lucas.ferreira.maburn.model.loader.DataFetcher;
 import com.lucas.ferreira.maburn.util.CustomLogger;
@@ -205,9 +205,9 @@ public class CollectionGridPane {
 			if (event.getPickResult().getIntersectedNode().getParent() instanceof AnchorPane) {
 				AnchorPane pane = (AnchorPane) event.getPickResult().getIntersectedNode().getParent();
 				ImageView image = (ImageView) pane.getChildren().get(0);
-				if (image.getUserData() instanceof CollectionItem) {
+				if (image.getUserData() instanceof CollectionTitle) {
 
-					CollectionItem item = (CollectionItem) image.getUserData();
+					CollectionTitle item = (CollectionTitle) image.getUserData();
 					collection.setActualItem(item);
 					if (propertyStatus.get() == CollectionStatus.COLLECTION_LOCAL) {
 						navigator.open(Interfaces.TITLE);
@@ -230,7 +230,7 @@ public class CollectionGridPane {
 		});
 		table.getCells().clear();
 		if (collection.getItens().size() > 0)
-			for (CollectionItem item : collection.getItens()) {
+			for (CollectionTitle item : collection.getItens()) {
 				try {
 					addItemInTable(item);
 				} catch (ThumbnailLoadException e) {
@@ -241,7 +241,7 @@ public class CollectionGridPane {
 
 	}
 
-	private void addItemInTable(CollectionItem item) throws ThumbnailLoadException {
+	private void addItemInTable(CollectionTitle item) throws ThumbnailLoadException {
 
 		ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 
@@ -319,14 +319,14 @@ public class CollectionGridPane {
 
 	public void swichTableSearch(GridPaneTable table, String querry) {
 		propertyStatus.set(CollectionStatus.COLLECTION_SEARCH);
-		List<CollectionItem> mathItens = new ArrayList<>();
+		List<CollectionTitle> mathItens = new ArrayList<>();
 
 		mathTable = new GridPaneTable(table.getColumnSize());
 
-		table.getCells().stream().forEach(cell -> mathItens.add((CollectionItem) cell.getUserData()));
+		table.getCells().stream().forEach(cell -> mathItens.add((CollectionTitle) cell.getUserData()));
 
 		for (int i = 0; i < table.getCells().size(); i++) {
-			CollectionItem item = (CollectionItem) table.getCells().get(i).getUserData();
+			CollectionTitle item = (CollectionTitle) table.getCells().get(i).getUserData();
 			if (mathItens.contains(item)) {
 				mathTable.add(table.getCells().get(i));
 			}
@@ -346,16 +346,16 @@ public class CollectionGridPane {
 	}
 
 	public void swichTableLocal(GridPaneTable table, String querry) {
-		List<CollectionItem> originalItens = new ArrayList<>();
-		List<CollectionItem> mathItens = new ArrayList<>();
+		List<CollectionTitle> originalItens = new ArrayList<>();
+		List<CollectionTitle> mathItens = new ArrayList<>();
 
 		mathTable = new GridPaneTable(table.getColumnSize());
 
-		table.getCells().forEach(cell -> originalItens.add((CollectionItem) cell.getUserData()));
+		table.getCells().forEach(cell -> originalItens.add((CollectionTitle) cell.getUserData()));
 		mathItens = CollectionMatch.locale(originalItens, querry);
 
 		for (int i = 0; i < table.getCells().size(); i++) {
-			CollectionItem item = (CollectionItem) table.getCells().get(i).getUserData();
+			CollectionTitle item = (CollectionTitle) table.getCells().get(i).getUserData();
 			if (mathItens.contains(item)) {
 				mathTable.add(table.getCells().get(i));
 			}

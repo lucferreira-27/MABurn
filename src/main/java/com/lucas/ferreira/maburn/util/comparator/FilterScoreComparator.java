@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.util.comparator;
 import java.util.Comparator;
 
 import com.lucas.ferreira.maburn.model.GridPaneCell;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class FilterScoreComparator implements Comparator<GridPaneCell> {
 
@@ -12,8 +12,8 @@ public class FilterScoreComparator implements Comparator<GridPaneCell> {
 	public int compare(GridPaneCell cell1, GridPaneCell cell2) {
 		// TODO Auto-generated method stub
 		
-		Double score1 =  ((CollectionItem)cell1.getUserData()).getScore();
-		Double score2 =  ((CollectionItem)cell2.getUserData()).getScore();
+		Double score1 =  ((CollectionTitle)cell1.getUserData()).getScore();
+		Double score2 =  ((CollectionTitle)cell2.getUserData()).getScore();
 	
 		int result = score1.compareTo(score2);
 		int absResult = Math.abs(result);

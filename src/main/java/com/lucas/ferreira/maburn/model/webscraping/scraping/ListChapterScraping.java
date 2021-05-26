@@ -9,26 +9,22 @@ import javafx.collections.ObservableList;
 public class ListChapterScraping extends ListItemScraping {
 
 	private Sites site;
-	
-	
+
 	public ListChapterScraping(Sites site, MyBrowser myBrowser) {
 		// TODO Auto-generated constructor stub
 		super(myBrowser);
 		this.site = site;
 	}
 
-
-
 	@Override
-	protected void startItemScraping(ObservableList<ItemScraped> obsItems, String url, BrowserPage browserPage) {
-		new Thread(() -> {
+	public ItemScraped startItemScraping(ObservableList<ItemScraped> obsItems, String url, BrowserPage browserPage) {
 			ItemScraping chapterScraping = new ChapterScraping(site, browserPage.getContext());
 			ItemScraped itemScraped = chapterScraping.scrapeItem(url);
 			obsItems.add(itemScraped);
 			browserPage.setAvailable(true);
-		}).start();
+			return itemScraped;
+
+
 	}
-	
-	
 
 }

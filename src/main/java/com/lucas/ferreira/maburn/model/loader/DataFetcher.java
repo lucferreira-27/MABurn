@@ -25,7 +25,7 @@ import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ThumbnailController;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.loader.folder.FolderCollectionLoader;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.FutureList;
@@ -53,7 +53,7 @@ public class DataFetcher extends Task<Collections> {
 	private XmlCollectionOrchestrator orchestratorCollection = new XmlCollectionOrchestrator();
 	private FolderCollectionLoader folderCollectionLoader = new FolderCollectionLoader();
 	private Collections collections = null;
-	private ObservableList<CollectionItem> futureCollection = FXCollections.observableArrayList();
+	private ObservableList<CollectionTitle> futureCollection = FXCollections.observableArrayList();
 	private ExecutorService executorService;
 	private final BooleanProperty dataFetcherDoneProperty = new SimpleBooleanProperty(false);
 	private final BooleanProperty readDoneProperty = new SimpleBooleanProperty(false);
@@ -101,7 +101,7 @@ public class DataFetcher extends Task<Collections> {
 		
 		// loadLocalCollectionAsync();
 
-		List<CollectionItem> newCollectionItems = null;
+		List<CollectionTitle> newCollectionItems = null;
 
 		newCollectionItems = newItemsFound();
 
@@ -119,8 +119,8 @@ public class DataFetcher extends Task<Collections> {
 
 	}
 
-	private List<CollectionItem> newItemsFound() {
-		List<CollectionItem> newCollectionItems;
+	private List<CollectionTitle> newItemsFound() {
+		List<CollectionTitle> newCollectionItems;
 		if (form.getItems() != null)
 			newCollectionItems = collections.getItens().stream().filter((item) -> {
 
@@ -161,7 +161,7 @@ public class DataFetcher extends Task<Collections> {
 		}
 	}
 
-	private ObservableList<CollectionItem> loadLocalCollectionAsync() {
+	private ObservableList<CollectionTitle> loadLocalCollectionAsync() {
 		if (category == Category.ANIME) {
 			collections = new AnimeCollection();
 			collections.setDestination(config.getAnimeConfig().getCollectionDestination());
@@ -185,7 +185,7 @@ public class DataFetcher extends Task<Collections> {
 		return null;
 	}
 
-	private void synchronizedDates(Category category, CollectionForm form, List<CollectionItem> newCollectionItems) {
+	private void synchronizedDates(Category category, CollectionForm form, List<CollectionTitle> newCollectionItems) {
 		List<Future<?>> fuList = new ArrayList<Future<?>>();
 
 		KitsuDatabase database = new KitsuDatabase();
@@ -197,7 +197,7 @@ public class DataFetcher extends Task<Collections> {
 			readProgressProperty.set((double) newvalue.intValue() / goalProgressProperty.get());
 		});
 
-		for (CollectionItem newCollectionItem : newCollectionItems) {
+		for (CollectionTitle newCollectionItem : newCollectionItems) {
 			System.out.println(newCollectionItem.getName());
 			Thread fetch = new Thread(() -> {
 
@@ -391,7 +391,7 @@ public class DataFetcher extends Task<Collections> {
 
 			CollectionForm form = orchestratorCollection.read();
 
-			List<CollectionItem> list;
+			List<CollectionTitle> list;
 
 			list = filterCategoryItems(category, form);
 			list = filterCollectionPath(collections.getDestination(), form);
@@ -408,12 +408,12 @@ public class DataFetcher extends Task<Collections> {
 
 	}
 
-	private List<CollectionItem> filterCategoryItems(Category category, CollectionForm form) {
+	private List<CollectionTitle> filterCategoryItems(Category category, CollectionForm form) {
 		return form.getItems().stream().map(ListItemForm::toCollectionItem).filter(i -> i.getCategory() == category)
 				.collect(Collectors.toList());
 	}
 
-	private List<CollectionItem> filterCollectionPath(String path, CollectionForm form) {
+	private List<CollectionTitle> filterCollectionPath(String path, CollectionForm form) {
 		return form.getItems().stream().map(ListItemForm::toCollectionItem).filter(i -> i.getDestination()
 				.substring(0, i.getDestination().lastIndexOf("\\")).equalsIgnoreCase(collections.getDestination()))
 				.collect(Collectors.toList());
@@ -423,7 +423,7 @@ public class DataFetcher extends Task<Collections> {
 		return collections;
 	}
 
-	public ObservableList<CollectionItem> getFutureCollections() {
+	public ObservableList<CollectionTitle> getFutureCollections() {
 		return futureCollection;
 	}
 

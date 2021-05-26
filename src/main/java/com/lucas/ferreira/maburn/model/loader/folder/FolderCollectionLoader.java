@@ -10,7 +10,7 @@ import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.property.BooleanProperty;
@@ -22,7 +22,7 @@ public class FolderCollectionLoader {
 
 	private BooleanProperty loadCompleted = new SimpleBooleanProperty(false);
 	private FolderCollectionItemLoader itemLoader = new FolderCollectionItemLoader();
-	private ObservableList<CollectionItem> obsItems =FXCollections.observableArrayList();
+	private ObservableList<CollectionTitle> obsItems =FXCollections.observableArrayList();
 
 	public Collections loadCollection(String destination, Category category) {
 		FolderReaderModel reader = new FolderReaderModel();
@@ -36,7 +36,7 @@ public class FolderCollectionLoader {
 		return null;
 	}
 
-	public ObservableList<CollectionItem> loadCollectionAsync(String destination, Category category, ObservableList<CollectionItem> obsItems) {
+	public ObservableList<CollectionTitle> loadCollectionAsync(String destination, Category category, ObservableList<CollectionTitle> obsItems) {
 		this.obsItems = obsItems;
 		FolderReaderModel reader = new FolderReaderModel();
 		new Thread(() -> {
@@ -78,7 +78,7 @@ public class FolderCollectionLoader {
 	private void addItemInCollection(Collections collection, List<File> files, Category category) {
 		for (File file : files) {
 
-			CollectionItem item = null;
+			CollectionTitle item = null;
 
 			if (category == Category.ANIME) {
 				item = new AnimeDownloaded();

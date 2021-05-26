@@ -13,12 +13,12 @@ import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class EpisodeWebData extends ItemWebData {
 	private AnimeWebData animeWebData;
-	private Downloader<CollectionSubItem> download;
+	private Downloader<CollectionItem> download;
 	private String name;
 	private String url;
 
@@ -75,7 +75,7 @@ public class EpisodeWebData extends ItemWebData {
 	}
 
 	@Override
-	public Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload) {
+	public Downloader<CollectionItem> download(Collections collections, TitleDownload titleDownload) {
 		download = new DownloadServiceModel();
 		String itemName = collections.getActualItem().getName();
 		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;

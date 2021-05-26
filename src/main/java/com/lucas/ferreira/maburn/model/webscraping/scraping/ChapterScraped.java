@@ -7,15 +7,16 @@ public class ChapterScraped implements ItemScraped {
 
 	private List<String> pagesLinks = new ArrayList<String>();
 	private MangaScraped mangaScraped;
+	private Exception exception;
 
 	public ChapterScraped(List<String> pagesLinks) {
-		// TODO Auto-generated constructor stub
 		this.pagesLinks = pagesLinks;
 	}
-
+	public ChapterScraped(Exception exception) {
+		this.exception = exception;
+	}
 	@Override
 	public TitleScraped getTitle() {
-		// TODO Auto-generated method stub
 		return mangaScraped;
 	}
 
@@ -25,13 +26,17 @@ public class ChapterScraped implements ItemScraped {
 
 	@Override
 	public Object getValues() {
-		// TODO Auto-generated method stub
 		return pagesLinks;
 	}
 
 	@Override
 	public String toString() {
 		return "ChapterScraped [pagesLinks=" + pagesLinks + ", mangaScraped=" + mangaScraped + "]";
+	}
+
+	@Override
+	public Exception getException() {
+		return exception;
 	}
 
 }

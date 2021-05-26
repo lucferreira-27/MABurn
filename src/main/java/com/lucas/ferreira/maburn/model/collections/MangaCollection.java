@@ -6,11 +6,11 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class MangaCollection implements Collections {
 
-	private List<CollectionItem> listMangas = new ArrayList<>();
+	private List<CollectionTitle> listMangas = new ArrayList<>();
 	private String destination;
 	private MangaDownloaded activeManga;
 
@@ -23,7 +23,7 @@ public class MangaCollection implements Collections {
 	}
 
 	@Override
-	public List<CollectionItem> getItens() {
+	public List<CollectionTitle> getItens() {
 		// TODO Auto-generated method stub
 		return listMangas;
 	}
@@ -55,14 +55,14 @@ public class MangaCollection implements Collections {
 	}
 
 	@Override
-	public void setActualItem(CollectionItem obj) {
+	public void setActualItem(CollectionTitle obj) {
 		// TODO Auto-generated method stub
 		this.activeManga = (MangaDownloaded) obj;
 		activeManga.setCollections(this);
 	}
 
 	@Override
-	public CollectionItem getActualItem() {
+	public CollectionTitle getActualItem() {
 		// TODO Auto-generated method stub
 		if (activeManga == null && !listMangas.isEmpty()) {
 			return listMangas.get(0);
@@ -77,7 +77,7 @@ public class MangaCollection implements Collections {
 	}
 
 	@Override
-	public void setItens(List<CollectionItem> itens) {
+	public void setItens(List<CollectionTitle> itens) {
 		// TODO Auto-generated method stub
 		this.listMangas = itens;
 	}

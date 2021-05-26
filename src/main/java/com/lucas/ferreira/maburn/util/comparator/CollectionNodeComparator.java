@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.util.comparator;
 
 import java.util.Comparator;
 
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
@@ -20,8 +20,8 @@ public class CollectionNodeComparator implements Comparator<Node> {
 		FilteredList<Node> filterd1 = pane1.getChildren().filtered(child -> child instanceof ImageView);
 		FilteredList<Node> filterd2 = pane2.getChildren().filtered(child -> child instanceof ImageView);
 
-		CollectionItem item1 = (CollectionItem) ((ImageView) filterd1.get(0)).getUserData();
-		CollectionItem item2 = (CollectionItem) ((ImageView) filterd2.get(0)).getUserData();
+		CollectionTitle item1 = (CollectionTitle) ((ImageView) filterd1.get(0)).getUserData();
+		CollectionTitle item2 = (CollectionTitle) ((ImageView) filterd2.get(0)).getUserData();
 		return item1.getTitleDataBase().compareTo(item2.getTitleDataBase());
 
 	}

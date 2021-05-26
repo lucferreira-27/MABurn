@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model;
 
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.LanguageReader;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
@@ -21,32 +21,32 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class TableConfig {
-	private TableView<Downloader<CollectionSubItem>> tableItens;
+	private TableView<Downloader<CollectionItem>> tableItens;
 
-	private TableColumn<Downloader<CollectionSubItem>, String> clName;
+	private TableColumn<Downloader<CollectionItem>, String> clName;
 
-	private TableColumn<Downloader<CollectionSubItem>, Double> clSize;
+	private TableColumn<Downloader<CollectionItem>, Double> clSize;
 
-	private TableColumn<Downloader<CollectionSubItem>, Double> clSpeed;
+	private TableColumn<Downloader<CollectionItem>, Double> clSpeed;
 
-	private TableColumn<Downloader<CollectionSubItem>, Double> clCompleted;
-	private TableColumn<Downloader<CollectionSubItem>, Double> clProgress;
+	private TableColumn<Downloader<CollectionItem>, Double> clCompleted;
+	private TableColumn<Downloader<CollectionItem>, Double> clProgress;
 
-	private TableColumn<Downloader<CollectionSubItem>, DownloadState> clState;
+	private TableColumn<Downloader<CollectionItem>, DownloadState> clState;
 
-	private TableColumn<Downloader<CollectionSubItem>, String> clActionPause;
+	private TableColumn<Downloader<CollectionItem>, String> clActionPause;
 
-	private TableColumn<Downloader<CollectionSubItem>, String> clActionCancel;
+	private TableColumn<Downloader<CollectionItem>, String> clActionCancel;
 
-	public TableConfig(TableView<Downloader<CollectionSubItem>> tableItens,
-			TableColumn<Downloader<CollectionSubItem>, String> clName,
-			TableColumn<Downloader<CollectionSubItem>, Double> clSize,
-			TableColumn<Downloader<CollectionSubItem>, Double> clSpeed,
-			TableColumn<Downloader<CollectionSubItem>, Double> clCompleted,
-			TableColumn<Downloader<CollectionSubItem>, Double> clProgress,
-			TableColumn<Downloader<CollectionSubItem>, DownloadState> clState,
-			TableColumn<Downloader<CollectionSubItem>, String> clActionPause,
-			TableColumn<Downloader<CollectionSubItem>, String> clActionCancel) {
+	public TableConfig(TableView<Downloader<CollectionItem>> tableItens,
+			TableColumn<Downloader<CollectionItem>, String> clName,
+			TableColumn<Downloader<CollectionItem>, Double> clSize,
+			TableColumn<Downloader<CollectionItem>, Double> clSpeed,
+			TableColumn<Downloader<CollectionItem>, Double> clCompleted,
+			TableColumn<Downloader<CollectionItem>, Double> clProgress,
+			TableColumn<Downloader<CollectionItem>, DownloadState> clState,
+			TableColumn<Downloader<CollectionItem>, String> clActionPause,
+			TableColumn<Downloader<CollectionItem>, String> clActionCancel) {
 		this.tableItens = tableItens;
 		this.clName = clName;
 		this.clSize = clSize;
@@ -58,10 +58,10 @@ public class TableConfig {
 		this.clActionCancel = clActionCancel;
 	}
 
-	public void initTable(ObservableList<Downloader<CollectionSubItem>> items) {
+	public void initTable(ObservableList<Downloader<CollectionItem>> items) {
 		tableItens.setItems(items);
-		clName.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, String>("name"));
-		clName.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, String>() {
+		clName.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, String>("name"));
+		clName.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, String>() {
 			@Override
 			protected void updateItem(String item, boolean empty) {
 				super.updateItem(item, empty);
@@ -75,8 +75,8 @@ public class TableConfig {
 
 			};
 		});
-		clSize.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("size"));
-		clSize.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, Double>() {
+		clSize.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, Double>("size"));
+		clSize.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, Double>() {
 			@Override
 			protected void updateItem(Double item, boolean empty) {
 				super.updateItem(item, empty);
@@ -90,8 +90,8 @@ public class TableConfig {
 
 			};
 		});
-		clSpeed.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("speed"));
-		clSpeed.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, Double>() {
+		clSpeed.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, Double>("speed"));
+		clSpeed.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, Double>() {
 			@Override
 			protected void updateItem(Double item, boolean empty) {
 				super.updateItem(item, empty);
@@ -105,8 +105,8 @@ public class TableConfig {
 
 			};
 		});
-		clCompleted.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("completed"));
-		clCompleted.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, Double>() {
+		clCompleted.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, Double>("completed"));
+		clCompleted.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, Double>() {
 			@Override
 			protected void updateItem(Double item, boolean empty) {
 				super.updateItem(item, empty);
@@ -120,11 +120,11 @@ public class TableConfig {
 
 			};
 		});
-		clProgress.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, Double>("progress"));
-		clProgress.setCellFactory(ProgressBarTableCell.<Downloader<CollectionSubItem>>forTableColumn());
+		clProgress.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, Double>("progress"));
+		clProgress.setCellFactory(ProgressBarTableCell.<Downloader<CollectionItem>>forTableColumn());
 		clState.setCellValueFactory(
-				new PropertyValueFactory<Downloader<CollectionSubItem>, DownloadState>("downloadState"));
-		clState.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, DownloadState>() {
+				new PropertyValueFactory<Downloader<CollectionItem>, DownloadState>("downloadState"));
+		clState.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, DownloadState>() {
 			@Override
 			protected void updateItem(DownloadState item, boolean empty) {
 				super.updateItem(item, empty);
@@ -139,8 +139,8 @@ public class TableConfig {
 			};
 		});
 		clActionPause
-				.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, String>("actionPause"));
-		clActionPause.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, String>() {
+				.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, String>("actionPause"));
+		clActionPause.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, String>() {
 
 			@Override
 			protected void updateItem(String item, boolean empty) {
@@ -150,7 +150,7 @@ public class TableConfig {
 					setText(null);
 				} else {
 
-					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
+					Downloader<CollectionItem> downloader = getTableView().getItems().get(getIndex());
 
 					final Button btn = downloader.getBtnPause();
 
@@ -161,8 +161,8 @@ public class TableConfig {
 			}
 		});
 		clActionCancel
-				.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionSubItem>, String>("actionCancel"));
-		clActionCancel.setCellFactory(tc -> new TableCell<Downloader<CollectionSubItem>, String>() {
+				.setCellValueFactory(new PropertyValueFactory<Downloader<CollectionItem>, String>("actionCancel"));
+		clActionCancel.setCellFactory(tc -> new TableCell<Downloader<CollectionItem>, String>() {
 
 			@Override
 			protected void updateItem(String item, boolean empty) {
@@ -172,7 +172,7 @@ public class TableConfig {
 					setText(null);
 				} else {
 
-					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
+					Downloader<CollectionItem> downloader = getTableView().getItems().get(getIndex());
 
 					final Button btn = downloader.getBtnCancel();
 
@@ -187,7 +187,7 @@ public class TableConfig {
 					setGraphic(null);
 					setText(null);
 				} else {
-					Downloader<CollectionSubItem> downloader = getTableView().getItems().get(getIndex());
+					Downloader<CollectionItem> downloader = getTableView().getItems().get(getIndex());
 
 					downloader.downloadStateProperty().addListener((obs, oldvalue, newvalue) -> {
 						if (newvalue.equals(String.valueOf(DownloadState.FINISH))) {
@@ -246,7 +246,7 @@ public class TableConfig {
 			}
 		});
 	}
-	public void changeTableItems(ObservableList<Downloader<CollectionSubItem>> items) {
+	public void changeTableItems(ObservableList<Downloader<CollectionItem>> items) {
 		tableItens.setItems(items);
 	}
 

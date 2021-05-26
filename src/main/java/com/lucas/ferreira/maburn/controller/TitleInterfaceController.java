@@ -21,8 +21,8 @@ import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Icons;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
@@ -56,7 +56,7 @@ public class TitleInterfaceController implements Initializable {
 	private static final String ICON_PATH = "icons/";
 	private Navigator navigator = new Navigator();
 	private Collections collections;
-	private CollectionItem title;
+	private CollectionTitle title;
 	@FXML
 	private ImageView imageViewTitle;
 	@FXML
@@ -157,7 +157,7 @@ public class TitleInterfaceController implements Initializable {
 
 	private void loadTitleDatas() {
 
-		CollectionItem item = collections.getActualItem();
+		CollectionTitle item = collections.getActualItem();
 
 		Image image = null;
 		try {
@@ -187,7 +187,7 @@ public class TitleInterfaceController implements Initializable {
 
 	}
 
-	public void loadInformation(CollectionItem item) {
+	public void loadInformation(CollectionTitle item) {
 		Database database = new KitsuDatabase();
 		CollectDatas datas = database.read(item.getId(), item.getCategory());
 		Platform.runLater(() -> {
@@ -203,7 +203,7 @@ public class TitleInterfaceController implements Initializable {
 	}
 
 	public void onClickImageViewTitle() {
-		CollectionItem item = collections.getActualItem();
+		CollectionTitle item = collections.getActualItem();
 		Desktop desk = Desktop.getDesktop();
 		try {
 			desk.browse(new URI(item.getDataBaseUrl()));
@@ -220,7 +220,7 @@ public class TitleInterfaceController implements Initializable {
 	}
 
 	public void onClickButtonUpdate() {
-		CollectionItem item = collections.getActualItem();
+		CollectionTitle item = collections.getActualItem();
 		CustomLogger.log("UPDATED SUB ITENS ....");
 		CustomLogger.log("UPDATEDED SUB ITENS!");
 		loadTable(item);
@@ -266,9 +266,9 @@ public class TitleInterfaceController implements Initializable {
 		}
 	}
 
-	public void loadTable(CollectionItem item) {
+	public void loadTable(CollectionTitle item) {
 
-		List<CollectionSubItem> listSubItens = item.getListSubItens();
+		List<CollectionItem> listSubItens = item.getListSubItens();
 
 		List<TableCollectionItemModel> tableItens = new ArrayList<>();
 		if (tableItens.size() > 0) {
@@ -276,7 +276,7 @@ public class TitleInterfaceController implements Initializable {
 		}
 		try {
 			listSubItens.sort(new ItemFileComparator());
-			for (CollectionSubItem sub : listSubItens) {
+			for (CollectionItem sub : listSubItens) {
 				CustomLogger.log(sub.getName());
 			}
 		} catch (NumberFormatException e) {
@@ -291,7 +291,7 @@ public class TitleInterfaceController implements Initializable {
 			btnText = btnRead.getText();
 		}
 
-		for (CollectionSubItem subItem : listSubItens) {
+		for (CollectionItem subItem : listSubItens) {
 			Button btn = new Button();
 			btn.setText(btnText);
 			btn.setOnAction(event -> {
@@ -346,7 +346,7 @@ public class TitleInterfaceController implements Initializable {
 		});
 	}
 
-	public CollectionItem getTitle() {
+	public CollectionTitle getTitle() {
 		return title;
 	}
 

@@ -1,11 +1,11 @@
 package com.lucas.ferreira.maburn.model.states;
 
 import com.lucas.ferreira.maburn.fetch.Fetch;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class TitleDownloadState implements StateAdapter {
 	private Fetch fetch;
-	private CollectionItem item;
+	private CollectionTitle item;
 	
 	@Override
 	public StateAdapter getState()

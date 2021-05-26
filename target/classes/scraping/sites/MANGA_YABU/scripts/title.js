@@ -5,5 +5,6 @@
     
          txtChapters.push(c.href)
     })
+    txtChapters.reverse()
     return txtChapters;
 }

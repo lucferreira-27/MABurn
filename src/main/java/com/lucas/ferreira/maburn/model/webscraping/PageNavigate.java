@@ -17,7 +17,7 @@ public class PageNavigate {
 		this.options = options;
 	}
 
-	public void navigate(String url) {
+	public void navigate(String url) throws Exception{
 
 
 		String query = options.getSelectQuery();

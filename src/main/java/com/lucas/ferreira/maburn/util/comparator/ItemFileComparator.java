@@ -3,12 +3,12 @@ package com.lucas.ferreira.maburn.util.comparator;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
-public class ItemFileComparator implements Comparator<CollectionSubItem> {
+public class ItemFileComparator implements Comparator<CollectionItem> {
 
 	@Override
-	public int compare(CollectionSubItem o1, CollectionSubItem o2) {
+	public int compare(CollectionItem o1, CollectionItem o2) {
 		// TODO Auto-generated method stub
 
 		String dest1 = o1.getDestination();

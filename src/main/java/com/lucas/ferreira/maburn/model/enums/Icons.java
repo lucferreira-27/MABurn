@@ -23,6 +23,13 @@ public enum Icons {
 	
 	FETCH("title-download/fetch_white_icon.png","title-download/fetch_red_icon.png"),
 	RECOVER("title-download/recover_white_icon.png","title-download/recover_red_icon.png"),
+	MANUAL_SEARCH("title-download/input_white_icon.png","title-download/input_red_icon.png"),
+	
+	MANUAL_ALERT_SEARCH("title-download/search_white_icon.png","title-download/search_red_icon.png"),
+	MANUAL_ALERT_UNDO("title-download/undo_white_icon.png","title-download/undo_red_icon.png"),
+
+	
+	
 	SOURCE("title-download/source_white_icon.png",null),
 	CHOOSE("title-download/choose_white_icon.png",null),
 	DOWNLOAD_START("title-download/download_white_icon.png","title-download/download_red_icon.png");

@@ -9,14 +9,14 @@ import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.StringUtil;
 
 import javafx.scene.image.Image;
 
-public class AnimeDownloaded implements CollectionItem {
+public class AnimeDownloaded implements CollectionTitle {
 	private AnimeCollection animeCollection;
 	private String name;
 	private String hospedSite;
@@ -189,22 +189,22 @@ public class AnimeDownloaded implements CollectionItem {
 	}
 
 	@Override
-	public void addSubItens(List<CollectionSubItem> subItens) {
+	public void addSubItens(List<CollectionItem> subItens) {
 		// TODO Auto-generated method stub
 		subItens.forEach(subItem -> listEpisodes.add((EpisodeDownloaded) subItem));
 
 	}
 
 	@Override
-	public void setListSubItems(List<CollectionSubItem> subItems) {
+	public void setListSubItems(List<CollectionItem> subItems) {
 		List<EpisodeDownloaded> items = new ArrayList<EpisodeDownloaded>();
 		subItems.forEach(subItem -> items.add((EpisodeDownloaded) subItem));
 		listEpisodes = items;
 	}
 
 	@Override
-	public List<CollectionSubItem> getListSubItens() {
-		List<CollectionSubItem> subItens = new ArrayList<>();
+	public List<CollectionItem> getListSubItens() {
+		List<CollectionItem> subItens = new ArrayList<>();
 		listEpisodes.forEach(ep -> subItens.add(ep));
 		return subItens;
 	}

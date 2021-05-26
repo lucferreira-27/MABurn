@@ -9,15 +9,19 @@ public class EpisodeScraped implements ItemScraped{
 	
 	private Map<Definition,String> videoLinks = new HashMap<Definition,String>();
 	private AnimeScraped animeScraped;
-	
+	private Exception exception;
 	public EpisodeScraped(Map<Definition,String> videoLinks) {
-		// TODO Auto-generated constructor stub
 		this.videoLinks = videoLinks;
 	}
 	
+	public EpisodeScraped(Exception exception) {
+
+		this.exception = exception;
+	}
+
 	@Override
 	public TitleScraped getTitle() {
-		// TODO Auto-generated method stub
+
 		return animeScraped;
 	}
 	
@@ -27,13 +31,19 @@ public class EpisodeScraped implements ItemScraped{
 
 	@Override
 	public Object getValues() {
-		// TODO Auto-generated method stub
+
 		return videoLinks;
 	}
 
 	@Override
 	public String toString() {
 		return "EpisodeScraped [videoLinks=" + videoLinks + ", animeScraped=" + animeScraped + "]";
+	}
+
+	@Override
+	public Exception getException() {
+
+		return exception;
 	}
 	
 

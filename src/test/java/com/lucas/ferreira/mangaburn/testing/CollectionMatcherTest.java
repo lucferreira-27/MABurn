@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.lucas.ferreira.maburn.model.collections.management.CollectionMatch;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class CollectionMatcherTest {
@@ -16,7 +16,7 @@ public class CollectionMatcherTest {
 	public void locale() {
 			
 
-		List<CollectionItem> itens = new ArrayList<>();
+		List<CollectionTitle> itens = new ArrayList<>();
 		List<String> names = new ArrayList<>();
 		names.add("One Piece");
 		names.add("Dragon Ball");
@@ -26,7 +26,7 @@ public class CollectionMatcherTest {
 		names.add("Angel Beats");
 		
 		for (int i = 0; i < names.size(); i++) {
-			CollectionItem item = new AnimeDownloaded();
+			CollectionTitle item = new AnimeDownloaded();
 			item.setTitleDataBase(names.get(i));
 			itens.add(item);
 		}

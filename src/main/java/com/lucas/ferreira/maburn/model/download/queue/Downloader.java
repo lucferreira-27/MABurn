@@ -8,7 +8,7 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
@@ -29,7 +29,7 @@ public abstract class Downloader<T> extends Task<T> {
 
 	protected HttpURLConnection httpConn;
 
-	protected CollectionSubItem subItem;
+	protected CollectionItem subItem;
 
 	protected List<File> listFile;
 
@@ -139,7 +139,7 @@ public abstract class Downloader<T> extends Task<T> {
 		return firstInstance;
 	}
 
-	public CollectionSubItem getSubItem() {
+	public CollectionItem getSubItem() {
 		return subItem;
 	}
 
@@ -302,7 +302,7 @@ public abstract class Downloader<T> extends Task<T> {
 
 	}
 
-	public void initialize(List<String> listLink, CollectionSubItem subItem, List<File> listFile, ItemWebData webData,
+	public void initialize(List<String> listLink, CollectionItem subItem, List<File> listFile, ItemWebData webData,
 			TitleDownload titleDownload) {
 		this.listLink = listLink;
 		this.subItem = subItem;

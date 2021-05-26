@@ -9,14 +9,14 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.StringUtil;
 
 import javafx.scene.image.Image;
 
-public class MangaDownloaded implements CollectionItem {
+public class MangaDownloaded implements CollectionTitle {
 	private MangaCollection mangaCollection;
 	private String name;
 	private String hospedSite;
@@ -176,20 +176,20 @@ public class MangaDownloaded implements CollectionItem {
 
 	}
 	@Override
-	public void addSubItens(List<CollectionSubItem> subItens) {
+	public void addSubItens(List<CollectionItem> subItens) {
 		// TODO Auto-generated method stub
 		subItens.forEach(subItem -> listChapters.add((ChapterDownloaded) subItem));
 
 	}
 	@Override
-	public void setListSubItems(List<CollectionSubItem> subItems) {
+	public void setListSubItems(List<CollectionItem> subItems) {
 		List<ChapterDownloaded> items = new ArrayList<ChapterDownloaded>();
 		subItems.forEach(subItem -> items.add((ChapterDownloaded) subItem));
 		listChapters = items;
 	}
 
-	public List<CollectionSubItem> getListSubItens() {
-		List<CollectionSubItem> subItens = new ArrayList<>();
+	public List<CollectionItem> getListSubItens() {
+		List<CollectionItem> subItens = new ArrayList<>();
 		listChapters.forEach(ch -> subItens.add(ch));
 		return subItens;
 	}

@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.model;
 
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -69,8 +69,8 @@ public class GridPaneCell {
 
 	public int compareTo(GridPaneCell a) {
 		// TODO Auto-generated method stub
-		String str1 =  ((CollectionItem)this.getUserData()).getTitleDataBase();
-		String str2 =  ((CollectionItem)a.getUserData()).getTitleDataBase();
+		String str1 =  ((CollectionTitle)this.getUserData()).getTitleDataBase();
+		String str2 =  ((CollectionTitle)a.getUserData()).getTitleDataBase();
 		return str1.compareTo(str2);
 	}
 

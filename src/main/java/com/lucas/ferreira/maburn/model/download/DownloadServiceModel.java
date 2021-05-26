@@ -17,13 +17,13 @@ import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 import javafx.beans.property.BooleanProperty;
 
-public class DownloadServiceModel extends Downloader<CollectionSubItem> implements ReadableByteChannel {
+public class DownloadServiceModel extends Downloader<CollectionItem> implements ReadableByteChannel {
 	private ReadableByteChannel rbc;
 	private int totalByteRead;
 
@@ -227,7 +227,7 @@ public class DownloadServiceModel extends Downloader<CollectionSubItem> implemen
 	}
 
 	@Override
-	protected CollectionSubItem call() throws Exception {
+	protected CollectionItem call() throws Exception {
 		// TODO Auto-generated method stub
 		try {
 			download();

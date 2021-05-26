@@ -10,8 +10,8 @@ import com.lucas.ferreira.maburn.model.dao.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -20,7 +20,7 @@ public class FolderCollectionItemLoader {
 	
 	private BooleanProperty loadCompleted = new SimpleBooleanProperty(false);
 
-	public CollectionItem loadCollectionItems(String destination, Category category) {
+	public CollectionTitle loadCollectionItems(String destination, Category category) {
 		FolderReaderModel reader = new FolderReaderModel();
 
 		if (category == Category.MANGA) {
@@ -33,8 +33,8 @@ public class FolderCollectionItemLoader {
 		return null;
 	}
 
-	private CollectionItem loadMangaDownloaded(FolderReaderModel reader, String destination) {
-		CollectionItem item;
+	private CollectionTitle loadMangaDownloaded(FolderReaderModel reader, String destination) {
+		CollectionTitle item;
 		List<File> files;
 
 		item = new MangaDownloaded(destination);
@@ -47,8 +47,8 @@ public class FolderCollectionItemLoader {
 
 
 
-	private CollectionItem loadAnimeDownloaded(FolderReaderModel reader, String destination) {
-		CollectionItem item;
+	private CollectionTitle loadAnimeDownloaded(FolderReaderModel reader, String destination) {
+		CollectionTitle item;
 		List<File> files;
 		item = new AnimeDownloaded(destination);
 		files = reader.findEpisodesFilesInAnimeFolder((AnimeDownloaded) item);
@@ -56,10 +56,10 @@ public class FolderCollectionItemLoader {
 		return item;
 
 	}
-	private void addSubItemInItem(CollectionItem item, List<File> files, Category manga) {
-		List<CollectionSubItem> subItems = new ArrayList<>();
+	private void addSubItemInItem(CollectionTitle item, List<File> files, Category manga) {
+		List<CollectionItem> subItems = new ArrayList<>();
 		for (File file : files) {
-			CollectionSubItem subItem = null;
+			CollectionItem subItem = null;
 			if (manga == Category.MANGA)
 				subItem = new ChapterDownloaded();
 			if (manga == Category.ANIME)

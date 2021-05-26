@@ -14,7 +14,7 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DownloadImageServiceModel extends Downloader<File> {

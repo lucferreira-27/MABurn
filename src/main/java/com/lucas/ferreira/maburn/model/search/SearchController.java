@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.lucas.ferreira.maburn.exceptions.WebScrapingException;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.comparator.SearchResultComparator;
 
@@ -21,10 +21,10 @@ public class SearchController {
 	private ObjectProperty<SearchResult> searchResult = new SimpleObjectProperty<SearchResult>();
 	private StringProperty querryProperty = new SimpleStringProperty();
 
-	private CollectionItem item;
+	private CollectionTitle item;
 	private WebScraping scraping;
 
-	public SearchController(CollectionItem item, WebScraping scraping) {
+	public SearchController(CollectionTitle item, WebScraping scraping) {
 		// TODO Auto-generated constructor stub
 		this.scraping = scraping;
 		this.item = item;

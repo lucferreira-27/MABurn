@@ -8,7 +8,7 @@ import com.lucas.ferreira.maburn.model.FolderReaderModel;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.util.predicates.ItemWebDataFilter;
 
 public class DifferenceSynchrony {
@@ -20,7 +20,7 @@ public class DifferenceSynchrony {
 		this.items = items;
 	}
 
-	public List<ItemWebData> mustRecentOnly(CollectionItem title) {
+	public List<ItemWebData> mustRecentOnly(CollectionTitle title) {
 		//List<ItemWebData> list = synch(title);
 
 
@@ -32,7 +32,7 @@ public class DifferenceSynchrony {
 		return null;
 	}
 
-	public List<ItemWebData> synch(CollectionItem title) {
+	public List<ItemWebData> synch(CollectionTitle title) {
 		List<String> avaibleNameItems = new ArrayList<>();
 
 		switch (title.getCategory()) {

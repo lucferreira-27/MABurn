@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.lucas.ferreira.maburn.fetch.HomeFetcher;
-import com.lucas.ferreira.maburn.fetch.ItemFetcher;
+import com.lucas.ferreira.maburn.fetch.ItemFetcherX;
 import com.lucas.ferreira.maburn.model.dao.webdatas.AnimeWebData;
 import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
@@ -32,7 +32,7 @@ public class FetcherTest {
 	public void itemFetcherTest() {
 		EpisodeWebData episodeWebData = new EpisodeWebData(new AnimeWebData("One Piece"));
 		episodeWebData.setUrl(EPISODE_URL_TEST);
-		ItemFetcher fetcher = new ItemFetcher(episodeWebData, new AnitubeScraping());
+		ItemFetcherX fetcher = new ItemFetcherX(episodeWebData, new AnitubeScraping());
 		fetcher.fetch();
 		assertTrue(episodeWebData.isFetched());
 	}

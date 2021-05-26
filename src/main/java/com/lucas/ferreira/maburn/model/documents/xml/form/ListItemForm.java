@@ -8,7 +8,7 @@ import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.EpisodeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class ListItemForm extends ItemForm {
 
@@ -24,7 +24,7 @@ public class ListItemForm extends ItemForm {
 	private String dataUrl;
 	private String titleDatabase;
 	private List<SiteForm> sitesSearched = new ArrayList<SiteForm>();
-	private List<String> scrapingLinks = new ArrayList<String>();
+	private List<SiteForm> scrapingLinks = new ArrayList<SiteForm>();
 	private List<String> updateScrapingLinks = new ArrayList<String>();
 	private SiteForm curretScrapingLink;
 
@@ -116,11 +116,11 @@ public class ListItemForm extends ItemForm {
 		this.sitesSearched = sites;
 	}
 
-	public List<String> getScrapingLinks() {
+	public List<SiteForm> getScrapingLinks() {
 		return scrapingLinks;
 	}
 
-	public void setScrapingLinks(List<String> scrapingLinks) {
+	public void setScrapingLinks(List<SiteForm> scrapingLinks) {
 		this.scrapingLinks = scrapingLinks;
 	}
 
@@ -148,8 +148,8 @@ public class ListItemForm extends ItemForm {
 		this.blackList = blackList;
 	}
 
-	public CollectionItem toCollectionItem() {
-		CollectionItem collectionItem = null;
+	public CollectionTitle toCollectionItem() {
+		CollectionTitle collectionItem = null;
 		if (category == Category.ANIME) {
 			collectionItem = new AnimeDownloaded();
 		} else if (category == Category.MANGA) {

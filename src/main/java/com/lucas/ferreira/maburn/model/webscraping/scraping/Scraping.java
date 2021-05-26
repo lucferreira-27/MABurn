@@ -20,7 +20,7 @@ public abstract class Scraping extends AutoBrowser {
 		return options;
 	}
 
-	protected void navigate(String url, Page page, Options options) {
+	protected void navigate(String url, Page page, Options options) throws Exception {
 		PageNavigate pageNavigate = new PageNavigate(page, options);
 		
 		pageNavigate.navigate(url);

@@ -4,7 +4,7 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 public abstract class ItemWebData {
 	
@@ -20,7 +20,7 @@ public abstract class ItemWebData {
 
 	public abstract String getName();
 
-	public abstract Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload);
+	public abstract Downloader<CollectionItem> download(Collections collections, TitleDownload titleDownload);
 
 	public abstract Sites getSite();
 	

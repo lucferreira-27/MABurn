@@ -28,8 +28,8 @@ import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.model.search.SearchController;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
@@ -54,7 +54,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class TitleDownloadInterfaceController implements Initializable {
-	private CollectionItem collectionItemTitle;
+	private CollectionTitle collectionItemTitle;
 	private TitleWebData webDataTitle;
 	private TitleDownload titleDownload;
 	private WebScraping scraping;
@@ -137,28 +137,28 @@ public class TitleDownloadInterfaceController implements Initializable {
 	private ProgressIndicator piLoadFetch;
 
 	@FXML
-	private TableView<Downloader<CollectionSubItem>> tableItens;
+	private TableView<Downloader<CollectionItem>> tableItens;
 
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, String> clName;
+	private TableColumn<Downloader<CollectionItem>, String> clName;
 
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, Double> clSize;
+	private TableColumn<Downloader<CollectionItem>, Double> clSize;
 
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, Double> clSpeed;
+	private TableColumn<Downloader<CollectionItem>, Double> clSpeed;
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, Double> clCompleted;
+	private TableColumn<Downloader<CollectionItem>, Double> clCompleted;
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, Double> clProgress;
+	private TableColumn<Downloader<CollectionItem>, Double> clProgress;
 
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, DownloadState> clState;
+	private TableColumn<Downloader<CollectionItem>, DownloadState> clState;
 
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, String> clActionPause;
+	private TableColumn<Downloader<CollectionItem>, String> clActionPause;
 	@FXML
-	private TableColumn<Downloader<CollectionSubItem>, String> clActionCancel;
+	private TableColumn<Downloader<CollectionItem>, String> clActionCancel;
 
 	public TitleDownloadInterfaceController() {
 
@@ -682,7 +682,7 @@ public class TitleDownloadInterfaceController implements Initializable {
 		return true;
 	}
 
-	public void setCollectionItemTitle(CollectionItem collectionItemTitle) {
+	public void setCollectionItemTitle(CollectionTitle collectionItemTitle) {
 		this.collectionItemTitle = collectionItemTitle;
 	}
 

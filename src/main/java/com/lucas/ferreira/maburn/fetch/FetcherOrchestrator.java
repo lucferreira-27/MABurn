@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import com.lucas.ferreira.maburn.exceptions.FetchException;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
 import javafx.beans.property.BooleanProperty;
@@ -47,7 +47,7 @@ public class FetcherOrchestrator {
 		List<ItemWebData> items = new ArrayList<ItemWebData>();
 		obsItems = FXCollections.observableArrayList(items);
 		for (ItemWebData itemWebData : titleWebData.getWebDatas()) {
-			ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
+			ItemFetcherX fetcher = new ItemFetcherX(itemWebData, scraping);
 
 			fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
 				System.out.println(itemWebData.isFetched());
@@ -68,7 +68,7 @@ public class FetcherOrchestrator {
 		List<ItemWebData> items = new ArrayList<ItemWebData>();
 		obsItems = FXCollections.observableArrayList(items);
 		ItemWebData itemWebData = titleWebData.getWebDatas().get(index);
-		ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
+		ItemFetcherX fetcher = new ItemFetcherX(itemWebData, scraping);
 
 		fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
 			System.out.println(itemWebData.isFetched());
@@ -92,7 +92,7 @@ public class FetcherOrchestrator {
 
 		for (int i = x; i < y; i++) {
 			ItemWebData itemWebData = titleWebData.getWebDatas().get(i);
-			ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
+			ItemFetcherX fetcher = new ItemFetcherX(itemWebData, scraping);
 
 			fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
 				System.out.println(itemWebData.isFetched());
@@ -106,7 +106,7 @@ public class FetcherOrchestrator {
 		return obsItems;
 	}
 
-	public ObservableList<ItemWebData> fetchUpdate(CollectionItem targetItem) throws FetchException {
+	public ObservableList<ItemWebData> fetchUpdate(CollectionTitle targetItem) throws FetchException {
 		if (titleWebData.getWebDatas().isEmpty())
 			throw new FetchException("The title has no web data");
 
@@ -118,7 +118,7 @@ public class FetcherOrchestrator {
 		List<ItemWebData> result = differenceSynchrony.synch(targetItem);
 		System.out.println("DiffrenceSyncrony Result: " + result.size());
 		for (ItemWebData itemWebData : result) {
-			ItemFetcher fetcher = new ItemFetcher(itemWebData, scraping);
+			ItemFetcherX fetcher = new ItemFetcherX(itemWebData, scraping);
 			
 			fetcher.fetchStatePropery().addListener((obs, oldvalue, newvalue) -> {
 				System.out.println(itemWebData.isFetched());

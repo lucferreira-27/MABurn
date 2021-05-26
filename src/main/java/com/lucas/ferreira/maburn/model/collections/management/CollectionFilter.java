@@ -7,7 +7,7 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.enums.CollectionFilterType;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.comparator.FilterAscComparator;
 import com.lucas.ferreira.maburn.util.comparator.FilterDescComparator;
@@ -68,7 +68,7 @@ public class CollectionFilter {
 
 	private void printCellsValues(List<GridPaneCell> cells) {
 		cells.stream().forEach((cell) -> {
-			System.out.println("FILTERED " + ((CollectionItem) cell.getUserData()).getName());
+			System.out.println("FILTERED " + ((CollectionTitle) cell.getUserData()).getName());
 		});
 	}
 

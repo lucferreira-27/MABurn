@@ -16,7 +16,7 @@ import com.lucas.ferreira.maburn.model.effects.SearchCard;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.items.AnimeItemCreate;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.ItemCreater;
 import com.lucas.ferreira.maburn.model.items.MangaItemCreate;
 import com.lucas.ferreira.maburn.model.service.Database;
@@ -53,7 +53,7 @@ public class CollectionSearch {
 		showQuickLoad();
 		loadImageLoadArea.setVisible(true);
 		System.out.println("Search " + querry);
-		List<CollectionItem> items = new ArrayList<CollectionItem>();
+		List<CollectionTitle> items = new ArrayList<CollectionTitle>();
 
 		Database database = new KitsuDatabase();
 		database.readAll(querry, category).forEach(data -> {
@@ -63,11 +63,11 @@ public class CollectionSearch {
 			case ANIME:
 
 				ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate((AnimeCollection) collection);
-				items.add((CollectionItem) animeCreator.createSearchItem(data));
+				items.add((CollectionTitle) animeCreator.createSearchItem(data));
 				break;
 			case MANGA:
 				ItemCreater<MangaDownloaded> mangaCreator = new MangaItemCreate((MangaCollection) collection);
-				items.add((CollectionItem) mangaCreator.createSearchItem(data));
+				items.add((CollectionTitle) mangaCreator.createSearchItem(data));
 				break;
 
 			default:
@@ -75,7 +75,7 @@ public class CollectionSearch {
 			}
 		});
 		System.err.println("Database Result: " + items.size());
-		for (CollectionItem item : items) {
+		for (CollectionTitle item : items) {
 
 			ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
 			try {

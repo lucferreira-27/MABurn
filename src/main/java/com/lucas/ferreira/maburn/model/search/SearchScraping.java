@@ -12,32 +12,31 @@ import com.lucas.ferreira.maburn.model.webscraping.TitleNavigateOptions;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.Scraping;
 import com.microsoft.playwright.Page;
 
-public class SearchScraping extends Scraping{
-	
+public class SearchScraping extends Scraping {
+
 	private SearchEngine engine;
 	private Sites site;
 	private String title;
-	
+
 	public SearchScraping(String title, SearchEngine engine, Sites site) {
 		// TODO Auto-generated constructor stub
 		this.engine = engine;
 		this.title = title;
 		this.site = site;
 	}
-	
+
 	public SearchScraped search() {
 		try {
-			launch(false);
+			launch(true);
 			Page page = newPage();
 
 			Evaluate evaluate = new Evaluate();
 			String script = evaluate.findSearchScript(engine);
 			RulesProperties rulesProperties = readScrapingSearchRules(engine);
 			Options options = getOptions(new TitleNavigateOptions(rulesProperties));
-			
+
 			String url = engine.getUrl() + title + engine.getFilter() + site.getUrl();
-			System.out.println(url);
-			System.out.println(script);
+			System.out.println("Google: " + url);
 			navigate(url, page, options);
 			@SuppressWarnings("unchecked")
 			List<String> results = (ArrayList<String>) page.evaluate(script, options.getSelectQuery());

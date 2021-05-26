@@ -10,8 +10,8 @@ import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.MathUtil;
 
@@ -37,13 +37,13 @@ public class TitleDownload {
 	private Integer downloadType = null;
 	private ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
 
-	private CollectionItem collectionItem;
+	private CollectionTitle collectionItem;
 	private Collections collections;
 	private TitleWebData titleWebData;
 
-	private List<Downloader<CollectionSubItem>> downloads = new ArrayList<Downloader<CollectionSubItem>>();
+	private List<Downloader<CollectionItem>> downloads = new ArrayList<Downloader<CollectionItem>>();
 	private IntegerProperty id = new SimpleIntegerProperty();
-	private ObservableList<Downloader<CollectionSubItem>> obsDownloads;
+	private ObservableList<Downloader<CollectionItem>> obsDownloads;
 	private int obsDownloadRealSize;
 
 	private LongProperty downloadTime = new SimpleLongProperty();
@@ -120,7 +120,7 @@ public class TitleDownload {
 		if (!item.isFetched())
 			throw new DownloadServiceException("Item need be fetched first!");
 
-		Downloader<CollectionSubItem> downloader = item.download(collections, this);
+		Downloader<CollectionItem> downloader = item.download(collections, this);
 		totalDownlods.set(totalDownlods.get() + 1);
 		checkProgress(downloader);
 		obsDownloads.add(downloader);
@@ -129,7 +129,7 @@ public class TitleDownload {
 
 	public void refreshItem(Downloader<?> targetDownloader) {
 
-		Downloader<CollectionSubItem> downloader = targetDownloader.getItemWebData().download(collections, this);
+		Downloader<CollectionItem> downloader = targetDownloader.getItemWebData().download(collections, this);
 
 		obsDownloads.set(obsDownloads.indexOf(targetDownloader), downloader);
 
@@ -143,7 +143,7 @@ public class TitleDownload {
 		obsDownloadRealSize -= 1;
 	}
 
-	public void checkProgress(Downloader<CollectionSubItem> downloader) {
+	public void checkProgress(Downloader<CollectionItem> downloader) {
 		// TODO Auto-generated method stub
 		Platform.runLater(() -> {
 			downloader.progressProperty().addListener((obs, oldvalue, newvalue) -> {
@@ -199,11 +199,11 @@ public class TitleDownload {
 
 	}
 
-	public CollectionItem getCollectionItem() {
+	public CollectionTitle getCollectionItem() {
 		return collectionItem;
 	}
 
-	public void setCollectionItem(CollectionItem collectionItem) {
+	public void setCollectionItem(CollectionTitle collectionItem) {
 		this.collectionItem = collectionItem;
 	}
 
@@ -215,11 +215,11 @@ public class TitleDownload {
 		this.id.set(id);
 	}
 
-	public List<Downloader<CollectionSubItem>> getDownloads() {
+	public List<Downloader<CollectionItem>> getDownloads() {
 		return downloads;
 	}
 
-	public ObservableList<Downloader<CollectionSubItem>> getObsDownloads() {
+	public ObservableList<Downloader<CollectionItem>> getObsDownloads() {
 		return obsDownloads;
 	}
 

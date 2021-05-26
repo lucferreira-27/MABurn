@@ -1,10 +1,10 @@
 package com.lucas.ferreira.maburn.model.dao.downloaded;
 
 import com.lucas.ferreira.maburn.model.dao.GenericItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
 
-public class EpisodeDownloaded implements CollectionSubItem, GenericItem {
+public class EpisodeDownloaded implements CollectionItem, GenericItem {
 	private AnimeDownloaded anime;
 	private String name;
 	private String destination;
@@ -34,7 +34,7 @@ public class EpisodeDownloaded implements CollectionSubItem, GenericItem {
 		this.id = id;
 	}
 	@Override
-	public CollectionItem getItem() {
+	public CollectionTitle getItem() {
 		// TODO Auto-generated method stub
 		return anime;
 	}

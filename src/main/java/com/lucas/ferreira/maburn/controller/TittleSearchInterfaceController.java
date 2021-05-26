@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.dao.CollectDatas;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.view.Interfaces;
@@ -78,7 +78,7 @@ public class TittleSearchInterfaceController implements Initializable {
 		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.COLLECTION);
 		collections = collectionController.getCollectionGridPane().getCollection();
-		CollectionItem item = collections.getActualItem();
+		CollectionTitle item = collections.getActualItem();
 
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(item.getImage());
@@ -91,7 +91,7 @@ public class TittleSearchInterfaceController implements Initializable {
 
 	}
 
-	public void loadInformation(CollectionItem item) {
+	public void loadInformation(CollectionTitle item) {
 		Database database = new KitsuDatabase();
 		CollectDatas datas = database.read(item.getId(), item.getCategory());
 		Platform.runLater(() -> {
@@ -107,7 +107,7 @@ public class TittleSearchInterfaceController implements Initializable {
 	}
 
 	public void onClickImageViewTitle() {
-		CollectionItem item = collections.getActualItem();
+		CollectionTitle item = collections.getActualItem();
 		Desktop desk = Desktop.getDesktop();
 		try {
 			desk.browse(new URI(item.getDataBaseUrl()));

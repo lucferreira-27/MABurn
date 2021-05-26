@@ -6,10 +6,10 @@ import java.util.List;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class AnimeCollection implements Collections {
-	private List<CollectionItem> listAnimes = new ArrayList<>();
+	private List<CollectionTitle> listAnimes = new ArrayList<>();
 	private String destination;
 	private AnimeDownloaded activeAnime;
 
@@ -23,12 +23,12 @@ public class AnimeCollection implements Collections {
 	}
 	
 	@Override
-	public List<CollectionItem> getItens() {
+	public List<CollectionTitle> getItens() {
 		// TODO Auto-generated method stub
 		return listAnimes;
 	}
 
-	public List<CollectionItem> getListAnimes() {
+	public List<CollectionTitle> getListAnimes() {
 		return listAnimes;
 	}
 
@@ -49,14 +49,14 @@ public class AnimeCollection implements Collections {
 	}
 
 	@Override
-	public void setActualItem(CollectionItem obj) {
+	public void setActualItem(CollectionTitle obj) {
 		// TODO Auto-generated method stub
 		this.activeAnime = (AnimeDownloaded) obj;
 		activeAnime.setCollections(this);
 	}
 
 	@Override
-	public CollectionItem getActualItem() {
+	public CollectionTitle getActualItem() {
 		// TODO Auto-generated method stub
 		if (activeAnime == null && !listAnimes.isEmpty()) {
 			return listAnimes.get(0);
@@ -71,7 +71,7 @@ public class AnimeCollection implements Collections {
 	}
 
 	@Override
-	public void setItens(List<CollectionItem> itens) {
+	public void setItens(List<CollectionTitle> itens) {
 		// TODO Auto-generated method stub
 		this.listAnimes = itens;
 		

@@ -6,7 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.loader.folder.FolderCollectionItemLoader;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
@@ -54,8 +54,8 @@ public class NormalCard implements Card {
 	
 	@Override
 	public void overlay() {
-		CollectionItem item = ((CollectionItem) cell.getUserData());
-		String title = ((CollectionItem) cell.getUserData()).getTitleDataBase();
+		CollectionTitle item = ((CollectionTitle) cell.getUserData());
+		String title = ((CollectionTitle) cell.getUserData()).getTitleDataBase();
 
 		Animations animation = new Animations((Pane) cell.getNode());
 
@@ -113,7 +113,7 @@ public class NormalCard implements Card {
 
 	}
 
-	private void loadSizeInDiskLabel(CollectionItem item) {
+	private void loadSizeInDiskLabel(CollectionTitle item) {
 		lblSizeInDisk.setVisible(true);
 
 		String disk = "Disk: ";
@@ -146,7 +146,7 @@ public class NormalCard implements Card {
 
 	}
 
-	private void loadNumberOfItemsLabel(CollectionItem item) {
+	private void loadNumberOfItemsLabel(CollectionTitle item) {
 
 		new Thread(() -> {
 			FolderCollectionItemLoader folderCollectionItemLoader = new FolderCollectionItemLoader();

@@ -10,16 +10,16 @@ import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.download.DownloadImageServiceModel;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 
 public class ThumbnailController extends Task<Void> {
 
-	private CollectionItem item;
+	private CollectionTitle item;
 	private DownloadImageServiceModel modelService;
-	public ThumbnailController(CollectionItem item) {
+	public ThumbnailController(CollectionTitle item) {
 		// TODO Auto-generated constructor stub
 		this.item = item;
 	}

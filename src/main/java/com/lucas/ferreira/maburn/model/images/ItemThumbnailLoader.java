@@ -9,7 +9,7 @@ import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.ImageLoaderModel;
 import com.lucas.ferreira.maburn.model.effects.TransformEffects;
 import com.lucas.ferreira.maburn.model.effects.TransformPanelEffect;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
@@ -20,9 +20,9 @@ import javafx.scene.layout.Pane;
 public class ItemThumbnailLoader {
 	private GridPaneCell cell;
 	private ImageView imageView;
-	private CollectionItem item;
+	private CollectionTitle item;
 
-	public ItemThumbnailLoader(CollectionItem item) {
+	public ItemThumbnailLoader(CollectionTitle item) {
 		// TODO Auto-generated constructor stub
 		this.item = item;
 

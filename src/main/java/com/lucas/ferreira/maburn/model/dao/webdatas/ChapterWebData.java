@@ -12,11 +12,11 @@ import com.lucas.ferreira.maburn.model.download.DownloadServiceModel;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.items.CollectionSubItem;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 
 public class ChapterWebData extends ItemWebData {
 	private MangaWebData mangaWebData;
-	private Downloader<CollectionSubItem> download;
+	private Downloader<CollectionItem> download;
 	private String name;
 	private String url;
 	private List<String> listPagesUrl = new ArrayList<>();
@@ -59,7 +59,7 @@ public class ChapterWebData extends ItemWebData {
 
 
 	@Override
-	public Downloader<CollectionSubItem> download(Collections collections, TitleDownload titleDownload) {
+	public Downloader<CollectionItem> download(Collections collections, TitleDownload titleDownload) {
 		download = new DownloadServiceModel();
 
 		List<File> listFile = new ArrayList<>();

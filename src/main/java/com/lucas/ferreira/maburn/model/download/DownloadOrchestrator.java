@@ -4,7 +4,7 @@ import com.lucas.ferreira.maburn.fetch.FetcherOrchestrator;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.TitleDownload;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -39,7 +39,7 @@ public class DownloadOrchestrator {
 
 		Platform.runLater(() ->listenChange(obsItems));
 	}
-	public void downloadUpdate(CollectionItem targetItem) {
+	public void downloadUpdate(CollectionTitle targetItem) {
 		ObservableList<ItemWebData> obsItems = fetcherController.fetchUpdate(targetItem);
 		titleDownload.setState(DownloadState.DOWNLOADING);
 		Platform.runLater(() ->listenChange(obsItems));

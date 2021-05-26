@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.model.effects;
 
 import com.lucas.ferreira.maburn.model.GridPaneCell;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -33,7 +33,7 @@ public class SearchCard implements Card {
 
 	@Override
 	public void overlay() {
-		CollectionItem item = ((CollectionItem) cell.getUserData());
+		CollectionTitle item = ((CollectionTitle) cell.getUserData());
 		String title = item.getTitleDataBase();
 		String score = item.getScore() == null ? "0.00" : item.getScore().toString();
 		String date = item.getDate();

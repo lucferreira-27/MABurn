@@ -24,6 +24,7 @@ public abstract class  ItemScraping extends Scraping {
 	
 	public ItemScraped scrapeItem(String url) {
 		// TODO Auto-generated method stub
+		try {
 		Page page = context.newPage();
 		Evaluate evaluate = new Evaluate();
 		String script = evaluate.findItemScript(site); 
@@ -37,12 +38,18 @@ public abstract class  ItemScraping extends Scraping {
 		ItemScraped itemScraped = scrape(page, script, options);
 
 		page.close();
+		
 		return itemScraped;
+	} catch (Exception e) {
+			// TODO: handle exception
+		return itemScrapedWithException(e);
+		}
 	}
 
 
 	protected abstract  ItemScraped scrape(Page page, String script, Options options);
-	
+	protected abstract  ItemScraped itemScrapedWithException(Exception e);
+
 
 
 	
