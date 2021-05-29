@@ -6,7 +6,6 @@ import java.util.Map;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
 
 import javafx.scene.image.Image;
 

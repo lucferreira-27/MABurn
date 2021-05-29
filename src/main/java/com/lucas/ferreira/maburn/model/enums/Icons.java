@@ -27,12 +27,17 @@ public enum Icons {
 	
 	MANUAL_ALERT_SEARCH("title-download/search_white_icon.png","title-download/search_red_icon.png"),
 	MANUAL_ALERT_UNDO("title-download/undo_white_icon.png","title-download/undo_red_icon.png"),
+	MANUAL_ALERT_CLOSE("title-download/close_white_icon.png","title-download/close_red_icon.png"),
+	ZOOM_OUT_SMALL("title-download/zoom_out_white_small_icon.png","title-download/zoom_out_red_small_icon.png"),
+	ZOOM_IN_SMALL("title-download/zoom_in_white_small_icon.png","title-download/zoom_in_red_small_icon.png"),
 
-	
+	ZOOM_OUT_BIG("title-download/zoom_out_white_big_icon.png","title-download/zoom_out_red_big_icon.png"),
+	ZOOM_IN_BIG("title-download/zoom_in_white_big_icon.png","title-download/zoom_in_red_big_icon.png"),
 	
 	SOURCE("title-download/source_white_icon.png",null),
 	CHOOSE("title-download/choose_white_icon.png",null),
 	DOWNLOAD_START("title-download/download_white_icon.png","title-download/download_red_icon.png");
+
 
 	
 	

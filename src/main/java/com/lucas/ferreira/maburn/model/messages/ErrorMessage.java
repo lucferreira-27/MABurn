@@ -10,9 +10,7 @@ public class ErrorMessage extends Message{
 
 	@Override
 	protected void fillText() {
-		// TODO Auto-generated method stub
 		area.setStyle("-fx-text-fill: #e13535;");
-		System.out.println(area.getStyle());
 	}
 
 

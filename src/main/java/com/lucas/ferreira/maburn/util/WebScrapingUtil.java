@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.model.dao.webdatas.EpisodeWebData;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.search.SearchResult;
+import com.lucas.ferreira.maburn.model.webscraping.search.SearchResult;
 
 public class WebScrapingUtil {
 	

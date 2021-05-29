@@ -1,0 +1,11 @@
+package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
+
+import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
+
+public interface ItemScraped {
+	
+	public Exception getException();
+	public TitleScraped getTitle();
+	public Object getValues();
+	
+}

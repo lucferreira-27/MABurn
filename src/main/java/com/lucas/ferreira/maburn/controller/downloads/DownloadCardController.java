@@ -1,0 +1,16 @@
+package com.lucas.ferreira.maburn.controller.downloads;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.fxml.Initializable;
+
+public class DownloadCardController implements Initializable{
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

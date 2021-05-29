@@ -1,7 +1,5 @@
 package com.lucas.ferreira.maburn.fetch;
 
-import com.lucas.ferreira.maburn.controller.FetchRecover;
-import com.lucas.ferreira.maburn.controller.FetchSave;
 import com.lucas.ferreira.maburn.exceptions.NotURLFoundInRecover;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;

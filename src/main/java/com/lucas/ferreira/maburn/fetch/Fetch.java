@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.fetch;
 
-import com.lucas.ferreira.maburn.model.webscraping.scraping.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.Scraping;
+import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 
 import javafx.collections.ObservableList;
 

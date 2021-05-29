@@ -1,27 +1,25 @@
 package com.lucas.ferreira.maburn.view;
 
-import com.lucas.ferreira.maburn.controller.CollectionInterfaceController;
-import com.lucas.ferreira.maburn.controller.DonwloadQueueInterfaceController;
-import com.lucas.ferreira.maburn.controller.DownloadCardController;
-import com.lucas.ferreira.maburn.controller.HelperInterfaceController;
-import com.lucas.ferreira.maburn.controller.HomeInterfaceController;
-import com.lucas.ferreira.maburn.controller.TitleDownloadController;
-import com.lucas.ferreira.maburn.controller.TitleDownloadInterfaceController;
-import com.lucas.ferreira.maburn.controller.TitleInterfaceController;
-import com.lucas.ferreira.maburn.controller.TittleSearchInterfaceController;
+import com.lucas.ferreira.maburn.controller.collection.CollectionInterfaceController;
+import com.lucas.ferreira.maburn.controller.downloads.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.home.HomeInterfaceController;
+import com.lucas.ferreira.maburn.controller.settings.SettingsInterfaceController;
+import com.lucas.ferreira.maburn.controller.title.TitleController;
+import com.lucas.ferreira.maburn.controller.title.download.TitleDownloadController;
+import com.lucas.ferreira.maburn.controller.title.search.TittleSearchInterfaceController;
 
 import javafx.fxml.Initializable;
 
 public enum Interfaces {
 
 	HOME("HomeViewFXML.fxml", new HomeInterfaceController()),
-	TITLE("TitleViewFXML.fxml", new TitleInterfaceController()),
+	TITLE("TitleViewFXML.fxml", new TitleController()),
 	TITLE_SEARCH("TitleSearchViewFXML.fxml", new TittleSearchInterfaceController()),
-	TITLE_DOWNLOAD("TitleDownloadViewFXML.fxml", new TitleDownloadInterfaceController()),
-	TITLE__DOWNLOAD("TitleDownload.fxml", new TitleDownloadController()),
+//	TITLE_DOWNLOAD("TitleDownloadViewFXML.fxml", new TitleDownloadInterfaceController()),
+	TITLE_DOWNLOAD("TitleDownload.fxml", new TitleDownloadController()),
 
-	DOWNLOADS("DownloadQueueView.fxml", new DonwloadQueueInterfaceController()),
-	CONFIGURATION("HelperViewFXML.fxml", new HelperInterfaceController()), 
+	DOWNLOADS("DownloadQueueView.fxml", null),
+	CONFIGURATION("HelperViewFXML.fxml", new SettingsInterfaceController()), 
 	CALENDAR("", null),
 	COLLECTION("ItemsViewFXML.fxml", new CollectionInterfaceController()),
 	DOWNLOAD_CARD("DownloadCard.fxml", new DownloadCardController());

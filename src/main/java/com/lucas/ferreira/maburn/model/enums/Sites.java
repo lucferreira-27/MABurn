@@ -1,32 +1,23 @@
 package com.lucas.ferreira.maburn.model.enums;
 
-import com.lucas.ferreira.maburn.model.webscraping.WebScraping;
-import com.lucas.ferreira.maburn.model.webscraping.sites.AnitubeScraping;
-import com.lucas.ferreira.maburn.model.webscraping.sites.BetterAnimeScraping;
-import com.lucas.ferreira.maburn.model.webscraping.sites.GoyabuScraping;
-import com.lucas.ferreira.maburn.model.webscraping.sites.MangaHostScraping;
-import com.lucas.ferreira.maburn.model.webscraping.sites.MangaYabuScraping;
-
 public enum Sites {
 
-	ANITUBE("https://www.anitube.site", Category.ANIME, new AnitubeScraping()),
-	GOYABU("https://goyabu.com", Category.ANIME, new GoyabuScraping()),
-	BETTER_ANIME("https://betteranime.net", Category.ANIME, new BetterAnimeScraping()),
-	MANGA_HOST("https://mangahosted.com", Category.MANGA, new MangaHostScraping()),
-	MANGA_YABU("https://mangayabu.top", Category.MANGA, new MangaYabuScraping()),
-	MY_ANIMES_ONLINE("https://www.myanimesonline.biz", Category.ANIME, null),
-	MANGA_OWL("https://mangaowl.net", Category.MANGA, null),
-	GOGO_ANIME("https://www1.gogoanime.ai/", Category.ANIME, null);
+	ANITUBE("https://www.anitube.site", Category.ANIME),
+	GOYABU("https://goyabu.com", Category.ANIME),
+	BETTER_ANIME("https://betteranime.net", Category.ANIME),
+	MANGA_HOST("https://mangahosted.com", Category.MANGA),
+	MANGA_YABU("https://mangayabu.top", Category.MANGA),
+	MY_ANIMES_ONLINE("https://www.myanimesonline.biz", Category.ANIME),
+	MANGA_OWL("https://mangaowl.net", Category.MANGA),
+	GOGO_ANIME("https://www1.gogoanime.ai/", Category.ANIME);
 
 	private String url;
 	private Category category;
-	private WebScraping scraping;
 
-	private Sites(String url, Category category, WebScraping scraping) {
+	private Sites(String url, Category category) {
 		// TODO Auto-generated constructor stub
 		this.url = url;
 		this.category = category;
-		this.scraping = scraping;
 	}
 
 	public String getUrl() {
@@ -37,7 +28,4 @@ public enum Sites {
 		return category;
 	}
 	
-	public WebScraping getScraping() {
-		return scraping;
-	}
 }	

@@ -7,8 +7,8 @@ import java.nio.file.Files;
 
 import javax.swing.JFrame;
 
-import com.lucas.ferreira.maburn.controller.MenuController;
-import com.lucas.ferreira.maburn.fetch.FetchTitle;
+import com.lucas.ferreira.maburn.controller.menu.MenuController;
+import com.lucas.ferreira.maburn.fetch.title.FetchTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;

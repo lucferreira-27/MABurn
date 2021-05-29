@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.util.comparator;
 
 import java.util.Comparator;
 
-import com.lucas.ferreira.maburn.model.search.SearchResult;
+import com.lucas.ferreira.maburn.model.webscraping.search.SearchResult;
 import com.lucas.ferreira.maburn.util.StringUtil;
 
 public class SearchResultComparator implements Comparator<SearchResult> {

@@ -70,6 +70,12 @@
     -fx-background-color: #1C1C1C;
 }
 
+
+.shade{
+    -fx-background-color: black;
+    -fx-opacity: 0.6;
+}
+
 #apMenu{
    -fx-background-color: #2b2b2a;
    /**  -fx-background-color: #1C1C1C; **/
@@ -353,6 +359,25 @@
 
 .path {
     -fx-border-color: #A32020;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+.txtError {
+    -fx-border-color: #A32020;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+.txtSucceed {
+    -fx-border-color: #30c57b;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.txtNormal{
+    -fx-border-color: white;
     -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
     -fx-text-fill: white;

@@ -79,9 +79,7 @@ public class FXMLViewLoader {
 				StackPane.setAlignment(fxmlLoaded, Pos.BOTTOM_CENTER);
 				stackPane.getChildren().add(fxmlLoaded);
 				break;
-			case DOWNLOAD_IN_QUEUE:
 
-				break;
 
 			default:
 				break;
@@ -112,9 +110,7 @@ public class FXMLViewLoader {
 					stackPane.getChildren().get(index).setVisible(false);
 				}
 				break;
-			case DOWNLOAD_IN_QUEUE:
 
-				break;
 			default:
 				break;
 			}
