@@ -113,7 +113,7 @@ public class RegisterTitleFetcher {
 			throw new NotSourceSelectException();
 		}
 		if (errorMessage.isShowing()) {
-			errorMessage.hideMessage();
+			errorMessage.hideAndClearMessage();
 		}
 
 	}

@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ItemValueCompareValidator implements Validador {
-
+	private final static Integer TYPE_TIMELAPSE = 500;
 	private BooleanProperty validate = new SimpleBooleanProperty();
 	private StringProperty error = new SimpleStringProperty();
 	private ItemValueNumberValidador itemValueNumberValidadorBegin;
@@ -46,27 +46,44 @@ public class ItemValueCompareValidator implements Validador {
 	}
 
 	private void check() {
-		if (itemValueNumberValidadorBegin.getValidate().get() && itemValueNumberValidadorEnd.getValidate().get())
 
-			try {
-				Integer value1 = Integer.valueOf(itemValueNumberValidadorBegin.getTxtField().getText());
-				Integer value2 = Integer.valueOf(itemValueNumberValidadorEnd.getTxtField().getText());
-
-				if (value1.equals(value2)) {
-					validate.set(false);
-					error.set("Values can't be equals!");
-				} else if (value1 > value2) {
-					validate.set(false);
-					error.set("Begin can't be big than End!");
-				} else {
-					validate.set(true);
-					error.set("OK");
+		if (itemValueNumberValidadorBegin.getValidate().get() && itemValueNumberValidadorEnd.getValidate().get()) {
+			new Thread(() ->{
+				long start = System.currentTimeMillis();
+				while(TYPE_TIMELAPSE > System.currentTimeMillis() - start) {
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				try {
+					Integer value1 = Integer.valueOf(itemValueNumberValidadorBegin.getTxtField().getText());
+					Integer value2 = Integer.valueOf(itemValueNumberValidadorEnd.getTxtField().getText());
 
-			} catch (IllegalArgumentException e) {
-				// TODO: handle exception
-				throw new RuntimeException(e);
-			}
+					if (value1.equals(value2)) {
+						validate.set(false);
+						error.set("Values can't be equals!");
+					} else if (value1 > value2) {
+						validate.set(false);
+						error.set("Begin can't be big than End!");
+					} else {
+						validate.set(true);
+						error.set("OK");
+					}
+
+				} catch (IllegalArgumentException e) {
+					// TODO: handle exception
+					throw new RuntimeException(e);
+				}
+				
+				
+			}).start();
+		}else {
+			validate.set(false);
+		}
+
 	}
 
 	@Override

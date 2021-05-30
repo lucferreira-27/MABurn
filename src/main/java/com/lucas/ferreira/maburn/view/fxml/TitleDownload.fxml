@@ -125,25 +125,31 @@
                         <children>
                            <AnchorPane>
                               <children>
-                                 <HBox fx:id="hboxItemsFields" layoutX="270.0" layoutY="8.0" prefHeight="71.0" prefWidth="371.0" spacing="10.0">
+                                 <HBox fx:id="hboxItemsFields" layoutX="270.0" prefHeight="71.0" prefWidth="371.0" spacing="10.0">
                                     <children>
-                                       <AnchorPane maxWidth="307.0" prefHeight="71.0" prefWidth="116.0">
+                                       <AnchorPane>
                                           <children>
-                                             <TextField fx:id="txtStartItemValue" layoutX="10.0" maxHeight="22.0" minHeight="25.0" prefHeight="22.0" prefWidth="70.0" promptText="First" styleClass="txtNormal" visible="false" />
-                                             <TextArea fx:id="txtAreaFieldFirstMsg" editable="false" layoutX="5.0" layoutY="26.0" minHeight="0.0" prefHeight="59.0" prefWidth="95.0" style="-fx-font-size: 11;" text="&#10;" visible="false" wrapText="true" />
+                                             <TextArea fx:id="txtAreaUpdateItems" editable="false" prefHeight="71.0" prefWidth="200.0" style="-fx-font-size: 20;" visible="false" wrapText="true" />
+                                             <TextArea fx:id="txtAreaTotalItems" editable="false" prefHeight="71.0" prefWidth="200.0" style="-fx-font-size: 20;" visible="false" wrapText="true" />
+                                             <AnchorPane layoutX="120.0" maxWidth="307.0" prefHeight="71.0" prefWidth="116.0">
+                                                <children>
+                                                   <TextField fx:id="txtEndItemValue" layoutX="10.0" maxHeight="22.0" minHeight="25.0" prefHeight="22.0" prefWidth="70.0" promptText="First" styleClass="txtNormal" visible="false" />
+                                                   <TextArea fx:id="txtAreaFieldLastMsg" editable="false" layoutX="5.0" layoutY="26.0" minHeight="0.0" prefHeight="59.0" prefWidth="95.0" style="-fx-font-size: 11;" text="&#10;" visible="false" wrapText="true" />
+                                                </children>
+                                             </AnchorPane>
+                                             <AnchorPane maxWidth="307.0" prefWidth="74.0">
+                                                <children>
+                                                   <TextArea fx:id="txtAreaFieldFirstMsg" editable="false" layoutX="9.0" layoutY="25.0" minHeight="0.0" prefHeight="59.0" prefWidth="95.0" style="-fx-font-size: 11;" visible="false" wrapText="true" />
+                                                   <TextField fx:id="txtStartItemValue" layoutX="10.0" maxHeight="22.0" minHeight="25.0" prefHeight="22.0" prefWidth="70.0" promptText="Last" styleClass="txtNormal" stylesheets="@../css/DarkThema.css" visible="false" />
+                                                </children>
+                                             </AnchorPane>
                                           </children>
                                        </AnchorPane>
-                                       <AnchorPane maxWidth="307.0">
-                                          <children>
-                                             <TextArea fx:id="txtAreaFieldLastMsg" editable="false" layoutX="9.0" layoutY="25.0" minHeight="0.0" prefHeight="59.0" prefWidth="95.0" style="-fx-font-size: 11;" visible="false" wrapText="true" />
-                                             <TextField fx:id="txtEndItemValue" layoutX="10.0" maxHeight="22.0" minHeight="25.0" prefHeight="22.0" prefWidth="70.0" promptText="Last" styleClass="txtNormal" stylesheets="@../css/DarkThema.css" visible="false" />
-                                          </children>
-                                       </AnchorPane>
-                                       <TextArea fx:id="txtAreaChooseMsg" prefHeight="71.0" prefWidth="151.0" style="-fx-font-size: 12;" wrapText="true" />
+                                       <TextArea fx:id="txtAreaChooseMsg" editable="false" prefHeight="71.0" prefWidth="150.0" style="-fx-font-size: 12;" wrapText="true" />
                                     </children>
                                  </HBox>
                                  <ComboBox fx:id="cbSelect" disable="true" prefWidth="225.0" promptText="Select" />
-                                 <ComboBox fx:id="cbItems" disable="true" layoutX="265.0" prefWidth="225.0" promptText="Items" />
+                                 <ComboBox fx:id="cbItems" disable="true" layoutX="265.0" prefWidth="225.0" promptText="Items" visible="false" />
                               </children>
                            </AnchorPane>
                         </children>

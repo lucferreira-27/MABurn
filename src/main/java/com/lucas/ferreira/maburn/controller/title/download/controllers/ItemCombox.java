@@ -12,18 +12,17 @@ public class ItemCombox {
 
 	public ItemCombox() {
 	}
-	public Map<String, String> itemsValuesMap(TitleScraped titleScraped, List<String> namedItems) {
+	public Map<String, String> itemsValuesMap(List<String> valuesItems, List<String> namedItems) {
 		Map<String, String> namedItemsValues = new HashMap<String, String>();
-		List<String> items = titleScraped.getItemsScraped();
 
-		namedItems.forEach(n -> namedItemsValues.put(n, items.get(namedItems.indexOf(n))));
+
+		namedItems.forEach(n -> namedItemsValues.put(n, valuesItems.get(namedItems.indexOf(n))));
 		return namedItemsValues;
 	}
 
-	public List<String> valuesToNumberTagItems(TitleScraped titleScraped, String tag) {
+	public List<String> valuesToNumberTagItems(List<String> valuesItems, String tag) {
 
-		List<String> items = titleScraped.getItemsScraped();
-		List<String> namedItems = items.stream().mapToInt(item -> items.indexOf(item) + 1).boxed()
+		List<String> namedItems = valuesItems.stream().mapToInt(item -> valuesItems.indexOf(item) + 1).boxed()
 				.map(n -> tag + n).collect(Collectors.toList());
 		return namedItems;
 	}

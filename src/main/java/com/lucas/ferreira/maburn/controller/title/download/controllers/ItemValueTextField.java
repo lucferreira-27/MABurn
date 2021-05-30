@@ -15,8 +15,15 @@ public class ItemValueTextField {
 	private final TextArea txtArea;
 	private ItemValueNumberValidador itemValueNumberValidador;
 	private boolean geralError = false;
+	private boolean visible;
 	
 	public ItemValueTextField(TextField txtField, int totalItems, TextArea txtArea) {
+		if(txtField == null) {
+			throw new NullPointerException("TextField can't be null");
+		}
+		if(txtArea == null) {
+			throw new NullPointerException("TextArea can't be null");
+		}
 		this.txtField = txtField;
 		this.totalItems = totalItems;
 		this.txtArea = txtArea;
@@ -31,6 +38,7 @@ public class ItemValueTextField {
 			if (!newvalue.equals("OK")) {
 					bottomLineErrorStyle();
 					// this.comparatorErrorFilled = true;
+
 					errorMessage.showMessage(newvalue);
 				
 			} else {
@@ -67,7 +75,18 @@ public class ItemValueTextField {
 	public TextArea getTxtArea() {
 		return txtArea;
 	}
-
+	
+	public void setVisible(boolean visible) {
+		txtArea.setVisible(visible);
+		txtField.setVisible(visible);
+		
+		this.visible = visible;
+	}
+	
+	public boolean isVisible() {
+		return visible;
+	}
+	
 	public TextField getTxtField() {
 		return txtField;
 	}

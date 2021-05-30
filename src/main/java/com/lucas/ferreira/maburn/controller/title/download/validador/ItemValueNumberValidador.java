@@ -33,6 +33,10 @@ public class ItemValueNumberValidador implements Validador {
 		});
 		
 		txtField.textProperty().addListener((obs, oldvalue, newvalue) -> {
+			
+			
+
+			
 			if (newvalue == null || newvalue.isEmpty()) {
 				error.set("Field can't be empty.");
 				validate.set(false);

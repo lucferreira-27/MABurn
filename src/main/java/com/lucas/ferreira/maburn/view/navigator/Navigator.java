@@ -63,7 +63,7 @@ public class Navigator {
 			loadComponent(Components.COLLECTION_MENU);
 		}
 		if(interfaces == Interfaces.TITLE_DOWNLOAD) {
-			loadComponent(Components.DOWNLOAD_CARD);
+			//loadComponent(Components.DOWNLOAD_CARD);
 		}
 	}
 
