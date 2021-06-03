@@ -10,12 +10,10 @@ import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSele
 
 public class ChooseItemUpdate implements ChooseItem{
 	private ItemsSelectedUpdate itemsSelectedUpdate;
-	private Map<String, String> namedItemsValues;
 	private List<String> valuesItems;
-	public ChooseItemUpdate(ItemsSelectedUpdate itemsSelectedUpdate,List<String> valuesItems, Map<String, String> namedItemsValues) {
+	public ChooseItemUpdate(ItemsSelectedUpdate itemsSelectedUpdate,List<String> valuesItems) {
 		this.itemsSelectedUpdate  = itemsSelectedUpdate;
 		this.valuesItems = valuesItems;
-		this.namedItemsValues = namedItemsValues;
 	
 	}	
 	
@@ -25,7 +23,7 @@ public class ChooseItemUpdate implements ChooseItem{
 		
 		for (int i = 0; i < valuesItems.size(); i++) {
 			String item = valuesItems.get(i);
-			items.add(namedItemsValues.get(item));
+			items.add(item);
 		}
 		
 		return items;

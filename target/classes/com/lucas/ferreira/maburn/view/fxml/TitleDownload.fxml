@@ -20,24 +20,9 @@
 <fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <StackPane prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #1C1C1C;">
       <children>
-         <BorderPane fx:id="bpDownloads" prefHeight="200.0" prefWidth="200.0">
-            <left>
-               <VBox maxHeight="727.0" maxWidth="407.0" prefHeight="727.0" prefWidth="407.0" spacing="20.0" style="-fx-background-color: #272727; -fx-background-radius: 20;" BorderPane.alignment="CENTER">
-                  <children>
-                     <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="407.0" spacing="30.0">
-                        <children>
-                           <Label text="Total:" />
-                           <Label text="Complete:" />
-                           <Label text="Failed:" />
-                        </children>
-                     </HBox>
-                  </children>
-               </VBox>
-            </left>
-         </BorderPane>
          <BorderPane fx:id="bpRegisterFetch" prefHeight="200.0" prefWidth="200.0">
             <top>
-               <Label style="-fx-font-size: 36;" text="{Title}" BorderPane.alignment="CENTER">
+               <Label fx:id="lblMainTitle" style="-fx-font-size: 36;" text="{Title}" BorderPane.alignment="CENTER">
                   <BorderPane.margin>
                      <Insets />
                   </BorderPane.margin>
@@ -232,7 +217,26 @@
                </VBox>
             </right>
             <left>
-               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="407.0" BorderPane.alignment="CENTER" />
+               <VBox maxHeight="667.0" maxWidth="407.0" prefHeight="667.0" prefWidth="407.0" spacing="20.0" style="-fx-background-color: #272727; -fx-background-radius: 20;" BorderPane.alignment="TOP_LEFT">
+                  <children>
+                     <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="407.0" spacing="30.0">
+                        <children>
+                           <Label text="Total:" />
+                           <Label text="Complete:" />
+                           <Label text="Failed:" />
+                        </children>
+                     </HBox>
+                     <ScrollPane minHeight="600.0" prefHeight="200.0" prefWidth="486.0" style="-fx-background-color: transparent;">
+                       <content>
+                           <VBox fx:id="vBoxListDownloads" alignment="CENTER" spacing="10.0">
+                              <padding>
+                                 <Insets left="15.0" />
+                              </padding>
+                           </VBox>
+                       </content>
+                     </ScrollPane>
+                  </children>
+               </VBox>
             </left>
          </BorderPane>
          <AnchorPane fx:id="apShade" prefHeight="200.0" prefWidth="200.0" styleClass="shade" visible="false" />

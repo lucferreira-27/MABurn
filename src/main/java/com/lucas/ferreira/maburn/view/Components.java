@@ -1,8 +1,9 @@
 package com.lucas.ferreira.maburn.view;
 
 import com.lucas.ferreira.maburn.controller.collection.menu.CollectionMenuController;
-import com.lucas.ferreira.maburn.controller.downloads.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.menu.MenuController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.FetchCardController;
 
 import javafx.fxml.Initializable;
 
@@ -11,7 +12,8 @@ public enum Components {
 	//DOWNLOAD_IN_QUEUE("DownloadInQueueInterfaceView.fxml", new DownloadInQueueController()),
 	COLLECTION_MENU("CollectionImagesMenu.fxml", new CollectionMenuController()),
 	ITEM_PANEL("ItemPanel.fxml", new ItemPanel()),
-	DOWNLOAD_CARD("DownloadCard.fxml", new DownloadCardController());
+	DOWNLOAD_CARD("DownloadCard.fxml", new DownloadCardController(null)),
+	FETCH_CARD("FetchCard.fxml", new FetchCardController(null));
 	private Initializable controller;
 	private String fxml;
 

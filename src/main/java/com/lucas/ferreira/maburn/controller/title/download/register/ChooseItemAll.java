@@ -9,12 +9,10 @@ import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSele
 
 public class ChooseItemAll implements ChooseItem{
 	private ItemsSelectedAll itemsSelectedAll;
-	private Map<String, String> namedItemsValues;
 	private List<String> valuesItems;
-	public ChooseItemAll(ItemsSelectedAll itemsSelectedAll,List<String> valuesItems, Map<String, String> namedItemsValues) {
+	public ChooseItemAll(ItemsSelectedAll itemsSelectedAll,List<String> valuesItems) {
 		this.itemsSelectedAll  = itemsSelectedAll;
 		this.valuesItems = valuesItems;
-		this.namedItemsValues = namedItemsValues;
 	
 	}	
 	
@@ -24,7 +22,7 @@ public class ChooseItemAll implements ChooseItem{
 		
 		for (int i = 0; i < valuesItems.size(); i++) {
 			String item = valuesItems.get(i);
-			items.add(namedItemsValues.get(item));
+			items.add(item);
 		}
 		
 		return items;

@@ -25,7 +25,7 @@ public class Animations {
 
 
 
-	public void moveMenuCollection(AnchorPane menu, int start, int end, double duration) {
+	public void moveMenuCollection(Pane menu, int start, int end, double duration) {
 		KeyFrame keyFrameDown = new KeyFrame(Duration.seconds(duration), ev -> {
 
 			if (menu.getHeight() >= end) {

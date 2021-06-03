@@ -7,7 +7,6 @@ public abstract class Message {
 
 	public Message(TextArea area) {
 		this.area = area;
-		fillText();
 
 	}
 
@@ -16,6 +15,8 @@ public abstract class Message {
 	public void showMessage(String msg) {
 		area.setVisible(true);
 		area.setText(msg);
+		fillText();
+
 
 	}
 

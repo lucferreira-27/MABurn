@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
 import com.lucas.ferreira.maburn.model.messages.Message;
+import com.lucas.ferreira.maburn.model.messages.SucceedMessage;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
@@ -15,11 +16,13 @@ public class ItemsSelectedUpdate implements Controllers{
 	private TextArea txtArea;
 	private Message message;
 	private boolean visible;
+	private int totalItems;
+	private static final String SHOW_MESSAGE = " new items available!";
 	
-	public ItemsSelectedUpdate(TextArea txtArea, Message message) {
-		// TODO Auto-generated constructor stub
+	public ItemsSelectedUpdate(TextArea txtArea, int totalItems) {
 		this.txtArea = txtArea;
-		this.message = message;
+		this.totalItems = totalItems;
+		message = new SucceedMessage(txtArea);
 	}
 	
 
@@ -28,6 +31,9 @@ public class ItemsSelectedUpdate implements Controllers{
 	}
 	public void setMessage(Message message) {
 		this.message = message;
+	}
+	public void showMessage() {
+		message.showMessage(totalItems + SHOW_MESSAGE);
 	}
 	@Override
 	public List<Node> getChildren() {
@@ -41,7 +47,7 @@ public class ItemsSelectedUpdate implements Controllers{
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible)
-			message.showMessage();
+			showMessage();
 		txtArea.setVisible(visible);
 		
 		this.visible = visible;

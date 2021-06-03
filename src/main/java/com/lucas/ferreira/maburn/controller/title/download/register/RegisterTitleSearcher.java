@@ -1,9 +1,9 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
-import com.lucas.ferreira.maburn.controller.title.download.register.TitleDownloadSearch;
 import com.lucas.ferreira.maburn.exceptions.SearchNotResultException;
 import com.lucas.ferreira.maburn.model.enums.SearchEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.messages.ErrorMessage;
 import com.lucas.ferreira.maburn.model.messages.Message;
@@ -24,12 +24,14 @@ public class RegisterTitleSearcher {
 
 	}
 
-	public String searchNow(CollectionTitle item, Sites sourceSelect) throws SearchNotResultException {
+	public String searchNow(FetchableTittle  fetchableTittle) throws SearchNotResultException {
 		try {
+			CollectionTitle collectionTitle = fetchableTittle.getCollectionTitle();
 			TitleDownloadSearch titleDownloadSearch = new TitleDownloadSearch(SearchEngine.GOOGLE);
 			warningMessage.showMessage(warningMsgSearch);
 
-			String bestResult = titleDownloadSearch.searchScraping(item.getTitleDataBase(), sourceSelect);
+			String bestResult = titleDownloadSearch.searchScraping(collectionTitle.getTitleDataBase(), fetchableTittle.getSourceSelect());
+			fetchableTittle.setTitleUrl(bestResult);
 			return bestResult;
 		} catch (SearchNotResultException e) {
 			errorMessage.showMessage(errorSearchMsg);
@@ -38,4 +40,6 @@ public class RegisterTitleSearcher {
 		}
 
 	}
+
+
 }

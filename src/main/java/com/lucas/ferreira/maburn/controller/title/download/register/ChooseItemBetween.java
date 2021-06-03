@@ -11,12 +11,10 @@ import javafx.scene.control.TextField;
 
 public class ChooseItemBetween implements ChooseItem{
 	private ItemsSelectedBetween itemsSelectedBetween;
-	private Map<String, String> namedItemsValues;
 	private List<String> valuesItems;
-	public ChooseItemBetween(ItemsSelectedBetween itemsSelectedBetween, List<String> valuesItems, Map<String, String> namedItemsValues) {
+	public ChooseItemBetween(ItemsSelectedBetween itemsSelectedBetween, List<String> valuesItems) {
 		this.itemsSelectedBetween = itemsSelectedBetween;
 		this.valuesItems = valuesItems;
-		this.namedItemsValues = namedItemsValues;
 		
 	}
 	@Override
@@ -32,7 +30,7 @@ public class ChooseItemBetween implements ChooseItem{
 
 		for (int i = beginValue; i <= endValue; i++) {
 			String item = valuesItems.get(i);
-			itemsBetween.add(namedItemsValues.get(item));
+			itemsBetween.add(item);
 		}
 		return itemsBetween;
 			}

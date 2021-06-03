@@ -23,7 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class FXMLViewLoader {
+public class FXMLViewLoader<T extends Node> {
 	private static FXMLLoader loader;
 	private VBox vBox = new VBox();
 	private ScrollPane scrollPane = new ScrollPane();
@@ -87,6 +87,15 @@ public class FXMLViewLoader {
 			Navigator.getMapNodesComponts().put(initializable, fxmlLoaded);
 
 		});
+
+	}
+	public T load(String fxml, Initializable initializable, Node root) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(fxml));
+		loader.setController(initializable);
+		loader.setRoot(root);
+		T fxmlLoaded = loader.load();
+		return fxmlLoaded;
 
 	}
 

@@ -8,8 +8,8 @@ public class FetchInSystem {
 	FetchSave fetchSave = new FetchSave();
 	FetchRecover fetchRecover = new FetchRecover();
 
-	public void save(CollectionTitle title, Sites site, String url) {
-		fetchSave.save(title, site, url);
+	public void save(CollectionTitle collectionItem, Sites site, String url) {
+		fetchSave.save(collectionItem, site, url);
 	}
 
 	public String recover(CollectionTitle title, Sites site) throws NotURLFoundInRecover {

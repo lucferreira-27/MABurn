@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root fx:id = "root" type="javafx.scene.layout.StackPane" maxWidth="366.0" minWidth="366.0" prefHeight="177.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="root" maxWidth="366.0" minWidth="366.0" prefHeight="126.0" prefWidth="366.0" style="-fx-background-radius: 20; -fx-border-radius: 20;" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane maxHeight="182.0" maxWidth="349.0" minHeight="182.0" minWidth="349.0" prefHeight="182.0" prefWidth="349.0" style="-fx-background-color: #202020; -fx-background-radius: 20; -fx-border-radius: 20;" StackPane.alignment="TOP_CENTER">
-         <children>
-            <Label alignment="CENTER" layoutX="17.0" layoutY="123.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="1 Minute" textFill="WHITE">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
-               </padding>
-            </Label>
-            <Label alignment="CENTER" layoutX="17.0" layoutY="150.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="392 MB" textFill="WHITE">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
-               </padding>
-            </Label>
-            <Label alignment="CENTER" layoutX="106.0" layoutY="122.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="15 %" textFill="WHITE">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
-               </padding>
-            </Label>
-            <Label alignment="CENTER" layoutX="106.0" layoutY="149.0" style="-fx-font-size: 14; -fx-background-color: #0E0E0E; -fx-background-radius: 20;" text="download.mangas/chapter" textFill="WHITE">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="30.0" top="2.0" />
-               </padding>
-               <graphic>
-                  <ImageView fitHeight="10.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../../resources/icons/link_small.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Label>
-         </children>
+      <BorderPane fx:id="bpDetails" maxHeight="100.0" maxWidth="300.0" minHeight="100.0" prefHeight="126.0" prefWidth="364.0" style="-fx-background-color: #1D1D1D; -fx-background-radius: 20;" StackPane.alignment="TOP_CENTER">
          <StackPane.margin>
-            <Insets />
-         </StackPane.margin></AnchorPane>
-      <AnchorPane maxHeight="118.0" maxWidth="366.0" minWidth="366.0" prefHeight="98.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER">
+            <Insets top="10.0" />
+         </StackPane.margin>
+         <bottom>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="lblTimeRemain" alignment="CENTER" layoutX="24.0" layoutY="127.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="1 Minute" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lblDownloaded" alignment="CENTER" layoutX="28.0" layoutY="153.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="392 MB" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lblPorcentageConcluded" alignment="CENTER" layoutX="113.0" layoutY="126.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="15 %" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lblDownloadLink" alignment="CENTER" layoutX="112.0" layoutY="152.0" style="-fx-font-size: 14; -fx-background-color: #0E0E0E; -fx-background-radius: 20;" text="download.mangas/chapter" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="2.0" left="10.0" right="30.0" top="2.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fx:id="imgLinkIcon" fitHeight="10.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../resources/icons/link_small.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+      <AnchorPane maxHeight="126.0" maxWidth="366.0" minWidth="366.0" prefHeight="126.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER">
          <children>
-            <ImageView fitHeight="53.0" fitWidth="53.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgDownloadIcon" fitHeight="53.0" fitWidth="53.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/download_card.png" />
                </image>
             </ImageView>
-            <Label alignment="CENTER" layoutX="82.0" layoutY="19.0" style="-fx-font-size: 24; -fx-background-color: black; -fx-background-radius: 20;" text="Chapter 03" textFill="WHITE">
+            <Label fx:id="lblItemTitle" alignment="CENTER" layoutX="82.0" layoutY="19.0" style="-fx-font-size: 24; -fx-background-color: black; -fx-background-radius: 20;" text="Chapter 03" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="20.0" right="20.0" top="2.0" />
                </padding>
             </Label>
-            <Label alignment="CENTER" layoutX="273.0" layoutY="12.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="500 MB" textFill="WHITE">
+            <Label fx:id="lblTotalSize" alignment="CENTER" layoutX="273.0" layoutY="12.0" style="-fx-font-size: 14; -fx-background-color: black; -fx-background-radius: 20;" text="500 MB" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>
@@ -65,21 +72,24 @@
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>
             </Label>
-            <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgPlayerIcon" fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/pause.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="319.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgStopIcon" fitHeight="34.0" fitWidth="34.0" layoutX="319.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/stop.png" />
                </image>
             </ImageView>
-            <ProgressBar layoutX="19.0" layoutY="77.0" maxHeight="26.0" maxWidth="244.0" prefHeight="26.0" prefWidth="244.0" progress="0.15" stylesheets="@../css/download_card.css" />
+            <ProgressBar fx:id="pbDownloadProgress" layoutX="19.0" layoutY="77.0" maxHeight="26.0" maxWidth="244.0" prefHeight="26.0" prefWidth="244.0" progress="0.15" stylesheets="@../css/download_card.css" />
          </children>
          <StackPane.margin>
             <Insets />
          </StackPane.margin>
       </AnchorPane>
    </children>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
 </fx:root>

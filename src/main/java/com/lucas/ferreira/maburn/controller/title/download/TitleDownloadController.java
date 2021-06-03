@@ -1,7 +1,6 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,43 +8,50 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.controller.title.TitleController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.FetchCardValues;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.FetchTypeSelect;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemCombox;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemValueTextField;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedAll;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedBetween;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedSingle;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedUpdate;
-import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItem;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemAll;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemBetween;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemSingle;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemUpdate;
 import com.lucas.ferreira.maburn.controller.title.download.register.FetchInfo;
+import com.lucas.ferreira.maburn.controller.title.download.register.FetchItemsLinks;
 import com.lucas.ferreira.maburn.controller.title.download.register.FetchTextDetails;
+import com.lucas.ferreira.maburn.controller.title.download.register.FetchableTittle;
+import com.lucas.ferreira.maburn.controller.title.download.register.OrganizeFetchResult;
 import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleFetcher;
 import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleSearcher;
 import com.lucas.ferreira.maburn.controller.title.download.register.ScreenshotFullDetails;
+import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
 import com.lucas.ferreira.maburn.fetch.FetchInSystem;
+import com.lucas.ferreira.maburn.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.alert.ManualSearchAlert;
 import com.lucas.ferreira.maburn.model.alert.ManualSearchAlertController;
+import com.lucas.ferreira.maburn.model.download.DownloadFilename;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
-import com.lucas.ferreira.maburn.model.messages.Message;
-import com.lucas.ferreira.maburn.model.messages.SucceedMessage;
+import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
+import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
+import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListEpisodeScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
-import com.microsoft.playwright.Playwright;
 
-import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -57,6 +63,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class TitleDownloadController implements Initializable {
 //
@@ -64,6 +71,9 @@ public class TitleDownloadController implements Initializable {
 	private AnchorPane apShade;
 	@FXML
 	private AnchorPane apManualSearch;
+
+	@FXML
+	private VBox vBoxListDownloads;
 
 	@FXML
 	private HBox hboxItemsFields;
@@ -138,6 +148,8 @@ public class TitleDownloadController implements Initializable {
 
 	@FXML
 	private Label lblTitle;
+	@FXML
+	private Label lblMainTitle;
 
 	@FXML
 	private Label lblFetch;
@@ -168,21 +180,19 @@ public class TitleDownloadController implements Initializable {
 	private Navigator navigator = new Navigator();
 
 	private String ICON_PATH = "icons/";
+	private CollectionTitle collectionTitle;
 
-//	private RegisterFetch registerFetch;
 	private FetchInfo fetchInfo;
-	private RegisterTitleFetcher titleDownloadFetcher;
 	private TitleScraped titleScraped;
 	private ManualSearchAlertController manualSearchAlertController;
 	private FetchTypeSelect fetchTypeSelect;
-	private FetchInSystem fetchInSystem = new FetchInSystem();
 	private Category category;
-	private List<String> taggedItems;
+	private TaggedItems taggedItems;
+	private OrganizeFetchResult organizeFetchResult;
 	private ItemsSelectedBetween itemsSelectedBetween;
 	private ItemsSelectedAll itemsSelectedAll;
 	private ItemsSelectedSingle<String> itemsSelectedSingle;
 	private ItemsSelectedUpdate itemsSelectedUpdate;
-	private CollectionTitle title;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -193,7 +203,6 @@ public class TitleDownloadController implements Initializable {
 			initializeSelectItemsValues();
 			initializeState();
 		} catch (IllegalAccessError e) {
-			// TODO: handle exception
 			if (Navigator.getInterfacesList().size() > 1)
 				navigator.back();
 			else
@@ -211,12 +220,21 @@ public class TitleDownloadController implements Initializable {
 			throw new IllegalAccessError("Title can't be null");
 		}
 		category = controller.getTitle().getCategory();
-		title = controller.getTitle();
-		titleDownloadFetcher = new RegisterTitleFetcher(title, txtFetchMsg);
+		collectionTitle = controller.getTitle();
+		lblMainTitle.setText(collectionTitle.getTitleDataBase());
+		organizeFetchResult = new OrganizeFetchResult(cbItems, cbSource, collectionTitle);
 
 	}
 
 	private void initializeState() {
+		ListCards listCards = new ListCards(vBoxListDownloads);
+		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+
+
 
 //		RegisterFetchSource fetchSource = new RegisterFetchSource(cbSource, imgFetch, imgRecover, imgManualSearch, txtFetchMsg);
 //		RegisterFetchChoose fetchChoose = new RegisterFetchChoose(cbSelect, cbItems, btnDownload, txtFetchMsg);
@@ -248,30 +266,48 @@ public class TitleDownloadController implements Initializable {
 	}
 
 	public void onClickFetch() {
-		
-
 
 		new Thread(() -> {
 			try {
-				titleScraped = titleDownloadFetcher.automaticFetch(cbSource.getValue(),
-						new RegisterTitleSearcher(txtFetchMsg));
-				organizeFetchResult();
+				FetchActionAutomatic fetchActionAutomatic = new FetchActionAutomatic(
+						new FetchableTittle(collectionTitle, cbSource.getValue()),
+						new RegisterTitleFetcher(txtFetchMsg), new RegisterTitleSearcher(txtFetchMsg));
+				titleScraped = fetchActionAutomatic.automaticFetch();
+
+				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, category);
+
+				initializeFetchResults();
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}).start();
+
+	}
+
+	private void initializeFetchResults() {
+		initializeControllers();
+		itemsSelectedBetween.validates();
+		cbSelect.setDisable(false);
+		loadFetchInfo();
+		fetchInfo.showInfo();
 	}
 
 	public void onClickRecover() {
 		new Thread(() -> {
 			try {
-				titleScraped = titleDownloadFetcher.systemFetch(cbSource.getValue(), fetchInSystem);
-				organizeFetchResult();
+				FetchActionRecover fetchActionRecover = new FetchActionRecover(
+						new FetchableTittle(collectionTitle, cbSource.getValue()),
+						new RegisterTitleFetcher(txtFetchMsg), new FetchInSystem());
+				titleScraped = fetchActionRecover.recoverFetch();
+
+				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, category);
+
+				initializeFetchResults();
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}).start();
@@ -282,11 +318,17 @@ public class TitleDownloadController implements Initializable {
 
 		new Thread(() -> {
 			try {
-				titleScraped = titleDownloadFetcher.manualFetch(cbSource.getValue(), manualSearchAlertController);
-				if (titleScraped != null)
-					organizeFetchResult();
+				FetchActionManual fetchActionManual = new FetchActionManual(
+						new FetchableTittle(collectionTitle, cbSource.getValue()),
+						new RegisterTitleFetcher(txtFetchMsg), manualSearchAlertController);
+				titleScraped = fetchActionManual.manualFetch();
+
+				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, category);
+
+				initializeFetchResults();
+
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}).start();
@@ -302,50 +344,44 @@ public class TitleDownloadController implements Initializable {
 	}
 
 	public void onClickDownloadStart() {
-		
-		
-		
-		
-		ItemCombox itemCombox = new ItemCombox();
-		Map<String, String> namedItemsValues = itemCombox.itemsValuesMap(titleScraped.getItemsScraped(), taggedItems);
-		List<String> valuesItems = taggedItems;
-		
-		 List<ChooseItem> chooseItems = Arrays.asList(
-				 new ChooseItemSingle<String>(itemsSelectedSingle, namedItemsValues),
-				 new ChooseItemBetween(itemsSelectedBetween, valuesItems, namedItemsValues),
-				 new ChooseItemAll(itemsSelectedAll,valuesItems, namedItemsValues),
-				 new ChooseItemUpdate(itemsSelectedUpdate,valuesItems, namedItemsValues));
 
-		
-		FetchItemType fetchItemType = fetchTypeSelect.getFetchItemType();
-		
-		ChooseItem chooseItem = chooseItems.stream()
-				.filter(choose -> choose.getController().getFetchItemType() == fetchItemType)
-				.findFirst()
-				.get();
+		Map<String, String> namedItemsValues = taggedItems.getNamedItemsValues();
+		List<String> valuesItems = taggedItems.getValuesItems();
 
-		List<String> choosedItems = chooseItem.getChoosedItems();
+		FetchItemsLinks directLinks = new FetchItemsLinks(
+				new ChooseItemSingle<String>(itemsSelectedSingle, namedItemsValues),
+				new ChooseItemBetween(itemsSelectedBetween, valuesItems),
+				new ChooseItemAll(itemsSelectedAll, valuesItems),
+				new ChooseItemUpdate(itemsSelectedUpdate, valuesItems));
+
+		List<String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
+
 		System.out.println(choosedItems);
-	}
 
-	private void organizeFetchResult() {
-		if (titleScraped != null) {
-			ItemCombox itemCombox = new ItemCombox();
-			String tag = category == Category.ANIME ? "Episode " : "Chapter ";
-			taggedItems = itemCombox.valuesToNumberTagItems(titleScraped.getItemsScraped(), tag);
-			Platform.runLater(() -> cbItems.getItems().setAll(taggedItems));
-			initializeTextFields();
-			itemsSelectedBetween.validates();
+		FetchItem fetchItem = new FetchItem();
 
-			loadFetchInfo();
-			fetchInfo.showInfo();
 
-			cbItems.setDisable(false);
-			cbSelect.setDisable(false);
+		new Thread(() -> {
+			for (String choosed : choosedItems) {
+			}
+			ObservableList<ItemScraped> obsItemScrapeds = fetchItem
+					.fetch(new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true)), choosedItems);
+			obsItemScrapeds.addListener(new ListChangeListener<ItemScraped>() {
+				@Override
+				public void onChanged(ListChangeListener.Change<? extends ItemScraped> c) {
 
-			fetchInSystem.save(title, cbSource.getValue(), titleScraped.getTitleUrl());
+					c.next();
+					Map<Definition, String> definios = (Map<Definition, String>) c.getList().get(c.getFrom())
+							.getValues();
+					System.out.println(c.getList().get(c.getFrom()).getValues());
+					DownloadFilename downloadFilename = new DownloadFilename(collectionTitle.getDestination(),
+							collectionTitle.getTitleFileName());
 
-		}
+				}
+
+			});
+		}).start();
+
 	}
 
 	private void loadFetchInfo() {
@@ -365,33 +401,23 @@ public class TitleDownloadController implements Initializable {
 		cbSelect.getItems().addAll(Arrays.asList((FetchItemType.values())));
 	}
 
-	public void initializeTextFields() {
+	public void initializeControllers() {
 
+		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(txtStartItemValue,
+				taggedItems.getValuesItems().size(), txtAreaFieldFirstMsg);
+		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(txtEndItemValue,
+				taggedItems.getValuesItems().size(), txtAreaFieldLastMsg);
 
-		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(txtStartItemValue, taggedItems.size(),
-				txtAreaFieldFirstMsg);
-		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(txtEndItemValue, taggedItems.size(),
-				txtAreaFieldLastMsg);
-		
-		
-		
-		
+		int totalItems = titleScraped.getItemsScraped().size();
+
 		itemsSelectedBetween = new ItemsSelectedBetween(itemValueTextFieldFirst, itemValueTextFieldLast,
 				txtAreaChooseMsg);
-		int totalItems = titleScraped.getItemsScraped().size();
-		Message messageSelectedAll = new SucceedMessage(txtAreaUpdateItems);
-		messageSelectedAll.setMessageText("All " + totalItems + " items selected!");
-		Message messageSelectedUpdate = new SucceedMessage(txtAreaTotalItems);
-		messageSelectedUpdate.setMessageText(totalItems + " new items available!");
-		
-		itemsSelectedAll = new ItemsSelectedAll(txtAreaTotalItems, messageSelectedAll);
+		itemsSelectedAll = new ItemsSelectedAll(txtAreaTotalItems, totalItems);
 		itemsSelectedSingle = new ItemsSelectedSingle<String>(cbItems);
+		itemsSelectedUpdate = new ItemsSelectedUpdate(txtAreaUpdateItems, totalItems);
 
-		
-		itemsSelectedUpdate = new ItemsSelectedUpdate(txtAreaUpdateItems, messageSelectedUpdate);
 		List<Controllers> controllers = Arrays.asList(itemsSelectedBetween, itemsSelectedSingle, itemsSelectedAll,
 				itemsSelectedUpdate);
-		
 
 		fetchTypeSelect = new FetchTypeSelect(controllers);
 

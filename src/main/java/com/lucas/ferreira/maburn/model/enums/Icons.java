@@ -36,10 +36,12 @@ public enum Icons {
 	
 	SOURCE("title-download/source_white_icon.png",null),
 	CHOOSE("title-download/choose_white_icon.png",null),
-	DOWNLOAD_START("title-download/download_white_icon.png","title-download/download_red_icon.png");
-
-
+	DOWNLOAD_START("title-download/download_white_icon.png","title-download/download_red_icon.png"),
 	
+	LINK("title-download/link_white_icon.png","title-download/link_red_icon.png"),
+
+	FETCH_IN_CARD("title-download/fetch_small_icon.png",null);
+
 	
 	
 	private String iconName;
