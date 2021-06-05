@@ -1,22 +1,26 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
+import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
+
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class EpisodeDownloadItemValues implements ItemDownloadValues{
 	
 	private DoubleProperty downloadProgress = new SimpleDoubleProperty();
 	private DoubleProperty downloadSize  = new SimpleDoubleProperty();
+	private DoubleProperty totalDownloaded  = new SimpleDoubleProperty();
 	private DoubleProperty downloadSpeed  = new SimpleDoubleProperty();
+	private DoubleProperty timeRemain = new SimpleDoubleProperty();
+	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
 	private String name;
-	private String itemUrl;
 	private String directLink;
 
-	public EpisodeDownloadItemValues(String itemName, String itemUrl) {
+	public EpisodeDownloadItemValues(String itemName, String directLink) {
 		this.name = itemName;
-		this.itemUrl = itemUrl;
+		this.directLink = directLink;
 	}
 
 	@Override
@@ -35,13 +39,9 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues{
 		this.directLink = directLink;
 	}
 
-	public String getItemUrl() {
-		return itemUrl;
-	}
-	public void setItemUrl(String itemUrl) {
-		this.itemUrl = itemUrl;
-	}
 	public DoubleProperty getDownloadProgress() {
+		
+		
 		return downloadProgress;
 	}
 	public void setDownloadProgress(DoubleProperty downloadProgress) {
@@ -58,6 +58,24 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues{
 	}
 	public void setDownloadSpeed(DoubleProperty downloadSpeed) {
 		this.downloadSpeed = downloadSpeed;
+	}
+
+	@Override
+	public DoubleProperty getTotalDownloaded() {
+		// TODO Auto-generated method stub
+		return totalDownloaded;
+	}
+
+	@Override
+	public ObjectProperty<DownloadProgressState> getDownloadProgressState() {
+		// TODO Auto-generated method stub
+		return downloadProgressState;
+	}
+
+	@Override
+	public DoubleProperty getTimeRemain() {
+		// TODO Auto-generated method stub
+		return timeRemain;
 	}
 
 
