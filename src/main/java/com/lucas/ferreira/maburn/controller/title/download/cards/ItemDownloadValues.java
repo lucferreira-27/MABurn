@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 
 public interface ItemDownloadValues extends DownloadValues {
 	public String getDirectLink();
+	public void setDirectLink(String directLink);
 	public DoubleProperty getDownloadSize();
 	public DoubleProperty getDownloadSpeed();
 	public DoubleProperty getTotalDownloaded();	

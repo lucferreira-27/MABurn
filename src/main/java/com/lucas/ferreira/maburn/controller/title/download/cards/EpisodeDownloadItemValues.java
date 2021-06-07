@@ -6,6 +6,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class EpisodeDownloadItemValues implements ItemDownloadValues{
 	
@@ -14,7 +16,9 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues{
 	private DoubleProperty totalDownloaded  = new SimpleDoubleProperty();
 	private DoubleProperty downloadSpeed  = new SimpleDoubleProperty();
 	private DoubleProperty timeRemain = new SimpleDoubleProperty();
+	private StringProperty resolution = new SimpleStringProperty();
 	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
+	
 	private String name;
 	private String directLink;
 
@@ -77,6 +81,18 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues{
 		// TODO Auto-generated method stub
 		return timeRemain;
 	}
+	public StringProperty getResolution() {
+		return resolution;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"EpisodeDownloadItemValues [\nDownloadProgress = [%s], \nDownloadSize = [%s], \nTotalDownloaded = [%s], \nDownloadSpeed = [%s], \nTimeRemain=[%s], \nResolution = [%s], \nDownloadProgressState = [%s], \nName = [%s], \nDirectLink = [%s]]",
+				downloadProgress.get(), downloadSize.get(), totalDownloaded.get(), downloadSpeed.get(), timeRemain.get(), resolution.get(),
+				downloadProgressState.get(), name, directLink);
+	}
+	
 
 
 

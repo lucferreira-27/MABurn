@@ -24,15 +24,14 @@ import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public class Download {
+public class ChuncksDownload {
 
 	private static int div = 4;
 
 	public static void main(String[] args) {
 		
-		for(int si = 0; si < 16; si++) {
-		div = si + 1;
-		Download download = new Download();
+		div = 4;
+		ChuncksDownload download = new ChuncksDownload();
 		DownloadFilename downloadFilename = new DownloadFilename("D:\\Teste\\test" + div +".mp4", "Test1.mp4");
 		String url = "https://ns538468.ip-144-217-72.net/T/teekyuu/01.mp4";
 		BooleanProperty joined = new SimpleBooleanProperty(false);
@@ -65,14 +64,9 @@ public class Download {
 //							+ episodeDownloadItemValues.getDownloadSize().doubleValue());
 		});
 			download.download(episodeDownloadItemValues, new DownloadFilename("D:\\Teste\\test", "Test.mp4"));
-			try {
-				Thread.sleep(30000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	
 		}
-	}
+	
 
 	public ItemDownloadValues download(ItemDownloadValues itemDownloadValues, DownloadFilename downloadFilename) {
 		try {

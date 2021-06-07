@@ -5,6 +5,7 @@ import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class PageDownloadItemValues  implements ItemDownloadValues{
 	
@@ -13,11 +14,13 @@ public class PageDownloadItemValues  implements ItemDownloadValues{
 	private DoubleProperty downloadProgress = new SimpleDoubleProperty();
 	private DoubleProperty downloadSize  = new SimpleDoubleProperty();
 	private DoubleProperty downloadSpeed  = new SimpleDoubleProperty();
+	private DoubleProperty timeRemain = new SimpleDoubleProperty();
+	private DoubleProperty totalDownloaded  = new SimpleDoubleProperty();
+	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
+
 	
 	
-	
-	public PageDownloadItemValues(String name) {
-		this.name = name;
+	public PageDownloadItemValues() {
 	}
 
 	@Override
@@ -35,10 +38,14 @@ public class PageDownloadItemValues  implements ItemDownloadValues{
 
 	@Override
 	public String getDirectLink() {
-		// TODO Auto-generated method stub
+
 		return directLink;
 	}
-
+	@Override
+	public void setDirectLink(String directLink) {
+		
+		this.directLink = directLink;
+	}
 	@Override
 	public DoubleProperty getDownloadProgress() {
 		// TODO Auto-generated method stub
@@ -60,20 +67,22 @@ public class PageDownloadItemValues  implements ItemDownloadValues{
 	@Override
 	public DoubleProperty getTotalDownloaded() {
 		// TODO Auto-generated method stub
-		return null;
+		return totalDownloaded;
 	}
 
 	@Override
 	public ObjectProperty<DownloadProgressState> getDownloadProgressState() {
 		// TODO Auto-generated method stub
-		return null;
+		return downloadProgressState;
 	}
 
 	@Override
 	public DoubleProperty getTimeRemain() {
 		// TODO Auto-generated method stub
-		return null;
+		return timeRemain;
 	}
+
+
 
 
 }

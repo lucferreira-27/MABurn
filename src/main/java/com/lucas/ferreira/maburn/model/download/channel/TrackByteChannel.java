@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download;
+package com.lucas.ferreira.maburn.model.download.channel;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

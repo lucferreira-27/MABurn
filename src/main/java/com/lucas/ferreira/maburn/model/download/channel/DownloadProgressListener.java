@@ -1,6 +1,7 @@
-package com.lucas.ferreira.maburn.model.download;
+package com.lucas.ferreira.maburn.model.download.channel;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
+import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public abstract class DownloadProgressListener {
@@ -55,7 +56,6 @@ public abstract class DownloadProgressListener {
 	protected void calculateTimeRemain() {
 		itemDownloadValues.getDownloadSpeed().addListener((obs, oldvalue, newvalue) ->{
 			double remain = itemDownloadValues.getDownloadSize().doubleValue() - itemDownloadValues.getTotalDownloaded().doubleValue();
-			System.out.println(remain + "/" + newvalue.doubleValue());
 			double time = remain / newvalue.doubleValue();
 			itemDownloadValues.getTimeRemain().set(time);
 

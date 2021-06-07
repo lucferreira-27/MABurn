@@ -2,7 +2,8 @@ package com.lucas.ferreira.maburn.model.download;
 
 public enum FileTypeAccept {
 	MP4("mp4"),
-	JPG("jpg"),
+	JPG("jpg"), 
+	JPEG("jpeg"), 
 	PNG("png");
 	
 	private String name;

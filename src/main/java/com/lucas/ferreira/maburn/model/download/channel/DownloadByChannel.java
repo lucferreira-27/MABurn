@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.download;
+package com.lucas.ferreira.maburn.model.download.channel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,56 +11,65 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
+import com.lucas.ferreira.maburn.model.download.DownloadInfo;
+import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
+import com.lucas.ferreira.maburn.model.download.FileTypeDetection;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class DownloadByChannel extends DownloadProgressListener {
 
-	private String url;
-	private String filename;
-	private String path;
-	private String referer;
-	private String prefFileType;
-	private FileOutputStream fos;
-	private ReadableByteChannel channel;
-	private TrackByteChannel trackByteChannel;
+	protected String url;
+	protected String filename;
+	protected String absolutePath;
+	protected String path;
+	protected String referer;
+	protected String prefFileType;
+	protected FileOutputStream fos;
+	protected ReadableByteChannel channel;
+	protected TrackByteChannel trackByteChannel;
 	private static final int BUFFER_SIZE = 4096;
 
 	public DownloadByChannel(ItemDownloadValues itemDownloadValues) {
 		super(itemDownloadValues);
 	}
 
-	public ItemDownloadValues download(DownloadInfo downloadInfo) {
+	public ItemDownloadValues download(DownloadInfo downloadInfo) throws Exception{
 
-		downloadInfos(downloadInfo);
-		try {
 
-			URLConnection connection = newConnection();
-			setDownloadSize(connection.getContentLengthLong());
-			setFileType(connection.getContentType());
-			channel = newChannel(connection);
-			trackByteChannel = newTrackChannel(channel);
-			itemDownloadValues.setName(filename);
-			newOutputStream(path + filename);
-			changeDownloadState(DownloadProgressState.DOWNLOADING);
-			initTransfer(trackByteChannel);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			changeDownloadState(DownloadProgressState.FAILED);
-		} finally {
+			downloadInfos(downloadInfo);
 			try {
-				if (channel != null)
-					closeChannel(channel);
-				if (trackByteChannel != null)
-					closeTrack(trackByteChannel);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				prefDownload();
+				changeDownloadState(DownloadProgressState.DOWNLOADING);
+				initTransfer();
+
+			} catch (Exception e) {
+				changeDownloadState(DownloadProgressState.FAILED);
+				throw e;
+			} finally {
+				try {
+					if (channel != null)
+						closeChannel(channel);
+					if (trackByteChannel != null)
+						closeTrack(trackByteChannel);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-		}
-		changeDownloadState(DownloadProgressState.COMPLETED);
+			changeDownloadState(DownloadProgressState.COMPLETED);
 		return itemDownloadValues;
+	}
+
+	private void prefDownload() throws MalformedURLException, IOException, FileNotFoundException {
+		URLConnection connection = newConnection();
+		setDownloadSize(connection.getContentLengthLong());
+		channel = newChannel(connection);
+		setFileType(connection.getContentType());
+		trackByteChannel = newTrackChannel(channel);
+		itemDownloadValues.setName(filename);
+		appendFilenameAndPath();
+		newOutputStream(absolutePath);
 	}
 
 	private void downloadInfos(DownloadInfo downloadInfo) {
@@ -78,11 +87,13 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	private void setFileType(String contentType) {
-		System.out.println(contentType);
 		String splitContentType = contentType.split("/")[1];
 		String type = FileTypeDetection.isAcceptType(splitContentType) ? splitContentType : prefFileType;
 		filename += "." + type;
-		System.out.println("filename: " + filename);
+	}
+
+	private void appendFilenameAndPath() {
+		absolutePath = path + filename;
 	}
 
 	private URLConnection newConnection() throws MalformedURLException, IOException {
@@ -106,7 +117,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 		fos = new FileOutputStream(path);
 	}
 
-	private void initTransfer(TrackByteChannel trackByteChannel) throws IOException {
+	protected void initTransfer() throws IOException {
 		listenerProgress();
 		checkSpeed();
 		calculateTimeRemain();
@@ -160,6 +171,10 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 	public void setFos(FileOutputStream fos) {
 		this.fos = fos;
+	}
+
+	public String getAbsolutePath() {
+		return absolutePath;
 	}
 
 }
