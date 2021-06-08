@@ -36,6 +36,16 @@ public class ImageMetadata implements TargetMetadata{
 	public String toString() {
 		return "ImageMetadata [height=" + height + ", width=" + width + ", type=" + type + ", size=" + size + "]";
 	}
+	@Override
+	public long getLongSize() {
+		// TODO Auto-generated method stub
+		return sizeToLong();
+	}
+	private long sizeToLong() {
+		String onlyDigitSize = size.replaceAll("\\D", "");
+		long longSize = Long.valueOf(onlyDigitSize);
+		return longSize;
+	}
 	
 	
 }

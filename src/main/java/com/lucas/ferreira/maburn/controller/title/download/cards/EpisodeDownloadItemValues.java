@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
+import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -85,15 +86,16 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues{
 		return resolution;
 	}
 
+
 	@Override
 	public String toString() {
 		return String.format(
-				"EpisodeDownloadItemValues [\nDownloadProgress = [%s], \nDownloadSize = [%s], \nTotalDownloaded = [%s], \nDownloadSpeed = [%s], \nTimeRemain=[%s], \nResolution = [%s], \nDownloadProgressState = [%s], \nName = [%s], \nDirectLink = [%s]]",
-				downloadProgress.get(), downloadSize.get(), totalDownloaded.get(), downloadSpeed.get(), timeRemain.get(), resolution.get(),
-				downloadProgressState.get(), name, directLink);
+				"[Name: %s - Size: %s - Download State: %s - Speed: %s]",name, DataStorageUtil.converterUnit(downloadSize.get()), downloadProgressState.get(), DataStorageUtil.converterSpeedUnit(downloadSpeed.get())) + "\n" + 
+				String.format(
+				"[Total Downloaded: %s - Time Remain: %s - Progress: %s]", DataStorageUtil.converterUnit(totalDownloaded.get()), timeRemain.get(), (downloadProgress.get() * 100))+ "\n" +
+				String.format(
+				"[Download link: %s - Resolution: %s]",directLink, resolution.get());
 	}
-	
-
 
 
 

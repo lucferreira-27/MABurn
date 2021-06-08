@@ -33,32 +33,36 @@ public class DownloadByChannel extends DownloadProgressListener {
 		super(itemDownloadValues);
 	}
 
-	public ItemDownloadValues download(DownloadInfo downloadInfo) throws Exception{
+	public ItemDownloadValues download(DownloadInfo downloadInfo) throws Exception {
 
+		downloadInfos(downloadInfo);
+		try {
 
-			downloadInfos(downloadInfo);
+			prefDownload();
+			changeDownloadState(DownloadProgressState.DOWNLOADING);
+			initTransfer();
+
+		} catch (Exception e) {
+			changeDownloadState(DownloadProgressState.FAILED);
+			throw e;
+		} finally {
 			try {
-
-				prefDownload();
-				changeDownloadState(DownloadProgressState.DOWNLOADING);
-				initTransfer();
-
-			} catch (Exception e) {
-				changeDownloadState(DownloadProgressState.FAILED);
-				throw e;
-			} finally {
-				try {
-					if (channel != null)
-						closeChannel(channel);
-					if (trackByteChannel != null)
-						closeTrack(trackByteChannel);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (channel != null)
+					closeChannel(channel);
+				if (trackByteChannel != null)
+					closeTrack(trackByteChannel);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			changeDownloadState(DownloadProgressState.COMPLETED);
+		}
+		finishDownload();
 		return itemDownloadValues;
+	}
+
+	private void finishDownload() {
+		if (itemDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED)
+			changeDownloadState(DownloadProgressState.COMPLETED);
 	}
 
 	private void prefDownload() throws MalformedURLException, IOException, FileNotFoundException {
@@ -103,7 +107,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	private TrackByteChannel newTrackChannel(ReadableByteChannel channel) {
-		TrackByteChannel trackByteChannel = new TrackByteChannel(channel);
+		trackByteChannel = new TrackByteChannel(channel);
 		trackDownloadBytes(trackByteChannel);
 		return trackByteChannel;
 
@@ -123,6 +127,32 @@ public class DownloadByChannel extends DownloadProgressListener {
 		calculateTimeRemain();
 		fos.getChannel().transferFrom(trackByteChannel, 0, Long.MAX_VALUE);
 
+	}
+
+	public void pause() {
+		if (trackByteChannel != null) {
+			trackByteChannel.getRunning().set(false);
+			changeDownloadState(DownloadProgressState.PAUSE);
+		}
+	}
+
+	public void resume() {
+		if (trackByteChannel != null)
+			trackByteChannel.getRunning().set(true);
+		changeDownloadState(DownloadProgressState.DOWNLOADING);
+	}
+
+	public void stop() {
+		try {
+			if (trackByteChannel != null) {
+				trackByteChannel.close();
+				changeDownloadState(DownloadProgressState.CANCELED);
+				trackByteChannel.getRunning().set(false);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void closeTrack(TrackByteChannel trackByteChannel) throws IOException {

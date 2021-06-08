@@ -39,6 +39,16 @@ public class VideoMetadata  implements TargetMetadata{
 		return "VideoMetadata [height=" + height + ", width=" + width + ", duration=" + duration + ", type=" + type
 				+ "]";
 	}
+	private long sizeToLong() {
+		String onlyDigitSize = size.replaceAll("\\D", "");
+		long longSize = Long.valueOf(onlyDigitSize);
+		return longSize;
+	}
+	@Override
+	public long getLongSize() {
+		// TODO Auto-generated method stub
+		return sizeToLong();
+	}
 
 	
 	

@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
+import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -16,7 +17,7 @@ public class PageDownloadItemValues  implements ItemDownloadValues{
 	private DoubleProperty downloadSpeed  = new SimpleDoubleProperty();
 	private DoubleProperty timeRemain = new SimpleDoubleProperty();
 	private DoubleProperty totalDownloaded  = new SimpleDoubleProperty();
-	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
+	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>(DownloadProgressState.WAITING);
 
 	
 	
@@ -81,7 +82,11 @@ public class PageDownloadItemValues  implements ItemDownloadValues{
 		// TODO Auto-generated method stub
 		return timeRemain;
 	}
-
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "[File: " + name + " - Size: " + DataStorageUtil.converterUnit(downloadSize.get()) +  " - Download State: " + downloadProgressState.get() +"]";
+	}
 
 
 

@@ -15,32 +15,32 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ChapterDownloadValues  implements GroupDownloadValues{
-	
-	
+public class ChapterDownloadValues implements GroupDownloadValues {
+
 	private String name;
-	private DoubleProperty downloadProgress  = new SimpleDoubleProperty();;
-	private IntegerProperty totalPagesDownloaded  = new SimpleIntegerProperty();
-	private DoubleProperty downloadPageSpeed  = new SimpleDoubleProperty();
+	private DoubleProperty downloadProgress = new SimpleDoubleProperty();;
+	private IntegerProperty totalPagesDownloaded = new SimpleIntegerProperty();
+	private DoubleProperty downloadPageSpeed = new SimpleDoubleProperty();
 	private DoubleProperty timeRemain = new SimpleDoubleProperty();
+	private DoubleProperty chapterSize = new SimpleDoubleProperty();
 	private List<ItemDownloadValues> listPageDownloadItemValues = new ArrayList<ItemDownloadValues>();
 	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
 	private ObservableList<ItemDownloadValues> obsListPageDownlaodItemsValues = FXCollections.observableArrayList();
-	
+
 	public ChapterDownloadValues(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
 
-
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Override
 	public DoubleProperty getDownloadProgress() {
 		return downloadProgress;
@@ -51,10 +51,10 @@ public class ChapterDownloadValues  implements GroupDownloadValues{
 		// TODO Auto-generated method stub
 		return listPageDownloadItemValues;
 	}
-	public ObservableList<ItemDownloadValues> getObsListPageDownlaodItemsValues() {
+
+	public ObservableList<ItemDownloadValues> getObsListNewPageDownloadItemsValues() {
 		return obsListPageDownlaodItemsValues;
 	}
-
 
 	@Override
 	public DoubleProperty getDownloadPageSpeed() {
@@ -80,18 +80,18 @@ public class ChapterDownloadValues  implements GroupDownloadValues{
 		return downloadProgressState;
 	}
 
+	public DoubleProperty getChapterSize() {
+		return chapterSize;
+	}
+
 	@Override
 	public String toString() {
 		return String.format(
-				"ChapterDownloadValues [name=%s, downloadProgress=%s, totalPagesDownloaded=%s, downloadPageSpeed=%s, timeRemain=%s, listPageDownloadItemValues=%s, downloadProgressState=%s]",
-				name, downloadProgress, totalPagesDownloaded, downloadPageSpeed, timeRemain, listPageDownloadItemValues.stream().map(DownloadValues::getName).collect(Collectors.joining(", ", "\n", "")),
-				downloadProgressState);
+				"Name: %s\nDownloadProgress: %s\nTotalPagesDownloaded: %s\nDownloadPageSpeed: %s\nSize: %s\nTimeRemain: %s\nListPageDownloadItemValues:\n%s\nDownloadProgressState: %s\n",
+				name, downloadProgress.get(), totalPagesDownloaded.get(), downloadPageSpeed.get(), chapterSize.get(), timeRemain.get(),
+				listPageDownloadItemValues.stream().map(DownloadValues::toString)
+						.collect(Collectors.joining("\n")),
+				downloadProgressState.get());
 	}
-
-
-
-
-		
-	
 
 }

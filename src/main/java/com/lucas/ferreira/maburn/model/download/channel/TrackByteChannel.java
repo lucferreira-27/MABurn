@@ -5,10 +5,14 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.function.IntConsumer;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class TrackByteChannel implements ReadableByteChannel {
 
 	private final ReadableByteChannel rbc;
 	private IntConsumer onRead;
+	private BooleanProperty running = new SimpleBooleanProperty(true);
 
 	private int totalByteRead;
 
@@ -26,9 +30,12 @@ public class TrackByteChannel implements ReadableByteChannel {
 
 	@Override
 	public int read(ByteBuffer dst) throws IOException {
-		int nRead = rbc.read(dst);
-		notifyBytesRead(nRead);
-		return nRead;
+		if (running.get()) {
+			int nRead = rbc.read(dst);
+			notifyBytesRead(nRead);
+			return nRead;
+		}
+		return 0;
 	}
 
 	protected void notifyBytesRead(int nRead) {
@@ -49,6 +56,10 @@ public class TrackByteChannel implements ReadableByteChannel {
 	@Override
 	public void close() throws IOException {
 		rbc.close();
+	}
+
+	public BooleanProperty getRunning() {
+		return running;
 	}
 
 }

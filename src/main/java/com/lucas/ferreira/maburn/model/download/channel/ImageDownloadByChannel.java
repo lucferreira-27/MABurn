@@ -13,7 +13,8 @@ import com.lucas.ferreira.maburn.model.metadata.image.ReadImageMetadata;
 public class ImageDownloadByChannel extends DownloadByChannel {
 
 	private PageDownloadItemValues pageDownloadItemValues;
-
+	private ImageMetadata imageMetadata;
+	
 	public ImageDownloadByChannel(PageDownloadItemValues pageDownloadItemValues) {
 		super(pageDownloadItemValues);
 		this.pageDownloadItemValues = pageDownloadItemValues;
@@ -27,29 +28,17 @@ public class ImageDownloadByChannel extends DownloadByChannel {
 		
 
 		
-		findImageMetadatas();
 
 	}
 
-	public void findImageMetadatas() {
-		new Thread(() -> {
-			waitUntilImageFileExist();
-			readImageMetadatas();
-		}).start();
 
-	}
 
-	private void waitUntilImageFileExist() {
-		File file;
-		do {
-			file = new File(absolutePath);
-		} while (!file.exists());
-	}
+
 
 	public ImageMetadata readImageMetadatas() {
 		ReadMetadata readImageMetadata = new ReadImageMetadata();
 		try {
-			return (ImageMetadata) readImageMetadata.readTargetMetada(absolutePath);
+			return  imageMetadata = (ImageMetadata) readImageMetadata.readTargetMetada(absolutePath);
 
 		} catch (FileNotFoundException | FileMetadataNotFound e) {
 			// TODO Auto-generated catch block
@@ -58,7 +47,9 @@ public class ImageDownloadByChannel extends DownloadByChannel {
 		return null;
 	}
 
-
+	public ImageMetadata getImageMetadata() {
+		return imageMetadata;
+	}
 
 	public PageDownloadItemValues getPageDownloadItemValues() {
 		return pageDownloadItemValues;
