@@ -21,6 +21,7 @@ public class ListEpisodeScraping extends ListItemScraping {
 	
 		ItemScraping episodeScraping = new EpisodeScraping(site, browserPage.getContext());
 		ItemScraped itemScraped = episodeScraping.scrapeItem(url);
+		itemScraped.setSite(site);
 		obsItems.add(itemScraped);
 		browserPage.setAvailable(true);
 		return itemScraped;

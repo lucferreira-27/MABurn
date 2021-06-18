@@ -3,6 +3,7 @@ package com.lucas.ferreira.maburn.model.webscraping.browser;
 import java.io.ByteArrayInputStream;
 
 import com.lucas.ferreira.maburn.model.webscraping.PageInfo;
+import com.lucas.ferreira.maburn.model.webscraping.event.ClickInteractEvent;
 import com.lucas.ferreira.maburn.util.StringUtil;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
@@ -43,6 +44,8 @@ public abstract class AutoBrowser {
 
 	}
 
+
+	
 	private Image screenshot(Page page) {
 		byte[] buffer = page.screenshot();
 

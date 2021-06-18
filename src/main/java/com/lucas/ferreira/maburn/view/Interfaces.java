@@ -22,7 +22,7 @@ public enum Interfaces {
 	CONFIGURATION("HelperViewFXML.fxml", new SettingsInterfaceController()), 
 	CALENDAR("", null),
 	COLLECTION("ItemsViewFXML.fxml", new CollectionInterfaceController()),
-	DOWNLOAD_CARD("DownloadCard.fxml", new DownloadCardController(null));
+	DOWNLOAD_CARD("DownloadCard.fxml", null);
 
 	private Initializable controller;
 	private String fxml;

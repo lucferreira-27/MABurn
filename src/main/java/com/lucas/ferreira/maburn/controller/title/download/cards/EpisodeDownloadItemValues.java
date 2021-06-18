@@ -23,9 +23,8 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues{
 	private String name;
 	private String directLink;
 
-	public EpisodeDownloadItemValues(String itemName, String directLink) {
-		this.name = itemName;
-		this.directLink = directLink;
+	public EpisodeDownloadItemValues() {
+		
 	}
 
 	@Override

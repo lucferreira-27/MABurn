@@ -15,13 +15,13 @@ public class FetchItemsLinks {
 		 this.chooseItems = Arrays.asList(arrayChooseItems);
 	}
 	
-	public List<String> selectedLinks(FetchTypeSelect fetchTypeSelect) {
+	public Map<String, String> selectedLinks(FetchTypeSelect fetchTypeSelect) {
 		FetchItemType fetchItemType = fetchTypeSelect.getFetchItemType();
 
 		ChooseItem chooseItem = chooseItems.stream()
 				.filter(choose -> choose.getController().getFetchItemType() == fetchItemType).findFirst().get();
 
-		List<String> choosedItems = chooseItem.getChoosedItems();
+		Map<String, String> choosedItems = chooseItem.getChoosedItems();
 		
 		return choosedItems;
 	}

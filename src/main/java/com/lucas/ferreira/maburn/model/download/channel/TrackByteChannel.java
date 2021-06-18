@@ -30,12 +30,24 @@ public class TrackByteChannel implements ReadableByteChannel {
 
 	@Override
 	public int read(ByteBuffer dst) throws IOException {
-		if (running.get()) {
-			int nRead = rbc.read(dst);
-			notifyBytesRead(nRead);
-			return nRead;
+		if (!running.get())
+			waitUntilResume();
+
+		int nRead = rbc.read(dst);
+		notifyBytesRead(nRead);
+		return nRead;
+
+	}
+
+	private void waitUntilResume() {
+		while (!running.get()) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		return 0;
 	}
 
 	protected void notifyBytesRead(int nRead) {

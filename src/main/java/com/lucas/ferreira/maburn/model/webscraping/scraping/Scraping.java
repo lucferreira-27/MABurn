@@ -10,6 +10,7 @@ import com.lucas.ferreira.maburn.model.webscraping.RulesProperties;
 import com.lucas.ferreira.maburn.model.webscraping.ScrapingRuler;
 import com.lucas.ferreira.maburn.model.webscraping.browser.AutoBrowser;
 import com.lucas.ferreira.maburn.model.webscraping.browser.CustomNavigateOptions;
+import com.lucas.ferreira.maburn.model.webscraping.event.ClickInteractEvent;
 import com.microsoft.playwright.Page;
 
 public abstract class Scraping extends AutoBrowser {
@@ -25,7 +26,11 @@ public abstract class Scraping extends AutoBrowser {
 		
 		pageNavigate.navigate(url);
 	}
+	protected void click(Page page, String selector) {
+		 ClickInteractEvent clickInteractEvent = new ClickInteractEvent(page);
+		 clickInteractEvent.event(selector);
 
+	}
 	protected RulesProperties readScrapingSiteRules(Sites site) {
 		ScrapingRuler ruler = new ScrapingRuler();
 		RulesProperties rulesProperties = null;

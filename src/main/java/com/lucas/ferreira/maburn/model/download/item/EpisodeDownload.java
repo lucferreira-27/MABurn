@@ -60,5 +60,11 @@ public class EpisodeDownload implements ItemDownload {
 		if (videoDownloadByChannel != null)
 			videoDownloadByChannel.stop();
 	}
+	public EpisodeDownloadItemValues getEpisodeDownloadItemValues() {
+		return episodeDownloadItemValues;
+	}
+	public DownloadInfo getDownloadInfo() {
+		return downloadInfo;
+	}
 
 }

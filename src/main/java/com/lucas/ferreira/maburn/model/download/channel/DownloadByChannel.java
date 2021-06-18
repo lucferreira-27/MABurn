@@ -14,6 +14,7 @@ import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadVal
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.FileTypeDetection;
+import com.lucas.ferreira.maburn.model.download.URLFixer;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class DownloadByChannel extends DownloadProgressListener {
@@ -43,6 +44,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 			initTransfer();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			changeDownloadState(DownloadProgressState.FAILED);
 			throw e;
 		} finally {
@@ -81,7 +83,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 		filename = downloadInfo.getFilename();
 		path = downloadInfo.getPath();
 		referer = downloadInfo.getReferer();
-		prefFileType = downloadInfo.getPrefFiletype();
+		prefFileType = downloadInfo.getPrefFiletype().getName();
 	}
 
 	private void setDownloadSize(long contentLenght) {
@@ -97,10 +99,13 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	private void appendFilenameAndPath() {
-		absolutePath = path + filename;
+		absolutePath = path + "\\" +filename;
 	}
 
 	private URLConnection newConnection() throws MalformedURLException, IOException {
+		if(URLFixer.needBeFixed(url)) {
+			url = URLFixer.addHttpInUrl(url);
+		}
 		URLConnection connection = new URL(url).openConnection();
 		connection.addRequestProperty("Referer", referer);
 		return connection;

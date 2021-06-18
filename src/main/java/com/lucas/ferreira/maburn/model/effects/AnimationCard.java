@@ -22,6 +22,7 @@ public class AnimationCard {
 
 	}
 
+
 	public void hideCardDetails(int start, double duration) {
 		KeyFrame keyFrameUp = createKeyFrameUp(start, duration);
 		play(keyFrameUp);
@@ -52,12 +53,12 @@ public class AnimationCard {
 				stop();
 				return;
 			}
-			System.out.println(cardDetails.getMinHeight());
 			cardDetails.setMinHeight(cardDetails.getHeight() + 1.5);
 
 		});
 		return keyFrameDown;
 	}
+
 
 	private void stopAndConsumer() {
 		timeline.stop();

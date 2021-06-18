@@ -16,7 +16,7 @@ public class FetchSave {
 	public void save(CollectionTitle title, Sites site, String url) {
 
 		String recoverFetch = fetchRecover.recover(title, site);
-		if (recoverFetch != null)
+		if (recoverFetch == null)
 			try {
 
 				CollectionForm form = orchestrator.read();

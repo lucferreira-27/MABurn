@@ -5,6 +5,7 @@ import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
 import com.lucas.ferreira.maburn.model.webscraping.Options;
 import com.lucas.ferreira.maburn.model.webscraping.RulesProperties;
 import com.lucas.ferreira.maburn.model.webscraping.TitleNavigateOptions;
+import com.lucas.ferreira.maburn.model.webscraping.event.ClickInteractEvent;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.Scraping;
 import com.microsoft.playwright.Page;
 
@@ -16,7 +17,6 @@ public abstract class TitleScraping extends Scraping {
 		this.site = site;
 		// TODO Auto-generated constructor stub
 	}
-
 	public TitleScraped scrapeTitle(String url) {
 		// TODO Auto-generated method stub
 		try {

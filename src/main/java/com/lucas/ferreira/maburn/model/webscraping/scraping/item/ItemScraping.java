@@ -37,7 +37,8 @@ public abstract class  ItemScraping extends Scraping {
 		navigate(url, page, options);
 		
 		ItemScraped itemScraped = scrape(page, script, options);
-
+		itemScraped.setUrl(url);
+		
 		page.close();
 		
 		return itemScraped;

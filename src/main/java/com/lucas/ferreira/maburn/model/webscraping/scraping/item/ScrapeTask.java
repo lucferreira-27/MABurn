@@ -21,7 +21,6 @@ public class ScrapeTask implements Callable<ItemScraped> {
 		this.obsItems = obsItems;
 		this.browserPage = browserPage;
 		this.listItemScraping = listItemScraping;
-		System.out.println(listItemScraping);
 	}
 
 
@@ -29,7 +28,7 @@ public class ScrapeTask implements Callable<ItemScraped> {
 	public ItemScraped call() throws Exception {
 		System.out.println("call");
 		ItemScraped itemScraped = listItemScraping.startItemScraping(obsItems, url, browserPage);
-
+	
 		return itemScraped;
 	}
 

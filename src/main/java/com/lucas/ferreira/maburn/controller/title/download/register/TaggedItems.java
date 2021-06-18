@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class TaggedItems {
 	}
 	
 	private void linkValueToNamedItem() {
-		namedItemsValues = new HashMap<String, String>();
+		namedItemsValues = new LinkedHashMap<String, String>();
 
 		keyItems.forEach(n -> namedItemsValues.put(n, valuesItems.get(keyItems.indexOf(n))));
 	}

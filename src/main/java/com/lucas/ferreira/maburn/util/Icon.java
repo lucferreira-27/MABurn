@@ -18,7 +18,7 @@ public class Icon {
 		this.icon = icon;
 	}
 
-	public void setAction(EventHandler<? super MouseEvent> event) {
+	private void setAction(EventHandler<? super MouseEvent> event) {
 		icon.setOnMouseClicked(event);
 	}
 

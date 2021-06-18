@@ -40,9 +40,11 @@ public enum Icons {
 	
 	LINK("title-download/link_white_icon.png","title-download/link_red_icon.png"),
 
-	FETCH_IN_CARD("title-download/fetch_small_icon.png",null);
-
-	
+	FETCH_IN_CARD("title-download/fetch_small_icon.png",null),
+	DOWNLOAD_IN_CARD("title-download/download_card_icon.png",null),
+	PLAY_IN_CARD("title-download/play_white_icon.png","title-download/play_red_icon.png"),
+	PAUSE_IN_CARD("title-download/pause_white_icon.png","title-download/pause_red_icon.png"),
+	STOP_IN_CARD("title-download/stop_white_icon.png","title-download/stop_red_icon.png");
 	
 	private String iconName;
 	private String alterIconName;

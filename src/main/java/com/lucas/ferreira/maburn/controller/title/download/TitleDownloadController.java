@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ import com.lucas.ferreira.maburn.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.alert.ManualSearchAlert;
 import com.lucas.ferreira.maburn.model.alert.ManualSearchAlertController;
 import com.lucas.ferreira.maburn.model.download.DownloadFilename;
+import com.lucas.ferreira.maburn.model.download.DownloadInfo;
+import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
@@ -193,7 +196,7 @@ public class TitleDownloadController implements Initializable {
 	private ItemsSelectedAll itemsSelectedAll;
 	private ItemsSelectedSingle<String> itemsSelectedSingle;
 	private ItemsSelectedUpdate itemsSelectedUpdate;
-
+	private ListCards listCards;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
@@ -227,12 +230,13 @@ public class TitleDownloadController implements Initializable {
 	}
 
 	private void initializeState() {
-		ListCards listCards = new ListCards(vBoxListDownloads);
-		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+		listCards = new ListCards(collectionTitle,vBoxListDownloads);
+//		ListCards listCards = new ListCards(vBoxListDownloads);
+//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
+//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
 
 
 
@@ -346,40 +350,33 @@ public class TitleDownloadController implements Initializable {
 	public void onClickDownloadStart() {
 
 		Map<String, String> namedItemsValues = taggedItems.getNamedItemsValues();
-		List<String> valuesItems = taggedItems.getValuesItems();
 
 		FetchItemsLinks directLinks = new FetchItemsLinks(
-				new ChooseItemSingle<String>(itemsSelectedSingle, namedItemsValues),
-				new ChooseItemBetween(itemsSelectedBetween, valuesItems),
-				new ChooseItemAll(itemsSelectedAll, valuesItems),
-				new ChooseItemUpdate(itemsSelectedUpdate, valuesItems));
+				new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
+				new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
+				new ChooseItemAll(itemsSelectedAll, namedItemsValues),
+				new ChooseItemUpdate(itemsSelectedUpdate, namedItemsValues));
 
-		List<String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
+		Map<String, String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
 
-		System.out.println(choosedItems);
 
 		FetchItem fetchItem = new FetchItem();
 
 
 		new Thread(() -> {
-			for (String choosed : choosedItems) {
-			}
-			ObservableList<ItemScraped> obsItemScrapeds = fetchItem
-					.fetch(new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true)), choosedItems);
-			obsItemScrapeds.addListener(new ListChangeListener<ItemScraped>() {
-				@Override
-				public void onChanged(ListChangeListener.Change<? extends ItemScraped> c) {
+			List<String> itemsValues = new ArrayList<String> (choosedItems.values());
 
-					c.next();
-					Map<Definition, String> definios = (Map<Definition, String>) c.getList().get(c.getFrom())
-							.getValues();
-					System.out.println(c.getList().get(c.getFrom()).getValues());
-					DownloadFilename downloadFilename = new DownloadFilename(collectionTitle.getDestination(),
-							collectionTitle.getTitleFileName());
-
-				}
+			choosedItems.forEach((itemName, itemLink) ->{
+				listCards.addFetchCard(new FetchCardValues(itemName, itemLink, collectionTitle));
 
 			});
+			ObservableList<ItemScraped> obsItemScrapeds = fetchItem
+					.fetch(new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true)), itemsValues);
+
+			
+			listCards.setObsItemScrapeds(obsItemScrapeds);
+			listCards.onAddScrapingDone(taggedItems);
+		
 		}).start();
 
 	}

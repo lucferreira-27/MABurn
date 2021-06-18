@@ -12,8 +12,8 @@ public enum Components {
 	//DOWNLOAD_IN_QUEUE("DownloadInQueueInterfaceView.fxml", new DownloadInQueueController()),
 	COLLECTION_MENU("CollectionImagesMenu.fxml", new CollectionMenuController()),
 	ITEM_PANEL("ItemPanel.fxml", new ItemPanel()),
-	DOWNLOAD_CARD("DownloadCard.fxml", new DownloadCardController(null)),
-	FETCH_CARD("FetchCard.fxml", new FetchCardController(null));
+	DOWNLOAD_CARD("DownloadCard.fxml", null),
+	FETCH_CARD("FetchCard.fxml", null);
 	private Initializable controller;
 	private String fxml;
 

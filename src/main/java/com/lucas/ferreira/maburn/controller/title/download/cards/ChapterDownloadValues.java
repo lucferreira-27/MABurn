@@ -94,4 +94,22 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 				downloadProgressState.get());
 	}
 
+	@Override
+	public DoubleProperty getDownloadSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DoubleProperty getDownloadSpeed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DoubleProperty getTotalDownloaded() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -1,11 +1,11 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
-import java.util.List;
+import java.util.Map;
 
 import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
 
 public interface ChooseItem {
 	
-	public List<String>getChoosedItems();
+	public Map<String, String>getChoosedItems();
 	public Controllers getController();
 }

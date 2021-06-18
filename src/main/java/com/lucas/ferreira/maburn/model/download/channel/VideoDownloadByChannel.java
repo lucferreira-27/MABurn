@@ -35,6 +35,16 @@ public class VideoDownloadByChannel extends DownloadByChannel {
 			waitUntilVideoFileExist();
 
 			readVideoMetadatas();
+			
+			if(videoMetadata == null || videoMetadata.getHeight() == null) {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			readVideoMetadatas();
 
 			if (videoMetadata != null && videoMetadata.getHeight() != null && !videoMetadata.getHeight().isEmpty())
 				episodeDownloadItemValues.getResolution().set((videoMetadata.getHeight()));

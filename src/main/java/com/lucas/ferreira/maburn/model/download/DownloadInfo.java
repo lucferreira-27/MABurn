@@ -5,7 +5,7 @@ public class DownloadInfo {
 	private String path;
 	private String url;
 	private String referer;
-	private String prefFiletype;
+	private FileTypeAccept prefFiletype;
 	
 	public String getFilename() {
 		return filename;
@@ -31,10 +31,10 @@ public class DownloadInfo {
 	public void setReferer(String referer) {
 		this.referer = referer;
 	}
-	public String getPrefFiletype() {
+	public FileTypeAccept getPrefFiletype() {
 		return prefFiletype;
 	}
-	public void setPrefFiletype(String prefFiletype) {
+	public void setPrefFiletype(FileTypeAccept prefFiletype) {
 		this.prefFiletype = prefFiletype;
 	}
 	
