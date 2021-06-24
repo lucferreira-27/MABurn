@@ -9,11 +9,9 @@ import javafx.fxml.Initializable;
 
 public enum Components {
 	MENU("MenuViewFXML.fxml", new MenuController()),
-	//DOWNLOAD_IN_QUEUE("DownloadInQueueInterfaceView.fxml", new DownloadInQueueController()),
 	COLLECTION_MENU("CollectionImagesMenu.fxml", new CollectionMenuController()),
-	ITEM_PANEL("ItemPanel.fxml", new ItemPanel()),
-	DOWNLOAD_CARD("DownloadCard.fxml", null),
-	FETCH_CARD("FetchCard.fxml", null);
+	ITEM_PANEL("ItemPanel.fxml", new ItemPanel());
+
 	private Initializable controller;
 	private String fxml;
 

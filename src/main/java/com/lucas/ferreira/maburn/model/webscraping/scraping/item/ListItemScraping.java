@@ -17,26 +17,24 @@ public abstract class ListItemScraping {
 
 	private MyBrowser myBrowser;
 	private BooleanProperty scrapingDone = new SimpleBooleanProperty(false);
+
 	public ListItemScraping(MyBrowser myBrowser) {
-		// TODO Auto-generated constructor stub
 		this.myBrowser = myBrowser;
-		
-		
+
 	}
 
-	public ObservableList<ItemScraped> scrapeItems(List<String> urls) {
-		
-		
+	public ObservableList<ScrapingWork> scrapeItems(List<String> urls) {
+
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		myBrowser.createBrowserPage(urls.size());
 		BrowserPage browserPage = myBrowser.getBrowsersPages().get(0);
-		ObservableList<ItemScraped> obsItems = FXCollections.observableArrayList();
+		ObservableList<ScrapingWork> obsItems = FXCollections.observableArrayList();
 
 		for (int i = 0; i < urls.size(); i++) {
 			String url = urls.get(i);
 			ScrapeTask scrapeTask = new ScrapeTask(url, obsItems, browserPage, this);
 			executorService.submit(scrapeTask);
-	
+
 		}
 		executorService.shutdown();
 		alertWhenScrapeFinish(executorService);
@@ -58,9 +56,7 @@ public abstract class ListItemScraping {
 			finish();
 		}).start();
 	}
-	
-	
-	
+
 	private void finish() {
 		System.out.println("FINISH");
 		myBrowser.killAll();
@@ -68,12 +64,11 @@ public abstract class ListItemScraping {
 
 	}
 
-	public abstract ItemScraped startItemScraping(ObservableList<ItemScraped> obsItems, String url,
+	public abstract ItemScraped startItemScraping(String url,
 			BrowserPage browserPage);
 
 	public BooleanProperty isScrapingDone() {
 		return scrapingDone;
 	}
 
-	
 }

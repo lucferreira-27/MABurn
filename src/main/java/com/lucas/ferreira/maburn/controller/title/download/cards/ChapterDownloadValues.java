@@ -20,6 +20,7 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	private String name;
 	private DoubleProperty downloadProgress = new SimpleDoubleProperty();;
 	private IntegerProperty totalPagesDownloaded = new SimpleIntegerProperty();
+	private DoubleProperty totalDownlaodConclued = new SimpleDoubleProperty();
 	private DoubleProperty downloadPageSpeed = new SimpleDoubleProperty();
 	private DoubleProperty timeRemain = new SimpleDoubleProperty();
 	private DoubleProperty chapterSize = new SimpleDoubleProperty();
@@ -27,9 +28,7 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
 	private ObservableList<ItemDownloadValues> obsListPageDownlaodItemsValues = FXCollections.observableArrayList();
 
-	public ChapterDownloadValues(String name) {
-		this.name = name;
-	}
+
 
 	@Override
 	public String getName() {
@@ -97,19 +96,19 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	@Override
 	public DoubleProperty getDownloadSize() {
 		// TODO Auto-generated method stub
-		return null;
+		return chapterSize;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSpeed() {
 		// TODO Auto-generated method stub
-		return null;
+		return downloadPageSpeed;
 	}
 
 	@Override
 	public DoubleProperty getTotalDownloaded() {
 		// TODO Auto-generated method stub
-		return null;
+		return totalDownlaodConclued;
 	}
 
 }

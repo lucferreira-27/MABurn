@@ -1,9 +1,13 @@
 package com.lucas.ferreira.maburn.model.download;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DownloadInfo {
 	private String filename;
 	private String path;
 	private String url;
+	private List<String> listUrls = new ArrayList<String>();
 	private String referer;
 	private FileTypeAccept prefFiletype;
 	
@@ -21,6 +25,9 @@ public class DownloadInfo {
 	}
 	public String getUrl() {
 		return url;
+	}
+	public List<String> getListUrls() {
+		return listUrls;
 	}
 	public void setUrl(String url) {
 		this.url = url;

@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 

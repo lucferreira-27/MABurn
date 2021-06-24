@@ -14,12 +14,11 @@ public class FetchCardValues {
 	private ObjectProperty<FetchCardState> fetchCardState = new SimpleObjectProperty<FetchCardState>();
 
 	
-	public FetchCardValues(String itemName, String itemUrl, CollectionTitle collectionTitle) {
-		this.itemName = itemName;
-		this.itemUrl = itemUrl;
+	public FetchCardValues(CollectionTitle collectionTitle) {
+
 		this.collectionTitle = collectionTitle;
 	}
-
+	
 	public String getItemName() {
 		return itemName;
 	}

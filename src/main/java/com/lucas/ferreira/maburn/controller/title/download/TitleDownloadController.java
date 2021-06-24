@@ -45,7 +45,10 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
+import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListChapterScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListEpisodeScraping;
+import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListItemScraping;
+import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
@@ -197,6 +200,7 @@ public class TitleDownloadController implements Initializable {
 	private ItemsSelectedSingle<String> itemsSelectedSingle;
 	private ItemsSelectedUpdate itemsSelectedUpdate;
 	private ListCards listCards;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
@@ -230,19 +234,7 @@ public class TitleDownloadController implements Initializable {
 	}
 
 	private void initializeState() {
-		listCards = new ListCards(collectionTitle,vBoxListDownloads);
-//		ListCards listCards = new ListCards(vBoxListDownloads);
-//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-//		listCards.addFetchCard(new FetchCardValues("Episode 01", "https://www.youtube.com/watch?v=bmeHeUNZghk"));
-
-
-
-//		RegisterFetchSource fetchSource = new RegisterFetchSource(cbSource, imgFetch, imgRecover, imgManualSearch, txtFetchMsg);
-//		RegisterFetchChoose fetchChoose = new RegisterFetchChoose(cbSelect, cbItems, btnDownload, txtFetchMsg);
-//		registerFetch = new RegisterFetch(fetchSource, fetchChoose);
+		listCards = new ListCards(collectionTitle, vBoxListDownloads);
 
 		manualSearchAlertController = new ManualSearchAlertController(new ManualSearchAlert(apManualSearch));
 
@@ -351,32 +343,27 @@ public class TitleDownloadController implements Initializable {
 
 		Map<String, String> namedItemsValues = taggedItems.getNamedItemsValues();
 
-		FetchItemsLinks directLinks = new FetchItemsLinks(
-				new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
+		FetchItemsLinks directLinks = new FetchItemsLinks(new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
 				new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
 				new ChooseItemAll(itemsSelectedAll, namedItemsValues),
 				new ChooseItemUpdate(itemsSelectedUpdate, namedItemsValues));
 
 		Map<String, String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
 
-
 		FetchItem fetchItem = new FetchItem();
 
-
 		new Thread(() -> {
-			List<String> itemsValues = new ArrayList<String> (choosedItems.values());
+			List<String> itemsValues = new ArrayList<String>(choosedItems.values());
 
-			choosedItems.forEach((itemName, itemLink) ->{
-				listCards.addFetchCard(new FetchCardValues(itemName, itemLink, collectionTitle));
+			ObservableList<ScrapingWork> obsItemScrapeds = null;
+			ListItemScraping listItemScraping = category != Category.ANIME
+					? new ListChapterScraping(cbSource.getValue(), new MyBrowser(true))
+					: new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true));
 
-			});
-			ObservableList<ItemScraped> obsItemScrapeds = fetchItem
-					.fetch(new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true)), itemsValues);
-
-			
-			listCards.setObsItemScrapeds(obsItemScrapeds);
+			obsItemScrapeds = fetchItem.fetch(listItemScraping, itemsValues);
+			listCards.setObsScrapingWorks(obsItemScrapeds);
 			listCards.onAddScrapingDone(taggedItems);
-		
+
 		}).start();
 
 	}

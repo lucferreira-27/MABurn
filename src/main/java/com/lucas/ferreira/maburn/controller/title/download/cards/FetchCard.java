@@ -12,7 +12,6 @@ import javafx.scene.layout.StackPane;
 public class FetchCard implements Initializable{
 	@FXML
 	private StackPane root;
-	
 	@FXML
 	private Label labelItemName;
 	@FXML

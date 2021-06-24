@@ -17,10 +17,10 @@ public class ListChapterScraping extends ListItemScraping {
 	}
 
 	@Override
-	public ItemScraped startItemScraping(ObservableList<ItemScraped> obsItems, String url, BrowserPage browserPage) {
+	public ItemScraped startItemScraping(String url, BrowserPage browserPage) {
 			ItemScraping chapterScraping = new ChapterScraping(site, browserPage.getContext());
 			ItemScraped itemScraped = chapterScraping.scrapeItem(url);
-			obsItems.add(itemScraped);
+			itemScraped.setSite(site);
 			browserPage.setAvailable(true);
 			return itemScraped;
 

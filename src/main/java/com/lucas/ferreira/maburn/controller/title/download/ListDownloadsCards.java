@@ -6,6 +6,10 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
+import com.lucas.ferreira.maburn.controller.title.download.cards.ChapterCard;
+import com.lucas.ferreira.maburn.controller.title.download.cards.ChapterCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.ChapterDownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.EpisodeCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.EpisodeCardController;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
@@ -28,30 +32,38 @@ public class ListDownloadsCards {
 		this.vBox = vBox;
 	}
 
-	public void add(DownloadCard downloadCard, DownloadInfo downloadInfo) {
-		loadCardFxml((Initializable) downloadCard, downloadInfo.getFilename());
-		addCardController(downloadCard, downloadInfo);
-	}
-
-	private void addCardController(DownloadCard downloadCard, DownloadInfo downloadInfo) {
-		EpisodeCardController episodeCardController = new EpisodeCardController((EpisodeCard) downloadCard,
-				downloadInfo);
-		cardsControllers.add(episodeCardController);
+	public void add(DownloadCard downloadCard, DownloadInfo downloadInfo, CardFXML cardFxml) {
+		loadCardFxml((Initializable) downloadCard, downloadInfo.getFilename(), cardFxml);
 		
-		Platform.runLater(() ->{
-			downloadCard.getBorderPaneDetails().setOpacity(0);
-			AnimationOpacityCard animationOpacityCard = new AnimationOpacityCard(downloadCard.getBorderPaneDetails());
-			animationOpacityCard.fadeInCardBody(1, 0.5 / 100);
-		});
+		
+		switch (cardFxml) {
+		case DOWNLOAD_EPISODE_CARD:
+			addCardController(downloadCard, downloadInfo, new EpisodeCardController((EpisodeCard) downloadCard, downloadInfo));
 
-		episodeCardController.initialize();
+			break;
+		case DOWNLOAD_CHAPTER_CARD:
+			addCardController(downloadCard, downloadInfo, new ChapterCardController((ChapterCard) downloadCard, downloadInfo));
+			break;
+		default:
+			break;
+		}
+		
 
 	}
 
-	public void loadCardFxml(Initializable initializable, String name) {
+	private void addCardController(DownloadCard downloadCard, DownloadInfo downloadInfo, DownloadCardController controller) {
+
+		cardsControllers.add(controller);
+		controller.initialize();
+
+	}
+	
+
+	public void loadCardFxml(Initializable initializable, String name, CardFXML cardFxml) {
 		StackPane stackPane = new StackPane();
 		try {
-			StackPane item = fxmlViewLoader.load(Components.DOWNLOAD_CARD.getFxml(), initializable, stackPane);
+			System.out.println(cardFxml.getFxml());
+			StackPane item = fxmlViewLoader.load(cardFxml.getFxml(), initializable, stackPane);
 			item.setUserData(name);
 			Platform.runLater(() -> {
 				Node fetchCard = vBox.getChildren().stream().filter(child -> child.getUserData().equals(name)).findFirst().get();

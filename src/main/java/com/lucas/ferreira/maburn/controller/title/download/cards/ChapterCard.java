@@ -29,6 +29,8 @@ public class ChapterCard implements Initializable, DownloadCard{
 	@FXML
 	private Label labelPorcentageConcluded;
 	@FXML
+	private Label labelTotalPagesDownloaded;
+	@FXML
 	private Label labelDownloadedLink;
 	@FXML
 	private Label labelDownloadState;
@@ -157,5 +159,11 @@ public class ChapterCard implements Initializable, DownloadCard{
 	@Override
 	public ImageView getImageViewLinkIcon() {
 		return imageViewLinkIcon;
+	}
+	public Label getLabelTotalPagesDownloaded() {
+		return labelTotalPagesDownloaded;
+	}
+	public Label getLabelDownloadedLink() {
+		return labelDownloadedLink;
 	}
 }

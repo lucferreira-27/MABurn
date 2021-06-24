@@ -3,9 +3,12 @@ package com.lucas.ferreira.maburn.controller.title.download.cards;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
 import com.lucas.ferreira.maburn.model.effects.AnimationCard;
+import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
+
+import javafx.application.Platform;
 
 public class EpisodeCardController implements DownloadCardController{
 
@@ -22,7 +25,10 @@ public class EpisodeCardController implements DownloadCardController{
 	}
 
 	public void initDownload() {
+		
+		
 
+		
 		episodeDownload = new EpisodeDownload(downloadInfo, episodeDownloadItemValues);
 		new Thread(() -> {
 
@@ -45,6 +51,9 @@ public class EpisodeCardController implements DownloadCardController{
 	}
 	public void initialize() {
 
+
+		fadeInAnimation();
+		
 		initializeValuesCard();
 		initializeIcons();
 
@@ -69,7 +78,16 @@ public class EpisodeCardController implements DownloadCardController{
 		initializeIcons();
 		initDownload();
 	}
-
+	
+	
+	private void fadeInAnimation() {
+		Platform.runLater(() ->{
+			episodeCard.getBorderPaneDetails().setOpacity(0);
+			AnimationOpacityCard animationOpacityCard = new AnimationOpacityCard(episodeCard.getBorderPaneDetails());
+			animationOpacityCard.fadeInCardBody(1, 0.5 / 100);
+		});
+	}
+	
 	public void initializeIcons() {
 
 		Icon downloadIcon = new Icon(episodeCard.getImageViewDownloadIcon(),
@@ -123,6 +141,11 @@ public class EpisodeCardController implements DownloadCardController{
 	@Override
 	public void stop() {
 		episodeDownload.stop();
+		resetValues();
+	}
+	private void resetValues() {
+		episodeDownloadItemValues.getDownloadSpeed().set(0);
+		episodeDownloadItemValues.getTimeRemain().set(0);
 	}
 
 

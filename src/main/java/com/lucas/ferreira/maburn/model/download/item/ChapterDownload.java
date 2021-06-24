@@ -65,7 +65,7 @@ public class ChapterDownload implements ItemDownload {
 	}
 
 	public void createChapterFolder() {
-		folderPath = chapterDownloadInfo.getPath() + chapterDownloadInfo.getFilename() + "\\";
+		folderPath = chapterDownloadInfo.getPath() + "\\" + chapterDownloadInfo.getFilename() + "\\";
 
 		File file = new File(folderPath);
 		file.mkdir();
