@@ -353,16 +353,17 @@ public class TitleDownloadController implements Initializable {
 		FetchItem fetchItem = new FetchItem();
 
 		new Thread(() -> {
-			List<String> itemsValues = new ArrayList<String>(choosedItems.values());
+			List<ScrapingWork> scrapingWorks = new ArrayList<String>(choosedItems.values())
+					.stream()
+					.map(url -> new ScrapingWork(url))
+					.collect(Collectors.toList());
 
-			ObservableList<ScrapingWork> obsItemScrapeds = null;
 			ListItemScraping listItemScraping = category != Category.ANIME
 					? new ListChapterScraping(cbSource.getValue(), new MyBrowser(true))
 					: new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true));
-
-			obsItemScrapeds = fetchItem.fetch(listItemScraping, itemsValues);
-			listCards.setObsScrapingWorks(obsItemScrapeds);
-			listCards.onAddScrapingDone(taggedItems);
+							
+			listCards.onAddScrapingDone(taggedItems, scrapingWorks);
+			fetchItem.fetch(listItemScraping, scrapingWorks);
 
 		}).start();
 

@@ -73,7 +73,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 		channel = newChannel(connection);
 		setFileType(connection.getContentType());
 		trackByteChannel = newTrackChannel(channel);
-		itemDownloadValues.setName(filename);
+		itemDownloadValues.getName().set(filename);
 		appendFilenameAndPath();
 		newOutputStream(absolutePath);
 	}

@@ -37,13 +37,20 @@ public abstract class CardValuesBinder {
 	}
 
 	private void setAllCardText() {
+		setCardDownloadLink();
 		setCardDownloadSpeed();
 		setCardItemTitleText();
 		setCardTotalSize();
 	}
 
+	private void setCardDownloadLink() {
+		downloadCard.getLabelDownloadLink().setText(downloadValues.getTarget().get());
+
+	}
+
+
 	private void setCardItemTitleText() {
-		downloadCard.getLabelItemTitle().setText(downloadValues.getName());
+		downloadCard.getLabelItemTitle().setText(downloadValues.getName().get());
 
 	}
 

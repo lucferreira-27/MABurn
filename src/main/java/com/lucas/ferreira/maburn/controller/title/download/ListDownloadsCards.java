@@ -38,11 +38,11 @@ public class ListDownloadsCards {
 		
 		switch (cardFxml) {
 		case DOWNLOAD_EPISODE_CARD:
-			addCardController(downloadCard, downloadInfo, new EpisodeCardController((EpisodeCard) downloadCard, downloadInfo));
+			addCardController(new EpisodeCardController((EpisodeCard) downloadCard, downloadInfo));
 
 			break;
 		case DOWNLOAD_CHAPTER_CARD:
-			addCardController(downloadCard, downloadInfo, new ChapterCardController((ChapterCard) downloadCard, downloadInfo));
+			addCardController(new ChapterCardController((ChapterCard) downloadCard, downloadInfo));
 			break;
 		default:
 			break;
@@ -51,7 +51,7 @@ public class ListDownloadsCards {
 
 	}
 
-	private void addCardController(DownloadCard downloadCard, DownloadInfo downloadInfo, DownloadCardController controller) {
+	private void addCardController(DownloadCardController controller) {
 
 		cardsControllers.add(controller);
 		controller.initialize();

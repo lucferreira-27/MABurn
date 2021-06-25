@@ -1,17 +1,41 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
+import com.lucas.ferreira.maburn.util.ResolutionText;
+
+import javafx.application.Platform;
+
 public class EpisodeCardValuesBinder extends CardValuesBinder {
+	private EpisodeCard episodeCard;
+	private EpisodeDownloadItemValues episodeDownloadItemValues;
 
 	@Override
 	protected void customBinder() {
-		EpisodeCard episodeCard = (EpisodeCard) downloadCard;
-		
-	
-		
+		 episodeCard = (EpisodeCard) downloadCard;
+		 episodeDownloadItemValues = (EpisodeDownloadItemValues) downloadValues;
+		 setCardEpisodeResolution();
+		 setCardEpisodeDirectLink();
+		 
+		 addCardEpisodeResolutionListener();
+		 addCardEpisodeDirectLinkListener();
 	}
 
+	private void setCardEpisodeResolution() {
+		episodeCard.getLabelVideoResoution().setText(ResolutionText.shortText(episodeDownloadItemValues.getResolution().get()));
+	}
 
-
+	private void addCardEpisodeResolutionListener() {
+		episodeDownloadItemValues.getResolution().addListener((obs, oldvalue, newvalue) -> {
+			Platform.runLater(() -> episodeCard.getLabelVideoResoution().setText(ResolutionText.shortText(newvalue)));
+		});
+	}
+	private void setCardEpisodeDirectLink() {
+		episodeCard.getLabelDownloadLink().setText(episodeDownloadItemValues.getDirectLink().get());
+	}
+	private void addCardEpisodeDirectLinkListener() {
+		episodeDownloadItemValues.getResolution().addListener((obs, oldvalue, newvalue) -> {
+			Platform.runLater(() -> episodeCard.getLabelVideoResoution().setText(ResolutionText.shortText(newvalue)));
+		});
+	}
 
 
 }

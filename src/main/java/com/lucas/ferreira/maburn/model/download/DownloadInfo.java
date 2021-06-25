@@ -44,6 +44,11 @@ public class DownloadInfo {
 	public void setPrefFiletype(FileTypeAccept prefFiletype) {
 		this.prefFiletype = prefFiletype;
 	}
+	@Override
+	public String toString() {
+		return String.format("DownloadInfo [filename=%s, path=%s, url=%s, listUrls=%s, referer=%s, prefFiletype=%s]",
+				filename, path, url, listUrls, referer, prefFiletype);
+	}
 	
 	
 	

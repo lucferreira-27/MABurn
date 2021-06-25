@@ -44,8 +44,8 @@ public class EpisodeCardController implements DownloadCardController{
 
 	public void initializeValuesCard() {
 		EpisodeCardValuesBinder episodeCardValuesBinder = new EpisodeCardValuesBinder();
-		episodeDownloadItemValues.setDirectLink(downloadInfo.getUrl());
-		episodeDownloadItemValues.setName(downloadInfo.getFilename());
+		episodeDownloadItemValues.getName().set(downloadInfo.getFilename());
+		episodeDownloadItemValues.getDirectLink().set(downloadInfo.getUrl());
 		episodeCardValuesBinder.binder(episodeCard, episodeDownloadItemValues);
 
 	}

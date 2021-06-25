@@ -115,7 +115,7 @@ public class ChapterDownload implements ItemDownload {
 		String pageName = pageNameForPosition(pagePostion);
 
 		pageDownloadInfo.setPath(folderPath);
-		pageDownloadInfo.setUrl(page.getDirectLink());
+		pageDownloadInfo.setUrl(page.getDirectLink().get());
 		pageDownloadInfo.setFilename(pageName);
 		pageDownloadInfo.setPrefFiletype(chapterDownloadInfo.getPrefFiletype());
 		return pageDownloadInfo;

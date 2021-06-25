@@ -12,7 +12,7 @@
 
 <fx:root fx:id="root" maxWidth="366.0" minWidth="366.0" prefHeight="126.0" prefWidth="366.0" style="-fx-background-radius: 20; -fx-border-radius: 20;" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane fx:id="borderPaneDetails" maxHeight="100.0" maxWidth="300.0" minHeight="100.0" prefHeight="126.0" prefWidth="364.0" style="-fx-background-color: #1D1D1D; -fx-background-radius: 20;" visible="false" StackPane.alignment="TOP_CENTER">
+      <BorderPane fx:id="borderPaneDetails" maxHeight="100.0" maxWidth="300.0" minHeight="100.0" prefHeight="126.0" prefWidth="364.0" style="-fx-background-color: #1D1D1D; -fx-background-radius: 20;" StackPane.alignment="TOP_CENTER">
          <StackPane.margin>
             <Insets top="10.0" />
          </StackPane.margin>
@@ -53,7 +53,7 @@
             </AnchorPane>
          </bottom>
       </BorderPane>
-      <AnchorPane maxHeight="126.0" maxWidth="366.0" minWidth="366.0" prefHeight="126.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER">
+      <AnchorPane maxHeight="126.0" maxWidth="366.0" minWidth="366.0" prefHeight="126.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" visible="false" StackPane.alignment="TOP_CENTER">
          <children>
             <ImageView fx:id="imageViewDownloadIcon" fitHeight="53.0" fitWidth="53.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>

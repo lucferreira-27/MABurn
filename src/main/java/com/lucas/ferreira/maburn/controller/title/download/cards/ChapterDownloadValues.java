@@ -12,12 +12,13 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ChapterDownloadValues implements GroupDownloadValues {
 
-	private String name;
 	private DoubleProperty downloadProgress = new SimpleDoubleProperty();;
 	private IntegerProperty totalPagesDownloaded = new SimpleIntegerProperty();
 	private DoubleProperty totalDownlaodConclued = new SimpleDoubleProperty();
@@ -27,19 +28,26 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	private List<ItemDownloadValues> listPageDownloadItemValues = new ArrayList<ItemDownloadValues>();
 	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
 	private ObservableList<ItemDownloadValues> obsListPageDownlaodItemsValues = FXCollections.observableArrayList();
-
-
+	private StringProperty target = new SimpleStringProperty();
+	private StringProperty name = new SimpleStringProperty();;
 
 	@Override
-	public String getName() {
+	public DoubleProperty getTotalDownloaded() {
+		// TODO Auto-generated method stub
+		return totalDownlaodConclued;
+	}
+
+	@Override
+	public StringProperty getName() {
+		// TODO Auto-generated method stub
 		return name;
 	}
 
 	@Override
-	public void setName(String name) {
-		this.name = name;
+	public StringProperty getTarget() {
+		// TODO Auto-generated method stub
+		return target;
 	}
-
 	@Override
 	public DoubleProperty getDownloadProgress() {
 		return downloadProgress;
@@ -105,10 +113,7 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 		return downloadPageSpeed;
 	}
 
-	@Override
-	public DoubleProperty getTotalDownloaded() {
-		// TODO Auto-generated method stub
-		return totalDownlaodConclued;
-	}
+
+
 
 }

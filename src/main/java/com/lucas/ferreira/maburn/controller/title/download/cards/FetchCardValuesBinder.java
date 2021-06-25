@@ -6,10 +6,10 @@ public class FetchCardValuesBinder {
 
 	public void binder(FetchCard fetchCard, FetchCardValues fetchCardValues) {
 		Platform.runLater(() -> {
-
-			fetchCard.getLabelFetchState().setText(fetchCardValues.getFetchCardState().getName());
+			
+			fetchCard.getLabelFetchState().setText(fetchCardValues.getFetchCardState().get().getName());
 			fetchCardValues.getFetchCardState().addListener((obs, oldvalue, newvalue) -> {
-				fetchCard.getLabelFetchState().setText(newvalue.getName());
+				Platform.runLater(() ->  fetchCard.getLabelFetchState().setText(newvalue.getName()));
 			});
 			fetchCard.getLabelItemName().setText(fetchCardValues.getItemName());
 			fetchCard.getLabelItemUrl().setText(fetchCardValues.getItemUrl());

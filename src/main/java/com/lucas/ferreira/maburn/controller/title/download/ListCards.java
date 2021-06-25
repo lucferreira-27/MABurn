@@ -47,7 +47,6 @@ public class ListCards {
 	private ListDownloadsCards listDownloadsCards;
 	private ListFetchCards listFetchCards;
 	private final VBox vBoxListDownloads;
-	private ObservableList<ScrapingWork> obsScrapingWorks;
 	private CollectionTitle collectionTitle;
 
 	public ListCards(CollectionTitle collectionTitle, VBox vBoxListDownloads) {
@@ -57,34 +56,17 @@ public class ListCards {
 		listFetchCards = new ListFetchCards(vBoxListDownloads);
 	}
 
-	public void onAddScrapingDone(TaggedItems taggedItems) {
-		
-		
-		
-		
-		listenObservableScrapingWorks(taggedItems);
+	public void onAddScrapingDone(TaggedItems taggedItems, List<ScrapingWork> scrapingWorks) {
 
-		for (ScrapingWork scrapingWork : obsScrapingWorks) {
-			listenScrapingWork(taggedItems, scrapingWork);
-	
+
+		for (ScrapingWork scrapingWork : scrapingWorks) {
+				listenScrapingWork(taggedItems, scrapingWork);
+		
 		}
 
 	}
 
-	private void listenObservableScrapingWorks(TaggedItems taggedItems) {
-		obsScrapingWorks.addListener(new ListChangeListener<ScrapingWork>() {
-			@Override
-			public void onChanged(ListChangeListener.Change<? extends ScrapingWork> c) {
 
-				c.next();
-				ScrapingWork scrapingWork = c.getList().get(c.getFrom());
-				System.out.println(scrapingWork);
-				listenScrapingWork(taggedItems, scrapingWork);
-
-			}
-
-		});
-	}
 
 	private void listenScrapingWork(TaggedItems taggedItems, ScrapingWork scrapingWork) {
 		
@@ -95,17 +77,22 @@ public class ListCards {
 	
 		fetchCardValues.setItemName(itemName);
 		fetchCardValues.setItemUrl(itemUrl);
-		fetchCardValues.getFetchCardState().set(FetchCardState.IN_QUEUE);
-	
 		addFetchCard(fetchCardValues);
 
+	
+
 		scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
+			System.out.println(newvalue);
+			if(newvalue == ScrapeState.WORKING) {
+				fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
+			}
+			
 			if (newvalue == ScrapeState.SUCCEED) {
 				ItemScraped itemScraped;
 				try {
 					itemScraped = scrapingWork.getWorkResult();
 					System.out.println(itemScraped.toString());
-
+					fetchCardValues.getFetchCardState().set(FetchCardState.READY);
 					addDownloadCard(itemScraped, taggedItems);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -114,6 +101,7 @@ public class ListCards {
 
 			} else if (newvalue == ScrapeState.FAILED) {
 				try {
+					fetchCardValues.getFetchCardState().set(FetchCardState.ERROR);
 					ItemScraped itemScraped = scrapingWork.getWorkResult();
 					throw itemScraped.getException();
 				} catch (Exception e) {
@@ -138,6 +126,7 @@ public class ListCards {
 			MangaDownloadInfo mangaDownloadInfo = new MangaDownloadInfo(taggedItems);
 			DownloadInfo downloadInfo = mangaDownloadInfo.newChapterDownloadInfo(collectionTitle,
 					(ChapterScraped) itemScraped);
+			System.out.println(downloadInfo);
 			addDownloadChapterCard(downloadInfo);
 			return;
 		}
@@ -174,14 +163,7 @@ public class ListCards {
 		return listFetchCards;
 	}
 
-	public ObservableList<ScrapingWork> getObsScrapingWorks() {
-		return obsScrapingWorks;
-	}
 
-	public void setObsScrapingWorks(ObservableList<ScrapingWork> obsScrapingWorks) {
-		System.out.println("setObs");
-		this.obsScrapingWorks = obsScrapingWorks;
-	}
 
 	public VBox getVBoxListDownloads() {
 		return vBoxListDownloads;

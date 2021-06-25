@@ -11,7 +11,7 @@ public class FetchCardValues {
 	private String itemName;
 	private String itemUrl;
 	private CollectionTitle collectionTitle;
-	private ObjectProperty<FetchCardState> fetchCardState = new SimpleObjectProperty<FetchCardState>();
+	private ObjectProperty<FetchCardState> fetchCardState = new SimpleObjectProperty<FetchCardState>(FetchCardState.IN_QUEUE);
 
 	
 	public FetchCardValues(CollectionTitle collectionTitle) {

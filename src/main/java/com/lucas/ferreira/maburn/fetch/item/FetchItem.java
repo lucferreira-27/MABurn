@@ -10,10 +10,10 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import javafx.collections.ObservableList;
 
 public class FetchItem {
-	public ObservableList<ScrapingWork> fetch(ListItemScraping listItemsScraping, List<String> urls) {
+	public ObservableList<ScrapingWork> fetch(ListItemScraping listItemsScraping, List<ScrapingWork> scrapingWorks) {
 		
 		
-		ObservableList<ScrapingWork> obsItemScrapingWork = listItemsScraping.scrapeItems(urls);
+		ObservableList<ScrapingWork> obsItemScrapingWork = listItemsScraping.scrapeItems(scrapingWorks);
 		System.out.println(obsItemScrapingWork);
 		return obsItemScrapingWork;
 

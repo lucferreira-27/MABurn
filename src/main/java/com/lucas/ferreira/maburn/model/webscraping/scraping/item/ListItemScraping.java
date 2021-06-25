@@ -3,6 +3,7 @@ package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.model.webscraping.browser.BrowserPage;
 import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
@@ -23,18 +24,16 @@ public abstract class ListItemScraping {
 
 	}
 
-	public ObservableList<ScrapingWork> scrapeItems(List<String> urls) {
+	public ObservableList<ScrapingWork> scrapeItems(List<ScrapingWork> scrapingWorks) {
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		myBrowser.createBrowserPage(urls.size());
+		myBrowser.createBrowserPage(scrapingWorks.size());
 		BrowserPage browserPage = myBrowser.getBrowsersPages().get(0);
 		ObservableList<ScrapingWork> obsItems = FXCollections.observableArrayList();
-
-		for (int i = 0; i < urls.size(); i++) {
-			String url = urls.get(i);
-			ScrapeTask scrapeTask = new ScrapeTask(url, obsItems, browserPage, this);
+		
+		for (int i = 0; i < scrapingWorks.size(); i++) {
+			ScrapeTask scrapeTask = new ScrapeTask(scrapingWorks.get(i), browserPage, this);
 			executorService.submit(scrapeTask);
-
 		}
 		executorService.shutdown();
 		alertWhenScrapeFinish(executorService);

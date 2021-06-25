@@ -27,7 +27,7 @@ public class ChapterCardController implements DownloadCardController {
 		
 		downloadInfo.getListUrls().forEach(link -> {
 			PageDownloadItemValues pageDownloadItemValues = new PageDownloadItemValues();
-			pageDownloadItemValues.setDirectLink(link);
+			pageDownloadItemValues.getDirectLink().set(link);
 			chapterDownloadValues.getListItemsDownloadValues().add(pageDownloadItemValues);
 		});
 		
@@ -84,7 +84,8 @@ public class ChapterCardController implements DownloadCardController {
 	}
 	public void initializeValuesCard() {
 		ChapterCardValuesBinder chapterCardValuesBinder = new ChapterCardValuesBinder();
-		chapterDownloadValues.setName(downloadInfo.getFilename());
+		chapterDownloadValues.getName().set(downloadInfo.getFilename());
+		chapterDownloadValues.getTarget().set(downloadInfo.getUrl());
 		chapterCardValuesBinder.binder(chapterCard, chapterDownloadValues);
 
 	}
