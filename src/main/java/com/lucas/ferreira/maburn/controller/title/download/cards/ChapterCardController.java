@@ -9,6 +9,10 @@ import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
 
 import javafx.application.Platform;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.util.Duration;
 
 public class ChapterCardController implements DownloadCardController {
 
@@ -24,13 +28,13 @@ public class ChapterCardController implements DownloadCardController {
 	}
 
 	public void initDownload() {
-		
+
 		downloadInfo.getListUrls().forEach(link -> {
 			PageDownloadItemValues pageDownloadItemValues = new PageDownloadItemValues();
 			pageDownloadItemValues.getDirectLink().set(link);
 			chapterDownloadValues.getListItemsDownloadValues().add(pageDownloadItemValues);
 		});
-		
+
 		chapterDownload = new ChapterDownload(chapterDownloadValues, downloadInfo);
 		new Thread(() -> {
 
@@ -43,14 +47,12 @@ public class ChapterCardController implements DownloadCardController {
 
 		}).start();
 	}
-	
-	
+
 	@Override
 	public void initialize() {
 
-
 		fadeInAnimation();
-		
+
 		initializeValuesCard();
 		initializeIcons();
 
@@ -75,13 +77,15 @@ public class ChapterCardController implements DownloadCardController {
 		initializeIcons();
 		initDownload();
 	}
+
 	private void fadeInAnimation() {
-		Platform.runLater(() ->{
+		Platform.runLater(() -> {
 			chapterCard.getBorderPaneDetails().setOpacity(0);
 			AnimationOpacityCard animationOpacityCard = new AnimationOpacityCard(chapterCard.getBorderPaneDetails());
 			animationOpacityCard.fadeInCardBody(1, 0.5 / 100);
 		});
 	}
+
 	public void initializeValuesCard() {
 		ChapterCardValuesBinder chapterCardValuesBinder = new ChapterCardValuesBinder();
 		chapterDownloadValues.getName().set(downloadInfo.getFilename());
@@ -89,15 +93,35 @@ public class ChapterCardController implements DownloadCardController {
 		chapterCardValuesBinder.binder(chapterCard, chapterDownloadValues);
 
 	}
-	
+
 	public void initializeIcons() {
 
 		Icon downloadIcon = new Icon(chapterCard.getImageViewDownloadIcon(),
 				new IconConfig(ICON_PATH, Icons.DOWNLOAD_IN_CARD));
 		downloadIcon.setProperties();
 
+		Icon pagesIcon = new Icon(chapterCard.getImageViewPages(), new IconConfig(ICON_PATH, Icons.OPEN_PAGES));
+		pagesIcon.setProperties();
+
+		chapterCard.getLabelTotalPagesDownloaded().setOnMousePressed((event) -> {
+			pagesIcon.swithIconColor();
+		});
+		chapterCard.getLabelTotalPagesDownloaded().setOnMouseReleased((event) -> {
+			pagesIcon.swithIconColor();
+		});
 		Icon linkIcon = new Icon(chapterCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
 		linkIcon.setProperties();
+
+		chapterCard.getLabelDownloadLink().setOnMousePressed((event) -> {
+			linkIcon.swithIconColor();
+		});
+		chapterCard.getLabelDownloadLink().setOnMouseReleased((event) -> {
+			final Clipboard clipboard = Clipboard.getSystemClipboard();
+			final ClipboardContent content = new ClipboardContent();
+			content.putString(chapterCard.getLabelDownloadLink().getText());
+			clipboard.setContent(content);
+			linkIcon.swithIconColor();
+		});
 
 		Icon iconPlay = new Icon(chapterCard.getImageViewPlayerIcon(), new IconConfig(ICON_PATH, Icons.PLAY_IN_CARD));
 		iconPlay.setProperties(event -> {
@@ -119,6 +143,7 @@ public class ChapterCardController implements DownloadCardController {
 			stop();
 		});
 	}
+
 	@Override
 	public void resume() {
 		chapterDownload.resume();
@@ -133,9 +158,6 @@ public class ChapterCardController implements DownloadCardController {
 	public void stop() {
 		chapterDownload.stop();
 	}
-
-
-	
 
 	private void replaceIconPauseToPlay() {
 		chapterCard.getImageViewPlayerIcon().setVisible(true);

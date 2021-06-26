@@ -11,24 +11,24 @@ import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadVal
 import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
 import com.lucas.ferreira.maburn.exceptions.ChapterDownloadException;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
+import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.DownloadRealTimeInfo;
 import com.lucas.ferreira.maburn.model.metadata.image.ImageMetadata;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class ChapterDownload implements ItemDownload {
-	
-	
+
 	private static final int NUMBER_PAGES_THREADS = 5;
-	
+
 	private String folderPath;
 	private DownloadInfo chapterDownloadInfo;
 	private ChapterDownloadValues chapterDownloadValues;
 
 	private DownloadRealTimeInfo downloadRealTimeInfo = new DownloadRealTimeInfo();
 	private ChapterInfoRefresher chapterInfoRefresher;
-	
+
 	private ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_PAGES_THREADS);
-	
+
 	public ChapterDownload(DownloadValues downloadValues, DownloadInfo chapterDownloadInfo) {
 		this.chapterDownloadValues = (ChapterDownloadValues) downloadValues;
 		this.chapterDownloadInfo = chapterDownloadInfo;
@@ -48,9 +48,10 @@ public class ChapterDownload implements ItemDownload {
 		}
 
 	}
-	
+
 	private void waitUntilDownloadFinish() {
-		while(chapterDownloadValues.getObsListNewPageDownloadItemsValues().size() < chapterDownloadValues.getListItemsDownloadValues().size()) {
+		while (chapterDownloadValues.getObsListNewPageDownloadItemsValues().size() < chapterDownloadValues
+				.getListItemsDownloadValues().size()) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -92,22 +93,33 @@ public class ChapterDownload implements ItemDownload {
 				synchronized (this) {
 					readSizeFromMetadata(pageDownload.readPageMetadata(), page);
 					notifyPageDownloadComplete(page);
-
+					checkState();
 				}
-	
+
 			});
 			pageDownload.onDownloadFailed(downloadedPage -> notifyPageDownloadFailed(page));
-			
-			
-			Thread thDownloadPage = new Thread(() ->{
+
+			Thread thDownloadPage = new Thread(() -> {
 				downloadPage(pageDownload);
 			});
 			executorService.execute(thDownloadPage);
-		
-			
 
 		}
 
+	}
+
+	private void checkState() {
+
+		if (chapterDownloadValues.getDownloadProgressState().get() != DownloadProgressState.FAILED) {
+			boolean allMath = chapterDownloadValues.getListItemsDownloadValues().stream()
+					.allMatch(page -> page.getDownloadProgressState().get() == DownloadProgressState.COMPLETED);
+			if (allMath) {
+				chapterDownloadValues.getDownloadProgressState().set(DownloadProgressState.COMPLETED);
+			} else {
+				chapterDownloadValues.getDownloadProgressState().set(DownloadProgressState.DOWNLOADING);
+
+			}
+		}
 	}
 
 	private DownloadInfo fillPageDownloadInfo(int pagePostion, PageDownloadItemValues page) {
@@ -129,15 +141,16 @@ public class ChapterDownload implements ItemDownload {
 		}
 	}
 
-	private void notifyPageDownloadFailed(PageDownloadItemValues page ) {
+	private void notifyPageDownloadFailed(PageDownloadItemValues page) {
 
 		chapterInfoRefresher.decreasePagesAmount();
 		chapterInfoRefresher.refreshChapterProgress();
 		chapterDownloadValues.getObsListNewPageDownloadItemsValues().add(page);
+		chapterDownloadValues.getDownloadProgressState().set(DownloadProgressState.FAILED);
 
 	}
 
-	private void notifyPageDownloadComplete(PageDownloadItemValues page ) {
+	private void notifyPageDownloadComplete(PageDownloadItemValues page) {
 
 		chapterInfoRefresher.incresePagesAmount();
 		chapterInfoRefresher.refreshChapterProgress();
@@ -146,7 +159,7 @@ public class ChapterDownload implements ItemDownload {
 	}
 
 	private void readSizeFromMetadata(ImageMetadata imageMetadata, PageDownloadItemValues pageDownloadItemValues) {
-		
+
 		long bytesSize = imageMetadata.getLongSize();
 		double megabytesSize = BytesUtil.convertBytesToMegasBytes(bytesSize);
 		pageDownloadItemValues.getDownloadSize().set(megabytesSize);
@@ -167,17 +180,17 @@ public class ChapterDownload implements ItemDownload {
 
 	@Override
 	public void pause() {
-		
+
 	}
 
 	@Override
 	public void resume() {
-		
+
 	}
 
 	@Override
 	public void stop() {
-		
+
 	}
 
 }

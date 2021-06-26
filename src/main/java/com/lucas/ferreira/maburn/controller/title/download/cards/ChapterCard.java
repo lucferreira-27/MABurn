@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-public class ChapterCard implements Initializable, DownloadCard{
+public class ChapterCard implements Initializable, DownloadCard {
 	@FXML
 	private StackPane root;
 	@FXML
@@ -52,117 +52,107 @@ public class ChapterCard implements Initializable, DownloadCard{
 	@FXML
 	private ImageView imageViewLinkIcon;
 
-	
+	@FXML
+	private ImageView imageViewPages;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		
-	}
 
+	}
 
 	@Override
 	public StackPane getRoot() {
 		return root;
 	}
 
-
 	@Override
 	public BorderPane getBorderPaneDetails() {
 		return borderPaneDetails;
 	}
-
 
 	@Override
 	public Label getLabelItemTitle() {
 		return labelItemTitle;
 	}
 
-
 	@Override
 	public Label getLabelDownloadLink() {
 		return labelDownloadedLink;
 	}
-
 
 	@Override
 	public Label getLabelTotalSize() {
 		return labelTotalSize;
 	}
 
-
 	@Override
 	public Label getLabelDownloadSpeed() {
 		return labelDownloadSpeed;
 	}
-
 
 	@Override
 	public Label getLabelTimeRemain() {
 		return labelTimeRemain;
 	}
 
-
 	@Override
 	public Label getLabelPorcentageConcluded() {
 		return labelPorcentageConcluded;
 	}
-
 
 	@Override
 	public Label getLabelCompletedDownload() {
 		return labelCompletedDownloaded;
 	}
 
-
 	@Override
 	public Label getLabelDownloadState() {
 		return labelDownloadState;
 	}
-
 
 	@Override
 	public Label getLabelVideoResoution() {
 		return labelVideoResoution;
 	}
 
-
 	@Override
 	public ProgressBar getProgressBarDownload() {
 		return progressBarDownload;
 	}
-
 
 	@Override
 	public ImageView getImageViewDownloadIcon() {
 		return imageViewDownloadIcon;
 	}
 
-
 	@Override
 	public ImageView getImageViewPlayerIcon() {
 		return imageViewPlayerIcon;
 	}
-
 
 	@Override
 	public ImageView getImageViewStopIcon() {
 		return imageViewStopIcon;
 	}
 
-
 	@Override
 	public ImageView getImageViewPauseIcon() {
 		return imageViewPauseIcon;
 	}
 
+	public ImageView getImageViewPages() {
+		return imageViewPages;
+	}
 
 	@Override
 	public ImageView getImageViewLinkIcon() {
 		return imageViewLinkIcon;
 	}
+
 	public Label getLabelTotalPagesDownloaded() {
 		return labelTotalPagesDownloaded;
 	}
+
 	public Label getLabelDownloadedLink() {
 		return labelDownloadedLink;
 	}
