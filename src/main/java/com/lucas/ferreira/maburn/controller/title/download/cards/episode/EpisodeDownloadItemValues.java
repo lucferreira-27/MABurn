@@ -1,5 +1,6 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 

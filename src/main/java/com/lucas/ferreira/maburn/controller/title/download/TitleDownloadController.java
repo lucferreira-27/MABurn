@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.controller.title.TitleController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.FetchCardValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.FetchTypeSelect;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemValueTextField;

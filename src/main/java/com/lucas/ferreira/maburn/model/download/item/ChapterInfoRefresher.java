@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.model.download.item;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.ChapterDownloadValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterDownloadValues;
 
 public class ChapterInfoRefresher {
 

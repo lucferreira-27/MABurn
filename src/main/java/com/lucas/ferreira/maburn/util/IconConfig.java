@@ -29,7 +29,10 @@ public class IconConfig {
 	public String getIconTip() {
 		return iconTip;
 	}
-
+	
+	public void setIcon(Icons icon) {
+		this.icon = icon;
+	}
 	
 	
 }

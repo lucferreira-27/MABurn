@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.model.download.item;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
-import com.lucas.ferreira.maburn.controller.title.download.cards.EpisodeDownloadItemValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeDownloadItemValues;
 import com.lucas.ferreira.maburn.exceptions.EpisodeDownloadException;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadRealTimeInfo;

@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.view;
 import com.lucas.ferreira.maburn.controller.collection.menu.CollectionMenuController;
 import com.lucas.ferreira.maburn.controller.menu.MenuController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.FetchCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
 
 import javafx.fxml.Initializable;
 

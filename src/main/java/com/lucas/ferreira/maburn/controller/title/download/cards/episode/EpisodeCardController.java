@@ -1,5 +1,7 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.model.ClipboardSystem;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
 import com.lucas.ferreira.maburn.model.effects.AnimationCard;
@@ -7,18 +9,20 @@ import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
+import com.lucas.ferreira.maburn.view.LabelIcon;
 
 import javafx.application.Platform;
+import javafx.scene.control.Label;
 
 public class EpisodeCardController implements DownloadCardController{
 
 	private EpisodeCard episodeCard;
 	private String ICON_PATH = "icons/";
-
+	private EpisodeCardIcons cardIcons;
 	private EpisodeDownloadItemValues episodeDownloadItemValues = new EpisodeDownloadItemValues();
 	private EpisodeDownload episodeDownload;
 	private DownloadInfo downloadInfo;
-
+	
 	public EpisodeCardController(EpisodeCard episodeCard, DownloadInfo downloadInfo) {
 		this.episodeCard = episodeCard;
 		this.downloadInfo = downloadInfo;
@@ -50,12 +54,10 @@ public class EpisodeCardController implements DownloadCardController{
 
 	}
 	public void initialize() {
-
-
+		
 		fadeInAnimation();
 		
 		initializeValuesCard();
-		initializeIcons();
 
 		AnimationCard animations = new AnimationCard(episodeCard.getBorderPaneDetails());
 
@@ -75,7 +77,8 @@ public class EpisodeCardController implements DownloadCardController{
 			}
 		});
 		initializeValuesCard();
-		initializeIcons();
+		cardIcons = new EpisodeCardIcons(episodeCard, this);
+		cardIcons.initialize();
 		initDownload();
 	}
 	
@@ -88,45 +91,7 @@ public class EpisodeCardController implements DownloadCardController{
 		});
 	}
 	
-	public void initializeIcons() {
 
-		Icon downloadIcon = new Icon(episodeCard.getImageViewDownloadIcon(),
-				new IconConfig(ICON_PATH, Icons.DOWNLOAD_IN_CARD));
-		downloadIcon.setProperties();
-
-		Icon linkIcon = new Icon(episodeCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
-		linkIcon.setProperties();
-
-		Icon iconPlay = new Icon(episodeCard.getImageViewPlayerIcon(), new IconConfig(ICON_PATH, Icons.PLAY_IN_CARD));
-		iconPlay.setProperties(event -> {
-			System.out.println("PLAY");
-			resume();
-			replaceIconPlayToPause();
-		});
-
-		Icon iconPause = new Icon(episodeCard.getImageViewPauseIcon(), new IconConfig(ICON_PATH, Icons.PAUSE_IN_CARD));
-		iconPause.setProperties(event -> {
-			System.out.println("RESUME");
-			pause();
-			replaceIconPauseToPlay();
-		});
-
-		Icon iconStop = new Icon(episodeCard.getImageViewStopIcon(), new IconConfig(ICON_PATH, Icons.STOP_IN_CARD));
-		iconStop.setProperties(event -> {
-			System.out.println("STOP");
-			stop();
-		});
-	}
-
-	private void replaceIconPauseToPlay() {
-		episodeCard.getImageViewPlayerIcon().setVisible(true);
-		episodeCard.getImageViewPauseIcon().setVisible(false);
-	}
-
-	private void replaceIconPlayToPause() {
-		episodeCard.getImageViewPauseIcon().setVisible(true);
-		episodeCard.getImageViewPlayerIcon().setVisible(false);
-	}
 
 	@Override
 	public void resume() {

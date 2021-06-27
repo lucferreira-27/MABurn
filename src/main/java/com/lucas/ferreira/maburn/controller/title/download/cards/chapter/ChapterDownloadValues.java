@@ -1,9 +1,12 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.GroupDownloadValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 
 import javafx.beans.property.DoubleProperty;

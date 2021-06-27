@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.ChapterDownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterDownloadValues;
 import com.lucas.ferreira.maburn.exceptions.ChapterDownloadException;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;

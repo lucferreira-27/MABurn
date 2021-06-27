@@ -1,7 +1,9 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-public class ChapterCard implements Initializable, DownloadCard {
+public class EpisodeCard implements  DownloadCard, Initializable{
+	
 	@FXML
 	private StackPane root;
 	@FXML
@@ -28,8 +31,6 @@ public class ChapterCard implements Initializable, DownloadCard {
 	private Label labelTimeRemain;
 	@FXML
 	private Label labelPorcentageConcluded;
-	@FXML
-	private Label labelTotalPagesDownloaded;
 	@FXML
 	private Label labelDownloadedLink;
 	@FXML
@@ -52,108 +53,134 @@ public class ChapterCard implements Initializable, DownloadCard {
 	@FXML
 	private ImageView imageViewLinkIcon;
 
-	@FXML
-	private ImageView imageViewPages;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		
 	}
+
 
 	@Override
 	public StackPane getRoot() {
 		return root;
 	}
 
+
 	@Override
 	public BorderPane getBorderPaneDetails() {
 		return borderPaneDetails;
 	}
+
 
 	@Override
 	public Label getLabelItemTitle() {
 		return labelItemTitle;
 	}
 
+
 	@Override
 	public Label getLabelDownloadLink() {
 		return labelDownloadedLink;
 	}
+
 
 	@Override
 	public Label getLabelTotalSize() {
 		return labelTotalSize;
 	}
 
+
 	@Override
 	public Label getLabelDownloadSpeed() {
 		return labelDownloadSpeed;
 	}
+
 
 	@Override
 	public Label getLabelTimeRemain() {
 		return labelTimeRemain;
 	}
 
+
 	@Override
 	public Label getLabelPorcentageConcluded() {
 		return labelPorcentageConcluded;
 	}
+
 
 	@Override
 	public Label getLabelCompletedDownload() {
 		return labelCompletedDownloaded;
 	}
 
+
 	@Override
 	public Label getLabelDownloadState() {
 		return labelDownloadState;
 	}
+
 
 	@Override
 	public Label getLabelVideoResoution() {
 		return labelVideoResoution;
 	}
 
+
 	@Override
 	public ProgressBar getProgressBarDownload() {
 		return progressBarDownload;
 	}
+
 
 	@Override
 	public ImageView getImageViewDownloadIcon() {
 		return imageViewDownloadIcon;
 	}
 
+
 	@Override
 	public ImageView getImageViewPlayerIcon() {
 		return imageViewPlayerIcon;
 	}
+
 
 	@Override
 	public ImageView getImageViewStopIcon() {
 		return imageViewStopIcon;
 	}
 
+
 	@Override
 	public ImageView getImageViewPauseIcon() {
 		return imageViewPauseIcon;
 	}
 
-	public ImageView getImageViewPages() {
-		return imageViewPages;
-	}
 
 	@Override
 	public ImageView getImageViewLinkIcon() {
 		return imageViewLinkIcon;
 	}
 
-	public Label getLabelTotalPagesDownloaded() {
-		return labelTotalPagesDownloaded;
+
+	@Override
+	public String toString() {
+		return String.format(
+				"EpisodeCard [root=%s, borderPaneDetails=%s, labelItemTitle=%s, labelDownloadLink=%s, labelTotalSize=%s, labelDownloadSpeed=%s, labelTimeRemain=%s, labelPorcentageConcluded=%s, labelDownloadedLink=%s, labelDownloadState=%s, labelCompletedDownloaded=%s, labelVideoResoution=%s, progressBarDownload=%s, imageViewDownloadIcon=%s, imageViewPlayerIcon=%s, imageViewStopIcon=%s, imageViewPauseIcon=%s, imageViewLinkIcon=%s]",
+				root, borderPaneDetails, labelItemTitle, labelDownloadLink, labelTotalSize, labelDownloadSpeed,
+				labelTimeRemain, labelPorcentageConcluded, labelDownloadedLink, labelDownloadState,
+				labelCompletedDownloaded, labelVideoResoution, progressBarDownload, imageViewDownloadIcon,
+				imageViewPlayerIcon, imageViewStopIcon, imageViewPauseIcon, imageViewLinkIcon);
 	}
 
-	public Label getLabelDownloadedLink() {
-		return labelDownloadedLink;
-	}
+
+
+
+
+
+
+
+
+	
+
+
 }

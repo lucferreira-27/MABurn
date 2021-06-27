@@ -1,5 +1,8 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
+import com.lucas.ferreira.maburn.model.ClipboardSystem;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.ChapterDownload;
 import com.lucas.ferreira.maburn.model.effects.AnimationCard;
@@ -7,12 +10,12 @@ import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
+import com.lucas.ferreira.maburn.view.LabelIcon;
 
 import javafx.application.Platform;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.util.Duration;
 
 public class ChapterCardController implements DownloadCardController {
 
@@ -20,8 +23,7 @@ public class ChapterCardController implements DownloadCardController {
 	private DownloadInfo downloadInfo;
 	private ChapterDownload chapterDownload;
 	private ChapterDownloadValues chapterDownloadValues = new ChapterDownloadValues();
-	private String ICON_PATH = "icons/";
-
+	private ChapterCardIcons chapterCardIcons;
 	public ChapterCardController(ChapterCard chapterCard, DownloadInfo downloadInfo) {
 		this.chapterCard = chapterCard;
 		this.downloadInfo = downloadInfo;
@@ -41,7 +43,6 @@ public class ChapterCardController implements DownloadCardController {
 			try {
 				chapterDownload.download();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -54,7 +55,6 @@ public class ChapterCardController implements DownloadCardController {
 		fadeInAnimation();
 
 		initializeValuesCard();
-		initializeIcons();
 
 		AnimationCard animations = new AnimationCard(chapterCard.getBorderPaneDetails());
 
@@ -73,8 +73,9 @@ public class ChapterCardController implements DownloadCardController {
 				animations.hideCardDetails(115, 0.0005);
 			}
 		});
+		chapterCardIcons = new ChapterCardIcons(chapterCard, this);
+		chapterCardIcons.initialize();
 		initializeValuesCard();
-		initializeIcons();
 		initDownload();
 	}
 
@@ -94,55 +95,7 @@ public class ChapterCardController implements DownloadCardController {
 
 	}
 
-	public void initializeIcons() {
 
-		Icon downloadIcon = new Icon(chapterCard.getImageViewDownloadIcon(),
-				new IconConfig(ICON_PATH, Icons.DOWNLOAD_IN_CARD));
-		downloadIcon.setProperties();
-
-		Icon pagesIcon = new Icon(chapterCard.getImageViewPages(), new IconConfig(ICON_PATH, Icons.OPEN_PAGES));
-		pagesIcon.setProperties();
-
-		chapterCard.getLabelTotalPagesDownloaded().setOnMousePressed((event) -> {
-			pagesIcon.swithIconColor();
-		});
-		chapterCard.getLabelTotalPagesDownloaded().setOnMouseReleased((event) -> {
-			pagesIcon.swithIconColor();
-		});
-		Icon linkIcon = new Icon(chapterCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
-		linkIcon.setProperties();
-
-		chapterCard.getLabelDownloadLink().setOnMousePressed((event) -> {
-			linkIcon.swithIconColor();
-		});
-		chapterCard.getLabelDownloadLink().setOnMouseReleased((event) -> {
-			final Clipboard clipboard = Clipboard.getSystemClipboard();
-			final ClipboardContent content = new ClipboardContent();
-			content.putString(chapterCard.getLabelDownloadLink().getText());
-			clipboard.setContent(content);
-			linkIcon.swithIconColor();
-		});
-
-		Icon iconPlay = new Icon(chapterCard.getImageViewPlayerIcon(), new IconConfig(ICON_PATH, Icons.PLAY_IN_CARD));
-		iconPlay.setProperties(event -> {
-			System.out.println("PLAY");
-			resume();
-			replaceIconPlayToPause();
-		});
-
-		Icon iconPause = new Icon(chapterCard.getImageViewPauseIcon(), new IconConfig(ICON_PATH, Icons.PAUSE_IN_CARD));
-		iconPause.setProperties(event -> {
-			System.out.println("RESUME");
-			pause();
-			replaceIconPauseToPlay();
-		});
-
-		Icon iconStop = new Icon(chapterCard.getImageViewStopIcon(), new IconConfig(ICON_PATH, Icons.STOP_IN_CARD));
-		iconStop.setProperties(event -> {
-			System.out.println("STOP");
-			stop();
-		});
-	}
 
 	@Override
 	public void resume() {
@@ -157,16 +110,6 @@ public class ChapterCardController implements DownloadCardController {
 	@Override
 	public void stop() {
 		chapterDownload.stop();
-	}
-
-	private void replaceIconPauseToPlay() {
-		chapterCard.getImageViewPlayerIcon().setVisible(true);
-		chapterCard.getImageViewPauseIcon().setVisible(false);
-	}
-
-	private void replaceIconPlayToPause() {
-		chapterCard.getImageViewPauseIcon().setVisible(true);
-		chapterCard.getImageViewPlayerIcon().setVisible(false);
 	}
 
 }

@@ -1,5 +1,6 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.CardValuesBinder;
 import com.lucas.ferreira.maburn.util.ResolutionText;
 
 import javafx.application.Platform;

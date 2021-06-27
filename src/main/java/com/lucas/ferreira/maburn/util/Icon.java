@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.util;
 
+import com.lucas.ferreira.maburn.model.enums.Icons;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
@@ -21,6 +23,7 @@ public class Icon {
 		// TODO Auto-generated constructor stub
 		this.config = config;
 		this.icon = icon;
+
 		defineIconsColors();
 	}
 
@@ -94,5 +97,18 @@ public class Icon {
 		Tooltip tooltip = new Tooltip(tip);
 		tooltip.setShowDelay(Duration.seconds(0.5));
 		Tooltip.install(icon, tooltip);
+	}
+
+	public void setVisible(boolean visible) {
+		icon.setVisible(visible);
+	}
+
+	public boolean isVisible() {
+		return icon.isVisible();
+	}
+
+	public void reloadIcon(Icons icon) {
+		config.setIcon(icon);
+		properties();
 	}
 }

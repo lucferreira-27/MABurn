@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.controller.title.download.cards.fetch;
 
 import java.net.URL;
 import java.util.ResourceBundle;

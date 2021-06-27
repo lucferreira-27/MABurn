@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.EpisodeDownloadItemValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeDownloadItemValues;
 import com.lucas.ferreira.maburn.exceptions.FileMetadataNotFound;
 import com.lucas.ferreira.maburn.model.metadata.ReadMetadata;
 import com.lucas.ferreira.maburn.model.metadata.image.ImageMetadata;
