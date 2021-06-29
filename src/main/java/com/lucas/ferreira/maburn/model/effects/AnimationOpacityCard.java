@@ -1,31 +1,28 @@
 package com.lucas.ferreira.maburn.model.effects;
 
-import java.util.function.Consumer;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class AnimationOpacityCard {
+public class AnimationOpacityCard{
 	
 	
 	
 
 	private Timeline timeline = new Timeline();
-
 	private Pane cardDetails;
 
 
 	public AnimationOpacityCard(Pane cardDetails) {
 		this.cardDetails = cardDetails;
 		timeline.setCycleCount(Animation.INDEFINITE);
-
 	}
 	
 
 	public void fadeInCardBody(double start, double duration) {
+		cardDetails.setOpacity(0);
 		KeyFrame keyIncreseOpacity = createKeyOpacityIncrese(start, duration);
 		play(keyIncreseOpacity);
 	}
@@ -36,7 +33,6 @@ public class AnimationOpacityCard {
 	
 	private void stop() {
 		timeline.stop();
-
 	}
 
 	private void play(KeyFrame keyFrame) {

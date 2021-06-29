@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.controller.title.download;
 import java.util.List;
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.CardValuesBinder;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardValuesBinder;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.AnimeDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
@@ -58,36 +58,30 @@ public class ListCards {
 
 	public void onAddScrapingDone(TaggedItems taggedItems, List<ScrapingWork> scrapingWorks) {
 
-
 		for (ScrapingWork scrapingWork : scrapingWorks) {
-				listenScrapingWork(taggedItems, scrapingWork);
-		
+			listenScrapingWork(taggedItems, scrapingWork);
+
 		}
 
 	}
 
-
-
 	private void listenScrapingWork(TaggedItems taggedItems, ScrapingWork scrapingWork) {
-		
-		
+
 		String itemName = MapKeyValue.getKeyByValue(taggedItems.getNamedItemsValues(), scrapingWork.getTarget());
 		String itemUrl = scrapingWork.getTarget();
 		FetchCardValues fetchCardValues = new FetchCardValues(collectionTitle);
-	
+
 		fetchCardValues.setItemName(itemName);
 		fetchCardValues.setItemUrl(itemUrl);
 		addFetchCard(fetchCardValues);
 
-	
-
 		scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
 			System.out.println(newvalue);
-			if(newvalue == ScrapeState.WORKING) {
+			if (newvalue == ScrapeState.WORKING) {
 				fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
 			}
-			
-			if (newvalue == ScrapeState.SUCCEED) {
+
+			else if (newvalue == ScrapeState.SUCCEED) {
 				ItemScraped itemScraped;
 				try {
 					itemScraped = scrapingWork.getWorkResult();
@@ -162,8 +156,6 @@ public class ListCards {
 	public ListFetchCards getListFetchCards() {
 		return listFetchCards;
 	}
-
-
 
 	public VBox getVBoxListDownloads() {
 		return vBoxListDownloads;

@@ -1,10 +1,10 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.CardValuesBinder;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardValuesBinder;
 
 import javafx.application.Platform;
 
-public class ChapterCardValuesBinder extends CardValuesBinder{
+public class ChapterCardValuesBinder extends DownloadCardValuesBinder{
 	
 	
 	private ChapterCard chapterCard;

@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
 import com.lucas.ferreira.maburn.model.ClipboardSystem;
@@ -21,15 +22,45 @@ public class ChapterCardController implements DownloadCardController {
 
 	private ChapterCard chapterCard;
 	private DownloadInfo downloadInfo;
+	private DefaultAnimationCard defaultAnimationCard;
 	private ChapterDownload chapterDownload;
 	private ChapterDownloadValues chapterDownloadValues = new ChapterDownloadValues();
 	private ChapterCardIcons chapterCardIcons;
+
 	public ChapterCardController(ChapterCard chapterCard, DownloadInfo downloadInfo) {
 		this.chapterCard = chapterCard;
 		this.downloadInfo = downloadInfo;
 	}
 
-	public void initDownload() {
+	@Override
+	public void initialize() {
+		initializeValuesCard();
+		initializeIcons();
+		initializeAnimations();
+		initializeDownload();
+
+	}
+
+	public void initializeValuesCard() {
+		ChapterCardValuesBinder chapterCardValuesBinder = new ChapterCardValuesBinder();
+		chapterDownloadValues.getName().set(downloadInfo.getFilename());
+		chapterDownloadValues.getTarget().set(downloadInfo.getUrl());
+		chapterCardValuesBinder.binder(chapterCard, chapterDownloadValues);
+
+	}
+
+	private void initializeIcons() {
+		chapterCardIcons = new ChapterCardIcons(chapterCard, this);
+		chapterCardIcons.initialize();
+
+	}
+
+	private void initializeAnimations() {
+		defaultAnimationCard = new DefaultAnimationCard(chapterCard);
+		defaultAnimationCard.initAnimationCard();
+	}
+
+	public void initializeDownload() {
 
 		downloadInfo.getListUrls().forEach(link -> {
 			PageDownloadItemValues pageDownloadItemValues = new PageDownloadItemValues();
@@ -50,54 +81,6 @@ public class ChapterCardController implements DownloadCardController {
 	}
 
 	@Override
-	public void initialize() {
-
-		fadeInAnimation();
-
-		initializeValuesCard();
-
-		AnimationCard animations = new AnimationCard(chapterCard.getBorderPaneDetails());
-
-		animations.onPlayAnimation(pane -> {
-			pane.setVisible(true);
-		});
-
-		animations.onFinishAnimation(pane -> {
-			pane.setVisible(false);
-		});
-
-		chapterCard.getRoot().hoverProperty().addListener((obs, oldvalue, newvalue) -> {
-			if (chapterCard.getRoot().isHover()) {
-				animations.showCardDetails(180, 0.0005);
-			} else {
-				animations.hideCardDetails(115, 0.0005);
-			}
-		});
-		chapterCardIcons = new ChapterCardIcons(chapterCard, this);
-		chapterCardIcons.initialize();
-		initializeValuesCard();
-		initDownload();
-	}
-
-	private void fadeInAnimation() {
-		Platform.runLater(() -> {
-			chapterCard.getBorderPaneDetails().setOpacity(0);
-			AnimationOpacityCard animationOpacityCard = new AnimationOpacityCard(chapterCard.getBorderPaneDetails());
-			animationOpacityCard.fadeInCardBody(1, 0.5 / 100);
-		});
-	}
-
-	public void initializeValuesCard() {
-		ChapterCardValuesBinder chapterCardValuesBinder = new ChapterCardValuesBinder();
-		chapterDownloadValues.getName().set(downloadInfo.getFilename());
-		chapterDownloadValues.getTarget().set(downloadInfo.getUrl());
-		chapterCardValuesBinder.binder(chapterCard, chapterDownloadValues);
-
-	}
-
-
-
-	@Override
 	public void resume() {
 		chapterDownload.resume();
 	}
@@ -110,6 +93,12 @@ public class ChapterCardController implements DownloadCardController {
 	@Override
 	public void stop() {
 		chapterDownload.stop();
+		resetValues();
+	}
+
+	private void resetValues() {
+		chapterDownloadValues.getDownloadSpeed().set(0);
+		chapterDownloadValues.getTimeRemain().set(0);
 	}
 
 }

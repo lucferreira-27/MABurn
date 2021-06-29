@@ -19,10 +19,11 @@ public class FetchCardIcons extends IconsInitializer {
 
 	@Override
 	protected void initialize() {
-
+		initializeIcons();
+		initializeLabelIcons();
 	}
 
-	public void initializeLabelIcons() {
+	private void initializeLabelIcons() {
 		Icon iconLink = new Icon(fetchCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
 		Label labelDownloadLink = fetchCard.getLabelItemUrl();
 		LabelIcon labelIcon = new LabelIcon(iconLink, labelDownloadLink);
@@ -37,9 +38,12 @@ public class FetchCardIcons extends IconsInitializer {
 		labelIcon.setOnMouseExitedIcon(icon -> icon.swithIconColor());
 	}
 
-	public void initializeIcons() {
+	private void initializeIcons() {
 		Icon iconFetch = new Icon(fetchCard.getImageViewFetchIcon(), new IconConfig(ICON_PATH, Icons.FETCH_IN_CARD));
+		Icon linkIcon = new Icon(fetchCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
+
 		iconFetch.setProperties();
+		linkIcon.setProperties();
 
 	}
 }

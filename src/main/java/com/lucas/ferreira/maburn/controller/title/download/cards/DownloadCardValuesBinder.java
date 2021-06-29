@@ -1,11 +1,13 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
+import com.lucas.ferreira.maburn.model.enums.DefaultNullValue;
 import com.lucas.ferreira.maburn.util.MathUtil;
+import com.lucas.ferreira.maburn.util.TimeText;
 import com.lucas.ferreira.maburn.util.datas.DataStorageUtil;
 
 import javafx.application.Platform;
 
-public abstract class CardValuesBinder {
+public abstract class DownloadCardValuesBinder {
 	
 	
 	protected DownloadCard downloadCard; 
@@ -41,7 +43,15 @@ public abstract class CardValuesBinder {
 		setCardDownloadSpeed();
 		setCardItemTitleText();
 		setCardTotalSize();
+		setCardTimeRemain();
+
 	}
+
+	private void setCardTimeRemain() {
+		String value = downloadValues.getTimeRemain().get() == 0 ? DefaultNullValue.STRING_NULL.getValue() : TimeText.secondsToText(downloadValues.getTimeRemain().intValue());
+		downloadCard.getLabelTimeRemain().setText(value);;
+	}
+
 
 	private void setCardDownloadLink() {
 		downloadCard.getLabelDownloadLink().setText(downloadValues.getTarget().get());
@@ -50,11 +60,15 @@ public abstract class CardValuesBinder {
 
 
 	private void setCardItemTitleText() {
-		downloadCard.getLabelItemTitle().setText(downloadValues.getName().get());
+		String value = downloadValues.getName().get().isEmpty() ? DefaultNullValue.STRING_NULL.getValue() : downloadValues.getName().get();
+		downloadCard.getLabelItemTitle().setText(value);
 
 	}
 
 	private void setCardTotalSize() {
+		
+
+		
 		downloadCard.getLabelTotalSize().setText(DataStorageUtil.converterUnit(downloadValues.getDownloadSize().get()));
 
 	}
@@ -113,7 +127,8 @@ public abstract class CardValuesBinder {
 
 	private void addCardDownloadTimeRemain() {
 		downloadValues.getTimeRemain().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> downloadCard.getLabelTimeRemain().setText(String.valueOf(newvalue.intValue())));
+			
+			Platform.runLater(() -> downloadCard.getLabelTimeRemain().setText(String.valueOf(TimeText.secondsToText(newvalue.intValue()))));
 
 		});
 	}

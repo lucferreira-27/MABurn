@@ -1,11 +1,11 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.CardValuesBinder;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardValuesBinder;
 import com.lucas.ferreira.maburn.util.ResolutionText;
 
 import javafx.application.Platform;
 
-public class EpisodeCardValuesBinder extends CardValuesBinder {
+public class EpisodeCardValuesBinder extends DownloadCardValuesBinder {
 	private EpisodeCard episodeCard;
 	private EpisodeDownloadItemValues episodeDownloadItemValues;
 
