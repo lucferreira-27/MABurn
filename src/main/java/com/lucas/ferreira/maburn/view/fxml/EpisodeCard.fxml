@@ -58,27 +58,27 @@
       </BorderPane>
       <AnchorPane maxHeight="126.0" maxWidth="366.0" minWidth="366.0" prefHeight="126.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER">
          <children>
-            <ImageView fx:id="imageViewDownloadIcon" fitHeight="53.0" fitWidth="53.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageViewDownloadIcon" fitHeight="53.0" fitWidth="53.0" layoutX="14.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/download_card.png" />
                </image>
             </ImageView>
-            <Label fx:id="labelItemTitle" alignment="CENTER" layoutX="76.0" layoutY="28.0" style="-fx-font-size: 20; -fx-background-color: black; -fx-background-radius: 20;" text="Unknow" textFill="WHITE">
+            <Label fx:id="labelItemTitle" alignment="CENTER" layoutX="76.0" layoutY="31.0" style="-fx-font-size: 20; -fx-background-color: black; -fx-background-radius: 20;" text="Unknow" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="20.0" right="20.0" top="2.0" />
                </padding>
             </Label>
-            <Label fx:id="labelTotalSize" alignment="CENTER" layoutX="278.0" layoutY="25.0" maxWidth="80.0" minWidth="70.0" style="-fx-font-size: 11; -fx-background-color: black; -fx-background-radius: 20;" text="0" textFill="WHITE">
+            <Label fx:id="labelTotalSize" alignment="CENTER" layoutX="278.0" layoutY="30.0" maxWidth="80.0" minWidth="70.0" style="-fx-font-size: 11; -fx-background-color: black; -fx-background-radius: 20;" text="0" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>
             </Label>
-            <Label fx:id="labelDownloadSpeed" alignment="CENTER" layoutX="277.0" layoutY="49.0" maxWidth="80.0" minWidth="70.0" style="-fx-font-size: 11; -fx-background-color: black; -fx-background-radius: 20;" text="0" textFill="WHITE">
+            <Label fx:id="labelDownloadSpeed" alignment="CENTER" layoutX="277.0" layoutY="53.0" maxWidth="80.0" minWidth="70.0" style="-fx-font-size: 11; -fx-background-color: black; -fx-background-radius: 20;" text="0" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>
             </Label>
-            <ImageView fx:id="imageViewPlayerIcon" fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="imageViewPlayerIcon" fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../../../../../../resources/icons/title-download/play_white_icon.png" />
                </image>
@@ -86,7 +86,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imageViewStopIcon" fitHeight="34.0" fitWidth="34.0" layoutX="315.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageViewStopIcon" fitHeight="34.0" fitWidth="34.0" layoutX="315.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/title-download/stop_white_icon.png" />
                </image>
@@ -94,8 +94,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ProgressBar fx:id="progressBarDownload" layoutX="19.0" layoutY="77.0" maxHeight="26.0" maxWidth="244.0" prefHeight="26.0" prefWidth="244.0" progress="0.15" stylesheets="@../css/download_card.css" />
-            <ImageView fx:id="imageViewPauseIcon" fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+            <ProgressBar fx:id="progressBarDownload" layoutX="19.0" layoutY="81.0" maxHeight="26.0" maxWidth="244.0" prefHeight="26.0" prefWidth="244.0" progress="0.15" stylesheets="@../css/download_card.css" />
+            <ImageView fx:id="imageViewPauseIcon" fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/title-download/pause_white_icon.png" />
                </image>
@@ -103,12 +103,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <Label fx:id="labelDownloadState" alignment="CENTER" layoutX="236.0" prefHeight="24.0" prefWidth="131.0" style="-fx-font-size: 10; -fx-background-radius: 20;" text="DOWNLOADING" textFill="WHITE">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
-               </padding>
-            </Label>
-            <Label fx:id="labelPorcentageConcluded" alignment="CENTER" layoutX="220.0" layoutY="24.0" maxWidth="55.0" style="-fx-font-size: 10; -fx-background-color: black; -fx-background-radius: 20;" text="0%" textFill="WHITE">
+            <Label fx:id="labelDownloadState" alignment="CENTER" layoutX="233.0" layoutY="5.0" prefHeight="20.0" prefWidth="100.0" styleClass="card-state-queue" stylesheets="@../css/download_card.css" text="DOWNLOADING" textFill="WHITE" />
+            <Label fx:id="labelPorcentageConcluded" alignment="CENTER" layoutX="220.0" layoutY="30.0" maxWidth="55.0" style="-fx-font-size: 10; -fx-background-color: black; -fx-background-radius: 20;" text="0%" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>

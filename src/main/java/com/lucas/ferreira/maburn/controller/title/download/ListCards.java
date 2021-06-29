@@ -1,44 +1,26 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
 import java.util.List;
-import java.util.Map;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardValuesBinder;
-import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.AnimeDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.controller.title.download.cards.MangaDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCard;
-import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCardController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterDownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCard;
-import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeDownloadItemValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardState;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
 import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
-import com.lucas.ferreira.maburn.model.download.FileTypeAccept;
-import com.lucas.ferreira.maburn.model.download.item.ChapterDownload;
-import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
-import com.lucas.ferreira.maburn.model.download.item.ItemDownload;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.enums.Definition;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ChapterScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.EpisodeScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapeState;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
-import com.lucas.ferreira.maburn.model.webscraping.scraping.title.AnimeScraped;
-import com.lucas.ferreira.maburn.model.webscraping.scraping.title.MangaScraped;
-import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.util.MapKeyValue;
-import com.lucas.ferreira.maburn.view.Components;
 
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 

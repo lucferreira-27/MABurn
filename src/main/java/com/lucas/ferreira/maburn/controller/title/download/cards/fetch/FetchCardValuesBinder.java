@@ -5,6 +5,7 @@ import javafx.application.Platform;
 public class FetchCardValuesBinder {
 	private FetchCard fetchCard;
 	private FetchCardValues fetchCardValues;
+	private FetchStateStyle fetchStateStyle = new FetchStateStyle();
 
 	public void binder(FetchCard fetchCard, FetchCardValues fetchCardValues) {
 
@@ -28,6 +29,7 @@ public class FetchCardValuesBinder {
 	}
 
 	private void setCardFetchState() {
+		fetchStateStyle.setNodeStyleByState(fetchCardValues.getFetchCardState().get(), fetchCard.getLabelFetchState());
 		fetchCard.getLabelFetchState().setText(fetchCardValues.getFetchCardState().get().getName());
 	}
 
@@ -37,12 +39,17 @@ public class FetchCardValuesBinder {
 	}
 
 	private void setCardFetchItemUrl() {
+
 		fetchCard.getLabelItemUrl().setText(fetchCardValues.getItemUrl());
 	}
 
 	private void addCardFetchStateListener() {
 		fetchCardValues.getFetchCardState().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> fetchCard.getLabelFetchState().setText(newvalue.getName()));
+
+			Platform.runLater(() -> {
+				fetchCard.getLabelFetchState().setText(newvalue.getName());
+				fetchStateStyle.setNodeStyleByState(newvalue, fetchCard.getLabelFetchState());
+			});
 		});
 	}
 

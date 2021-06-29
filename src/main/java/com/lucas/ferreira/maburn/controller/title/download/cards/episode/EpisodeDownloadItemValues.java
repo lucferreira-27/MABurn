@@ -20,7 +20,7 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues {
 	private DoubleProperty timeRemain = new SimpleDoubleProperty();
 	private StringProperty resolution = new SimpleStringProperty();
 	private StringProperty target = new SimpleStringProperty();
-	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
+	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>(DownloadProgressState.WAITING);
 
 	private StringProperty name = new SimpleStringProperty();;
 	private StringProperty directLink = new SimpleStringProperty();;

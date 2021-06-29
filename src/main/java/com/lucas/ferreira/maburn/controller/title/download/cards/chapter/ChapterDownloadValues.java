@@ -29,7 +29,7 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	private DoubleProperty timeRemain = new SimpleDoubleProperty();
 	private DoubleProperty chapterSize = new SimpleDoubleProperty();
 	private List<ItemDownloadValues> listPageDownloadItemValues = new ArrayList<ItemDownloadValues>();
-	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>();
+	private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>(DownloadProgressState.WAITING);
 	private ObservableList<ItemDownloadValues> obsListPageDownlaodItemsValues = FXCollections.observableArrayList();
 	private StringProperty target = new SimpleStringProperty();
 	private StringProperty name = new SimpleStringProperty();;

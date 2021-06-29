@@ -4,17 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCardController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterDownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
-import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
-import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 
 import javafx.application.Platform;

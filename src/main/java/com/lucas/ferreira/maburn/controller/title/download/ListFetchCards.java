@@ -8,7 +8,6 @@ import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
-import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 
 import javafx.application.Platform;
@@ -36,9 +35,6 @@ public class ListFetchCards {
 		FetchCardController fetchCardController = new FetchCardController(fetchCard,
 				fetchCardValues);
 		cardsControllers.add(fetchCardController);
-		
-
-
 		fetchCardController.initialize();
 
 	}

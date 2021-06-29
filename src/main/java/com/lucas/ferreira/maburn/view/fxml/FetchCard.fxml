@@ -12,13 +12,13 @@
    <children>
       <AnchorPane maxHeight="98.0" maxWidth="366.0" prefHeight="98.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
          <children>
-            <Label fx:id="labelFetchState" layoutX="286.0" layoutY="9.0" style="-fx-font-size: 14;" text="STATE" textFill="WHITE" />
+            <Label fx:id="labelFetchState" alignment="CENTER" layoutX="264.0" layoutY="5.0" prefHeight="15.0" prefWidth="80.0" styleClass="card-state-queue" stylesheets="@../css/download_card.css" text="IN QUEUE" textFill="WHITE" />
             <ImageView fx:id="imageViewFetchIcon" fitHeight="53.0" fitWidth="53.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../resources/icons/fetch_small.png" />
                </image>
             </ImageView>
-            <Label fx:id="labelItemName" alignment="CENTER" layoutX="105.0" layoutY="21.0" style="-fx-font-size: 24; -fx-background-color: #0E0E0E; -fx-background-radius: 20;" text="Chapter 01" textFill="WHITE">
+            <Label fx:id="labelItemName" alignment="CENTER" layoutX="105.0" layoutY="21.0" style="-fx-font-size: 24; -fx-background-color: #0E0E0E; -fx-background-radius: 20;" stylesheets="@../css/download_card.css" text="Chapter 01" textFill="WHITE">
                <padding>
                   <Insets bottom="2.0" left="20.0" right="20.0" top="2.0" />
                </padding>
