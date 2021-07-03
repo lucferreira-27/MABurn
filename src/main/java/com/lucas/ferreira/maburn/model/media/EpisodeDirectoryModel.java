@@ -17,7 +17,6 @@ public class EpisodeDirectoryModel {
 		String diretory = downloadInfo.getPath() + "\\" + downloadInfo.getFilename() +  "." + downloadInfo.getPrefFiletype().getName();
 		
 		try {
-			System.out.println("Opening File: " + diretory);
 			DirectoryModel.openDirectory(diretory);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -28,7 +27,6 @@ public class EpisodeDirectoryModel {
 		String diretory = downloadInfo.getPath();
 		
 		try {
-			System.out.println("Opening Folder: " + diretory);
 			DirectoryModel.openDirectory(diretory);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
