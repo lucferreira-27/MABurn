@@ -28,7 +28,6 @@ public class DownloadByChannel extends DownloadProgressListener {
 	protected FileOutputStream fos;
 	protected ReadableByteChannel channel;
 	protected TrackByteChannel trackByteChannel;
-	private static final int BUFFER_SIZE = 4096;
 
 	public DownloadByChannel(ItemDownloadValues itemDownloadValues) {
 		super(itemDownloadValues);
@@ -53,6 +52,9 @@ public class DownloadByChannel extends DownloadProgressListener {
 					closeChannel(channel);
 				if (trackByteChannel != null)
 					closeTrack(trackByteChannel);
+				if(fos != null) {
+					closeOutPutStream(fos);
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -61,6 +63,8 @@ public class DownloadByChannel extends DownloadProgressListener {
 		finishDownload();
 		return itemDownloadValues;
 	}
+
+
 
 	private void finishDownload() {
 		if (itemDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED)
@@ -124,6 +128,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 	private void newOutputStream(String path) throws FileNotFoundException {
 		fos = new FileOutputStream(path);
+	
 	}
 
 	protected void initTransfer() throws IOException {
@@ -167,7 +172,15 @@ public class DownloadByChannel extends DownloadProgressListener {
 	private void closeChannel(ReadableByteChannel channel) throws IOException {
 		channel.close();
 	}
-
+	private void closeOutPutStream(FileOutputStream fos) {
+		try {
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
 	public String getUrl() {
 		return url;
 	}

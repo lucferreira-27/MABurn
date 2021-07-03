@@ -50,13 +50,14 @@ public class ChapterCard implements Initializable, DownloadCard {
 	private ImageView imageViewStopIcon;
 	@FXML
 	private ImageView imageViewPauseIcon;
-
 	@FXML
 	private ImageView imageViewLinkIcon;
-
 	@FXML
 	private ImageView imageViewPages;
-
+	@FXML
+	private ImageView imageViewOpenFolderIcon;
+	@FXML
+	private ImageView imageViewReadIcon;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -157,5 +158,11 @@ public class ChapterCard implements Initializable, DownloadCard {
 
 	public Label getLabelDownloadedLink() {
 		return labelDownloadedLink;
+	}
+	public ImageView getImageViewOpenFolderIcon() {
+		return imageViewOpenFolderIcon;
+	}
+	public ImageView getImageViewReadIcon() {
+		return imageViewReadIcon;
 	}
 }

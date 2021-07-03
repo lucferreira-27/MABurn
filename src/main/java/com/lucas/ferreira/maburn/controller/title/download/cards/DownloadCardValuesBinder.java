@@ -48,7 +48,8 @@ public abstract class DownloadCardValuesBinder {
 
 	private void setCardDownloadState() {
 		downloadCard.getLabelDownloadState().setText(String.valueOf(downloadValues.getDownloadProgressState().get()));
-		downloadStateStyle.setNodeStyleByState(downloadValues.getDownloadProgressState().get(), downloadCard.getLabelDownloadState());
+		downloadStateStyle.setNodeStyleByState(downloadValues.getDownloadProgressState().get(),
+				downloadCard.getLabelDownloadState());
 
 	}
 
@@ -56,7 +57,7 @@ public abstract class DownloadCardValuesBinder {
 		String value = downloadValues.getTimeRemain().get() == 0 ? DefaultNullValue.STRING_NULL.getValue()
 				: TimeText.secondsToText(downloadValues.getTimeRemain().intValue());
 		downloadCard.getLabelTimeRemain().setText(value);
-		
+
 	}
 
 	private void setCardDownloadLink() {

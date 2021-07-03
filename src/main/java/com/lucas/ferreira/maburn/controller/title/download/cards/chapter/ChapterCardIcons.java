@@ -8,6 +8,7 @@ import com.lucas.ferreira.maburn.view.IconsInitializer;
 import com.lucas.ferreira.maburn.view.LabelIcon;
 
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 
 public class ChapterCardIcons extends IconsInitializer {
 
@@ -24,10 +25,24 @@ public class ChapterCardIcons extends IconsInitializer {
 		initializeIcons();
 		initializeLabelIcons();
 	}
+	private Icon createNewIconAndSetImageViewIcon(ImageView imageView, Icons icon) {
 
+		Icon newIcon = newIcon(imageView, icon);
+		setImageViewIcon(newIcon, imageView);
+		return newIcon;
+	}
+
+
+	private Icon newIcon(ImageView imageView, Icons icon) {
+		Icon newIcon = new Icon(imageView, new IconConfig(ICON_PATH, icon));
+		return newIcon;
+	}
+
+	private void setImageViewIcon(Icon newIcon, ImageView imageView) {
+		imageView.setUserData(newIcon);
+	}
 	private void initializeLabelIcons() {
 		Icon iconLink = new Icon(chapterCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
-		iconLink.setProperties();
 		Label labelDownloadLink = chapterCard.getLabelDownloadLink();
 		LabelIcon labelIcon = new LabelIcon(iconLink, labelDownloadLink);
 		labelIcon.setOnMousePressedLabel(label -> {
@@ -42,7 +57,6 @@ public class ChapterCardIcons extends IconsInitializer {
 
 		Label labelTotalPages = chapterCard.getLabelTotalPagesDownloaded();
 		Icon pagesIcon = new Icon(chapterCard.getImageViewPages(), new IconConfig(ICON_PATH, Icons.OPEN_PAGES));
-		pagesIcon.setProperties();
 		LabelIcon labelPages = new LabelIcon(pagesIcon, labelTotalPages);
 
 		labelPages.setOnMouseEnteredIcon(icon -> icon.swithIconColor());
@@ -50,33 +64,20 @@ public class ChapterCardIcons extends IconsInitializer {
 	}
 
 	private void initializeIcons() {
+		
+		
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewDownloadIcon(), Icons.DOWNLOAD_IN_CARD);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewPlayerIcon(), Icons.PLAY_IN_CARD);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewPauseIcon(), Icons.PAUSE_IN_CARD);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewStopIcon(), Icons.STOP_IN_CARD);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewOpenFolderIcon(), Icons.OPEN_FOLDER_ICON);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewReadIcon(), Icons.READ_ICON);
 
-		Icon downloadIcon = new Icon(chapterCard.getImageViewDownloadIcon(),
-				new IconConfig(ICON_PATH, Icons.DOWNLOAD_IN_CARD));
-		Icon iconPlay = new Icon(chapterCard.getImageViewPlayerIcon(), new IconConfig(ICON_PATH, Icons.PLAY_IN_CARD));
-		Icon iconPause = new Icon(chapterCard.getImageViewPauseIcon(), new IconConfig(ICON_PATH, Icons.PAUSE_IN_CARD));
-		Icon iconStop = new Icon(chapterCard.getImageViewStopIcon(), new IconConfig(ICON_PATH, Icons.STOP_IN_CARD));
+		ChapterCardInteractIcons chapterCardInteractIcons = new ChapterCardInteractIcons(chapterCardController, chapterCard);
+		chapterCardInteractIcons.interactTurnOn();
 
-		downloadIcon.setProperties();
 
-		iconPlay.setProperties(event -> {
-			System.out.println("PLAY");
-			chapterCardController.resume();
-			iconPlay.setVisible(false);
-			iconPause.setVisible(true);
-		});
 
-		iconPause.setProperties(event -> {
-			System.out.println("RESUME");
-			chapterCardController.pause();
-			iconPause.setVisible(false);
-			iconPlay.setVisible(true);
-		});
-
-		iconStop.setProperties(event -> {
-			System.out.println("STOP");
-			chapterCardController.stop();
-		});
 	}
 
 }

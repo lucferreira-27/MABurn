@@ -251,9 +251,7 @@ public class TitleDownloadController implements Initializable {
 		Icon iconDownloadStart = new Icon(imgDownloadStart, new IconConfig(ICON_PATH, Icons.DOWNLOAD_START));
 		iconDownloadStart.setProperties((event) -> onClickDownloadStart());
 		Icon iconSource = new Icon(imgSource, new IconConfig(ICON_PATH, Icons.SOURCE));
-		iconSource.setProperties();
 		Icon iconChoose = new Icon(imgChoose, new IconConfig(ICON_PATH, Icons.CHOOSE));
-		iconChoose.setProperties();
 		Icon iconZoomIn = new Icon(imgZoomIn, new IconConfig(ICON_PATH, Icons.ZOOM_IN_BIG));
 		iconZoomIn.setProperties((event) -> onClickZoomIn());
 		Icon iconZoomOut = new Icon(imgZoomOut, new IconConfig(ICON_PATH, Icons.ZOOM_OUT_BIG));

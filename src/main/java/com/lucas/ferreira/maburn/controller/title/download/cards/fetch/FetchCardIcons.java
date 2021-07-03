@@ -42,8 +42,7 @@ public class FetchCardIcons extends IconsInitializer {
 		Icon iconFetch = new Icon(fetchCard.getImageViewFetchIcon(), new IconConfig(ICON_PATH, Icons.FETCH_IN_CARD));
 		Icon linkIcon = new Icon(fetchCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
 
-		iconFetch.setProperties();
-		linkIcon.setProperties();
+
 
 	}
 }

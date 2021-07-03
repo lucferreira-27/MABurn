@@ -49,7 +49,11 @@ public class EpisodeCard implements DownloadCard, Initializable{
 	private ImageView imageViewStopIcon;
 	@FXML
 	private ImageView imageViewPauseIcon;
-
+	@FXML
+	private ImageView imageViewOpenFolderIcon;
+	@FXML
+	private ImageView imageViewWatchIcon;
+	
 	@FXML
 	private ImageView imageViewLinkIcon;
 
@@ -160,7 +164,13 @@ public class EpisodeCard implements DownloadCard, Initializable{
 	public ImageView getImageViewLinkIcon() {
 		return imageViewLinkIcon;
 	}
-
+	
+	public ImageView getImageViewOpenFolderIcon() {
+		return imageViewOpenFolderIcon;
+	}
+	public ImageView getImageViewWatchIcon() {
+		return imageViewWatchIcon;
+	}
 
 	@Override
 	public String toString() {

@@ -24,7 +24,6 @@ public abstract class DownloadProgressListener {
 			double megabytes = BytesUtil.convertBytesToMegasBytes(readedByte);
 			itemDownloadValues.getTotalDownloaded().set(megabytes);
 
-			
 		});
 	}
 
@@ -38,29 +37,30 @@ public abstract class DownloadProgressListener {
 
 					double end = itemDownloadValues.getTotalDownloaded().get();
 					double downloadSpeed = end - start;
-					if(downloadSpeed == 0) {
-						continue;
-					}
+//					if(downloadSpeed == 0) {
+//						continue;
+//					}
 					itemDownloadValues.getDownloadSpeed().set(downloadSpeed);
 				}
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} finally {
+				itemDownloadValues.getDownloadSpeed().set(0);
 			}
 		}).start();
 	}
 
-
-
 	protected void calculateTimeRemain() {
-		itemDownloadValues.getDownloadSpeed().addListener((obs, oldvalue, newvalue) ->{
-			double remain = itemDownloadValues.getDownloadSize().doubleValue() - itemDownloadValues.getTotalDownloaded().doubleValue();
+		itemDownloadValues.getDownloadSpeed().addListener((obs, oldvalue, newvalue) -> {
+			double remain = itemDownloadValues.getDownloadSize().doubleValue()
+					- itemDownloadValues.getTotalDownloaded().doubleValue();
 			double time = remain / newvalue.doubleValue();
 			itemDownloadValues.getTimeRemain().set(time);
 
 		});
-	
+
 	}
 
 	protected void changeDownloadState(DownloadProgressState downloadProgressState) {

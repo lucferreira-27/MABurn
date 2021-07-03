@@ -1,22 +1,15 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
+import java.io.IOException;
+
 import com.lucas.ferreira.maburn.controller.title.download.cards.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
-import com.lucas.ferreira.maburn.model.ClipboardSystem;
+import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.ChapterDownload;
-import com.lucas.ferreira.maburn.model.effects.AnimationCard;
-import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
-import com.lucas.ferreira.maburn.model.enums.Icons;
-import com.lucas.ferreira.maburn.util.Icon;
-import com.lucas.ferreira.maburn.util.IconConfig;
-import com.lucas.ferreira.maburn.view.LabelIcon;
-
-import javafx.application.Platform;
-import javafx.scene.control.Label;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
+import com.lucas.ferreira.maburn.model.media.ChapterDirecotoryModel;
+import com.lucas.ferreira.maburn.model.media.EpisodeDirectoryModel;
 
 public class ChapterCardController implements DownloadCardController {
 
@@ -34,6 +27,8 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void initialize() {
+		ChapterCardIconVisibility chapterCardIconVisibility = new ChapterCardIconVisibility(chapterCard);
+		chapterCardIconVisibility.onDownloadState(chapterDownloadValues.getDownloadProgressState());
 		initializeValuesCard();
 		initializeIcons();
 		initializeAnimations();
@@ -99,6 +94,21 @@ public class ChapterCardController implements DownloadCardController {
 	private void resetValues() {
 		chapterDownloadValues.getDownloadSpeed().set(0);
 		chapterDownloadValues.getTimeRemain().set(0);
+	}
+
+	@Override
+	public void openFolder() {
+		// TODO Auto-generated method stub
+		ChapterDirecotoryModel chapterDirecotoryModel = new ChapterDirecotoryModel(downloadInfo, chapterDownloadValues);
+		chapterDirecotoryModel.openFolder();
+
+	}
+
+	@Override
+	public void openTitleMedia() {
+		// TODO Auto-generated method stub
+		ChapterDirecotoryModel chapterDirecotoryModel = new ChapterDirecotoryModel(downloadInfo, chapterDownloadValues);
+		chapterDirecotoryModel.openFile();
 	}
 
 }

@@ -51,7 +51,12 @@ public class ListDownloadsCards {
 	private void addCardController(DownloadCardController controller) {
 
 		cardsControllers.add(controller);
-		controller.initialize();
+		try {
+			controller.initialize();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	

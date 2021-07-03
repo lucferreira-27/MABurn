@@ -25,6 +25,7 @@ public class Icon {
 		this.icon = icon;
 
 		defineIconsColors();
+		properties();
 	}
 
 	private void defineIconsColors() {
@@ -44,14 +45,7 @@ public class Icon {
 		properties();
 	}
 
-	public void setProperties() {
-		try {
-			properties();
-		} catch (NullPointerException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
+
 
 	public void swithIconColor() {
 		if (primaryColorOn.get()) {
@@ -110,5 +104,9 @@ public class Icon {
 	public void reloadIcon(Icons icon) {
 		config.setIcon(icon);
 		properties();
+	}
+
+	public ImageView getIconImageView() {
+		return icon;
 	}
 }

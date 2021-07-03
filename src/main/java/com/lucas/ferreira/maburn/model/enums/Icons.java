@@ -1,14 +1,7 @@
 package com.lucas.ferreira.maburn.model.enums;
 
 public enum Icons {
-	DOWNLOAD_1("",""),
-	UPDATE_1("",""),
-	HOME_1("",""),
-	CALENDAR_1("",""),
-	BACK("",""),
-	NEXT("",""),
-	READ("",""),
-	WATCH("",""),
+
 	
 	
 	
@@ -46,19 +39,18 @@ public enum Icons {
 	
 	
 	
-	// DOWNLOAD CARDS ICONS	
+	// DOWNLOAD CARDS ICONS	 
 	LINK("title-download/link_white_icon.png","title-download/link_red_icon.png"),
-	
 	FETCH_IN_CARD("title-download/fetch_small_icon.png",null),
 	DOWNLOAD_IN_CARD("title-download/download_card_icon.png",null),
 	OPEN_PAGES("title-download/open_pages_white_icon.png","title-download/open_pages_red_icon.png"),
 	PLAY_IN_CARD("title-download/play_white_icon.png","title-download/play_red_icon.png"),
 	PAUSE_IN_CARD("title-download/pause_white_icon.png","title-download/pause_red_icon.png"),
 	STOP_IN_CARD("title-download/stop_white_icon.png","title-download/stop_red_icon.png"),
-	OPEN_FOLDER_ICON("title-download/stop_white_icon.png","title-download/stop_red_icon.png"),
-	WATCH_ICON("title-download/stop_white_icon.png","title-download/stop_red_icon.png"),
-	READ_ICON("title-download/stop_white_icon.png","title-download/stop_red_icon.png"),
-	CLOSE_ICON("title-download/stop_white_icon.png","title-download/stop_red_icon.png");
+	OPEN_FOLDER_ICON("title-download/open_folder_white_icon.png","title-download/open_folder_red_icon.png"),
+	WATCH_ICON("title-download/watch_white_icon.png","title-download/watch_red_icon.png"),
+	READ_ICON("title-download/read_white_icon.png","title-download/read_red_icon.png"),
+	CLOSE_ICON("title-download/close_white_icon.png","title-download/close_red_icon.png");
 	
 	
 	

@@ -1,5 +1,12 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.lucas.ferreira.maburn.model.ClipboardSystem;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
@@ -7,27 +14,31 @@ import com.lucas.ferreira.maburn.util.IconConfig;
 import com.lucas.ferreira.maburn.view.IconsInitializer;
 import com.lucas.ferreira.maburn.view.LabelIcon;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class EpisodeCardIcons extends IconsInitializer {
 
+	
+	private EpisodeCardInteractIcons episodeCardInteractIcons;
 	private EpisodeCard episodeCard;
 	private EpisodeCardController episodeCardController;
-
+	
 	public EpisodeCardIcons(EpisodeCard episodeCard, EpisodeCardController episodeCardController) {
 		this.episodeCard = episodeCard;
 		this.episodeCardController = episodeCardController;
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize() throws FileNotFoundException {
 		initializeIcons();
 		initializeLabelIcons();
 	}
 
 	private void initializeLabelIcons() {
 		Icon iconLink = new Icon(episodeCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
-		iconLink.setProperties();
 		Label labelDownloadLink = episodeCard.getLabelDownloadLink();
 		LabelIcon labelIcon = new LabelIcon(iconLink, labelDownloadLink);
 		labelIcon.setOnMousePressedLabel(label -> {
@@ -41,36 +52,40 @@ public class EpisodeCardIcons extends IconsInitializer {
 		labelIcon.setOnMouseExitedIcon(icon -> icon.swithIconColor());
 	}
 
-	private void initializeIcons() {
+	private Icon createNewIconAndSetImageViewIcon(ImageView imageView, Icons icon) {
 
-		Icon downloadIcon = new Icon(episodeCard.getImageViewDownloadIcon(), new IconConfig(ICON_PATH, Icons.DOWNLOAD_IN_CARD));
-		Icon linkIcon = new Icon(episodeCard.getImageViewLinkIcon(), new IconConfig(ICON_PATH, Icons.LINK));
-		Icon iconPlay = new Icon(episodeCard.getImageViewPlayerIcon(), new IconConfig(ICON_PATH, Icons.PLAY_IN_CARD));
-		Icon iconPause = new Icon(episodeCard.getImageViewPauseIcon(), new IconConfig(ICON_PATH, Icons.PAUSE_IN_CARD));
-		Icon iconStop = new Icon(episodeCard.getImageViewStopIcon(), new IconConfig(ICON_PATH, Icons.STOP_IN_CARD));
+		Icon newIcon = newIcon(imageView, icon);
+		setImageViewIcon(newIcon, imageView);
+		return newIcon;
+	}
 
-		downloadIcon.setProperties();
 
-		linkIcon.setProperties();
+	private Icon newIcon(ImageView imageView, Icons icon) {
+		Icon newIcon = new Icon(imageView, new IconConfig(ICON_PATH, icon));
+		return newIcon;
+	}
 
-		iconPlay.setProperties(event -> {
-			System.out.println("PLAY");
-			episodeCardController.resume();
-			iconPlay.setVisible(false);
-			iconPause.setVisible(true);
-		});
+	private void setImageViewIcon(Icon newIcon, ImageView imageView) {
+		imageView.setUserData(newIcon);
+	}
 
-		iconPause.setProperties(event -> {
-			System.out.println("RESUME");
-			episodeCardController.pause();
-			iconPause.setVisible(false);
-			iconPlay.setVisible(true);
-		});
 
-		iconStop.setProperties(event -> {
-			System.out.println("STOP");
-			episodeCardController.stop();
-		});
+	private void initializeIcons() throws FileNotFoundException{
+
+	
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewDownloadIcon(), Icons.DOWNLOAD_IN_CARD);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewPlayerIcon(), Icons.PLAY_IN_CARD);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewPauseIcon(), Icons.PAUSE_IN_CARD);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewStopIcon(), Icons.STOP_IN_CARD);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewWatchIcon(), Icons.WATCH_ICON);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewOpenFolderIcon(), Icons.OPEN_FOLDER_ICON);
+		
+		
+		episodeCardInteractIcons = new EpisodeCardInteractIcons(episodeCardController, episodeCard);
+		episodeCardInteractIcons.interactTurnOn();
+		
+
+
 	}
 
 }

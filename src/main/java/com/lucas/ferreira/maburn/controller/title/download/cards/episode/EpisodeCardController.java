@@ -1,9 +1,14 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
+import java.io.IOException;
+
 import com.lucas.ferreira.maburn.controller.title.download.cards.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.exceptions.InitializeIconsException;
+import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
+import com.lucas.ferreira.maburn.model.media.EpisodeDirectoryModel;
 
 public class EpisodeCardController implements DownloadCardController {
 
@@ -19,8 +24,9 @@ public class EpisodeCardController implements DownloadCardController {
 		this.downloadInfo = downloadInfo;
 	}
 
-	public void initialize() {
-
+	public void initialize() throws Exception{
+		EpisodeCardIconVisibility episodeCardIconVisibility = new EpisodeCardIconVisibility(episodeCard);
+		episodeCardIconVisibility.onDownloadState(episodeDownloadItemValues.getDownloadProgressState());
 		initializeValuesCard();
 		initializeIcons();
 		initializeAnimations();
@@ -35,9 +41,15 @@ public class EpisodeCardController implements DownloadCardController {
 
 	}
 
-	private void initializeIcons() {
+	private void initializeIcons() throws InitializeIconsException {
 		cardIcons = new EpisodeCardIcons(episodeCard, this);
-		cardIcons.initialize();
+		try {
+			cardIcons.initialize();
+		} catch (Exception e) {
+			System.err.println();
+			e.printStackTrace();
+			throw new InitializeIconsException();
+		}
 	}
 
 	private void initializeAnimations() {
@@ -74,10 +86,25 @@ public class EpisodeCardController implements DownloadCardController {
 		episodeDownload.stop();
 		resetValues();
 	}
+	@Override
+	public void openFolder() {
+		// TODO Auto-generated method stub
+			EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
+			episodeDirectoryModel.openFolder();
 
+	}
+
+	@Override
+	public void openTitleMedia() {
+		// TODO Auto-generated method stub
+		EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
+		episodeDirectoryModel.openFile();
+	}
 	private void resetValues() {
 		episodeDownloadItemValues.getDownloadSpeed().set(0);
 		episodeDownloadItemValues.getTimeRemain().set(0);
 	}
+
+
 
 }

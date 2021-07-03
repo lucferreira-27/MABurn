@@ -113,13 +113,10 @@ public class TitleController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		Icon iconStatus = new Icon(imgStatus, new IconConfig(ICON_PATH, Icons.STATUS, "Status"));
-		iconStatus.setProperties();
 
 		Icon iconPublished = new Icon(imgPublishedDate, new IconConfig(ICON_PATH, Icons.PUBLISHED, "Published"));
-		iconPublished.setProperties();
 
 		Icon iconRating = new Icon(imgAverageRating, new IconConfig(ICON_PATH, Icons.RATING, "Rating"));
-		iconRating.setProperties();
 		
 		System.out.println(Icons.RATING.getIconName());
 		
