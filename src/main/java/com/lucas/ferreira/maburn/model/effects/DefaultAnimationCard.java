@@ -1,7 +1,6 @@
-package com.lucas.ferreira.maburn.controller.title.download.cards;
+package com.lucas.ferreira.maburn.model.effects;
 
-import com.lucas.ferreira.maburn.model.effects.AnimationCard;
-import com.lucas.ferreira.maburn.model.effects.AnimationOpacityCard;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 
 import javafx.application.Platform;
 

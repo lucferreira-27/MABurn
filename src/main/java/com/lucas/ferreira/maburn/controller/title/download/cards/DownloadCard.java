@@ -38,6 +38,12 @@ public interface DownloadCard {
 	public ImageView getImageViewPauseIcon();
 
 	public ImageView getImageViewLinkIcon();
+	
+	public ImageView getImageViewTitleMediaIcon();
+	public ImageView getImageViewOpenFolderIcon();
+	public ImageView getImageViewDeleteIcon();
+	public ImageView getImageViewRefreshIcon();
 
+	
 	Label getLabelCompletedDownload();
 }

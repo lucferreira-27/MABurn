@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 public class LabelIcon {
 	private Icon icon;
 	private Label label;
+	private boolean visible;
 	public LabelIcon(Icon icon, Label label) {
 		this.icon = icon;
 		this.label = label;
@@ -89,6 +90,13 @@ public class LabelIcon {
 
 	public Label getLabel() {
 		return label;
+	}
+	public void setVisible(boolean visible) {
+		icon.setVisible(visible);
+		label.setVisible(visible);
+	}
+	public boolean isVisible() {
+		return visible;
 	}
 
 }

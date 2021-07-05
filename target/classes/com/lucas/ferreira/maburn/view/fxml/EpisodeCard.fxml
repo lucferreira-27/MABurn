@@ -125,6 +125,22 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
+            <ImageView fx:id="imageViewDeleteIcon" fitHeight="34.0" fitWidth="34.0" layoutX="270.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../../resources/icons/title-download/delete_white_icon.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="imageViewRefreshIcon" fitHeight="34.0" fitWidth="34.0" layoutX="315.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../../resources/icons/title-download/stop_white_icon.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
          </children>
          <StackPane.margin>
             <Insets />

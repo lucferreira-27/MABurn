@@ -8,8 +8,11 @@ public interface DownloadCardController {
 	public void resume();
 	public void pause();
 	public void stop();
+	public void remove();
+	public void refresh();
 	public void openFolder();
 	public void openTitleMedia();
+
 	
 
 }

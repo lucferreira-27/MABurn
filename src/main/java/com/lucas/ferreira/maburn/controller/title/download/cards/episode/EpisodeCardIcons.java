@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
 import com.lucas.ferreira.maburn.model.ClipboardSystem;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
@@ -22,7 +23,7 @@ import javafx.scene.input.MouseEvent;
 public class EpisodeCardIcons extends IconsInitializer {
 
 	
-	private EpisodeCardInteractIcons episodeCardInteractIcons;
+	private DownloadCardInteractIcons downloadCardInteractIcons;
 	private EpisodeCard episodeCard;
 	private EpisodeCardController episodeCardController;
 	
@@ -79,10 +80,12 @@ public class EpisodeCardIcons extends IconsInitializer {
 		createNewIconAndSetImageViewIcon(episodeCard.getImageViewStopIcon(), Icons.STOP_IN_CARD);
 		createNewIconAndSetImageViewIcon(episodeCard.getImageViewWatchIcon(), Icons.WATCH_ICON);
 		createNewIconAndSetImageViewIcon(episodeCard.getImageViewOpenFolderIcon(), Icons.OPEN_FOLDER_ICON);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewDeleteIcon(), Icons.DELETE_ICON);
+		createNewIconAndSetImageViewIcon(episodeCard.getImageViewRefreshIcon(), Icons.REFRESH_ICON);
+
 		
-		
-		episodeCardInteractIcons = new EpisodeCardInteractIcons(episodeCardController, episodeCard);
-		episodeCardInteractIcons.interactTurnOn();
+		downloadCardInteractIcons = new DownloadCardInteractIcons(episodeCardController, episodeCard);
+		downloadCardInteractIcons.interactTurnOn();
 		
 
 

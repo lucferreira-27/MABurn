@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.util;
 
+import java.util.function.Consumer;
+
 import com.lucas.ferreira.maburn.model.enums.Icons;
 
 import javafx.beans.property.BooleanProperty;
@@ -18,7 +20,8 @@ public class Icon {
 	private String primaryColor;
 	private String secondaryColor;
 	private BooleanProperty primaryColorOn = new SimpleBooleanProperty(true);
-
+	private boolean enable = true;
+	
 	public Icon(ImageView icon, IconConfig config) {
 		// TODO Auto-generated constructor stub
 		this.config = config;
@@ -33,19 +36,22 @@ public class Icon {
 		secondaryColor = config.getIconsPath() + config.getIcon().getAlterIconName();
 	}
 
-	private void setAction(EventHandler<? super MouseEvent> event) {
-		icon.setOnMouseClicked(event);
+	private void setAction(Consumer<ImageView> onClick) {
+	
+		icon.setOnMouseClicked(event ->{
+			if(enable)
+				onClick.accept(icon);
+		});
+
 	}
 
-	public void setProperties(EventHandler<? super MouseEvent> event) {
-
-		if (event != null)
-			setAction(event);
+	public void setProperties(Consumer<ImageView> onClick) {
+		System.out.println(onClick);
+		if (onClick != null)
+			setAction(onClick);
 
 		properties();
 	}
-
-
 
 	public void swithIconColor() {
 		if (primaryColorOn.get()) {
@@ -95,6 +101,14 @@ public class Icon {
 
 	public void setVisible(boolean visible) {
 		icon.setVisible(visible);
+	}
+
+	public void enableIcon() {
+		enable = true;
+	}
+
+	public void disableIcon() {
+		enable = false;
 	}
 
 	public boolean isVisible() {

@@ -50,8 +50,9 @@ public enum Icons {
 	OPEN_FOLDER_ICON("title-download/open_folder_white_icon.png","title-download/open_folder_red_icon.png"),
 	WATCH_ICON("title-download/watch_white_icon.png","title-download/watch_red_icon.png"),
 	READ_ICON("title-download/read_white_icon.png","title-download/read_red_icon.png"),
-	CLOSE_ICON("title-download/close_white_icon.png","title-download/close_red_icon.png");
-	
+	CLOSE_ICON("title-download/close_white_icon.png","title-download/close_red_icon.png"),
+	REFRESH_ICON("title-download/refresh_white_icon.png","title-download/refresh_red_icon.png"),
+	DELETE_ICON("title-download/delete_white_icon.png","title-download/delete_red_icon.png");
 	
 	
 	private String iconName;

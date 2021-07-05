@@ -56,6 +56,10 @@ public class EpisodeCard implements DownloadCard, Initializable{
 	
 	@FXML
 	private ImageView imageViewLinkIcon;
+	@FXML
+	private ImageView imageViewDeleteIcon;
+	@FXML
+	private ImageView imageViewRefreshIcon;
 
 	
 	@Override
@@ -171,7 +175,22 @@ public class EpisodeCard implements DownloadCard, Initializable{
 	public ImageView getImageViewWatchIcon() {
 		return imageViewWatchIcon;
 	}
+	@Override
+	public ImageView getImageViewTitleMediaIcon() {
+		// TODO Auto-generated method stub
+		return imageViewWatchIcon;
+	}
+	@Override
+	public ImageView getImageViewDeleteIcon() {
+		// TODO Auto-generated method stub
+		return imageViewDeleteIcon;
+	}
 
+	@Override
+	public ImageView getImageViewRefreshIcon() {
+		// TODO Auto-generated method stub
+		return imageViewRefreshIcon;
+	}
 	@Override
 	public String toString() {
 		return String.format(
@@ -181,6 +200,9 @@ public class EpisodeCard implements DownloadCard, Initializable{
 				labelCompletedDownloaded, labelVideoResoution, progressBarDownload, imageViewDownloadIcon,
 				imageViewPlayerIcon, imageViewStopIcon, imageViewPauseIcon, imageViewLinkIcon);
 	}
+
+
+
 
 
 

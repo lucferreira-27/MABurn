@@ -58,6 +58,10 @@ public class ChapterCard implements Initializable, DownloadCard {
 	private ImageView imageViewOpenFolderIcon;
 	@FXML
 	private ImageView imageViewReadIcon;
+	@FXML
+	private ImageView imageViewDeleteIcon;
+	@FXML
+	private ImageView imageViewRefreshIcon;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -164,5 +168,23 @@ public class ChapterCard implements Initializable, DownloadCard {
 	}
 	public ImageView getImageViewReadIcon() {
 		return imageViewReadIcon;
+	}
+
+	@Override
+	public ImageView getImageViewTitleMediaIcon() {
+		// TODO Auto-generated method stub
+		return imageViewReadIcon;
+	}
+
+	@Override
+	public ImageView getImageViewDeleteIcon() {
+		// TODO Auto-generated method stub
+		return imageViewDeleteIcon;
+	}
+
+	@Override
+	public ImageView getImageViewRefreshIcon() {
+		// TODO Auto-generated method stub
+		return imageViewRefreshIcon;
 	}
 }

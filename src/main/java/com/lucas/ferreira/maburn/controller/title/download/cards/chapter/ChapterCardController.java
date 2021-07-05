@@ -2,12 +2,14 @@ package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
 import java.io.IOException;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
+import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardIconVisibility;
+import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.ChapterDownload;
+import com.lucas.ferreira.maburn.model.effects.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.model.media.ChapterDirecotoryModel;
 import com.lucas.ferreira.maburn.model.media.EpisodeDirectoryModel;
 
@@ -27,10 +29,13 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void initialize() {
-		ChapterCardIconVisibility chapterCardIconVisibility = new ChapterCardIconVisibility(chapterCard);
-		chapterCardIconVisibility.onDownloadState(chapterDownloadValues.getDownloadProgressState());
+
 		initializeValuesCard();
 		initializeIcons();
+		DownloadCardInteractIcons downloadCardInteractIcons = new DownloadCardInteractIcons(this, chapterCard);
+		downloadCardInteractIcons.interactTurnOn();
+		DownloadCardIconVisibility episodeCardIconVisibility = new DownloadCardIconVisibility(downloadCardInteractIcons);
+		episodeCardIconVisibility.onDownloadState(chapterDownloadValues.getDownloadProgressState());
 		initializeAnimations();
 		initializeDownload();
 
@@ -109,6 +114,18 @@ public class ChapterCardController implements DownloadCardController {
 		// TODO Auto-generated method stub
 		ChapterDirecotoryModel chapterDirecotoryModel = new ChapterDirecotoryModel(downloadInfo, chapterDownloadValues);
 		chapterDirecotoryModel.openFile();
+	}
+
+	@Override
+	public void remove() {
+		System.out.println("remove");
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		System.out.println("refresh");
+
 	}
 
 }

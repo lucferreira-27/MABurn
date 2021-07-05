@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
 import com.lucas.ferreira.maburn.model.ClipboardSystem;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
@@ -72,8 +73,9 @@ public class ChapterCardIcons extends IconsInitializer {
 		createNewIconAndSetImageViewIcon(chapterCard.getImageViewStopIcon(), Icons.STOP_IN_CARD);
 		createNewIconAndSetImageViewIcon(chapterCard.getImageViewOpenFolderIcon(), Icons.OPEN_FOLDER_ICON);
 		createNewIconAndSetImageViewIcon(chapterCard.getImageViewReadIcon(), Icons.READ_ICON);
-
-		ChapterCardInteractIcons chapterCardInteractIcons = new ChapterCardInteractIcons(chapterCardController, chapterCard);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewDeleteIcon(), Icons.DELETE_ICON);
+		createNewIconAndSetImageViewIcon(chapterCard.getImageViewRefreshIcon(), Icons.REFRESH_ICON);
+		DownloadCardInteractIcons chapterCardInteractIcons = new DownloadCardInteractIcons(chapterCardController, chapterCard);
 		chapterCardInteractIcons.interactTurnOn();
 
 

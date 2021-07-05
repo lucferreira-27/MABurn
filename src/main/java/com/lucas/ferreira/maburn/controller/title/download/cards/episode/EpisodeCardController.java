@@ -2,12 +2,14 @@ package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
 import java.io.IOException;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardIconVisibility;
+import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
 import com.lucas.ferreira.maburn.exceptions.InitializeIconsException;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
+import com.lucas.ferreira.maburn.model.effects.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.model.media.EpisodeDirectoryModel;
 
 public class EpisodeCardController implements DownloadCardController {
@@ -25,10 +27,14 @@ public class EpisodeCardController implements DownloadCardController {
 	}
 
 	public void initialize() throws Exception{
-		EpisodeCardIconVisibility episodeCardIconVisibility = new EpisodeCardIconVisibility(episodeCard);
-		episodeCardIconVisibility.onDownloadState(episodeDownloadItemValues.getDownloadProgressState());
+
 		initializeValuesCard();
 		initializeIcons();
+		
+		DownloadCardInteractIcons downloadCardInteractIcons = new DownloadCardInteractIcons(this, episodeCard);
+		downloadCardInteractIcons.interactTurnOn();
+		DownloadCardIconVisibility episodeCardIconVisibility = new DownloadCardIconVisibility(downloadCardInteractIcons);
+		episodeCardIconVisibility.onDownloadState(episodeDownloadItemValues.getDownloadProgressState());
 		initializeAnimations();
 		initializeDownload();
 	}
@@ -88,7 +94,6 @@ public class EpisodeCardController implements DownloadCardController {
 	}
 	@Override
 	public void openFolder() {
-		// TODO Auto-generated method stub
 			EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
 			episodeDirectoryModel.openFolder();
 
@@ -96,13 +101,24 @@ public class EpisodeCardController implements DownloadCardController {
 
 	@Override
 	public void openTitleMedia() {
-		// TODO Auto-generated method stub
 		EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
 		episodeDirectoryModel.openFile();
 	}
 	private void resetValues() {
 		episodeDownloadItemValues.getDownloadSpeed().set(0);
 		episodeDownloadItemValues.getTimeRemain().set(0);
+	}
+
+	@Override
+	public void remove() {
+		System.out.println("remove");
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		System.out.println("refresh");
+
 	}
 
 
