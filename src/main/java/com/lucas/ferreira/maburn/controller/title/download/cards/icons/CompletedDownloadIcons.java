@@ -52,13 +52,15 @@ public class CompletedDownloadIcons implements CardInteractIcons{
 
 	@Override
 	public void disableAll() {
-		
+		iconVisibility.disableIcon(downloadCard.getImageViewTitleMediaIcon());
+		iconVisibility.disableIcon(downloadCard.getImageViewOpenFolderIcon());
 	}
 
 
 	@Override
 	public void enableAll() {
-		
+		iconVisibility.enableIcon(downloadCard.getImageViewTitleMediaIcon());
+		iconVisibility.enableIcon(downloadCard.getImageViewOpenFolderIcon());
 	}
 
 }

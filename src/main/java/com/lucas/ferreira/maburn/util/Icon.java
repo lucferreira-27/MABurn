@@ -95,7 +95,8 @@ public class Icon {
 
 	public void setToolTip(String tip) {
 		Tooltip tooltip = new Tooltip(tip);
-		tooltip.setShowDelay(Duration.seconds(0.5));
+		//Java 9 or higher
+		//tooltip.setShowDelay(Duration.seconds(0.5));
 		Tooltip.install(icon, tooltip);
 	}
 

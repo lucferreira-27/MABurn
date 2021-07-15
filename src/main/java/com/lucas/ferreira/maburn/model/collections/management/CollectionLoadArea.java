@@ -24,7 +24,6 @@ public class CollectionLoadArea {
 	public CollectionLoadArea(Pane loadArea, Label lblLoadDataBase, Label lblLoadFolderItemRead,
 			ImageView loadImageLoadArea, ProgressIndicator sortCollectionLoad, Label lblPath, Label lblPorcentage,
 			ProgressIndicator pbReadProgress, ObjectProperty<DataFetcher> propertyDataFetcher) {
-		// TODO Auto-generated constructor stub
 
 		this.loadArea = loadArea;
 		this.lblLoadDataBase = lblLoadDataBase;

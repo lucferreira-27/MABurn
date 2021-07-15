@@ -180,9 +180,22 @@ public class TitleDownloadController implements Initializable {
 
 	@FXML
 	private Label lblSiteTitle;
-
+	
 	@FXML
 	private Label lblItems;
+	
+	@FXML
+	private Label labelCardsTotal;
+	@FXML
+	private Label labelCardsDownloading;
+	@FXML
+	private Label labelCardsCompleted;
+	@FXML
+	private Label labelCardsFetching;
+	@FXML
+	private Label labelCardsFailed;
+	
+	
 	private Navigator navigator = new Navigator();
 
 	private String ICON_PATH = "icons/";
@@ -377,7 +390,7 @@ public class TitleDownloadController implements Initializable {
 
 	public void initializeSelectItemsValues() {
 
-		List<Sites> sites = List.of(Sites.values()).stream().filter((f) -> f.getCategory() == category)
+		List<Sites> sites = Arrays.asList(Sites.values()).stream().filter((f) -> f.getCategory() == category)
 				.collect(Collectors.toList());
 		cbSource.getItems().addAll(sites);
 

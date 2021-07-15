@@ -151,7 +151,7 @@
       
             
                            </AnchorPane>
-                     <ProgressIndicator fx:id="sortCollectionLoad" layoutX="270.0" layoutY="21.0" visible="false" StackPane.alignment="CENTER">
+                     <ProgressIndicator fx:id="sortCollectionLoad" layoutX="270.0" layoutY="21.0" maxHeight="50.0" maxWidth="50.0" visible="false" StackPane.alignment="CENTER">
                         <StackPane.margin>
                            <Insets />
                         </StackPane.margin>

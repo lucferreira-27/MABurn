@@ -47,10 +47,12 @@ public class FailedDownloadIcons implements CardInteractIcons {
 	}
 	@Override
 	public void disableAll() {
-		
+		iconVisibility.disableIcon(downloadCard.getImageViewRefreshIcon());
+		iconVisibility.disableIcon(downloadCard.getImageViewDeleteIcon());
 	}
 	@Override
 	public void enableAll() {
-		
+		iconVisibility.enableIcon(downloadCard.getImageViewRefreshIcon());
+		iconVisibility.enableIcon(downloadCard.getImageViewDeleteIcon());
 	}
 }

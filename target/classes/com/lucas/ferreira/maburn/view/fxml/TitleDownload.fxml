@@ -219,13 +219,18 @@
             <left>
                <VBox maxHeight="667.0" maxWidth="407.0" prefHeight="667.0" prefWidth="407.0" spacing="20.0" style="-fx-background-color: #272727; -fx-background-radius: 20;" BorderPane.alignment="TOP_LEFT">
                   <children>
-                     <HBox alignment="TOP_CENTER" prefHeight="31.0" prefWidth="407.0" spacing="30.0">
+                     <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="200.0" styleClass="nav-list-download">
                         <children>
-                           <Label text="Total:" />
-                           <Label text="Complete:" />
-                           <Label text="Failed:" />
+                           <Label fx:id="labelCardsTotal" layoutX="14.0" layoutY="1.0" style="-fx-font-size: 16;" text="Total:" />
+                           <Label fx:id="labelCardsCompleted" layoutX="127.0" layoutY="26.0" style="-fx-font-size: 12;" text="Completed:" />
+                           <Label fx:id="labelCardsFetching" layoutX="16.0" layoutY="44.0" style="-fx-font-size: 12;" text="Fetching: " />
+                           <Label fx:id="labelCardsDownloading" layoutX="15.0" layoutY="25.0" style="-fx-font-size: 12;" text="Downloading: " />
+                           <Label fx:id="labelCardsFailed" layoutX="127.0" layoutY="45.0" style="-fx-font-size: 12;" text="Failed: " />
                         </children>
-                     </HBox>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                     </AnchorPane>
                      <ScrollPane minHeight="600.0" prefHeight="200.0" prefWidth="486.0" style="-fx-background-color: transparent;">
                        <content>
                            <VBox fx:id="vBoxListDownloads" alignment="CENTER" spacing="10.0">
