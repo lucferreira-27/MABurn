@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
+import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
 import com.lucas.ferreira.maburn.exceptions.BadScrapingException;
 import com.lucas.ferreira.maburn.exceptions.NotSourceSelectException;
 import com.lucas.ferreira.maburn.exceptions.NotURLFoundInRecover;
@@ -43,49 +44,16 @@ public class RegisterTitleFetcher {
 	}
 
 
-//	public TitleScraped automaticFetch(FetchableTittle fetchableTittle, RegisterTitleSearcher titleSearcher) throws Exception {
-//
-//		String bestResult = titleSearcher.searchNow(title, fetchableTittle.getSourceSelect());
-//		//fetchableTittle.setTitleUrl(bestResult);
-//		TitleScraped titleScraped = fetch(fetchableTittle);
-//		return titleScraped;
-//
-//	}
-//
-//	public TitleScraped manualFetch(FetchableTittle fetchableTittle, ManualSearchAlertController manualSearchAlertController)
-//			throws Exception {
-//
-//		String answear = manualSearchAlertController.invokeAlert();
-//		if(answear == null) {
-//			return null;
-//		}
-//		TitleScraped titleScraped = fetch(fetchableTittle);
-//		return titleScraped;
-//
-//	}
-//
-//	public TitleScraped systemFetch(FetchableTittle fetchableTittle, FetchInSystem fetchInSystem) throws Exception {
-//
-//		try {
-//			String url = fetchInSystem.recover(title, fetchableTittle.getSourceSelect());
-//
-//			TitleScraped titleScraped = fetch(fetchableTittle);
-//			return titleScraped;
-//		} catch (NotURLFoundInRecover e) {
-//			errorMessage.showMessage(errorRecoverMsg);
-//			throw new NotSourceSelectException(errorRecoverMsg + "\n" + e.getMessage());
-//
-//		}
-//
-//	}
 
-	public TitleScraped fetch(FetchableTittle fetchableTittle) throws Exception {
+	public TitleScraped fetch(FetchAction fetchAction, FetchableTittle  fetchableTittle) throws Exception {
 
 		TitleScraped titleScraped = null;
 		try {
-
 			
+
 			checkSource(fetchableTittle.getSourceSelect());
+			fetchAction.action(fetchableTittle);
+
 			CollectionTitle collectionTitle =  fetchableTittle.getCollectionTitle();
 			titleScraped = fetchTitleNow(fetchableTittle.getTitleUrl(), fetchableTittle.getSourceSelect());
 			succededMessage.showMessage(collectionTitle.getTitleDataBase() + succededMsg);
@@ -116,6 +84,7 @@ public class RegisterTitleFetcher {
 	}
 
 	private void checkSource(Sites sourceSelect) throws NotSourceSelectException {
+		
 		if (sourceSelect == null) {
 			throw new NotSourceSelectException();
 		}

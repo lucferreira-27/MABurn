@@ -1,42 +1,35 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
-import java.util.concurrent.Callable;
-
 import com.lucas.ferreira.maburn.controller.title.download.register.FetchableTittle;
-import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleFetcher;
 import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleSearcher;
-import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
-public class FetchActionAutomatic implements Callable<TitleScraped>{
+public class FetchActionAutomatic implements FetchAction{
 	
 	
-	private RegisterTitleFetcher registerTitleFetcher;
 	private RegisterTitleSearcher registerTitleSearcher;
-	private FetchableTittle  fetchableTittle;
 	
 	
-	public FetchActionAutomatic(FetchableTittle  fetchableTittle, RegisterTitleFetcher registerTitleFetcher, RegisterTitleSearcher registerTitleSearcher) {
-		this.registerTitleFetcher = registerTitleFetcher;
+	public FetchActionAutomatic(RegisterTitleSearcher registerTitleSearcher) {
 		this.registerTitleSearcher = registerTitleSearcher;
-		this.fetchableTittle  = fetchableTittle;
 	}
 	
 	
-	public TitleScraped automaticFetch() throws Exception {
-		
+	public FetchableTittle automaticFetch(FetchableTittle  fetchableTittle) throws Exception {
+	
+		System.out.println(fetchableTittle.getSourceSelect());
 		registerTitleSearcher.searchNow(fetchableTittle);
 		
-		TitleScraped titleScraped =  registerTitleFetcher.fetch(fetchableTittle);
-		return titleScraped;
+		return fetchableTittle;
+
 
 	}
 
+
+
 	@Override
-	public TitleScraped call() throws Exception {
+	public FetchableTittle action(FetchableTittle  fetchableTittle) throws Exception {
 		// TODO Auto-generated method stub
-		
-		
-		return automaticFetch();
+		return automaticFetch(fetchableTittle);
 	}
 
 }

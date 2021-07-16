@@ -24,7 +24,7 @@ public class RegisterTitleSearcher {
 
 	}
 
-	public String searchNow(FetchableTittle  fetchableTittle) throws SearchNotResultException {
+	public FetchableTittle searchNow(FetchableTittle  fetchableTittle) throws SearchNotResultException {
 		try {
 			CollectionTitle collectionTitle = fetchableTittle.getCollectionTitle();
 			TitleDownloadSearch titleDownloadSearch = new TitleDownloadSearch(SearchEngine.GOOGLE);
@@ -32,7 +32,7 @@ public class RegisterTitleSearcher {
 
 			String bestResult = titleDownloadSearch.searchScraping(collectionTitle.getTitleDataBase(), fetchableTittle.getSourceSelect());
 			fetchableTittle.setTitleUrl(bestResult);
-			return bestResult;
+			return fetchableTittle;
 		} catch (SearchNotResultException e) {
 			errorMessage.showMessage(errorSearchMsg);
 			throw new SearchNotResultException(errorSearchMsg + "\n" + e.getMessage());

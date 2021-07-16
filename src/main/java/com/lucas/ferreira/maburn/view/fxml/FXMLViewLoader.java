@@ -35,7 +35,6 @@ public class FXMLViewLoader<T extends Node> {
 	private BooleanProperty loaded = new SimpleBooleanProperty(false);
 	private Pane root;
 	private long start;
-
 	public FXMLViewLoader() {
 		// TODO Auto-generated constructor stub
 		start = System.currentTimeMillis(); // Gets the current date
@@ -194,5 +193,5 @@ public class FXMLViewLoader<T extends Node> {
 	public BooleanProperty loadProperty() {
 		return loaded;
 	}
-
+	
 }

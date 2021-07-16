@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.controller.title.download.TitleDownload;
+import com.lucas.ferreira.maburn.controller.title.download.TitleDownloadController;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.Interfaces;
-import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 
 public class Navigator {
 
@@ -49,6 +49,13 @@ public class Navigator {
 		interfacesList.add(interfaces);
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
+		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) ->{
+			if(newvalue) {
+				if(interfaces == Interfaces.TITLE_DOWNLOAD) {
+						new TitleDownloadController((TitleDownload) interfaces.getController());
+				}
+			}
+		});
 
 		loadComponents(interfaces);
 	}
@@ -65,6 +72,7 @@ public class Navigator {
 		if(interfaces == Interfaces.TITLE_DOWNLOAD) {
 			//loadComponent(Components.DOWNLOAD_CARD);
 		}
+
 	}
 
 	public void preload(Interfaces interfaces) {
@@ -80,6 +88,7 @@ public class Navigator {
 		} else {
 			loadComponent(Components.MENU);
 		}
+
 	}
 
 	public void back() {

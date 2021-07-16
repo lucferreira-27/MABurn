@@ -71,205 +71,30 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class TitleDownloadController implements Initializable {
-//
-	@FXML
-	private AnchorPane apShade;
-	@FXML
-	private AnchorPane apManualSearch;
+public class TitleDownloadController {
 
-	@FXML
-	private VBox vBoxListDownloads;
-
-	@FXML
-	private HBox hboxItemsFields;
-	@FXML
-	private TextField txtStartItemValue;
-
-	@FXML
-	private TextField txtEndItemValue;
-
-	@FXML
-	private BorderPane bpThumbnailFull;
-
-	@FXML
-	private Button btnDownload;
-
-	@FXML
-	private ImageView imgThumbnailFullSize;
-	@FXML
-	private ImageView imgThumbnail;
-	@FXML
-	private ImageView imgSource;
-	@FXML
-	private ImageView imgZoomIn;
-
-	@FXML
-	private ImageView imgZoomOut;
-
-	@FXML
-	private ImageView imgFetch;
-	@FXML
-	private ImageView imgRecover;
-
-	@FXML
-	private ImageView imgManualSearch;
-
-	@FXML
-	private ImageView imgChoose;
-
-	@FXML
-	private ImageView imgDownloadStart;
-
-	@FXML
-	private ComboBox<FetchItemType> cbSelect;
-
-	@FXML
-	private ComboBox<String> cbItems;
-
-	@FXML
-	private ComboBox<Sites> cbSource;
-
-	@FXML
-	private TextArea txtFetchMsg;
-	@FXML
-	private TextArea txtAreaChooseMsg;
-
-	@FXML
-	private TextArea txtAreaFieldFirstMsg;
-	@FXML
-	private TextArea txtAreaFieldLastMsg;
-	@FXML
-	private TextArea txtAreaTotalItems;
-	@FXML
-	private TextArea txtAreaUpdateItems;
-	@FXML
-	private Label lblTotal;
-
-	@FXML
-	private Label lblComplete;
-
-	@FXML
-	private Label lblFailed;
-
-	@FXML
-	private Label lblTitle;
-	@FXML
-	private Label lblMainTitle;
-
-	@FXML
-	private Label lblFetch;
-
-	@FXML
-	private Label lblRecover;
-
-	@FXML
-	private Label lblManualSearch;
-
-	@FXML
-	private Label lblStart;
-
-	@FXML
-	private Label lblUrl;
-
-	@FXML
-	private Label lblSource;
-
-	@FXML
-	private Label lblItemsTotal;
-
-	@FXML
-	private Label lblSiteTitle;
-	
-	@FXML
-	private Label lblItems;
-	
-	@FXML
-	private Label labelCardsTotal;
-	@FXML
-	private Label labelCardsDownloading;
-	@FXML
-	private Label labelCardsCompleted;
-	@FXML
-	private Label labelCardsFetching;
-	@FXML
-	private Label labelCardsFailed;
-	
-	
 	private Navigator navigator = new Navigator();
-
-	private String ICON_PATH = "icons/";
-	private CollectionTitle collectionTitle;
-
 	private FetchInfo fetchInfo;
 	private TitleScraped titleScraped;
-	private ManualSearchAlertController manualSearchAlertController;
 	private FetchTypeSelect fetchTypeSelect;
-	private Category category;
 	private TaggedItems taggedItems;
 	private OrganizeFetchResult organizeFetchResult;
 	private ItemsSelectedBetween itemsSelectedBetween;
 	private ItemsSelectedAll itemsSelectedAll;
 	private ItemsSelectedSingle<String> itemsSelectedSingle;
 	private ItemsSelectedUpdate itemsSelectedUpdate;
-	private ListCards listCards;
+	private TitleDownload titleDownload;
+	private TitleDownloadInitialize titleDownloadInitialize;
+	private CollectionTitle collectionTitle;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		try {
-			initializeTitle();
-			initializeButtons();
-			initializeIcons();
-			initializeSelectItemsValues();
-			initializeState();
-		} catch (IllegalAccessError e) {
-			if (Navigator.getInterfacesList().size() > 1)
-				navigator.back();
-			else
-				navigator.open(Interfaces.HOME);
-		}
-	}
+	public TitleDownloadController(TitleDownload titleDownload) {
 
-	private void initializeButtons() {
-		btnDownload.setOnAction(event -> onClickDownloadStart());
-	}
-
-	private void initializeTitle() {
-		TitleController controller = (TitleController) Navigator.getMapNavigator().get(Interfaces.TITLE);
-		if (controller == null || controller.getTitle() == null) {
-			throw new IllegalAccessError("Title can't be null");
-		}
-		category = controller.getTitle().getCategory();
-		collectionTitle = controller.getTitle();
-		lblMainTitle.setText(collectionTitle.getTitleDataBase());
-		organizeFetchResult = new OrganizeFetchResult(cbItems, cbSource, collectionTitle);
-
-	}
-
-	private void initializeState() {
-		listCards = new ListCards(collectionTitle, vBoxListDownloads);
-
-		manualSearchAlertController = new ManualSearchAlertController(new ManualSearchAlert(apManualSearch));
-
-	}
-
-	public void initializeIcons() {
-
-		Icon iconFetch = new Icon(imgFetch, new IconConfig(ICON_PATH, Icons.FETCH));
-		iconFetch.setProperties((event) -> onClickFetch());
-		Icon iconRecover = new Icon(imgRecover, new IconConfig(ICON_PATH, Icons.RECOVER));
-		iconRecover.setProperties((event) -> onClickRecover());
-		Icon iconManualSearch = new Icon(imgManualSearch, new IconConfig(ICON_PATH, Icons.MANUAL_SEARCH));
-		iconManualSearch.setProperties((event) -> onClickManualSearch());
-		Icon iconDownloadStart = new Icon(imgDownloadStart, new IconConfig(ICON_PATH, Icons.DOWNLOAD_START));
-		iconDownloadStart.setProperties((event) -> onClickDownloadStart());
-		Icon iconSource = new Icon(imgSource, new IconConfig(ICON_PATH, Icons.SOURCE));
-		Icon iconChoose = new Icon(imgChoose, new IconConfig(ICON_PATH, Icons.CHOOSE));
-		Icon iconZoomIn = new Icon(imgZoomIn, new IconConfig(ICON_PATH, Icons.ZOOM_IN_BIG));
-		iconZoomIn.setProperties((event) -> onClickZoomIn());
-		Icon iconZoomOut = new Icon(imgZoomOut, new IconConfig(ICON_PATH, Icons.ZOOM_OUT_BIG));
-		iconZoomOut.setProperties((event) -> onClickZoomOut());
-
+		this.titleDownload = titleDownload;
+		titleDownloadInitialize = new TitleDownloadInitialize(titleDownload, this);
+		titleDownloadInitialize.initialize();
+		organizeFetchResult = new OrganizeFetchResult(titleDownload.getCbItems(), titleDownload.getCbSource(),
+				titleDownloadInitialize.getTitle().getCollectionTitle());
+		this.collectionTitle = titleDownloadInitialize.getTitle().getCollectionTitle();
 	}
 
 	public void onClickFetch() {
@@ -277,11 +102,12 @@ public class TitleDownloadController implements Initializable {
 		new Thread(() -> {
 			try {
 				FetchActionAutomatic fetchActionAutomatic = new FetchActionAutomatic(
-						new FetchableTittle(collectionTitle, cbSource.getValue()),
-						new RegisterTitleFetcher(txtFetchMsg), new RegisterTitleSearcher(txtFetchMsg));
-				titleScraped = fetchActionAutomatic.automaticFetch();
+						new RegisterTitleSearcher(titleDownload.getTxtFetchMsg()));
+				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
+				titleScraped = registerTitleFetcher.fetch(fetchActionAutomatic,
+						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
 
-				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, category);
+				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
 
 				initializeFetchResults();
 
@@ -293,23 +119,15 @@ public class TitleDownloadController implements Initializable {
 
 	}
 
-	private void initializeFetchResults() {
-		initializeControllers();
-		itemsSelectedBetween.validates();
-		cbSelect.setDisable(false);
-		loadFetchInfo();
-		fetchInfo.showInfo();
-	}
-
 	public void onClickRecover() {
 		new Thread(() -> {
 			try {
-				FetchActionRecover fetchActionRecover = new FetchActionRecover(
-						new FetchableTittle(collectionTitle, cbSource.getValue()),
-						new RegisterTitleFetcher(txtFetchMsg), new FetchInSystem());
-				titleScraped = fetchActionRecover.recoverFetch();
+				FetchActionRecover fetchActionRecover = new FetchActionRecover();
+				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
+				titleScraped = registerTitleFetcher.fetch(fetchActionRecover,
+						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
 
-				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, category);
+				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
 
 				initializeFetchResults();
 
@@ -326,11 +144,12 @@ public class TitleDownloadController implements Initializable {
 		new Thread(() -> {
 			try {
 				FetchActionManual fetchActionManual = new FetchActionManual(
-						new FetchableTittle(collectionTitle, cbSource.getValue()),
-						new RegisterTitleFetcher(txtFetchMsg), manualSearchAlertController);
-				titleScraped = fetchActionManual.manualFetch();
+						titleDownloadInitialize.getManualSearchAlertController());
+				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
+				titleScraped = registerTitleFetcher.fetch(fetchActionManual,
+						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
 
-				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, category);
+				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
 
 				initializeFetchResults();
 
@@ -364,16 +183,15 @@ public class TitleDownloadController implements Initializable {
 		FetchItem fetchItem = new FetchItem();
 
 		new Thread(() -> {
-			List<ScrapingWork> scrapingWorks = new ArrayList<String>(choosedItems.values())
-					.stream()
-					.map(url -> new ScrapingWork(url))
-					.collect(Collectors.toList());
+			List<ScrapingWork> scrapingWorks = new ArrayList<String>(choosedItems.values()).stream()
+					.map(url -> new ScrapingWork(url)).collect(Collectors.toList());
 
-			ListItemScraping listItemScraping = category != Category.ANIME
-					? new ListChapterScraping(cbSource.getValue(), new MyBrowser(true))
-					: new ListEpisodeScraping(cbSource.getValue(), new MyBrowser(true));
-							
-			listCards.onAddScrapingDone(taggedItems, scrapingWorks);
+			ListItemScraping listItemScraping = collectionTitle.getCategory() != Category.ANIME
+					? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true))
+					: new ListEpisodeScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true));
+
+			titleDownloadInitialize.getTitleDownloadListCard().getListCards().onAddScrapingDone(taggedItems,
+					scrapingWorks);
 			fetchItem.fetch(listItemScraping, scrapingWorks);
 
 		}).start();
@@ -381,44 +199,45 @@ public class TitleDownloadController implements Initializable {
 	}
 
 	private void loadFetchInfo() {
-		ShadeLayer shadeLayer = new ShadeLayer(apShade);
-		ScreenshotFullDetails screenshotFullDetails = new ScreenshotFullDetails(bpThumbnailFull, shadeLayer,
-				imgThumbnailFullSize, imgZoomOut);
-		FetchTextDetails fetchTextDetails = new FetchTextDetails(lblSiteTitle, lblSource, lblUrl, lblItemsTotal);
-		fetchInfo = new FetchInfo(titleScraped.getPageInfo(), imgThumbnail, screenshotFullDetails, fetchTextDetails);
-	}
-
-	public void initializeSelectItemsValues() {
-
-		List<Sites> sites = Arrays.asList(Sites.values()).stream().filter((f) -> f.getCategory() == category)
-				.collect(Collectors.toList());
-		cbSource.getItems().addAll(sites);
-
-		cbSelect.getItems().addAll(Arrays.asList((FetchItemType.values())));
+		ShadeLayer shadeLayer = new ShadeLayer(titleDownload.getApShade());
+		ScreenshotFullDetails screenshotFullDetails = new ScreenshotFullDetails(titleDownload.getBpThumbnailFull(),
+				shadeLayer, titleDownload.getImgThumbnailFullSize(), titleDownload.getImgZoomOut());
+		FetchTextDetails fetchTextDetails = new FetchTextDetails(titleDownload.getLblSiteTitle(),
+				titleDownload.getLblSource(), titleDownload.getLblUrl(), titleDownload.getLblItemsTotal());
+		fetchInfo = new FetchInfo(titleScraped.getPageInfo(), titleDownload.getImgThumbnail(), screenshotFullDetails,
+				fetchTextDetails);
 	}
 
 	public void initializeControllers() {
 
-		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(txtStartItemValue,
-				taggedItems.getValuesItems().size(), txtAreaFieldFirstMsg);
-		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(txtEndItemValue,
-				taggedItems.getValuesItems().size(), txtAreaFieldLastMsg);
+		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(titleDownload.getTxtStartItemValue(),
+				taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldFirstMsg());
+		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(titleDownload.getTxtEndItemValue(),
+				taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldLastMsg());
 
 		int totalItems = titleScraped.getItemsScraped().size();
 
 		itemsSelectedBetween = new ItemsSelectedBetween(itemValueTextFieldFirst, itemValueTextFieldLast,
-				txtAreaChooseMsg);
-		itemsSelectedAll = new ItemsSelectedAll(txtAreaTotalItems, totalItems);
-		itemsSelectedSingle = new ItemsSelectedSingle<String>(cbItems);
-		itemsSelectedUpdate = new ItemsSelectedUpdate(txtAreaUpdateItems, totalItems);
+				titleDownload.getTxtAreaChooseMsg());
+		itemsSelectedAll = new ItemsSelectedAll(titleDownload.getTxtAreaTotalItems(), totalItems);
+		itemsSelectedSingle = new ItemsSelectedSingle<String>(titleDownload.getCbItems());
+		itemsSelectedUpdate = new ItemsSelectedUpdate(titleDownload.getTxtAreaUpdateItems(), totalItems);
 
 		List<Controllers> controllers = Arrays.asList(itemsSelectedBetween, itemsSelectedSingle, itemsSelectedAll,
 				itemsSelectedUpdate);
 
 		fetchTypeSelect = new FetchTypeSelect(controllers);
 
-		cbSelect.valueProperty().addListener(fetchTypeSelect);
+		titleDownload.getCbSelect().valueProperty().addListener(fetchTypeSelect);
 
+	}
+
+	private void initializeFetchResults() {
+		initializeControllers();
+		itemsSelectedBetween.validates();
+		titleDownload.getCbSelect().setDisable(false);
+		loadFetchInfo();
+		fetchInfo.showInfo();
 	}
 
 }

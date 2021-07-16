@@ -22,9 +22,9 @@ import javafx.scene.layout.VBox;
 public class TitleDownload  implements Initializable{
 	@FXML
 	private AnchorPane apShade;
+	
 	@FXML
 	private AnchorPane apManualSearch;
-
 	@FXML
 	private VBox vBoxListDownloads;
 
@@ -144,7 +144,6 @@ public class TitleDownload  implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 	}
 
 	public AnchorPane getApShade() {
@@ -152,6 +151,7 @@ public class TitleDownload  implements Initializable{
 	}
 
 	public AnchorPane getApManualSearch() {
+
 		return apManualSearch;
 	}
 
@@ -329,6 +329,28 @@ public class TitleDownload  implements Initializable{
 
 	public Label getLabelCardsFailed() {
 		return labelCardsFailed;
+	}
+
+	@Override
+	public String toString() {
+		return "TitleDownload [apShade=" + apShade + ", apManualSearch=" + apManualSearch + ", vBoxListDownloads="
+				+ vBoxListDownloads + ", hboxItemsFields=" + hboxItemsFields + ", txtStartItemValue="
+				+ txtStartItemValue + ", txtEndItemValue=" + txtEndItemValue + ", bpThumbnailFull=" + bpThumbnailFull
+				+ ", btnDownload=" + btnDownload + ", imgThumbnailFullSize=" + imgThumbnailFullSize + ", imgThumbnail="
+				+ imgThumbnail + ", imgSource=" + imgSource + ", imgZoomIn=" + imgZoomIn + ", imgZoomOut=" + imgZoomOut
+				+ ", imgFetch=" + imgFetch + ", imgRecover=" + imgRecover + ", imgManualSearch=" + imgManualSearch
+				+ ", imgChoose=" + imgChoose + ", imgDownloadStart=" + imgDownloadStart + ", cbSelect=" + cbSelect
+				+ ", cbItems=" + cbItems + ", cbSource=" + cbSource + ", txtFetchMsg=" + txtFetchMsg
+				+ ", txtAreaChooseMsg=" + txtAreaChooseMsg + ", txtAreaFieldFirstMsg=" + txtAreaFieldFirstMsg
+				+ ", txtAreaFieldLastMsg=" + txtAreaFieldLastMsg + ", txtAreaTotalItems=" + txtAreaTotalItems
+				+ ", txtAreaUpdateItems=" + txtAreaUpdateItems + ", lblTotal=" + lblTotal + ", lblComplete="
+				+ lblComplete + ", lblFailed=" + lblFailed + ", lblTitle=" + lblTitle + ", lblMainTitle=" + lblMainTitle
+				+ ", lblFetch=" + lblFetch + ", lblRecover=" + lblRecover + ", lblManualSearch=" + lblManualSearch
+				+ ", lblStart=" + lblStart + ", lblUrl=" + lblUrl + ", lblSource=" + lblSource + ", lblItemsTotal="
+				+ lblItemsTotal + ", lblSiteTitle=" + lblSiteTitle + ", lblItems=" + lblItems + ", labelCardsTotal="
+				+ labelCardsTotal + ", labelCardsDownloading=" + labelCardsDownloading + ", labelCardsCompleted="
+				+ labelCardsCompleted + ", labelCardsFetching=" + labelCardsFetching + ", labelCardsFailed="
+				+ labelCardsFailed + "]";
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.fetch;
 
+import com.lucas.ferreira.maburn.controller.title.download.register.FetchableTittle;
 import com.lucas.ferreira.maburn.exceptions.NotURLFoundInRecover;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
@@ -12,13 +13,14 @@ public class FetchInSystem {
 		fetchSave.save(collectionItem, site, url);
 	}
 
-	public String recover(CollectionTitle title, Sites site) throws NotURLFoundInRecover {
+	public FetchableTittle recover(FetchableTittle fetchableTittle) throws NotURLFoundInRecover {
 		
-		String recoverFetch = fetchRecover.recover(title, site);
+		String recoverFetch = fetchRecover.recover(fetchableTittle.getCollectionTitle(), fetchableTittle.getSourceSelect());
+		fetchableTittle.setTitleUrl(recoverFetch);
 		if(recoverFetch == null) {
 			throw new NotURLFoundInRecover();
 		}
-		return recoverFetch;
+		return fetchableTittle;
 	}
 
 }

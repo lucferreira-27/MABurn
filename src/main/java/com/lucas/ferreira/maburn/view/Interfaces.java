@@ -4,8 +4,7 @@ import com.lucas.ferreira.maburn.controller.collection.CollectionInterfaceContro
 import com.lucas.ferreira.maburn.controller.home.HomeInterfaceController;
 import com.lucas.ferreira.maburn.controller.settings.SettingsInterfaceController;
 import com.lucas.ferreira.maburn.controller.title.TitleController;
-import com.lucas.ferreira.maburn.controller.title.download.TitleDownloadController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.TitleDownload;
 import com.lucas.ferreira.maburn.controller.title.search.TittleSearchInterfaceController;
 
 import javafx.fxml.Initializable;
@@ -16,7 +15,7 @@ public enum Interfaces {
 	TITLE("TitleViewFXML.fxml", new TitleController()),
 	TITLE_SEARCH("TitleSearchViewFXML.fxml", new TittleSearchInterfaceController()),
 //	TITLE_DOWNLOAD("TitleDownloadViewFXML.fxml", new TitleDownloadInterfaceController()),
-	TITLE_DOWNLOAD("TitleDownload.fxml", new TitleDownloadController()),
+	TITLE_DOWNLOAD("TitleDownload.fxml", new TitleDownload()),
 
 	DOWNLOADS("DownloadQueueView.fxml", null),
 	CONFIGURATION("HelperViewFXML.fxml", new SettingsInterfaceController()), 
