@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.controller.title.download;
+package com.lucas.ferreira.maburn.controller.title.download.title;
 
 import java.net.URL;
 import java.util.ResourceBundle;

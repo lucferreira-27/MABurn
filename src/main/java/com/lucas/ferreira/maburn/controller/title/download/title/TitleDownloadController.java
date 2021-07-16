@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.controller.title.download;
+package com.lucas.ferreira.maburn.controller.title.download.title;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,6 +9,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.controller.title.TitleController;
+import com.lucas.ferreira.maburn.controller.title.download.FetchActionAutomatic;
+import com.lucas.ferreira.maburn.controller.title.download.FetchActionManual;
+import com.lucas.ferreira.maburn.controller.title.download.FetchActionRecover;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.FetchTypeSelect;
@@ -77,7 +80,6 @@ public class TitleDownloadController {
 	private FetchInfo fetchInfo;
 	private TitleScraped titleScraped;
 	private FetchTypeSelect fetchTypeSelect;
-	private TaggedItems taggedItems;
 	private OrganizeFetchResult organizeFetchResult;
 	private ItemsSelectedBetween itemsSelectedBetween;
 	private ItemsSelectedAll itemsSelectedAll;
@@ -86,7 +88,8 @@ public class TitleDownloadController {
 	private TitleDownload titleDownload;
 	private TitleDownloadInitialize titleDownloadInitialize;
 	private CollectionTitle collectionTitle;
-
+	private Title title;
+	
 	public TitleDownloadController(TitleDownload titleDownload) {
 
 		this.titleDownload = titleDownload;
@@ -95,6 +98,7 @@ public class TitleDownloadController {
 		organizeFetchResult = new OrganizeFetchResult(titleDownload.getCbItems(), titleDownload.getCbSource(),
 				titleDownloadInitialize.getTitle().getCollectionTitle());
 		this.collectionTitle = titleDownloadInitialize.getTitle().getCollectionTitle();
+		this.title = titleDownloadInitialize.getTitle();
 	}
 
 	public void onClickFetch() {
@@ -107,8 +111,8 @@ public class TitleDownloadController {
 				titleScraped = registerTitleFetcher.fetch(fetchActionAutomatic,
 						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
 
-				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
-
+				TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
+				title.setTaggedItems(taggedItems);
 				initializeFetchResults();
 
 			} catch (Exception e) {
@@ -127,7 +131,8 @@ public class TitleDownloadController {
 				titleScraped = registerTitleFetcher.fetch(fetchActionRecover,
 						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
 
-				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
+				TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
+				title.setTaggedItems(taggedItems);
 
 				initializeFetchResults();
 
@@ -149,7 +154,8 @@ public class TitleDownloadController {
 				titleScraped = registerTitleFetcher.fetch(fetchActionManual,
 						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
 
-				taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
+				TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
+				title.setTaggedItems(taggedItems);
 
 				initializeFetchResults();
 
@@ -171,7 +177,7 @@ public class TitleDownloadController {
 
 	public void onClickDownloadStart() {
 
-		Map<String, String> namedItemsValues = taggedItems.getNamedItemsValues();
+		Map<String, String> namedItemsValues = title.getTaggedItems().getNamedItemsValues();
 
 		FetchItemsLinks directLinks = new FetchItemsLinks(new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
 				new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
@@ -190,8 +196,7 @@ public class TitleDownloadController {
 					? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true))
 					: new ListEpisodeScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true));
 
-			titleDownloadInitialize.getTitleDownloadListCard().getListCards().onAddScrapingDone(taggedItems,
-					scrapingWorks);
+			titleDownloadInitialize.getTitleDownloadListCard().getDownloadList().onScrapingWork(scrapingWorks);
 			fetchItem.fetch(listItemScraping, scrapingWorks);
 
 		}).start();
@@ -209,7 +214,8 @@ public class TitleDownloadController {
 	}
 
 	public void initializeControllers() {
-
+		TaggedItems taggedItems = title.getTaggedItems();
+		
 		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(titleDownload.getTxtStartItemValue(),
 				taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldFirstMsg());
 		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(titleDownload.getTxtEndItemValue(),

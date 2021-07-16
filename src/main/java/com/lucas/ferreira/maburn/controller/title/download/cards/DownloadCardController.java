@@ -1,9 +1,9 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
-public interface DownloadCardController {
+public interface DownloadCardController extends CardController{
 
 	
-	public void initialize() throws Exception;
+	public DownloadCardController initialize() throws Exception;
 	
 	public void resume();
 	public void pause();

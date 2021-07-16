@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-public interface DownloadCard {
+public interface DownloadCard extends PaneCard{
 	public StackPane getRoot();
 
 	public BorderPane getBorderPaneDetails();

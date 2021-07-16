@@ -38,14 +38,14 @@ public class ListCards {
 		listFetchCards = new ListFetchCards(vBoxListDownloads);
 	}
 
-	public void onAddScrapingDone(TaggedItems taggedItems, List<ScrapingWork> scrapingWorks) {
-
-		for (ScrapingWork scrapingWork : scrapingWorks) {
-			listenScrapingWork(taggedItems, scrapingWork);
-
-		}
-
-	}
+//	public void onAddScrapingDone(TaggedItems taggedItems, List<ScrapingWork> scrapingWorks) {
+//
+//		for (ScrapingWork scrapingWork : scrapingWorks) {
+//			listenScrapingWork(taggedItems, scrapingWork);
+//
+//		}
+//
+//	}
 
 	private void listenScrapingWork(TaggedItems taggedItems, ScrapingWork scrapingWork) {
 

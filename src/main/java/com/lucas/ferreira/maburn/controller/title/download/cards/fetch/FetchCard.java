@@ -3,13 +3,15 @@ package com.lucas.ferreira.maburn.controller.title.download.cards.fetch;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.lucas.ferreira.maburn.controller.title.download.cards.PaneCard;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-public class FetchCard implements Initializable{
+public class FetchCard implements PaneCard{
 	@FXML
 	private StackPane root;
 	@FXML

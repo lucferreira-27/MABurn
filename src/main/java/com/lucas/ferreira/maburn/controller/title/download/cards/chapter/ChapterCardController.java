@@ -28,7 +28,7 @@ public class ChapterCardController implements DownloadCardController {
 	}
 
 	@Override
-	public void initialize() {
+	public DownloadCardController initialize() throws Exception{
 
 		initializeValuesCard();
 		initializeIcons();
@@ -38,7 +38,7 @@ public class ChapterCardController implements DownloadCardController {
 		episodeCardIconVisibility.onDownloadState(chapterDownloadValues.getDownloadProgressState());
 		initializeAnimations();
 		initializeDownload();
-
+		return this;
 	}
 
 	public void initializeValuesCard() {

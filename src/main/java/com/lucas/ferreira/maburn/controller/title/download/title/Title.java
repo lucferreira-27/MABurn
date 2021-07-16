@@ -1,7 +1,8 @@
-package com.lucas.ferreira.maburn.controller.title.download;
+package com.lucas.ferreira.maburn.controller.title.download.title;
 
 import com.lucas.ferreira.maburn.controller.title.TitleController;
 import com.lucas.ferreira.maburn.controller.title.download.register.OrganizeFetchResult;
+import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
 import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
@@ -13,6 +14,7 @@ public class Title implements Initialize{
 	private TitleController titleController;
 	private String textTitle;
 	private Category category;
+	private TaggedItems taggedItems;
 	private CollectionTitle collectionTitle;
 	private TitleDownload titleDownload;
 	
@@ -40,5 +42,14 @@ public class Title implements Initialize{
 	}
 	public String getTextTitle() {
 		return textTitle;
+	}
+	public TaggedItems getTaggedItems() {
+		return taggedItems;
+	}
+	public TitleDownload getTitleDownload() {
+		return titleDownload;
+	}
+	public void setTaggedItems(TaggedItems taggedItems) {
+		this.taggedItems = taggedItems;
 	}
 }

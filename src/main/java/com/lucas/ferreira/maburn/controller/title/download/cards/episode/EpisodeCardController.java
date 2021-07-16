@@ -26,7 +26,7 @@ public class EpisodeCardController implements DownloadCardController {
 		this.downloadInfo = downloadInfo;
 	}
 
-	public void initialize() throws Exception{
+	public DownloadCardController initialize() throws Exception{
 
 		initializeValuesCard();
 		initializeIcons();
@@ -37,6 +37,7 @@ public class EpisodeCardController implements DownloadCardController {
 		episodeCardIconVisibility.onDownloadState(episodeDownloadItemValues.getDownloadProgressState());
 		initializeAnimations();
 		initializeDownload();
+		return this;
 	}
 
 	public void initializeValuesCard() {

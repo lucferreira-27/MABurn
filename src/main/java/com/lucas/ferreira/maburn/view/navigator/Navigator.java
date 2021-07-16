@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.controller.title.download.TitleDownload;
-import com.lucas.ferreira.maburn.controller.title.download.TitleDownloadController;
+import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownload;
+import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadController;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;

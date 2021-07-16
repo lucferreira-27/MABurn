@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-public class ChapterCard implements Initializable, DownloadCard {
+public class ChapterCard implements DownloadCard {
 	@FXML
 	private StackPane root;
 	@FXML

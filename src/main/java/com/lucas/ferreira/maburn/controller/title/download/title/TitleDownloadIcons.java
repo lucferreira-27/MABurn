@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.controller.title.download;
+package com.lucas.ferreira.maburn.controller.title.download.title;
 
 import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.enums.Icons;

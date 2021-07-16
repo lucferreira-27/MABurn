@@ -4,7 +4,7 @@ import com.lucas.ferreira.maburn.controller.collection.CollectionInterfaceContro
 import com.lucas.ferreira.maburn.controller.home.HomeInterfaceController;
 import com.lucas.ferreira.maburn.controller.settings.SettingsInterfaceController;
 import com.lucas.ferreira.maburn.controller.title.TitleController;
-import com.lucas.ferreira.maburn.controller.title.download.TitleDownload;
+import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownload;
 import com.lucas.ferreira.maburn.controller.title.search.TittleSearchInterfaceController;
 
 import javafx.fxml.Initializable;
