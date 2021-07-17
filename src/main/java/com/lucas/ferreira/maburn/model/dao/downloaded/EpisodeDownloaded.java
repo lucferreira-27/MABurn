@@ -35,7 +35,7 @@ public class EpisodeDownloaded implements CollectionItem, GenericItem {
 	}
 	@Override
 	public CollectionTitle getItem() {
-		// TODO Auto-generated method stub
+		
 		return anime;
 	}
 	

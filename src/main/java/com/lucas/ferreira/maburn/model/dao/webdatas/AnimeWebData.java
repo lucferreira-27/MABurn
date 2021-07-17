@@ -12,7 +12,7 @@ public class AnimeWebData extends TitleWebData {
 	private List<ItemWebData> webDatas = new ArrayList<ItemWebData>();
 
 	public AnimeWebData(String name) {
-		// TODO Auto-generated constructor stub
+		
 		this.name = name;
 	}
 	

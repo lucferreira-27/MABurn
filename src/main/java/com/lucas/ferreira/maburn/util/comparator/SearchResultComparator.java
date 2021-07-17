@@ -15,7 +15,7 @@ public class SearchResultComparator implements Comparator<SearchResult> {
 
 	@Override
 	public int compare(SearchResult o1, SearchResult o2) {
-		// TODO Auto-generated method stub
+		
 		return checkLikeness(o2.getName()) - checkLikeness(o1.getName());
 	}
 	

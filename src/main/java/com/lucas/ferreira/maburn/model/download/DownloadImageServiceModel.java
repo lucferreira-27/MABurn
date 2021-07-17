@@ -25,7 +25,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 	private String fileName;
 
 	public DownloadImageServiceModel(String link, File file) {
-		// TODO Auto-generated constructor stub
+		
 		this.link = link;
 		this.file = file;
 	}
@@ -41,7 +41,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 		try {
 			downloadSetup(link);
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			failedMsg = e.getMessage();
 		}
@@ -93,7 +93,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 			try {
 				os.write(b, 0, length);
 			} catch (IndexOutOfBoundsException e) {
-				// TODO: handle exception
+				
 				continue;
 			}
 		}
@@ -113,7 +113,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 
 	@Override
 	protected File call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		CustomLogger.log("!");
 		return download();
 	}
@@ -122,13 +122,13 @@ public class DownloadImageServiceModel extends Downloader<File> {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -137,7 +137,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 		}
@@ -155,13 +155,13 @@ public class DownloadImageServiceModel extends Downloader<File> {
 
 	@Override
 	public void kill() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

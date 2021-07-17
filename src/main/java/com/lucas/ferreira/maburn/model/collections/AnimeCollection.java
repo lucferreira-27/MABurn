@@ -14,17 +14,17 @@ public class AnimeCollection implements Collections {
 	private AnimeDownloaded activeAnime;
 
 	public AnimeCollection(String destination) {
-		// TODO Auto-generated constructor stub
+		
 		this.destination = destination;
 	}
 	
 	public AnimeCollection() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	@Override
 	public List<CollectionTitle> getItens() {
-		// TODO Auto-generated method stub
+		
 		return listAnimes;
 	}
 
@@ -50,14 +50,14 @@ public class AnimeCollection implements Collections {
 
 	@Override
 	public void setActualItem(CollectionTitle obj) {
-		// TODO Auto-generated method stub
+		
 		this.activeAnime = (AnimeDownloaded) obj;
 		activeAnime.setCollections(this);
 	}
 
 	@Override
 	public CollectionTitle getActualItem() {
-		// TODO Auto-generated method stub
+		
 		if (activeAnime == null && !listAnimes.isEmpty()) {
 			return listAnimes.get(0);
 		}
@@ -66,13 +66,13 @@ public class AnimeCollection implements Collections {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
+		
 		return Category.ANIME;
 	}
 
 	@Override
 	public void setItens(List<CollectionTitle> itens) {
-		// TODO Auto-generated method stub
+		
 		this.listAnimes = itens;
 		
 	}

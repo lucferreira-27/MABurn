@@ -16,7 +16,7 @@ public class ImageLoaderModel {
 		Image image = new Image(conn.getInputStream());
 		return image;
 		}catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			return null;
 		}
@@ -37,7 +37,7 @@ public class ImageLoaderModel {
 		
 		return imageView;
 		}catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			return null;
 		}

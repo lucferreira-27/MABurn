@@ -51,23 +51,23 @@ public class ChapterScraped implements ItemScraped {
 	}
 	@Override
 	public Sites getSite() {
-		// TODO Auto-generated method stub
+		
 		return sites;
 	}
 	@Override
 	public void setSite(Sites site) {
-		// TODO Auto-generated method stub
+		
 		this.sites = site;
 		
 	}
 	@Override
 	public String getUrl() {
-		// TODO Auto-generated method stub
+		
 		return url;
 	}
 	@Override
 	public void setUrl(String url) {
-		// TODO Auto-generated method stub
+		
 		this.url = url;
 	}
 

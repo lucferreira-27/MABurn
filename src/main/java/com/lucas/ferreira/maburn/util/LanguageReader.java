@@ -7,7 +7,6 @@ public class LanguageReader {
 		try {
 			return new LanguagesProperties("en_us").getPropValue(value);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 
 			e.printStackTrace();
 

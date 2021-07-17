@@ -23,7 +23,7 @@ public class EpisodeWebData extends ItemWebData {
 	private String url;
 
 	public EpisodeWebData(AnimeWebData animeWebData) {
-		// TODO Auto-generated constructor stub
+		
 
 		this.animeWebData = animeWebData;
 
@@ -58,7 +58,7 @@ public class EpisodeWebData extends ItemWebData {
 
 	@Override
 	public Sites getSite() {
-		// TODO Auto-generated method stub
+		
 		return animeWebData.getSite();
 	}
 
@@ -92,7 +92,7 @@ public class EpisodeWebData extends ItemWebData {
 			titleDownload.getExecutorDownloader().submit(download);
 			return download;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return download;
 		}

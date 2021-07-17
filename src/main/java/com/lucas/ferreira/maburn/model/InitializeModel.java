@@ -25,7 +25,7 @@ public class InitializeModel {
 				initialize();
 			}
 		} catch (InitializeExcpetion e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 		}
 
@@ -38,7 +38,7 @@ public class InitializeModel {
 				return true;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			return true;
 		}
 		return false;
@@ -52,7 +52,7 @@ public class InitializeModel {
 			configOrchestrator.write(new ConfigForm());
 
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 	}

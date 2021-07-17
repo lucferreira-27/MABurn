@@ -15,7 +15,7 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 
 
 	public MangaItemCreate(MangaCollection collection) {
-		// TODO Auto-generated constructor stub
+		
 		this.collection = collection;
 
 
@@ -28,7 +28,7 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 		manga.setName(destination.substring(destination.lastIndexOf("\\") + 1));
 
 		CollectDatas collectDatas = database.read(manga.getName(), Category.MANGA);
-		// Update xml files TODO
+
 		manga.setDestination(destination);
 		manga.setTitleDataBase(collectDatas.getCanonicalTitle());
 		manga.setTitles(collectDatas.getTitles());
@@ -44,7 +44,6 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 			String thumanailPath = thumbnail.download().getAbsolutePath();
 			manga.setImageLocal(thumanailPath);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 
@@ -53,7 +52,7 @@ public class MangaItemCreate implements ItemCreater<MangaDownloaded> {
 
 	@Override
 	public MangaDownloaded createSearchItem(CollectDatas collectDatas) {
-		// TODO Auto-generated method stub
+		
 		MangaDownloaded manga = new MangaDownloaded();
 		
 		manga.setName(collectDatas.getCanonicalTitle());

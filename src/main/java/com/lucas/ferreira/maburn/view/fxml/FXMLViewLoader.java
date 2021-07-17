@@ -36,7 +36,7 @@ public class FXMLViewLoader<T extends Node> {
 	private Pane root;
 	private long start;
 	public FXMLViewLoader() {
-		// TODO Auto-generated constructor stub
+		
 		start = System.currentTimeMillis(); // Gets the current date
 
 		loaded.addListener((obs, oldvalue, newvalue) -> {
@@ -131,7 +131,7 @@ public class FXMLViewLoader<T extends Node> {
 		try {
 			initFXMLLoader(initializable, root, fxml, true);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 
@@ -152,7 +152,7 @@ public class FXMLViewLoader<T extends Node> {
 				loaded.set(true);
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 

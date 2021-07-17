@@ -38,7 +38,7 @@ public class ImageMetadata implements TargetMetadata{
 	}
 	@Override
 	public long getLongSize() {
-		// TODO Auto-generated method stub
+		
 		return sizeToLong();
 	}
 	private long sizeToLong() {

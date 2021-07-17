@@ -68,19 +68,19 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues {
 
 	@Override
 	public DoubleProperty getTotalDownloaded() {
-		// TODO Auto-generated method stub
+		
 		return totalDownloaded;
 	}
 
 	@Override
 	public ObjectProperty<DownloadProgressState> getDownloadProgressState() {
-		// TODO Auto-generated method stub
+		
 		return downloadProgressState;
 	}
 
 	@Override
 	public DoubleProperty getTimeRemain() {
-		// TODO Auto-generated method stub
+		
 		return timeRemain;
 	}
 

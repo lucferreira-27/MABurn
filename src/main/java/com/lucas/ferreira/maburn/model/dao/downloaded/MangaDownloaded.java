@@ -36,7 +36,7 @@ public class MangaDownloaded implements CollectionTitle {
 
 	
 	public MangaDownloaded() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public MangaDownloaded(String destination) {
@@ -53,7 +53,7 @@ public class MangaDownloaded implements CollectionTitle {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
+		
 		if (name == null && (destination != null && !destination.isEmpty()))
 			name = destination.substring(destination.lastIndexOf("\\")  + 1);
 		return name;
@@ -145,38 +145,38 @@ public class MangaDownloaded implements CollectionTitle {
 
 	@Override
 	public String getTitleDataBase() {
-		// TODO Auto-generated method stub
+		
 		return titleDataBase;
 	}
 
 	@Override
 	public void setTitleDataBase(String titleDataBase) {
-		// TODO Auto-generated method stub
+		
 		this.titleDataBase = titleDataBase;
 	}
 	
 
 	@Override
 	public Map<String, String> getTitles() {
-		// TODO Auto-generated method stub
+		
 		return titles;
 	}
 
 	@Override
 	public void setTitles(Map<String, String> titles) {
-		// TODO Auto-generated method stub
+		
 		this.titles = titles;
 	}
 	
 	@Override
 	public String getTitleFileName() {
-		// TODO Auto-generated method stub
+		
 		return StringUtil.stringUtilFile(titleDataBase);
 
 	}
 	@Override
 	public void addSubItens(List<CollectionItem> subItens) {
-		// TODO Auto-generated method stub
+		
 		subItens.forEach(subItem -> listChapters.add((ChapterDownloaded) subItem));
 
 	}
@@ -195,36 +195,36 @@ public class MangaDownloaded implements CollectionTitle {
 
 	@Override
 	public Collections getCollections() {
-		// TODO Auto-generated method stub
+		
 		return mangaCollection;
 	}
 
 	@Override
 	public void setCollections(Collections collections) {
-		// TODO Auto-generated method stub
+		
 		this.mangaCollection = (MangaCollection) collections;
 	}
 	@Override
 	public Double getScore() {
-		// TODO Auto-generated method stub
+		
 		return score;
 	}
 
 	@Override
 	public void setScore(Double score) {
-		// TODO Auto-generated method stub
+		
 		this.score = score;
 	}
 
 	@Override
 	public String getDate() {
-		// TODO Auto-generated method stub
+		
 		return date;
 	}
 
 	@Override
 	public void setDate(String date) {
-		// TODO Auto-generated method stub
+		
 		this.date = date;
 	}
 
@@ -237,7 +237,7 @@ public class MangaDownloaded implements CollectionTitle {
 
 	@Override
 	public ListItemForm toForm() {
-		// TODO Auto-generated method stub
+		
 
 		ListItemForm form = new ListItemForm();
 		form.setCategory(getCategory());

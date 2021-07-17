@@ -79,7 +79,7 @@ public class ListAddCard {
 			insertInList(name, item);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	}

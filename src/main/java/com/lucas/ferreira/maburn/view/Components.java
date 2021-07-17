@@ -16,7 +16,7 @@ public enum Components {
 	private String fxml;
 
 	private Components(String fxml, Initializable controller) {
-		// TODO Auto-generated constructor stub
+		
 		this.controller = controller;
 		this.fxml = fxml;
 

@@ -12,7 +12,7 @@ public class MangaScraping   extends TitleScraping {
 	
 	private Sites site;
 	public MangaScraping(Sites site) {
-		// TODO Auto-generated constructor stub
+		
 		
 		super(site);
 		
@@ -24,7 +24,7 @@ public class MangaScraping   extends TitleScraping {
 
 	@Override
 	protected TitleScraped scrape(Page page, String script, Options options) {
-		// TODO Auto-generated method stub
+		
 		List<String> chapters = (ArrayList<String>) page.evaluate(script, options.getSelectQuery());
 		PageInfo pageInfo = fillPageInfo(page);
 		String url = page.url();

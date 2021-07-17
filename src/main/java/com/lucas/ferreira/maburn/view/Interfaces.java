@@ -27,7 +27,7 @@ public enum Interfaces {
 	private String fxml;
 
 	private Interfaces(String fxml, Initializable controller) {
-		// TODO Auto-generated constructor stub
+		
 		this.controller = controller;
 		this.fxml = fxml;
 	}

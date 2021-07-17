@@ -28,61 +28,61 @@ public class PageDownloadItemValues implements ItemDownloadValues {
 
 	@Override
 	public StringProperty getName() {
-		// TODO Auto-generated method stub
+		
 		return name;
 	}
 
 	@Override
 	public StringProperty getTarget() {
-		// TODO Auto-generated method stub
+		
 		return target;
 	}
 
 	@Override
 	public StringProperty getDirectLink() {
-		// TODO Auto-generated method stub
+		
 		return directLink;
 	}
 
 	@Override
 	public DoubleProperty getDownloadProgress() {
-		// TODO Auto-generated method stub
+		
 		return downloadProgress;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSize() {
-		// TODO Auto-generated method stub
+		
 		return downloadSize;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSpeed() {
-		// TODO Auto-generated method stub
+		
 		return downloadSpeed;
 	}
 
 	@Override
 	public DoubleProperty getTotalDownloaded() {
-		// TODO Auto-generated method stub
+		
 		return totalDownloaded;
 	}
 
 	@Override
 	public ObjectProperty<DownloadProgressState> getDownloadProgressState() {
-		// TODO Auto-generated method stub
+		
 		return downloadProgressState;
 	}
 
 	@Override
 	public DoubleProperty getTimeRemain() {
-		// TODO Auto-generated method stub
+		
 		return timeRemain;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+		
 		return "[File: " + name.get() + " - Size: " + DataStorageUtil.converterUnit(downloadSize.get())
 				+ " - Download State: " + downloadProgressState.get() + "] \n" + "[" + directLink.get() + "]\n";
 	}

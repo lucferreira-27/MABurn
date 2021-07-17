@@ -11,7 +11,7 @@ public class LanguagesProperties {
 	private InputStream inputStream;
 
 	public LanguagesProperties(String proprie) {
-		// TODO Auto-generated constructor stub
+		
 
 		inputStream = Resources.getResourceAsStream("languages/" + proprie + ".properties");
 	}

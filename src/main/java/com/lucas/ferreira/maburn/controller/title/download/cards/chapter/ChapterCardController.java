@@ -109,7 +109,7 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void openFolder() {
-		// TODO Auto-generated method stub
+		
 		ChapterDirecotoryModel chapterDirecotoryModel = new ChapterDirecotoryModel(downloadInfo, chapterDownloadValues);
 		chapterDirecotoryModel.openFolder();
 
@@ -117,7 +117,7 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void openTitleMedia() {
-		// TODO Auto-generated method stub
+		
 		ChapterDirecotoryModel chapterDirecotoryModel = new ChapterDirecotoryModel(downloadInfo, chapterDownloadValues);
 		chapterDirecotoryModel.openFile();
 	}
@@ -129,7 +129,7 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
+		
 		
 
 	}

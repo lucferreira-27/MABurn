@@ -11,7 +11,7 @@ public class ListEpisodeScraping extends ListItemScraping {
 	private Sites site;
 
 	public ListEpisodeScraping(Sites site, MyBrowser myBrowser) {
-		// TODO Auto-generated constructor stub
+		
 		super(myBrowser);
 		this.site = site;
 	}

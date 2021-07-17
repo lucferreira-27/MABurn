@@ -21,7 +21,7 @@ public class AlertWindowView {
 	
 	
 	public AlertWindowView() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public static  void errorAlert(String title, String header, String msg) {
@@ -41,7 +41,7 @@ public class AlertWindowView {
 			CustomLogger.log(alert.getDialogPane().getStyleClass().get(1));
 			alert.showAndWait();
 			}catch (Exception e) {
-				// TODO: handle exception
+				
 				e.printStackTrace();
 			}
 		});
@@ -148,7 +148,6 @@ public class AlertWindowView {
 //			dialog.setHeaderText(header);
 //			dialog.setContentText(msg);
 //			Optional<String> result = dialog.showAndWait();
-//
 //			result.ifPresent(name -> {
 //				label = name;
 //			});

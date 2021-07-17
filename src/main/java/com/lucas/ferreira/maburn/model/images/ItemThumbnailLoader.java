@@ -23,7 +23,7 @@ public class ItemThumbnailLoader {
 	private CollectionTitle item;
 
 	public ItemThumbnailLoader(CollectionTitle item) {
-		// TODO Auto-generated constructor stub
+		
 		this.item = item;
 
 	}
@@ -48,7 +48,7 @@ public class ItemThumbnailLoader {
 			item.setImage(image);
 			addImageViewInImageGrid();
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			throw new ThumbnailLoadException(e.getMessage());
 		}
@@ -63,7 +63,7 @@ public class ItemThumbnailLoader {
 
 			addImageViewInImageGrid();
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			throw new ThumbnailLoadException(e.getMessage());
 		}
 		return cell;

@@ -14,7 +14,7 @@ public class AnimeScraping extends TitleScraping {
 	
 	
 	public AnimeScraping(Sites site) {
-		// TODO Auto-generated constructor stub
+		
 		super(site);
 		this.site = site;
 
@@ -27,7 +27,7 @@ public class AnimeScraping extends TitleScraping {
 
 	@Override
 	protected TitleScraped scrape(Page page, String script, Options options) {
-		// TODO Auto-generated method stub
+		
 		List<String> episodios = (ArrayList<String>) page.evaluate(script, options.getSelectQuery());
 		PageInfo pageInfo = fillPageInfo(page);
 		String url = page.url();

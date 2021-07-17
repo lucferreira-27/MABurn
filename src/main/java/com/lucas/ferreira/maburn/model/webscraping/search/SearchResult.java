@@ -7,7 +7,7 @@ public class SearchResult {
 	private String url;
 	private String name;
 	public SearchResult(Sites site) {
-		// TODO Auto-generated constructor stub
+		
 		this.site = site;
 	}
 	

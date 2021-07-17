@@ -11,7 +11,7 @@ import com.microsoft.playwright.Page;
 public class ChapterScraping extends ItemScraping {
 
 	public ChapterScraping(Sites site, BrowserContext context) {
-		// TODO Auto-generated constructor stub
+		
 		super(site, context);
 
 	}
@@ -32,7 +32,7 @@ public class ChapterScraping extends ItemScraping {
 
 	@Override
 	protected ItemScraped itemScrapedWithException(Exception e) {
-		// TODO Auto-generated method stub
+		
 		return new  ChapterScraped(e);
 	}
 }

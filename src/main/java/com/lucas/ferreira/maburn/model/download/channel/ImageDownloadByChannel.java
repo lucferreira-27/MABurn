@@ -41,7 +41,7 @@ public class ImageDownloadByChannel extends DownloadByChannel {
 			return  imageMetadata = (ImageMetadata) readImageMetadata.readTargetMetada(absolutePath);
 
 		} catch (FileNotFoundException | FileMetadataNotFound e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		return null;

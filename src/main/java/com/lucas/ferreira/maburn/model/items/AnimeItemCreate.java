@@ -15,14 +15,14 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 	private AnimeCollection collection;
 
 	public AnimeItemCreate(AnimeCollection collection) {
-		// TODO Auto-generated constructor stub
+		
 		this.collection = collection;
 
 	}
 
 	@Override
 	public AnimeDownloaded createItem(String destination) {
-		// TODO Auto-generated method stub
+		
 
 		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setName(destination.substring(destination.lastIndexOf("\\") + 1));
@@ -46,7 +46,7 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 			anime.setImageLocal(thumanailPath);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 
@@ -55,7 +55,7 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 
 	@Override
 	public AnimeDownloaded createSearchItem(CollectDatas collectDatas) {
-		// TODO Auto-generated method stub
+		
 		AnimeDownloaded anime = new AnimeDownloaded();
 		
 		anime.setName(collectDatas.getCanonicalTitle());

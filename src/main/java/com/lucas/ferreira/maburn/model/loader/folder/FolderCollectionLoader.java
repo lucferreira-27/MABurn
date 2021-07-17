@@ -105,25 +105,24 @@ public class FolderCollectionLoader {
 
 //	@Override
 //	public Collections loadCollection(String destination, Category category) {
-//		// TODO Auto-generated method stub
+//		
 //		return null;
 //	}
 //
 //	@Override
 //	public void loadItem(CollectionItem item) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	public void setDestination(String destination) {
-//		// TODO Auto-generated method stub
+//		
 //
 //	}
 //
 //	@Override
 //	protected Collections call() throws Exception {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 

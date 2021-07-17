@@ -22,7 +22,7 @@ public class AnimeScraped implements TitleScraped {
 
 	@Override
 	public Sites getSite() {
-		// TODO Auto-generated method stub
+		
 		return site;
 	}
 
@@ -36,7 +36,7 @@ public class AnimeScraped implements TitleScraped {
 	}
 	@Override
 	public List<String> getItemsScraped() {
-		// TODO Auto-generated method stub
+		
 		return episodes;
 	}
 }

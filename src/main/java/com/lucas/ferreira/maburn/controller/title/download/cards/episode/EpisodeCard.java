@@ -177,18 +177,18 @@ public class EpisodeCard implements DownloadCard{
 	}
 	@Override
 	public ImageView getImageViewTitleMediaIcon() {
-		// TODO Auto-generated method stub
+		
 		return imageViewWatchIcon;
 	}
 	@Override
 	public ImageView getImageViewDeleteIcon() {
-		// TODO Auto-generated method stub
+		
 		return imageViewDeleteIcon;
 	}
 
 	@Override
 	public ImageView getImageViewRefreshIcon() {
-		// TODO Auto-generated method stub
+		
 		return imageViewRefreshIcon;
 	}
 	@Override

@@ -83,7 +83,7 @@ public class TitleDownloadController {
 				initializeFetchResults();
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				e.printStackTrace();
 			}
 		}).start();
@@ -104,7 +104,7 @@ public class TitleDownloadController {
 				initializeFetchResults();
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				e.printStackTrace();
 			}
 		}).start();
@@ -127,7 +127,7 @@ public class TitleDownloadController {
 				initializeFetchResults();
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				e.printStackTrace();
 			}
 		}).start();

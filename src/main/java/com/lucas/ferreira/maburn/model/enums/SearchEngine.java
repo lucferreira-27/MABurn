@@ -7,7 +7,7 @@ public enum SearchEngine {
 	private String filter;
 
 	private SearchEngine(String url, String filter) {
-		// TODO Auto-generated constructor stub
+		
 		this.url = url;
 		this.filter = filter;
 	}

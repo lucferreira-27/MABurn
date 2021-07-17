@@ -10,7 +10,7 @@ public class FilterScoreComparator implements Comparator<GridPaneCell> {
 
 	@Override
 	public int compare(GridPaneCell cell1, GridPaneCell cell2) {
-		// TODO Auto-generated method stub
+		
 		
 		Double score1 =  ((CollectionTitle)cell1.getUserData()).getScore();
 		Double score2 =  ((CollectionTitle)cell2.getUserData()).getScore();

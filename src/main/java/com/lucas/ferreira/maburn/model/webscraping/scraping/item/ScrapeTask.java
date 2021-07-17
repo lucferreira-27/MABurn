@@ -12,7 +12,7 @@ public class ScrapeTask implements Callable<ItemScraped> {
 
 	public ScrapeTask(ScrapingWork scrapingWork, BrowserPage browserPage,
 			ListItemScraping listItemScraping) {
-		// TODO Auto-generated constructor stub
+		
 		this.scrapingWork = scrapingWork;
 		this.browserPage = browserPage;
 		this.listItemScraping = listItemScraping;

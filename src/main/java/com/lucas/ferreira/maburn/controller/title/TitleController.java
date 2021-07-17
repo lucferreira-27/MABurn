@@ -105,13 +105,11 @@ public class TitleController implements Initializable {
 	private TableColumn<TableCollectionItemModel, String> pathCol;
 
 	public TitleController() {
-		// TODO Auto-generated constructor stub
 
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		Icon iconStatus = new Icon(imgStatus, new IconConfig(ICON_PATH, Icons.STATUS, "Status"));
 
 		Icon iconPublished = new Icon(imgPublishedDate, new IconConfig(ICON_PATH, Icons.PUBLISHED, "Published"));
@@ -166,7 +164,7 @@ public class TitleController implements Initializable {
 				image = new Image(new FileInputStream(new File(item.getImageLocal())));
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		tableItens.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
@@ -206,15 +204,14 @@ public class TitleController implements Initializable {
 		try {
 			desk.browse(new URI(item.getDataBaseUrl()));
 		} catch (IOException | URISyntaxException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
 
 	public void onClickButtonDownload() {
 		navigator.open(Interfaces.TITLE_DOWNLOAD);
-//		TitleDownloadInterfaceView titleDownload = new TitleDownloadInterfaceView(titleView);
-//		titleDownload.loadMainInterfaceFX();
+
 	}
 
 	public void onClickButtonUpdate() {
@@ -232,7 +229,7 @@ public class TitleController implements Initializable {
 			AlertWindowView.infoAlert(collections.getActualItem().getTitleFileName() + " REMOVE!", "SUCCEED!",
 					"Path: " + collections.getDestination());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			  
 			e.printStackTrace();
 		}
 	}
@@ -256,10 +253,10 @@ public class TitleController implements Initializable {
 			itemForm.setBlackList(true);
 			orchestrator.write(form);
 
-			// orchestrator.removeById(collectionForm, collections.getActualItem().getId());
+			
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -279,7 +276,7 @@ public class TitleController implements Initializable {
 			}
 		} catch (NumberFormatException e) {
 			// e.printStackTrace();
-			// TODO: handle exception
+			
 		}
 		String btnText = "";
 
@@ -296,7 +293,7 @@ public class TitleController implements Initializable {
 				try {
 					DirectoryModel.openDirectory(subItem.getDestination());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			});
@@ -320,7 +317,7 @@ public class TitleController implements Initializable {
 							DirectoryModel.openDirectory(getTableView().getItems().get(getIndex()).getPath());
 							getTableView().getSelectionModel().select(getIndex());
 						} catch (Exception e) {
-							// TODO: handle exception
+							
 							e.printStackTrace();
 						}
 					});

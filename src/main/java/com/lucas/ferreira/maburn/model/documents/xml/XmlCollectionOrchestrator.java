@@ -16,7 +16,7 @@ public class XmlCollectionOrchestrator {
 	private final File FILE = new File(Documents.DATA_LOCAL);
 
 	public XmlCollectionOrchestrator() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public boolean removeById(CollectionForm collectionForm, Integer id) throws JsonProcessingException {
@@ -69,7 +69,7 @@ public class XmlCollectionOrchestrator {
 				break;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			throw e;
 		}
 

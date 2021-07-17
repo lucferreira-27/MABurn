@@ -108,7 +108,7 @@ public class TitleDownload {
 	}
 
 	public TitleDownload(Collections collections, int id) {
-		// TODO Auto-generated constructor stub
+		
 		this.collections = collections;
 		this.id.set(id);
 		this.collectionItem = collections.getActualItem();
@@ -144,7 +144,7 @@ public class TitleDownload {
 	}
 
 	public void checkProgress(Downloader<CollectionItem> downloader) {
-		// TODO Auto-generated method stub
+		
 		Platform.runLater(() -> {
 			downloader.progressProperty().addListener((obs, oldvalue, newvalue) -> {
 				if (Double.isNaN(newvalue.doubleValue())) {
@@ -324,7 +324,7 @@ public class TitleDownload {
 					}
 					calculateTimeRemain((1 - totalProgressPropery.get()) / downloadeSpeed);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 			}
@@ -338,7 +338,7 @@ public class TitleDownload {
 
 					downloadTime.setValue((end - b) + downloadTime.get());
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 			}

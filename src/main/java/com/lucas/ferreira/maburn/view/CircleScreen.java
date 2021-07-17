@@ -17,7 +17,7 @@ public class CircleScreen {
         frame.setVisible(true);
     }
     public CircleScreen() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
     public static void main(String[] args) {

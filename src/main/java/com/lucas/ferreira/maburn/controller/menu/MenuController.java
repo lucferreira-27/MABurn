@@ -31,7 +31,7 @@ public class MenuController implements Initializable {
 	private ImageView imgDownloads;
 
 	public MenuController() {
-		// TODO Auto-generated constructor stub
+		
 		initialize = new InitializeModel();
 
 	}
@@ -66,7 +66,7 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		
 		initialize.boot();
 
 		imgHome.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + "home_white.png")));

@@ -157,7 +157,7 @@ public class ManualSearchAlert implements Alert {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 		}
@@ -188,7 +188,7 @@ public class ManualSearchAlert implements Alert {
 
 	@Override
 	public Pane getPane() {
-		// TODO Auto-generated method stub
+		
 		return anchorPane;
 	}
 }

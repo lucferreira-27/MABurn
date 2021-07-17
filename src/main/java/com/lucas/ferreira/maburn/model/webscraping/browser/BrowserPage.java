@@ -13,18 +13,18 @@ public class BrowserPage {
 	private boolean alive = false;
 	
 	public BrowserPage(Playwright playwright) {
-		// TODO Auto-generated constructor stub
+		
 		this.playwright = playwright;
 		alive = true;
 	}
 	
 	public BrowserPage(Page page) {
-		// TODO Auto-generated constructor stub
+		
 		this.page = page;
 		alive = true;
 	}
 	public BrowserPage(Playwright playwright,BrowserContext context) {
-		// TODO Auto-generated constructor stub
+		
 		this.context = context;
 		this.playwright = playwright;
 

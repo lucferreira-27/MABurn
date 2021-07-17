@@ -39,7 +39,7 @@ public class NormalCard implements Card {
 	
 	
 	public NormalCard(GridPaneCell cell) {
-		// TODO Auto-generated constructor stub
+		
 		this.cell = cell;
 		pane = (Pane) cell.getNode();
 		image = (ImageView) pane.getChildren().get(0);
@@ -128,7 +128,7 @@ public class NormalCard implements Card {
 				try {
 					longSize = FileUtils.sizeOfDirectory(new File(item.getDestination()));
 				} catch (Exception e) {
-					// TODO: handle exception
+					
 					System.err.println("Card loadSizeInDisk eror: " + e.getMessage());
 
 				}
@@ -155,7 +155,7 @@ public class NormalCard implements Card {
 						.loadCollectionItems(item.getDestination(), item.getCategory()).getListSubItens());
 				numberOfSubItemsProperty.set(item.getListSubItens().size());
 			} catch (NullPointerException e) {
-				// TODO: handle exception
+				
 				System.err.println("Card loadNumberOfItem eror: " + e.getMessage());
 				numberOfSubItemsProperty.set(0);
 			}

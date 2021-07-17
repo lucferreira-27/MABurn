@@ -37,7 +37,7 @@ public abstract class Scraping extends AutoBrowser {
 		try {
 			rulesProperties = ruler.readPropertiesFromSite(site);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		return rulesProperties;
@@ -48,7 +48,7 @@ public abstract class Scraping extends AutoBrowser {
 		try {
 			rulesProperties = ruler.readPropertiesFromSearchEngine(engine);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		return rulesProperties;

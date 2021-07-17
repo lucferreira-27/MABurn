@@ -74,7 +74,7 @@ public abstract class Downloader<T> extends Task<T> {
 	protected BooleanProperty failedProperty = new SimpleBooleanProperty();
 
 	public Downloader() {
-		// TODO Auto-generated constructor stub
+		
 		stateProperty.set(DownloadState.PREPARING);
 		cancelProperty.set(false);
 		pauseProperty.set(false);
@@ -272,7 +272,7 @@ public abstract class Downloader<T> extends Task<T> {
 		try {
 			DirectoryModel.openDirectory(subItem.getDestination());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 
@@ -332,7 +332,7 @@ public abstract class Downloader<T> extends Task<T> {
 
 	@Override
 	protected T call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

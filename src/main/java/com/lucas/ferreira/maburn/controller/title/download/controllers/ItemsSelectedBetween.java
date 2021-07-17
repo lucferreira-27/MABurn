@@ -97,13 +97,13 @@ public class ItemsSelectedBetween implements Controllers {
 
 	@Override
 	public List<Node> getChildren() {
-		// TODO Auto-generated method stub
+		
 		return Arrays.asList(itemValueTextFieldBegin.getTxtField(), itemValueTextFieldEnd.getTxtField());
 	}
 
 	@Override
 	public FetchItemType getFetchItemType() {
-		// TODO Auto-generated method stub
+		
 		return FetchItemType.BETWEEN;
 	}
 	
@@ -117,7 +117,7 @@ public class ItemsSelectedBetween implements Controllers {
 
 	@Override
 	public boolean getVisible() {
-		// TODO Auto-generated method stub
+		
 		return visible;
 	}
 

@@ -9,7 +9,7 @@ public class FutureCollection  {
 	private final ObservableList<CollectionTitle> futureItems;
 	
 	public FutureCollection(ObservableList<CollectionTitle> futureItems) {
-		// TODO Auto-generated constructor stub
+		
 		this.futureItems = futureItems;
 	}
 	

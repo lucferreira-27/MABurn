@@ -37,8 +37,6 @@ public class CollectionMenuController implements Initializable {
 	@FXML
 	private AnchorPane apMenu;
 
-//	@FXML
-//	private BorderPane bpMenu;
 
 	@FXML
 	private ImageView imgMenu;
@@ -98,7 +96,7 @@ public class CollectionMenuController implements Initializable {
 			collectionForm = collectionOrchestrator.read();
 			configForm = configOrchestrator.read();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return;
 		}
@@ -122,9 +120,7 @@ public class CollectionMenuController implements Initializable {
 				});
 			}
 		});
-//		collection = collectionController.getCollection();
-//
-//		Platform.runLater(() -> lblCollectionItems.setText(String.valueOf(collection.getItens().size())));
+
 
 	}
 

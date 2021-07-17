@@ -13,7 +13,7 @@ public class GridPaneCell {
 	private int row;
 	private int column;
 	public GridPaneCell(Node node, int column, int row) {
-		// TODO Auto-generated constructor stub
+		
 		GridPane.setConstraints(node, column, row);
 		this.node = node;
 		this.column = column;
@@ -21,7 +21,7 @@ public class GridPaneCell {
 	}
 
 	public GridPaneCell(Node node) throws IllegalAccessException {
-		// TODO Auto-generated constructor stub
+		
 
 		if (!(node instanceof AnchorPane)) {
 			throw new IllegalAccessException();
@@ -68,7 +68,7 @@ public class GridPaneCell {
 	}
 
 	public int compareTo(GridPaneCell a) {
-		// TODO Auto-generated method stub
+		
 		String str1 =  ((CollectionTitle)this.getUserData()).getTitleDataBase();
 		String str2 =  ((CollectionTitle)a.getUserData()).getTitleDataBase();
 		return str1.compareTo(str2);

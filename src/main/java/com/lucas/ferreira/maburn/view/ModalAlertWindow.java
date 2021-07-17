@@ -35,7 +35,6 @@ public class ModalAlertWindow {
 				stage.setScene(new Scene(dialogPane));
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -76,7 +75,6 @@ public class ModalAlertWindow {
 				stage.setScene(new Scene(dialogPane));
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -109,7 +107,7 @@ public class ModalAlertWindow {
 			Platform.runLater(() -> stage.show());
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 		}
 
@@ -120,7 +118,6 @@ public class ModalAlertWindow {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -139,7 +136,6 @@ public class ModalAlertWindow {
 				stage.setScene(new Scene(dialogPane));
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -191,7 +187,6 @@ public class ModalAlertWindow {
 				stage.setScene(new Scene(dialogPane));
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});

@@ -13,7 +13,7 @@ public class MangaWebData extends TitleWebData {
 	
 	
 	public MangaWebData(String name) {
-		// TODO Auto-generated constructor stub
+		
 		this.name = name;
 	}
 	

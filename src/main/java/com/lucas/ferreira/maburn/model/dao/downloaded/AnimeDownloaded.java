@@ -34,12 +34,12 @@ public class AnimeDownloaded implements CollectionTitle {
 	private int id;
 
 	public AnimeDownloaded(String destination) {
-		// TODO Auto-generated constructor stub
+		
 		this.destination = destination;
 	}
 
 	public AnimeDownloaded() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public AnimeCollection getAnimeCollection() {
@@ -76,7 +76,7 @@ public class AnimeDownloaded implements CollectionTitle {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
+		
 		if (name == null && (destination != null && !destination.isEmpty()))
 			name = destination.substring(destination.lastIndexOf("\\") + 1);
 		return name;
@@ -84,88 +84,88 @@ public class AnimeDownloaded implements CollectionTitle {
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
+		
 		this.name = name;
 
 	}
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
+		
 		return id;
 	}
 
 	@Override
 	public void setId(int id) {
-		// TODO Auto-generated method stub
+		
 		this.id = id;
 
 	}
 
 	@Override
 	public String getLink() {
-		// TODO Auto-generated method stub
+		
 		return link;
 	}
 
 	@Override
 	public void setLink(String link) {
-		// TODO Auto-generated method stub
+		
 		this.link = link;
 	}
 
 	@Override
 	public String getDataBaseUrl() {
-		// TODO Auto-generated method stub
+		
 		return dataUrl;
 	}
 
 	@Override
 	public void setDataBaseUrl(String dataUrl) {
-		// TODO Auto-generated method stub
+		
 		this.dataUrl = dataUrl;
 	}
 
 	@Override
 	public String getImageUrl() {
-		// TODO Auto-generated method stub
+		
 		return imageUrl;
 	}
 
 	@Override
 	public void setImageUrl(String imageUrl) {
-		// TODO Auto-generated method stub
+		
 		this.imageUrl = imageUrl;
 	}
 
 	@Override
 	public String getImageLocal() {
-		// TODO Auto-generated method stub
+		
 		return imageLocal;
 	}
 
 	@Override
 	public void setImageLocal(String local) {
-		// TODO Auto-generated method stub
+		
 		this.imageLocal = local;
 
 	}
 
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
+		
 		return image;
 	}
 
 	@Override
 	public void setImage(Image image) {
-		// TODO Auto-generated method stub
+		
 		this.image = image;
 	}
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
+		
 		return Category.ANIME;
 	}
 
@@ -176,20 +176,20 @@ public class AnimeDownloaded implements CollectionTitle {
 
 	@Override
 	public void setTitleDataBase(String titleDataBase) {
-		// TODO Auto-generated method stub
+		
 		this.titleDataBase = titleDataBase;
 
 	}
 
 	@Override
 	public String getTitleFileName() {
-		// TODO Auto-generated method stub
+		
 		return StringUtil.stringUtilFile(titleDataBase);
 	}
 
 	@Override
 	public void addSubItens(List<CollectionItem> subItens) {
-		// TODO Auto-generated method stub
+		
 		subItens.forEach(subItem -> listEpisodes.add((EpisodeDownloaded) subItem));
 
 	}
@@ -210,53 +210,53 @@ public class AnimeDownloaded implements CollectionTitle {
 
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
+		
 		return ((AnimeDownloaded) obj).getTitleDataBase().equals(this.titleDataBase);
 	}
 
 	@Override
 	public Collections getCollections() {
-		// TODO Auto-generated method stub
+		
 		return animeCollection;
 	}
 
 	@Override
 	public void setCollections(Collections collections) {
-		// TODO Auto-generated method stub
+		
 		this.animeCollection = (AnimeCollection) collections;
 	}
 	@Override
 	public Double getScore() {
-		// TODO Auto-generated method stub
+		
 		return score;
 	}
 
 	@Override
 	public void setScore(Double score) {
-		// TODO Auto-generated method stub
+		
 		this.score = score;
 	}
 
 	@Override
 	public String getDate() {
-		// TODO Auto-generated method stub
+		
 		return date;
 	}
 
 	@Override
 	public void setDate(String date) {
-		// TODO Auto-generated method stub
+		
 		this.date = date;
 	}
 //	@Override
 //	public WebScraping getWebScraping() {
-//		// TODO Auto-generated method stub
+//		
 //		return webScraping;
 //	}
 //
 //	@Override
 //	public void setWebScraping(WebScraping webScraping) {
-//		// TODO Auto-generated method stub
+//		
 //		this.webScraping = webScraping;
 //
 //	}
@@ -270,20 +270,20 @@ public class AnimeDownloaded implements CollectionTitle {
 
 	@Override
 	public Map<String, String> getTitles() {
-		// TODO Auto-generated method stub
+		
 		return titles;
 	}
 
 	@Override
 	public void setTitles(Map<String, String> titles) {
-		// TODO Auto-generated method stub
+		
 		this.titles = titles;
 	}
 
 
 	@Override
 	public ListItemForm toForm() {
-		// TODO Auto-generated method stub
+		
 
 		ListItemForm form = new ListItemForm();
 		form.setCategory(getCategory());

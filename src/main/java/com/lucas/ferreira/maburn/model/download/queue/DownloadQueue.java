@@ -12,7 +12,7 @@ public class DownloadQueue extends Task<Void> {
 
 	@Override
 	protected Void call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		live();
 		return null;
 	}
@@ -31,7 +31,7 @@ public class DownloadQueue extends Task<Void> {
 				Thread.sleep(100);
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 			}
 		}
 	}
@@ -63,7 +63,7 @@ public class DownloadQueue extends Task<Void> {
 		try {
 			return downloadList.stream().filter(download -> download.getId() == id).findAny().get();
 		} catch (NoSuchElementException e) {
-			// TODO: handle exception
+			
 			return null;
 		}
 	}

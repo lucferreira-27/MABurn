@@ -10,7 +10,7 @@ public class FetchItemAll implements Fetch {
 
 	@Override
 	public  ObservableList<ItemScraped> fetch(Scraping scraping) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

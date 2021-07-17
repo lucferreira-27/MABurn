@@ -64,7 +64,7 @@ public class CollectionGridPane {
 	private IntegerProperty propertyItemsTotal = new SimpleIntegerProperty();
 
 	public CollectionGridPane() {
-		// TODO Auto-generated constructor stub
+		
 
 	}
 
@@ -234,7 +234,7 @@ public class CollectionGridPane {
 				try {
 					addItemInTable(item);
 				} catch (ThumbnailLoadException e) {
-					// TODO: handle exception
+					
 					e.printStackTrace();
 				}
 			}

@@ -17,7 +17,7 @@ public class FolderReaderUtil {
 			}
 		
 		} catch (IOException e) {
-			// TODO: handle exception
+			
 			return false;
 
 		}

@@ -10,7 +10,7 @@ public class ShadeLayer {
 	private double opacity;
 	
 	public ShadeLayer(AnchorPane recShade) {
-		// TODO Auto-generated constructor stub
+		
 		this.recShade = recShade;
 	}
 	

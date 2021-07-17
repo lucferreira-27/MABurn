@@ -27,7 +27,7 @@ public class ConnectionModel implements Callable<String> {
 			try {
 				return connect(url);
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				attempt++;
 				if (attempt >= attempts) {
 					throw new ConnectionException(e.getMessage());
@@ -45,7 +45,7 @@ public class ConnectionModel implements Callable<String> {
 				return Httpsetup(url);
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				attempt++;
 				if (attempt >= attempts) {
 					throw new ConnectionException(e.getMessage());
@@ -64,7 +64,7 @@ public class ConnectionModel implements Callable<String> {
 				return is;
 
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				attempt++;
 				if (attempt >= attempts) {
 					throw new ConnectionException(e.getMessage());
@@ -85,7 +85,7 @@ public class ConnectionModel implements Callable<String> {
 			httpConn = Httpsetup(url);
 			return inputStreamToString(httpConn);
 		} catch (IOException e) {
-			// TODO: handle exception
+			
 			System.err.println(e.getMessage());
 			int responseCode;
 			try {
@@ -93,7 +93,7 @@ public class ConnectionModel implements Callable<String> {
 				throw new ConnectionException(String.valueOf(responseCode));
 
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				 
 				throw new ConnectionException(e.getMessage());
 
 			}
@@ -129,7 +129,7 @@ public class ConnectionModel implements Callable<String> {
 
 	@Override
 	public String call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		return connect(link);
 	}
 }

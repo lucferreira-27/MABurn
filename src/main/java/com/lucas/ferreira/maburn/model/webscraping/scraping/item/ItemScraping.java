@@ -17,14 +17,14 @@ public abstract class  ItemScraping extends Scraping {
 	private BrowserContext context;
 	
 	public ItemScraping(Sites site, BrowserContext context) {
-		// TODO Auto-generated constructor stub
+		
 		this.site = site;
 		this.context = context;
 	}
 	
 	
 	public ItemScraped scrapeItem(String url) {
-		// TODO Auto-generated method stub
+		
 		try {
 		Page page = context.newPage();
 		Evaluate evaluate = new Evaluate();
@@ -43,7 +43,7 @@ public abstract class  ItemScraping extends Scraping {
 		
 		return itemScraped;
 	} catch (Exception e) {
-			// TODO: handle exception
+			
 		return itemScrapedWithException(e);
 		}
 	}

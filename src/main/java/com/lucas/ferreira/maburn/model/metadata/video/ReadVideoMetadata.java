@@ -15,7 +15,7 @@ public class ReadVideoMetadata  extends ReadMetadata{
 
 	@Override
 	protected TargetMetadata createMetadata(Map<String, String> mapTags) {
-		// TODO Auto-generated method stub
+		
 		VideoMetadata videoMetadata = new VideoMetadata();
 		videoMetadata.setDuration(mapTags.get(keyTagDuration));
 		videoMetadata.setHeight(mapTags.get(keyTagHeight));

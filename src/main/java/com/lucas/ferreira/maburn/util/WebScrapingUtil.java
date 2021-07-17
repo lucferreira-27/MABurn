@@ -103,7 +103,7 @@ public class WebScrapingUtil {
 		try {
 			return string.substring(0, string.lastIndexOf(" – Todos")).trim();
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			return string;
 		}
 	}

@@ -38,7 +38,7 @@ public class MainInterfaceView {
 	private FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 
 	public MainInterfaceView() {
-		// TODO Auto-generated constructor stub
+		
 		Platform.runLater(() -> {
 			stage = new Stage();
 		});
@@ -64,7 +64,7 @@ public class MainInterfaceView {
 	}
 
 	private void hideLoadFrame() {
-		// TODO Auto-generated method stub
+		
 
 		Platform.runLater(() -> {
 
@@ -85,7 +85,6 @@ public class MainInterfaceView {
 //				loadFXML();
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				AlertWindowView.exceptionAlert(e);
 				System.exit(0);
@@ -105,7 +104,6 @@ public class MainInterfaceView {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -129,7 +127,6 @@ public class MainInterfaceView {
 
 //		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
 //			initializeIsDone = true;
-//
 //		});
 		CustomLogger.log("> Initialize MainInterfaceView");
 		createScene();
@@ -159,7 +156,6 @@ public class MainInterfaceView {
 				try {
 					Files.delete(FetchTitle.getDriverPath());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} finally {
 					Platform.exit();

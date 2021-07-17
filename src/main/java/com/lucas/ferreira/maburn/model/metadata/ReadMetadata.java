@@ -37,7 +37,7 @@ public abstract class ReadMetadata {
 		try {
 			return ImageMetadataReader.readMetadata(file);
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			throw new FileMetadataNotFound(e.getMessage());
 		}
 	}

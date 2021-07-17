@@ -324,7 +324,7 @@ public class CollectionInterfaceController implements Initializable {
 	}
 
 	public void onClickButtonSearch() {
-		// TODO Auto-generated method stub
+		
 
 		new Thread(() -> {
 
@@ -344,7 +344,7 @@ public class CollectionInterfaceController implements Initializable {
 	}
 
 	public GridPane getItensImagesGridPane() {
-		// TODO Auto-generated method stub
+		
 		return itensImagesGridPane;
 	}
 

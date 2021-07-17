@@ -46,7 +46,7 @@ public class VideoMetadata  implements TargetMetadata{
 	}
 	@Override
 	public long getLongSize() {
-		// TODO Auto-generated method stub
+		
 		return sizeToLong();
 	}
 

@@ -23,7 +23,7 @@ public class SearchCard implements Card {
 	private ImageView image;
 
 	public SearchCard(GridPaneCell cell) {
-		// TODO Auto-generated constructor stub
+		
 		this.cell = cell;
 		pane = (Pane) cell.getNode();
 		image = (ImageView) pane.getChildren().get(0);

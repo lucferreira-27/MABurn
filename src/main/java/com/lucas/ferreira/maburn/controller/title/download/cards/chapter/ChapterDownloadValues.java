@@ -36,19 +36,19 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 
 	@Override
 	public DoubleProperty getTotalDownloaded() {
-		// TODO Auto-generated method stub
+		
 		return totalDownlaodConclued;
 	}
 
 	@Override
 	public StringProperty getName() {
-		// TODO Auto-generated method stub
+		
 		return name;
 	}
 
 	@Override
 	public StringProperty getTarget() {
-		// TODO Auto-generated method stub
+		
 		return target;
 	}
 	@Override
@@ -58,7 +58,7 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 
 	@Override
 	public List<ItemDownloadValues> getListItemsDownloadValues() {
-		// TODO Auto-generated method stub
+		
 		return listPageDownloadItemValues;
 	}
 
@@ -106,13 +106,13 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 
 	@Override
 	public DoubleProperty getDownloadSize() {
-		// TODO Auto-generated method stub
+		
 		return chapterSize;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSpeed() {
-		// TODO Auto-generated method stub
+		
 		return downloadPageSpeed;
 	}
 

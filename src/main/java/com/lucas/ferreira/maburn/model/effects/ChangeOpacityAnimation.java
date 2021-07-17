@@ -21,7 +21,7 @@ public class ChangeOpacityAnimation implements EffectAnimation {
 	private DoubleProperty progress = new SimpleDoubleProperty();
 
 	public ChangeOpacityAnimation(Pane pane, double start, double target) {
-		// TODO Auto-generated constructor stub
+		
 		this.start = start;
 		this.target = target;
 		this.pane = pane;

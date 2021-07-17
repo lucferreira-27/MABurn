@@ -25,7 +25,7 @@ public class ChapterDirecotoryModel {
 			
 			DirectoryModel.openDirectory(diretory);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	}
@@ -37,7 +37,7 @@ public class ChapterDirecotoryModel {
 			
 			DirectoryModel.openDirectory(diretory);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	}

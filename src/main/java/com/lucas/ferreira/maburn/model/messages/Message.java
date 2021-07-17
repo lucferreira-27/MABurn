@@ -44,7 +44,7 @@ public abstract class Message {
 	}
 
 	public boolean isShowing() {
-		// TODO Auto-generated method stub
+		
 		return area.isVisible();
 	}
 

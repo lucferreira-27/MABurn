@@ -9,17 +9,17 @@ public class GridPaneTable {
 	private int columnSize;
 	
 	public GridPaneTable() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public GridPaneTable(List<GridPaneCell> cells, int columnSizeMax) {
-		// TODO Auto-generated constructor stub
+		
 		this.cells = cells;
 		this.columnSize = columnSizeMax;
 	}
 
 	public GridPaneTable(int columnSizeMax) {
-		// TODO Auto-generated constructor stub
+		
 		this.columnSize = columnSizeMax;
 	}
 

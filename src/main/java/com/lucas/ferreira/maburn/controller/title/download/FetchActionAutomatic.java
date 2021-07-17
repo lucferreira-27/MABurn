@@ -28,7 +28,7 @@ public class FetchActionAutomatic implements FetchAction{
 
 	@Override
 	public FetchableTittle action(FetchableTittle  fetchableTittle) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return automaticFetch(fetchableTittle);
 	}
 

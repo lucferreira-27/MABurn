@@ -8,7 +8,7 @@ public enum DownloadUnit {
 	private String value;
 	
 	private DownloadUnit(String value) {
-		// TODO Auto-generated constructor stub
+		
 		this.value = value;
 	}
 	

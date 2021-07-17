@@ -49,7 +49,7 @@ public class FileTypeDetection {
 		Metadata metadata = ImageMetadataReader.readMetadata(file);
 		return metadata;
 		}catch (Exception e) {
-			// TODO: handle exception
+			
 			throw new FileMetadataNotFound(e.getMessage());
 		}
 	}

@@ -20,11 +20,11 @@ public class ThumbnailController extends Task<Void> {
 	private CollectionTitle item;
 	private DownloadImageServiceModel modelService;
 	public ThumbnailController(CollectionTitle item) {
-		// TODO Auto-generated constructor stub
+		
 		this.item = item;
 	}
 	public ThumbnailController(ListItemForm itemForm) {
-		// TODO Auto-generated constructor stub
+		
 		if(itemForm.getCategory() == Category.ANIME) {
 			item = new AnimeDownloaded();
 		}
@@ -37,7 +37,7 @@ public class ThumbnailController extends Task<Void> {
 
 	@Override
 	protected Void call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		download();
 		return null;
 	}

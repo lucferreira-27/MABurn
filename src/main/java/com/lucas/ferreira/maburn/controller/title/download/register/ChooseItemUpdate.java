@@ -36,7 +36,7 @@ public class ChooseItemUpdate implements ChooseItem{
 
 	@Override
 	public Controllers getController() {
-		// TODO Auto-generated method stub
+		
 		return itemsSelectedUpdate;
 	}
 

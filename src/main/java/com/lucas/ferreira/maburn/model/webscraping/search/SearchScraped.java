@@ -9,7 +9,7 @@ public class SearchScraped {
 	
 	
 	public SearchScraped(List<String> listResults) {
-		// TODO Auto-generated constructor stub
+		
 		this.listResults = listResults;
 	}
 	

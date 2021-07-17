@@ -36,7 +36,7 @@ public class ChapterDownloaded implements CollectionItem {
 	}
 	@Override
 	public CollectionTitle getItem() {
-		// TODO Auto-generated method stub
+		
 		return manga;
 	}
 	

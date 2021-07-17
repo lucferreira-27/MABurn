@@ -9,7 +9,7 @@ public class ItemFileComparator implements Comparator<CollectionItem> {
 
 	@Override
 	public int compare(CollectionItem o1, CollectionItem o2) {
-		// TODO Auto-generated method stub
+		
 
 		String dest1 = o1.getDestination();
 		String dest2 = o2.getDestination();
@@ -17,7 +17,7 @@ public class ItemFileComparator implements Comparator<CollectionItem> {
 		dest1 = dest1.substring(dest1.lastIndexOf(" ")).trim();
 		dest2 = dest2.substring(dest2.lastIndexOf(" ")).trim();
 		}catch (StringIndexOutOfBoundsException e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 		}
 		if (dest1.contains(".") && dest2.contains(".")) {

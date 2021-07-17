@@ -9,7 +9,7 @@ public class TitleDownloadState implements StateAdapter {
 	
 	@Override
 	public StateAdapter getState()
-	// TODO Auto-generated method stub
+	
 	{
 		return this;
 	}

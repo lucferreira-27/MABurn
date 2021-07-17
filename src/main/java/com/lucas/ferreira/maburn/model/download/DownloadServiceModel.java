@@ -28,7 +28,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 	private int totalByteRead;
 
 	public DownloadServiceModel() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public File download() throws IOException {
@@ -64,7 +64,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 		try {
 			type = url.getPath().substring(url.getPath().lastIndexOf("."));
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			type = ".mp4";
 		}
 		String fileName = path.substring(path.lastIndexOf("\\") + 1);
@@ -106,7 +106,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 
 			updateState(DownloadState.FINISH);
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			updateState(DownloadState.FAILED);
 			failedProperty.set(true);
@@ -153,7 +153,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 
 			updateState(DownloadState.FINISH);
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			updateState(DownloadState.FAILED);
 			failedProperty.set(true);
@@ -181,7 +181,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 						break;
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 			}
@@ -190,7 +190,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 	}
 
 	public long speedCalculation(Double downloadSpeed, long start, long end, int i) {
-		// TODO Auto-generated method stub
+		
 		DecimalFormat four = new DecimalFormat("#0.00");
 
 		downloadSpeed = Double.parseDouble(four.format(downloadSpeed).replaceAll(",", ".")) / 1048576;
@@ -218,7 +218,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 			httpConn.addRequestProperty("REFERER", referer);
 			return url;
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			System.err.println("LINK: " + link);
 			e.printStackTrace();
 			return null;
@@ -228,11 +228,11 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 
 	@Override
 	protected CollectionItem call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		try {
 			download();
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		}
@@ -255,7 +255,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 			cancelProperty.set(false);
 			download();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 
@@ -267,7 +267,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 		}
@@ -305,7 +305,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 
 			@Override
 			public void accept(int value) {
-				// TODO Auto-generated method stub
+				
 				// CustomLogger.log("ACCEPT: \n" + "VALUE: "+ value +"\nContent Length: " +
 				// BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));

@@ -19,7 +19,7 @@ public class SearchScraping extends Scraping {
 	private String title;
 
 	public SearchScraping(String title, SearchEngine engine, Sites site) {
-		// TODO Auto-generated constructor stub
+		
 		this.engine = engine;
 		this.title = title;
 		this.site = site;

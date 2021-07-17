@@ -35,12 +35,12 @@ public class SettingsInterfaceController implements Initializable {
 	private ConfigForm configForm;
 
 	public SettingsInterfaceController() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		
 		try {
 			configForm = configurationOrchestrator.read();
 
@@ -53,7 +53,7 @@ public class SettingsInterfaceController implements Initializable {
 				txtPathAnimeCollection.setText(path);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +68,7 @@ public class SettingsInterfaceController implements Initializable {
 			}
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			return false;
 		}
 	}

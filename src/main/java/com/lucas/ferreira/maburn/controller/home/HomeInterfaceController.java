@@ -42,7 +42,7 @@ public class HomeInterfaceController implements Initializable {
 	private ImageView imgCalendar;
 
 	public HomeInterfaceController() {
-		// TODO Auto-generated constructor stub
+		
 
 	}
 
@@ -60,7 +60,6 @@ public class HomeInterfaceController implements Initializable {
 				return;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -82,20 +81,12 @@ public class HomeInterfaceController implements Initializable {
 				return;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		category = Category.MANGA;
 		navigator.open(Interfaces.COLLECTION);
 
-//		CustomLogger.log("Manga");
-//		ExecutorService executorService = Executors.newSingleThreadExecutor();
-//		executorService.submit(dataFetcher);
-//		executorService.shutdown();
-//		FXMLViewLoader loader = new FXMLViewLoader();
-//		loader.loadInterface("ItensViewFXML.fxml", new CollectionInterfaceController());
-		// ItemsInterfaceView itensView = new ItemsInterfaceView(data);
-		// itensView.loadMainInterfaceFX();
+
 
 	}
 
@@ -172,7 +163,7 @@ public class HomeInterfaceController implements Initializable {
 			});
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 		}
 	}

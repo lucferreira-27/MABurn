@@ -29,11 +29,11 @@ public class KitsuDatabase implements Database {
 		}  
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
-		// TODO Auto-generated method stub
+		
 		try {
 			querry = URLEncoder.encode(querry, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		
@@ -62,11 +62,11 @@ public class KitsuDatabase implements Database {
 		try {
 			querry = URLEncoder.encode(querry, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		
-		// TODO Auto-generated method stub
+		
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		List<CollectDatas> datas =  kitsuApi.fetchAll();
 		return datas;
@@ -86,7 +86,7 @@ public class KitsuDatabase implements Database {
 		}  
 		
 		String url = "https://kitsu.io/api//edge/"+type+"/";
-		// TODO Auto-generated method stub
+		
 		kitsuApi = new KitsuResponseAPI(url + id);
 		CollectDatas datas =  kitsuApi.fetchFirst();
 		return datas;

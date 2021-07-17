@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class FutureResponseUtil <T> extends ResponseUtil {
 	private List<Future<T>> future;
 	public FutureResponseUtil(List<Future<T>> future) {
-		// TODO Auto-generated constructor stub
+		
 		this.future = future;
 	}
 	
@@ -34,20 +34,20 @@ public class FutureResponseUtil <T> extends ResponseUtil {
 
 	@Override
 	public void await() {
-		// TODO Auto-generated method stub
+		
 		waitAllFuture();
 		
 	}
 
 	@Override
 	protected Void call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public void listen() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

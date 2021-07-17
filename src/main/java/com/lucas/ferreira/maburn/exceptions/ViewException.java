@@ -5,7 +5,7 @@ public class ViewException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public ViewException(String msg) {
-		// TODO Auto-generated constructor stub
+		
 		super(msg);
 	}
 }

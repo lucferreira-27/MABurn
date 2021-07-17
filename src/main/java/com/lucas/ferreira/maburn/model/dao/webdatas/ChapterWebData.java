@@ -22,7 +22,7 @@ public class ChapterWebData extends ItemWebData {
 	private List<String> listPagesUrl = new ArrayList<>();
 
 	public ChapterWebData(MangaWebData mangaWebData) {
-		// TODO Auto-generated constructor stub
+		
 		this.mangaWebData = mangaWebData;
 	}
 
@@ -52,7 +52,7 @@ public class ChapterWebData extends ItemWebData {
 
 	@Override
 	public Sites getSite() {
-		// TODO Auto-generated method stub
+		
 		return mangaWebData.getSite();
 	}
 

@@ -16,7 +16,7 @@ public class DifferenceSynchrony {
 	private List<ItemWebData> items = new ArrayList<ItemWebData>();
 
 	public DifferenceSynchrony(List<ItemWebData> items) {
-		// TODO Auto-generated constructor stub
+		
 		this.items = items;
 	}
 

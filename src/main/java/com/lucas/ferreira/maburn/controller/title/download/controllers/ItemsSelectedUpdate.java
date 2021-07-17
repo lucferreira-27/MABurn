@@ -54,7 +54,7 @@ public class ItemsSelectedUpdate implements Controllers{
 	}
 	@Override
 	public boolean getVisible() {
-		// TODO Auto-generated method stub
+		
 		return visible;
 	}
 

@@ -13,7 +13,7 @@ public class CollectionNodeComparator implements Comparator<Node> {
 
 	@Override
 	public int compare(Node o1, Node o2) {
-		// TODO Auto-generated method stub
+		
 
 		AnchorPane pane1 = (AnchorPane) o1;
 		AnchorPane pane2 = (AnchorPane) o2;

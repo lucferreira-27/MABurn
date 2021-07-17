@@ -18,7 +18,7 @@ public abstract class AutoBrowser {
 	private BrowserContext context;
 
 	public AutoBrowser() {
-		// TODO Auto-generated constructor stub
+		
 
 	}
 

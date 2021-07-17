@@ -63,7 +63,7 @@ public class ItemsSelectedAll implements Controllers {
 
 	@Override
 	public boolean getVisible() {
-		// TODO Auto-generated method stub
+		
 		return visible;
 	}
 

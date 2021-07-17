@@ -81,18 +81,7 @@ public class DataFetcher extends Task<Collections> {
 			});
 		});
 
-//		futureCollection.addListener(new ListChangeListener<CollectionItem>() {
-//			@Override
-//			public void onChanged(ListChangeListener.Change<? extends CollectionItem> c) {
-//				if (c.next()) {
-//					CollectionItem item = c.getList().get(c.getFrom());
-//					
-//			//		sortImagesGridPaneAsync(collectionTable, collection.getItens().size() - 1);
-//				}
-//
-//			}
-//
-//		});
+
 
 		config = orchestratorConfiguration.read();
 		form = orchestratorCollection.read();
@@ -213,7 +202,7 @@ public class DataFetcher extends Task<Collections> {
 					itemForm.setImageLocal(local);
 
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 
@@ -233,7 +222,7 @@ public class DataFetcher extends Task<Collections> {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 			}
@@ -246,7 +235,7 @@ public class DataFetcher extends Task<Collections> {
 				orchestratorCollection.write(form);
 				writeDoneProperty.set(true);
 			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 		}).start();
@@ -255,7 +244,7 @@ public class DataFetcher extends Task<Collections> {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 		}
@@ -274,10 +263,7 @@ public class DataFetcher extends Task<Collections> {
 		return itemForm;
 	}
 
-//	private List<ItemForm> collectionItemsToItemForms(Collections collections) {
-//		
-//		return collections.getItens().stream().map(CollectionItem::toForm).collect(Collectors.toList());
-//	}
+
 
 	public IntegerProperty getDownloadImageProgressProperty() {
 		return downloadImageProgressProperty;
@@ -356,33 +342,9 @@ public class DataFetcher extends Task<Collections> {
 		return writeDoneProperty;
 	}
 
-//	@Override
-//	protected Collections call() throws Exception {
-//		// TODO Auto-generated method stub
-//		try {
-//			fetch();
-//
-//			CollectionForm form = orchestratorCollection.read();
-//
-//			List<CollectionItem> list;
-//
-//			list = filterCategoryItems(category, form);
-//			list = filterCollectionPath(collections.getDestination(), form);
-//			collections.setItens(list);
-//
-//			dataFetcherDoneProperty.set(true);
-//			return collections;
-//
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//			throw new Exception(e);
-//		}
-//
-//	}
 	@Override
 	protected Collections call() throws Exception {
-		// TODO Auto-generated method stub
+		
 		try {
 			HomeInterfaceController controller = (HomeInterfaceController) Navigator.getMapNavigator()
 					.get(Interfaces.HOME);
@@ -401,7 +363,7 @@ public class DataFetcher extends Task<Collections> {
 			return collections;
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			e.printStackTrace();
 			throw new Exception(e);
 		}

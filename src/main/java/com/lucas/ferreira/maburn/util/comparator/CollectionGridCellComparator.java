@@ -8,7 +8,7 @@ public class CollectionGridCellComparator implements Comparator<GridPaneCell> {
 
 	@Override
 	public int compare(GridPaneCell o1, GridPaneCell o2) {
-		// TODO Auto-generated method stub
+		
 		CollectionNodeComparator comparator = new CollectionNodeComparator();
 		int result = comparator.compare(o1.getNode(), o2.getNode());
 

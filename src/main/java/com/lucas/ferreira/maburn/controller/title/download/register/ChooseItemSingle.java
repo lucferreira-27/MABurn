@@ -29,7 +29,7 @@ public class ChooseItemSingle implements ChooseItem{
 
 	@Override
 	public Controllers getController() {
-		// TODO Auto-generated method stub
+		
 		return itemsSelectedSingle;
 	}
 

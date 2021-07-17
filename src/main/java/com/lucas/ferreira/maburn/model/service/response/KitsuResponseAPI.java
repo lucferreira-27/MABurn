@@ -18,14 +18,14 @@ public class KitsuResponseAPI implements ServiceResponse {
 	private String responseBody;
 
 	public KitsuResponseAPI(String url) {
-		// TODO Auto-generated constructor stub
+		
 		try {
 			
 			
 			responseBody = connect(url);
 
 		} catch (ConnectionException e) {
-			// TODO: handle exception
+			
 			throw new ConnectionException(e.getMessage());
 		}
 	}
@@ -40,7 +40,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 				JSONObject data = allDatas.getJSONObject(i);
 				collectDatas.add(fetch(data));
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				continue;
 			}
 		}
@@ -93,7 +93,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 			firstData = allDatas.getJSONObject(0);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			firstData = jsonResponse.getJSONObject("data");
 
 		}
@@ -109,25 +109,25 @@ public class KitsuResponseAPI implements ServiceResponse {
 		try {
 			enTitle = attributes.getJSONObject("titles").getString("en");
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			enJpTitle = attributes.getJSONObject("titles").getString("en_jp");
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			jaJpTitle = attributes.getJSONObject("titles").getString("ja_jp");
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			canonicalTitle = attributes.getString("canonicalTitle");
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			System.err.println("[DataBase] fetchTitles  - " + e.getMessage());
 		}
 		String[] titles = { canonicalTitle, enTitle, enJpTitle, jaJpTitle };
@@ -157,7 +157,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 			synopsis = (synopsis == null ? "" : synopsis);
 			return synopsis;
 		} catch (JSONException e) {
-			// TODO: handle exception
+			
 			return null;
 		}
 	}
@@ -168,7 +168,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 			status = (status == null ? "" : status);
 			return status;
 		} catch (JSONException e) {
-			// TODO: handle exception
+			
 			return null;
 		}
 	}
@@ -179,7 +179,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 			date = (date == null ? "" : date);
 			return date;
 		} catch (JSONException e) {
-			// TODO: handle exception
+			
 			return null;
 		}
 	}
@@ -191,7 +191,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 
 			return rating;
 		} catch (JSONException e) {
-			// TODO: handle exception
+			
 			return null;
 		}
 	}

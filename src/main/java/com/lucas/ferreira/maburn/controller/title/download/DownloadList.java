@@ -82,7 +82,7 @@ public class DownloadList {
 					ItemScraped itemScraped = scrapingWork.getWorkResult();
 					throw itemScraped.getException();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 

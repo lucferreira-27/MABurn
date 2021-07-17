@@ -21,7 +21,7 @@ public class FetchActionRecover implements FetchAction{
 
 	@Override
 	public FetchableTittle action(FetchableTittle fetchableTittle) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return recoverFetch(fetchableTittle);
 	}
 

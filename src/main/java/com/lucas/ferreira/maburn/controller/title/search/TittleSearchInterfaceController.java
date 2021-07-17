@@ -46,13 +46,13 @@ public class TittleSearchInterfaceController implements Initializable {
 	private Label lblAverageRating;
 
 	public TittleSearchInterfaceController() {
-		// TODO Auto-generated constructor stub
+		
 
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		
 		loadTitleDatas();
 
 	}
@@ -113,7 +113,7 @@ public class TittleSearchInterfaceController implements Initializable {
 		try {
 			desk.browse(new URI(item.getDataBaseUrl()));
 		} catch (IOException | URISyntaxException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	}

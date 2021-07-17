@@ -123,7 +123,7 @@ public class EpisodeCardController implements DownloadCardController {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
+		
 		
 
 	}

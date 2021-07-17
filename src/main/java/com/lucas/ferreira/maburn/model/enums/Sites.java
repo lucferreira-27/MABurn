@@ -15,7 +15,7 @@ public enum Sites {
 	private Category category;
 
 	private Sites(String url, Category category) {
-		// TODO Auto-generated constructor stub
+		
 		this.url = url;
 		this.category = category;
 	}

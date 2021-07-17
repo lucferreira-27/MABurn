@@ -44,7 +44,7 @@ public abstract class DownloadProgressListener {
 				}
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			} finally {
 				itemDownloadValues.getDownloadSpeed().set(0);

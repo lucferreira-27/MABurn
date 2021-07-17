@@ -15,7 +15,7 @@ public class ItemNavigateOptions implements CustomNavigateOptions {
 	
 	@Override
 	public Options getOptions() {
-		// TODO Auto-generated method stub
+		
 		return getOptionsFromRules();
 	}
 	

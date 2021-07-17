@@ -21,7 +21,7 @@ public class Writer {
 			xmlMapper.writeValue(out, new ConfigForm());
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return false;
 		}
@@ -36,7 +36,7 @@ public class Writer {
 			xmlMapper.writeValue(out, form);
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return false;
 		}
@@ -49,7 +49,7 @@ public class Writer {
 		String xml = xmlMapper.writeValueAsString(form);
 
 		return xml;
-		// or
+		
 	}
 
 	public boolean writeNewCollectionFormValueAsXml(File out) throws JsonProcessingException {
@@ -61,7 +61,7 @@ public class Writer {
 			xmlMapper.writeValue(out, new CollectionForm());
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return false;
 		}
@@ -76,7 +76,7 @@ public class Writer {
 			xmlMapper.writeValue(out, form);
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return false;
 		}
@@ -84,7 +84,7 @@ public class Writer {
 	}
 
 	public boolean writeNewConfigFromXml(File out) {
-		// TODO Auto-generated method stub
+		
 		XmlMapper  xmlMapper = new XmlMapper();
 		xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true );
 		xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -93,7 +93,7 @@ public class Writer {
 			xmlMapper.writeValue(out, new ConfigForm());
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 			return false;
 		}

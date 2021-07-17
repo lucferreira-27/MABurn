@@ -40,7 +40,7 @@ public class VideoDownloadByChannel extends DownloadByChannel {
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 			}
@@ -59,7 +59,7 @@ public class VideoDownloadByChannel extends DownloadByChannel {
 			return videoMetadata = (VideoMetadata) readVideoMetadata.readTargetMetada(absolutePath);
 
 		} catch (FileNotFoundException | FileMetadataNotFound e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 		return null;

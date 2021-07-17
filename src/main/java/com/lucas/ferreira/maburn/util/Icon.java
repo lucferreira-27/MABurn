@@ -23,7 +23,7 @@ public class Icon {
 	private boolean enable = true;
 	
 	public Icon(ImageView icon, IconConfig config) {
-		// TODO Auto-generated constructor stub
+		
 		this.config = config;
 		this.icon = icon;
 

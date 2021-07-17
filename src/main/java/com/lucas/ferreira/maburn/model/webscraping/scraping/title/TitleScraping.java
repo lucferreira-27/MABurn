@@ -15,10 +15,10 @@ public abstract class TitleScraping extends Scraping {
 
 	public TitleScraping(Sites site) {
 		this.site = site;
-		// TODO Auto-generated constructor stub
+		
 	}
 	public TitleScraped scrapeTitle(String url) {
-		// TODO Auto-generated method stub
+		
 		try {
 			launch(true);
 			Page page = newPage();

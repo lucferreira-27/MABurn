@@ -27,7 +27,7 @@ public class Navigator {
 		try {
 			fxmlViewLoader.loadComponent(component);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -132,14 +132,7 @@ public class Navigator {
 		return interfaces;
 	}
 
-//	public static void preLoadInterfaces() {
-//		for (Interfaces interfaces : Interfaces.values()) {
-//			if (interfaces.getController() != null) {
-//				
-//
-//			}
-//		}
-//	}
+
 
 	public static Map<Interfaces, Initializable> getMapNavigator() {
 		return mapNavigator;

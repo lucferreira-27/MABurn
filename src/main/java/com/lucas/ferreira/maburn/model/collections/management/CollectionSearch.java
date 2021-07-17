@@ -32,7 +32,7 @@ public class CollectionSearch {
 	private final ImageView loadImageLoadArea;
 
 	public CollectionSearch(ProgressIndicator sortCollectionLoad, ImageView loadImageLoadArea) {
-		// TODO Auto-generated constructor stub
+		
 		this.sortCollectionLoad = sortCollectionLoad;
 		this.loadImageLoadArea = loadImageLoadArea;
 	}
@@ -89,28 +89,19 @@ public class CollectionSearch {
 
 				}
 			} catch (ThumbnailLoadException e1) {
-				// TODO Auto-generated catch block
 
 				e1.printStackTrace();
 
 				continue;
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				e.printStackTrace();
 			}
 
 		}
 		
 		hideQuickLoad();
-//		propertyStatus.set(CollectionStatus.COLLECTION_SEARCH);
-//		Platform.runLater(() -> {
-//			reloadTable(searchTable);
-//
-//			txtSearchBar.clear();
-//			loadImageLoadArea.setVisible(false);
-//			hideSortLoad();
-//
-//		});
+
 		
 		System.err.println("Search Table: " + searchTable.getCells().size());
 		

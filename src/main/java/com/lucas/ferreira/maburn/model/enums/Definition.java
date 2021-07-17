@@ -7,7 +7,7 @@ public enum Definition {
 	private int size;
 
 	private Definition(int size) {
-		// TODO Auto-generated constructor stub
+		
 		this.size = size;
 	}
 	

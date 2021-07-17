@@ -31,7 +31,7 @@ public class FutureList<T> {
 				try {
 					list.add(f.get());
 				} catch (InterruptedException | ExecutionException e) {
-					// TODO Auto-generated catch block
+					 
 					e.printStackTrace();
 				}
 			});

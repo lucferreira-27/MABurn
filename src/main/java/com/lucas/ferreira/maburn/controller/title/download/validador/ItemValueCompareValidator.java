@@ -54,7 +54,7 @@ public class ItemValueCompareValidator implements Validador {
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						 
 						e.printStackTrace();
 					}
 				}
@@ -74,7 +74,7 @@ public class ItemValueCompareValidator implements Validador {
 					}
 
 				} catch (IllegalArgumentException e) {
-					// TODO: handle exception
+					
 					throw new RuntimeException(e);
 				}
 				

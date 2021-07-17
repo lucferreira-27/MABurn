@@ -17,21 +17,21 @@ public class CollectionLoaderUtil {
 			thumbnailLoader.findImage();
 			return true;
 		} catch (ThumbnailLoadException e) {
-			// TODO: handle exception
+			
 			return false;
 		}
 
 	}
 
 	public static void getRequiredFiles(CollectionTitle item) {
-		// TODO Auto-generated method stub
+		
 		DownloadImageServiceModel downloadImageServiceModel = new DownloadImageServiceModel(item.getImageUrl(),
 				new File(item.getImageLocal().substring(0, item.getImageLocal().lastIndexOf("."))));
 
 		try {
 			downloadImageServiceModel.download();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	}

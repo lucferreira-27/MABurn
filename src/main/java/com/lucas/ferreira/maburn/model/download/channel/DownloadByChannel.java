@@ -56,7 +56,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 					closeOutPutStream(fos);
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				 
 				e.printStackTrace();
 			}
 		}
@@ -160,7 +160,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 				trackByteChannel.getRunning().set(false);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	}
@@ -176,7 +176,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 		try {
 			fos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			 
 			e.printStackTrace();
 		}
 	

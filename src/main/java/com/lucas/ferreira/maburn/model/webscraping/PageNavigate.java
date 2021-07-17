@@ -12,7 +12,7 @@ public class PageNavigate {
 	private Options options;
 
 	public PageNavigate(Page page, Options options) {
-		// TODO Auto-generated constructor stub
+		
 		this.page = page;
 		this.options = options;
 	}
@@ -34,8 +34,7 @@ public class PageNavigate {
 		page.navigate(url, navigateOptions);
 
 		if (options.getWaitForSelect()) {
-		//	
-			page.waitForSelector(query, new WaitForSelectorOptions().setState(WaitForSelectorState.ATTACHED));
+					page.waitForSelector(query, new WaitForSelectorOptions().setState(WaitForSelectorState.ATTACHED));
 		}
 
 	}

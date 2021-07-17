@@ -16,7 +16,7 @@ public class MyBrowser {
 	private boolean headless = true;
 	
 	public MyBrowser(boolean headless) {
-		// TODO Auto-generated constructor stub
+		
 		this.headless = headless;
 	}
 	
