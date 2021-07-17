@@ -4,29 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.CardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.PaneCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardFull;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardState;
 
 import javafx.scene.layout.VBox;
 
-public class ContentFetchList implements ContentList{
+public class ContentFetchList {
 
+	private NavDownloadList navDownloadList;
+	private List<FetchCardFull> fetchCardsCardFulls = new ArrayList<FetchCardFull>();
 	
-	private List<FetchCard> fetchCards = new ArrayList<FetchCard>();
-	private List<FetchCardController> fetchCardControllers = new ArrayList<FetchCardController>();
-	public ContentFetchList() {
+	public ContentFetchList(NavDownloadList navDownloadList) {
+		this.navDownloadList = navDownloadList;
 	}
 	
-	public void addCard(CardController cardController, PaneCard paneCard) {
-		fetchCardControllers.add((FetchCardController) cardController);
-		fetchCards.add((FetchCard) paneCard);
+	public void addCard(FetchCardFull fetchCardControllers) {
+		fetchCardsCardFulls.add(fetchCardControllers);
+
 	}
-	public List<FetchCardController> getFetchCardControllers() {
-		return fetchCardControllers;
+	public List<FetchCardFull> getFetchCardsCardFulls() {
+		return fetchCardsCardFulls;
 	}
-	public List<FetchCard> getFetchCards() {
-		return fetchCards;
+	
+	public void updateCardsValues() {
+		updateNumberOfFetchingCards();
+	}
+	
+	private void updateNumberOfFetchingCards() {
+		int count = (int) fetchCardsCardFulls.stream().filter(card -> {
+			return card.getCardValues().getFetchCardState().get() != FetchCardState.READY;
+		}).count();
+		navDownloadList.getFetchingCards().set(count);
+
 	}
 
 }

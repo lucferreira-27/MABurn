@@ -19,11 +19,17 @@ public class FetchCardController implements CardController {
 		this.fetchCardValues = fetchCardValues;
 	}
 
-	public FetchCardController initialize() {
+	public FetchCardFull initialize() {
 		initializeValuesCard();
 		initializeIcons();
 		initializeAnimation();
-		return this;
+		
+		FetchCardFull fetchCardFull = new FetchCardFull();
+		fetchCardFull.setCard(fetchCard);
+		fetchCardFull.setCardController(this);
+		fetchCardFull.setCardValues(fetchCardValues);
+		
+		return fetchCardFull;
 	}
 
 	private void initializeValuesCard() {

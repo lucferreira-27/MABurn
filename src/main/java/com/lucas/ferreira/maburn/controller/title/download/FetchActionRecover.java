@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
 import com.lucas.ferreira.maburn.controller.title.download.register.FetchableTittle;
-import com.lucas.ferreira.maburn.fetch.FetchInSystem;
+import com.lucas.ferreira.maburn.model.fetch.FetchInSystem;
 
 public class FetchActionRecover implements FetchAction{
 	

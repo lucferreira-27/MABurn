@@ -27,7 +27,7 @@
                      <Insets />
                   </BorderPane.margin>
                   <padding>
-                     <Insets top="50.0" />
+                     <Insets top="30.0" />
                   </padding>
                </Label>
             </top>
@@ -197,7 +197,8 @@
                            <AnchorPane layoutX="5.0" layoutY="5.0" style="-fx-background-color: black; -fx-border-color: white;">
                               <children>
                                  <ImageView fx:id="imgThumbnail" fitHeight="190.0" fitWidth="365.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
-                                 <ImageView fx:id="imgZoomIn" fitHeight="36.0" fitWidth="36.0" layoutX="326.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+                                 <Rectangle arcHeight="5.0" arcWidth="5.0" height="38.0" layoutX="2.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" styleClass="shade" width="368.0" />
+                                 <ImageView fx:id="imgZoomIn" fitHeight="36.0" fitWidth="36.0" layoutX="326.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../../../../../../../resources/icons/title-download/zoom_out_white_small_icon.png" />
                                     </image>
@@ -217,21 +218,21 @@
                </VBox>
             </right>
             <left>
-               <VBox maxHeight="667.0" maxWidth="407.0" prefHeight="667.0" prefWidth="407.0" spacing="20.0" style="-fx-background-color: #272727; -fx-background-radius: 20;" BorderPane.alignment="TOP_LEFT">
+               <VBox maxHeight="640.0" maxWidth="407.0" prefHeight="640.0" prefWidth="407.0" spacing="20.0" style="-fx-background-color: #272727; -fx-background-radius: 20;" BorderPane.alignment="TOP_LEFT">
                   <children>
                      <AnchorPane maxHeight="70.0" minHeight="70.0" prefHeight="70.0" prefWidth="200.0" styleClass="nav-list-download">
                         <children>
-                           <Label fx:id="labelCardsTotal" layoutX="14.0" layoutY="1.0" style="-fx-font-size: 16;" text="Total:" />
-                           <Label fx:id="labelCardsCompleted" layoutX="127.0" layoutY="26.0" style="-fx-font-size: 12;" text="Completed:" />
-                           <Label fx:id="labelCardsFetching" layoutX="16.0" layoutY="44.0" style="-fx-font-size: 12;" text="Fetching: " />
-                           <Label fx:id="labelCardsDownloading" layoutX="15.0" layoutY="25.0" style="-fx-font-size: 12;" text="Downloading: " />
-                           <Label fx:id="labelCardsFailed" layoutX="127.0" layoutY="45.0" style="-fx-font-size: 12;" text="Failed: " />
+                           <Label fx:id="labelCardsTotal" layoutX="14.0" layoutY="1.0" style="-fx-font-size: 16;" text="Total: 0" />
+                           <Label fx:id="labelCardsCompleted" layoutX="127.0" layoutY="26.0" style="-fx-font-size: 12;" text="Completed: 0" />
+                           <Label fx:id="labelCardsFetching" layoutX="16.0" layoutY="44.0" style="-fx-font-size: 12;" text="Fetching:  0" />
+                           <Label fx:id="labelCardsDownloading" layoutX="15.0" layoutY="25.0" style="-fx-font-size: 12;" text="Downloading: 0 " />
+                           <Label fx:id="labelCardsFailed" layoutX="127.0" layoutY="45.0" style="-fx-font-size: 12;" text="Failed:  0" />
                         </children>
                         <opaqueInsets>
                            <Insets />
                         </opaqueInsets>
                      </AnchorPane>
-                     <ScrollPane minHeight="600.0" prefHeight="200.0" prefWidth="486.0" style="-fx-background-color: transparent;">
+                     <ScrollPane minHeight="561.0" prefHeight="561.0" prefWidth="407.0" style="-fx-background-color: transparent;">
                        <content>
                            <VBox fx:id="vBoxListDownloads" alignment="CENTER" spacing="10.0">
                               <padding>
@@ -281,5 +282,4 @@
          </BorderPane>
       </children>
    </StackPane>
-   <AnchorPane prefHeight="200.0" prefWidth="200.0" />
 </fx:root>

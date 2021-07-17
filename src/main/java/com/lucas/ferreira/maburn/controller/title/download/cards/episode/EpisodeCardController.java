@@ -3,6 +3,7 @@ package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardIconVisibility;
 import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
 import com.lucas.ferreira.maburn.exceptions.InitializeIconsException;
@@ -26,10 +27,15 @@ public class EpisodeCardController implements DownloadCardController {
 		this.downloadInfo = downloadInfo;
 	}
 
-	public DownloadCardController initialize() throws Exception{
+	public DownloadCardFull initialize() throws Exception{
 
 		initializeValuesCard();
 		initializeIcons();
+		
+		DownloadCardFull downloadCardFull = new EpisodeCardFull();
+		downloadCardFull.setCard(episodeCard);
+		downloadCardFull.setCardController(this);
+		downloadCardFull.setCardValues(episodeDownloadItemValues);
 		
 		DownloadCardInteractIcons downloadCardInteractIcons = new DownloadCardInteractIcons(this, episodeCard);
 		downloadCardInteractIcons.interactTurnOn();
@@ -37,7 +43,7 @@ public class EpisodeCardController implements DownloadCardController {
 		episodeCardIconVisibility.onDownloadState(episodeDownloadItemValues.getDownloadProgressState());
 		initializeAnimations();
 		initializeDownload();
-		return this;
+		return downloadCardFull;
 	}
 
 	public void initializeValuesCard() {

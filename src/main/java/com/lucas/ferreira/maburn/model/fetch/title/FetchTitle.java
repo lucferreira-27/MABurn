@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.fetch.title;
+package com.lucas.ferreira.maburn.model.fetch.title;
 
 import java.nio.file.Path;
 import java.util.List;

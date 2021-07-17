@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.fetch.item;
+package com.lucas.ferreira.maburn.model.fetch.item;
 
 import java.util.List;
 

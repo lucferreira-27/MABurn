@@ -6,12 +6,14 @@ import java.util.stream.Stream;
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
@@ -30,7 +32,7 @@ public class ListAddCard {
 		this.vBox = vBox;
 	}
 
-	public FetchCardController createFetchCardControler(FetchCardLoaded fetchCardLoaded) {
+	public FetchCardFull createFetchCardFull(FetchCardLoaded fetchCardLoaded) {
 
 		FetchCard fetchCard = fetchCardLoaded.getFetchCard();
 		FetchCardValues fetchCardValues = fetchCardLoaded.getFetchCardValues();
@@ -39,7 +41,7 @@ public class ListAddCard {
 		return new FetchCardController(fetchCard, fetchCardValues).initialize();
 	}
 
-	public DownloadCardController createDownloadCardController(DownloadCardLoaded downloadCardLoaded) {
+	public DownloadCardFull createDownloadCardFull(DownloadCardLoaded downloadCardLoaded) {
 
 		DownloadCard downloadCard = downloadCardLoaded.getDownloadCard();
 		DownloadInfo downloadInfo = downloadCardLoaded.getDownloadInfo();

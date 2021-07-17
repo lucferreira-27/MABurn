@@ -1,18 +1,14 @@
 package com.lucas.ferreira.maburn.controller.title.download.title;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import com.lucas.ferreira.maburn.controller.title.TitleController;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionAutomatic;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionManual;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionRecover;
-import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.FetchTypeSelect;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemValueTextField;
@@ -33,46 +29,17 @@ import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitl
 import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleSearcher;
 import com.lucas.ferreira.maburn.controller.title.download.register.ScreenshotFullDetails;
 import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
-import com.lucas.ferreira.maburn.fetch.FetchInSystem;
-import com.lucas.ferreira.maburn.fetch.item.FetchItem;
-import com.lucas.ferreira.maburn.model.alert.ManualSearchAlert;
-import com.lucas.ferreira.maburn.model.alert.ManualSearchAlertController;
-import com.lucas.ferreira.maburn.model.download.DownloadFilename;
-import com.lucas.ferreira.maburn.model.download.DownloadInfo;
-import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.enums.Definition;
-import com.lucas.ferreira.maburn.model.enums.FetchItemType;
-import com.lucas.ferreira.maburn.model.enums.Icons;
-import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
-import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListChapterScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListEpisodeScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListItemScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
-import com.lucas.ferreira.maburn.util.Icon;
-import com.lucas.ferreira.maburn.util.IconConfig;
-import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
-
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class TitleDownloadController {
 

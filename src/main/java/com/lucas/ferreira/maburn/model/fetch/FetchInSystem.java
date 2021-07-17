@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.fetch;
+package com.lucas.ferreira.maburn.model.fetch;
 
 import com.lucas.ferreira.maburn.controller.title.download.register.FetchableTittle;
 import com.lucas.ferreira.maburn.exceptions.NotURLFoundInRecover;

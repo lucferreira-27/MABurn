@@ -1,8 +1,8 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
-import com.lucas.ferreira.maburn.fetch.FetchInSystem;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.fetch.FetchInSystem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 

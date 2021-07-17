@@ -25,7 +25,7 @@ public class TitleDownloadInitialize implements Initialize{
 			title = new Title(titleDownload);
 			titleDownloadControlers = new TitleDownloadControlers(titleDownload, titleDownloadController, title);
 			titleDownloadIcons = new TitleDownloadIcons(titleDownload, titleDownloadController);
-			titleDownloadListCard = new TitleDownloadListCard(title, titleDownload);
+			titleDownloadListCard = new TitleDownloadListCard(title);
 			manualSearchAlertController = new ManualSearchAlertController(new ManualSearchAlert(titleDownload.getApManualSearch()));
 
 			title.initialize();

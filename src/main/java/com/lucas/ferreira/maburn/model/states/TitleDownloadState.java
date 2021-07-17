@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.model.states;
 
-import com.lucas.ferreira.maburn.fetch.Fetch;
+import com.lucas.ferreira.maburn.model.fetch.Fetch;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 
 public class TitleDownloadState implements StateAdapter {

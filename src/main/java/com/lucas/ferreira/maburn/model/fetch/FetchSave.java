@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.fetch;
+package com.lucas.ferreira.maburn.model.fetch;
 
 import java.io.IOException;
 
