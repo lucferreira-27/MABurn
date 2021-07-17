@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <StackPane prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #1C1C1C;">
       <children>
          <BorderPane fx:id="bpRegisterFetch" prefHeight="200.0" prefWidth="200.0">

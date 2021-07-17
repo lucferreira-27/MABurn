@@ -30,8 +30,8 @@ public class CardLoader {
 	
 	public FetchCardLoaded loadFetchCard(ScrapingWork scrapingWork) {
 		FetchCard fetchCard = new FetchCard();
-		System.out.println(title.getTaggedItems());
-		System.out.println(scrapingWork);
+		
+		
 		String itemName = MapKeyValue.getKeyByValue(title.getTaggedItems().getNamedItemsValues(), scrapingWork.getTarget());
 		String itemUrl = scrapingWork.getTarget();
 	
@@ -60,7 +60,7 @@ public class CardLoader {
 			MangaDownloadInfo mangaDownloadInfo = new MangaDownloadInfo(title.getTaggedItems());
 			DownloadInfo downloadInfo = mangaDownloadInfo.newChapterDownloadInfo(title.getCollectionTitle(),
 					(ChapterScraped) itemScraped);
-			System.out.println(downloadInfo);
+			
 			return loadDownloadChapterCard(downloadInfo);
 			
 		}

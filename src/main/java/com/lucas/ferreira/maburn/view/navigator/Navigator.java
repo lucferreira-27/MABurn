@@ -43,7 +43,7 @@ public class Navigator {
 
 		Initializable controller = interfaces.getController();
 		String fxml = interfaces.getFxml();
-		System.out.println("> OPENING: " + fxml + " | " + interfaces.name() + " MapNavigator: " + mapNavigator.size());
+		
 
 		mapNavigator.put(interfaces, interfaces.getController());
 		interfacesList.add(interfaces);
@@ -78,7 +78,7 @@ public class Navigator {
 	public void preload(Interfaces interfaces) {
 		Initializable controller = interfaces.getController();
 		String fxml = interfaces.getFxml();
-		System.out.println("> PRELOAD: " + fxml + " | " + interfaces.name() + " MapNavigator: " + mapNavigator.size());
+		
 
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
@@ -110,7 +110,7 @@ public class Navigator {
 
 		Initializable controller = mapNavigator.get(interfaces);
 		String fxml = interfaces.getFxml();
-		System.out.println("> OPENING: " + fxml + " | " + interfaces.name() + " MapNavigator: " + mapNavigator.size());
+		
 
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
@@ -135,7 +135,7 @@ public class Navigator {
 //	public static void preLoadInterfaces() {
 //		for (Interfaces interfaces : Interfaces.values()) {
 //			if (interfaces.getController() != null) {
-//				System.out.println(interfaces.getFxml());
+//				
 //
 //			}
 //		}

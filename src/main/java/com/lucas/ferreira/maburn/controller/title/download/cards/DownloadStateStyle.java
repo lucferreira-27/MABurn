@@ -33,7 +33,7 @@ public class DownloadStateStyle {
 	public void setNodeStyleByState(DownloadProgressState state, Node node) {
 		
 		String style = styles.get(state);
-		System.out.println(style);
+		
 		setNodeStyle(style, node);
 	}
 

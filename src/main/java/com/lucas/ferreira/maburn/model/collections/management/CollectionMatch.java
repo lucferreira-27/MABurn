@@ -21,7 +21,7 @@ public class CollectionMatch {
 
 
 	public static boolean itemGenericMath(CollectionTitle item, String math) {
-		System.out.println(item.getTitleDataBase() + " " + math);
+		
 		if (item.getTitleDataBase().contains(math))
 			return true;
 		return false;

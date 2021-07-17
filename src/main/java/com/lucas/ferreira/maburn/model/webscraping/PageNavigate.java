@@ -22,7 +22,7 @@ public class PageNavigate {
 
 		String query = options.getSelectQuery();
 		//Double timeout = options.getTimeout();
-		System.out.println(query);
+		
 		NavigateOptions navigateOptions = new NavigateOptions();
 
 		if (options.getLoadLevel().equals("DOM_COMPLETE"))
@@ -34,7 +34,7 @@ public class PageNavigate {
 		page.navigate(url, navigateOptions);
 
 		if (options.getWaitForSelect()) {
-		//	System.out.println("Query: " + query);
+		//	
 			page.waitForSelector(query, new WaitForSelectorOptions().setState(WaitForSelectorState.ATTACHED));
 		}
 

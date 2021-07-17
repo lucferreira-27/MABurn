@@ -77,7 +77,7 @@ public class DataFetcher extends Task<Collections> {
 
 		Platform.runLater(() -> {
 			stateProperty().addListener((obs, oldvalue, newvalue) -> {
-				System.out.println("STATE: " + newvalue);
+				
 			});
 		});
 
@@ -86,7 +86,7 @@ public class DataFetcher extends Task<Collections> {
 //			public void onChanged(ListChangeListener.Change<? extends CollectionItem> c) {
 //				if (c.next()) {
 //					CollectionItem item = c.getList().get(c.getFrom());
-//					System.out.println("AddItems Collection Async Size: " + item.getDestination());
+//					
 //			//		sortImagesGridPaneAsync(collectionTable, collection.getItens().size() - 1);
 //				}
 //
@@ -198,7 +198,7 @@ public class DataFetcher extends Task<Collections> {
 		});
 
 		for (CollectionTitle newCollectionItem : newCollectionItems) {
-			System.out.println(newCollectionItem.getName());
+			
 			Thread fetch = new Thread(() -> {
 
 				updateLblLoadDataBase(newCollectionItem.getName());
@@ -275,7 +275,7 @@ public class DataFetcher extends Task<Collections> {
 	}
 
 //	private List<ItemForm> collectionItemsToItemForms(Collections collections) {
-//		System.out.println("Collection Size: " + collections.getItens().size());
+//		
 //		return collections.getItens().stream().map(CollectionItem::toForm).collect(Collectors.toList());
 //	}
 

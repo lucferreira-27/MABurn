@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox alignment="TOP_CENTER" spacing="50.0" styleClass="menu-nav" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="TOP_CENTER" spacing="50.0" styleClass="menu-nav" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <ImageView fx:id="imgDownloads" fitHeight="44.0" fitWidth="44.0" onMouseClicked="#onClickButtonDownloads" pickOnBounds="true" preserveRatio="true" />
    <ImageView fx:id="imgHome" fitHeight="44.0" fitWidth="44.0" onMouseClicked="#onClickButtonHome" pickOnBounds="true" preserveRatio="true" />
    <ImageView fx:id="imgSettings" fitHeight="44.0" fitWidth="44.0" onMouseClicked="#onClickButtonConfiguration" pickOnBounds="true" preserveRatio="true" />

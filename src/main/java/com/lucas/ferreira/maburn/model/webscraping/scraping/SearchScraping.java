@@ -36,11 +36,11 @@ public class SearchScraping extends Scraping {
 			Options options = getOptions(new TitleNavigateOptions(rulesProperties));
 
 			String url = engine.getUrl() + title + engine.getFilter() + site.getUrl();
-			System.out.println("Google: " + url);
+			
 			navigate(url, page, options);
 			@SuppressWarnings("unchecked")
 			List<String> results = (ArrayList<String>) page.evaluate(script, options.getSelectQuery());
-			System.out.println(results.size());
+			
 			SearchScraped searchScraped = new SearchScraped(results);
 			return searchScraped;
 

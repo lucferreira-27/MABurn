@@ -238,7 +238,7 @@ public class TableConfig {
 	}
 
 	private static <T> void preventColumnReordering(TableView<T> tableView) {
-		System.out.println((LanguageReader.read("LABEL_TABLE_EMPTY")));
+		
 		tableView.setPlaceholder(new Label(LanguageReader.read("LABEL_TABLE_EMPTY")));
 		Platform.runLater(() -> {
 			for (Node header : tableView.lookupAll(".column-header")) {

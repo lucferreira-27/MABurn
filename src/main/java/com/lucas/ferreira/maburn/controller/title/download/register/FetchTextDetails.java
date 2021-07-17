@@ -27,13 +27,13 @@ public class FetchTextDetails {
 	}
 
 	public void setSiteTitle(String siteTitle) {
-		System.out.println("!New Title: " + siteTitle );
+		
 
 		if (siteTitle != null && !siteTitle.isEmpty()) {
 			Platform.runLater(() ->{
-				System.out.println("New Title: " + siteTitle );
+				
 				lblSiteTitle.setText(siteTitle);
-				System.out.println(lblSiteTitle);
+				
 				});
 
 			lblSiteTitle.setVisible(true);

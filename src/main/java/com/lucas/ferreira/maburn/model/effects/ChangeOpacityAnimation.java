@@ -68,11 +68,11 @@ public class ChangeOpacityAnimation implements EffectAnimation {
 	}
 
 	private void changeOpacity(double pass) {
-		System.out.println("Opacity: " + opacity);
-		System.out.println("ChangeOpacity Pass: " + pass);
+		
+		
 		opacity += pass;
 		pane.setOpacity(opacity);
-		System.out.println("After Opacity: " + opacity);
+		
 		progress.set(opacity / target);
 	}
 

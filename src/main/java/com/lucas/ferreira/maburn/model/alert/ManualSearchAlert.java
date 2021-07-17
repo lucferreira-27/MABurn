@@ -73,7 +73,7 @@ public class ManualSearchAlert implements Alert {
 	public void hide() {
 
 		parent.setLayoutY(5);
-		System.out.println("b" + parent.getLayoutY());
+		
 		
 		ChangeListener<Boolean> hidePanelAfterAnimation = new ChangeListener<Boolean>() {
 
@@ -85,7 +85,7 @@ public class ManualSearchAlert implements Alert {
 					}
 					anchorPane.setVisible(false);
 					anchorPane.setDisable(true);
-					System.out.println("e" + parent.getLayoutY());
+					
 					observable.removeListener(this);
 				}
 			}

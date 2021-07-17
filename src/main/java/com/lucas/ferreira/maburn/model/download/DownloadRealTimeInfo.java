@@ -54,8 +54,8 @@ public class DownloadRealTimeInfo {
 
 	}
 	private void printInfos(DownloadValues downloadValues) {
-		System.out.println("\n - Download Real Time Infos - ");
-		System.out.println(downloadValues.toString());
-		System.out.println("\n\n");
+		
+		
+		
 	}
 }

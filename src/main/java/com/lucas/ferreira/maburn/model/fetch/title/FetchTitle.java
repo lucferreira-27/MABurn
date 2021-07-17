@@ -18,7 +18,7 @@ public class FetchTitle  {
 		}
 		
 		TitleScraped titleScraped = titleScraping.scrapeTitle(url);
-		//System.out.println(titleScraped.getItemsScraped());
+		//
 		return titleScraped;
 
 	}

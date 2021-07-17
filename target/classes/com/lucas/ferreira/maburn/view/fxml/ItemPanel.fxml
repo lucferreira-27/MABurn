@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane fx:id="apPanel" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="apPanel" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="imgImagePanel" fitHeight="237.0" fitWidth="168.75" pickOnBounds="true" preserveRatio="true" style="-fx-background-radiu: 5;">
          <image>

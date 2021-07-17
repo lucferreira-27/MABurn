@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root fx:id="root" maxWidth="366.0" minWidth="366.0" prefHeight="100.0" prefWidth="366.0" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="root" maxWidth="366.0" minWidth="366.0" prefHeight="100.0" prefWidth="366.0" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane maxHeight="98.0" maxWidth="366.0" prefHeight="98.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+      <AnchorPane maxHeight="98.0" maxWidth="366.0" prefHeight="98.0" prefWidth="366.0" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: #1D1D1D;" StackPane.alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
          <children>
             <Label fx:id="labelFetchState" alignment="CENTER" layoutX="264.0" layoutY="5.0" prefHeight="15.0" prefWidth="80.0" styleClass="card-state-queue" stylesheets="@../css/download_card.css" text="IN QUEUE" textFill="WHITE" />
             <ImageView fx:id="imageViewFetchIcon" fitHeight="53.0" fitWidth="53.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

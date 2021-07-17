@@ -12,7 +12,7 @@ public class FetchItem {
 		
 		
 		ObservableList<ScrapingWork> obsItemScrapingWork = listItemsScraping.scrapeItems(scrapingWorks);
-		System.out.println(obsItemScrapingWork);
+		
 		return obsItemScrapingWork;
 
 	}

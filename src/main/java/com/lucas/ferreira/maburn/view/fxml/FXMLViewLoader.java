@@ -43,7 +43,7 @@ public class FXMLViewLoader<T extends Node> {
 			if (newvalue) {
 				long end = System.currentTimeMillis();
 
-				System.out.println("> FXMLViewLoader ... [DONE] TIME: " + (end - start));
+				
 			}
 		});
 	}
@@ -74,7 +74,7 @@ public class FXMLViewLoader<T extends Node> {
 				break;
 			case COLLECTION_MENU:
 				StackPane stackPane = (StackPane) root.getChildren().get(1);
-				System.out.println("NODE: " + fxmlLoaded);
+				
 				StackPane.setAlignment(fxmlLoaded, Pos.BOTTOM_CENTER);
 				stackPane.getChildren().add(fxmlLoaded);
 				break;
@@ -173,8 +173,8 @@ public class FXMLViewLoader<T extends Node> {
 			throws IOException {
 
 		loader.setRoot(root);
-		System.out.println(fxml);
-		System.out.println(getClass().getResource(fxml));
+		
+		
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 		Object fxmlLoaded;

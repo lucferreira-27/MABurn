@@ -19,12 +19,12 @@ public class ItemWebDataFilter implements Predicate<ItemWebData> {
 		// TODO Auto-generated method stub
 
 		for (String file : filesName) {
-			//System.out.println("File: " + file + " | ItemWebData: " + t.getName() );
+			//
 			if (file.equals(t.getName())) {	
 				return false;
 			}
 		}
-		System.out.println("Don't found: " + t.getName());
+		
 		return true;
 	}
 

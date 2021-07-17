@@ -27,10 +27,10 @@ public abstract class TitleScraping extends Scraping {
 			String script = evaluate.findTitleScript(site);
 			RulesProperties rulesProperties = readScrapingSiteRules(site);
 			Options options = getOptions(new TitleNavigateOptions(rulesProperties));
-			System.out.println("Title: " + url);
+			
 			navigate(url, page, options);
 			TitleScraped titleScraped = scrape(page, script, options);
-			System.out.println(titleScraped.getItemsScraped());
+			
 
 			return titleScraped;
 

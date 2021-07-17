@@ -14,6 +14,7 @@ import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapeState;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,6 +29,7 @@ public class DownloadList {
 
 	public DownloadList(Title title) {
 		this.title = title;
+		
 	}
 
 	public void onScrapingWork(List<ScrapingWork> scrapingWorks) {
@@ -52,16 +54,17 @@ public class DownloadList {
 		scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
 			contentFetchList.updateCardsValues();
 			FetchCardValues fetchCardValues = fetchCardLoaded.getFetchCardValues();
-			System.out.println(newvalue);
+			
 			if (newvalue == ScrapeState.WORKING) {
 				fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
 			}
+			
 
 			else if (newvalue == ScrapeState.SUCCEED) {
 				ItemScraped itemScraped;
 				try {
 					itemScraped = scrapingWork.getWorkResult();
-					System.out.println(itemScraped.toString());
+					
 					DownloadCardLoaded downloadCardLoaded = cardLoader.load(itemScraped);
 
 					fetchCardValues.getFetchCardState().set(FetchCardState.READY);

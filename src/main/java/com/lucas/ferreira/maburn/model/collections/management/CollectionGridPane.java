@@ -332,7 +332,7 @@ public class CollectionGridPane {
 			}
 		}
 
-		System.out.println("Search Math Itens: " + mathItens.size());
+		
 
 		if (mathItens.size() == 0) {
 			propertyEmptyCollection.setValue(true);

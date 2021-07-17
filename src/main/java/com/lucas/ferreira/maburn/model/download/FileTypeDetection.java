@@ -33,7 +33,7 @@ public class FileTypeDetection {
 
 	private String findTypeFormat(Metadata metadata) {
 		for (Directory directory : metadata.getDirectories()) {
-			System.out.println("d");
+			
 		    for (Tag tag : directory.getTags()) {
 		    	if(tag.getDirectoryName().equals(directoryName) && tag.getTagName().contains(tagName)) {
 		        	return tag.getDescription();

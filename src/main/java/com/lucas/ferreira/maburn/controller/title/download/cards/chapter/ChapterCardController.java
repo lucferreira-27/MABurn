@@ -124,13 +124,13 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void remove() {
-		System.out.println("remove");
+		
 	}
 
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
-		System.out.println("refresh");
+		
 
 	}
 

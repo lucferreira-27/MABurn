@@ -16,7 +16,7 @@ public class FetchActionAutomatic implements FetchAction{
 	
 	public FetchableTittle automaticFetch(FetchableTittle  fetchableTittle) throws Exception {
 	
-		System.out.println(fetchableTittle.getSourceSelect());
+		
 		registerTitleSearcher.searchNow(fetchableTittle);
 		
 		return fetchableTittle;

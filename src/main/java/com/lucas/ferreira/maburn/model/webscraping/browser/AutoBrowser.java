@@ -62,7 +62,7 @@ public abstract class AutoBrowser {
 		String screenshotPath = System.getProperty("java.io.tmpdir") + StringUtil.stringUtilFile(title) + ".png";
 		Image imageSmall = screenshot(page);
 		Image imageFull = screenshotFull(page);
-		System.out.println(screenshotPath);
+		
 		// page.screenshot(new ScreenshotOptions().setPath(Paths.get(screenshotPath)));
 		PageInfo pageInfo = new PageInfo(title, imageSmall, imageFull);
 		return pageInfo;

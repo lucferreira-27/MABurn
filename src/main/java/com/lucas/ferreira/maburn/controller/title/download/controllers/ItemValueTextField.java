@@ -43,7 +43,7 @@ public class ItemValueTextField {
 				
 			} else {
 				if (!geralError) {
-					System.out.println("normal: " + geralError);
+					
 					bottomLineNormalStyle();
 					// this.comparatorErrorFilled = false;
 				}

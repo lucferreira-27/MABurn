@@ -97,7 +97,7 @@ public class TitleDownload {
 		});
 
 		remain.addListener((obs, oldvalue, newvalue) -> {
-			System.out.println("Remain: " + remain);
+			
 		});
 
 		state.addListener((obs, oldvalue, newvalue) -> {

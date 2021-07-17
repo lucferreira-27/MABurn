@@ -68,7 +68,7 @@ public class CollectionFilter {
 
 	private void printCellsValues(List<GridPaneCell> cells) {
 		cells.stream().forEach((cell) -> {
-			System.out.println("FILTERED " + ((CollectionTitle) cell.getUserData()).getName());
+			
 		});
 	}
 

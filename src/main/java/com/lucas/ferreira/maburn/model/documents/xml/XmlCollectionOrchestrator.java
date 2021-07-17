@@ -36,7 +36,7 @@ public class XmlCollectionOrchestrator {
 		if (!FILE.exists()) {
 			create();
 		}
-		System.out.println(FILE);
+		
 		writer.writeCollectionFormValueAsXml(form, FILE);
 		return false;
 	}

@@ -59,7 +59,7 @@ public class TittleSearchInterfaceController implements Initializable {
 
 	@FXML
 	public void onClickButtonBack() {
-		System.out.println("Back: " + collections);
+		
 		navigator.back();
 	}
 
@@ -69,7 +69,7 @@ public class TittleSearchInterfaceController implements Initializable {
 		String dest = collections.getDestination() + "\\" + collections.getActualItem().getTitleFileName();
 		File newItem = new File(dest);
 		if (!newItem.exists()) {
-			System.out.println("Mkdir: " + dest);
+			
 			newItem.mkdir();
 		}
 	}

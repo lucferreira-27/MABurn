@@ -22,7 +22,7 @@ public class ChapterDirecotoryModel {
 		
 
 		try {
-			System.out.println("Opening: " + diretory);
+			
 			DirectoryModel.openDirectory(diretory);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -34,7 +34,7 @@ public class ChapterDirecotoryModel {
 		String diretory = downloadInfo.getPath() + "\\" + downloadInfo.getFilename();
 
 		try {
-			System.out.println("Opening: " + diretory);
+			
 			DirectoryModel.openDirectory(diretory);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

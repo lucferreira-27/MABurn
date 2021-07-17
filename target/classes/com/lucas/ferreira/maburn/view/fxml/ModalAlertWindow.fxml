@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<DialogPane fx:id="dialogPanel" maxHeight="600.0" maxWidth="430.0" minHeight="180.0" minWidth="430.0" prefHeight="180.0" prefWidth="430.0" styleClass="dialogPanel" stylesheets="@../css/ModalWindowThema.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane fx:id="dialogPanel" maxHeight="600.0" maxWidth="430.0" minHeight="180.0" minWidth="430.0" prefHeight="180.0" prefWidth="430.0" styleClass="dialogPanel" stylesheets="@../css/ModalWindowThema.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <AnchorPane fx:id="apContent" prefHeight="0.0" prefWidth="0.0">
          <children>

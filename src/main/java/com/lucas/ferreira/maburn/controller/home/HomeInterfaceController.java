@@ -54,7 +54,7 @@ public class HomeInterfaceController implements Initializable {
 		try {
 			configForm = xmlConfigurationOrchestrator.read();
 			String destination = configForm.getAnimeConfig().getCollectionDestination();
-			System.out.println( "d: "+ destination);
+			
 			if(destination == null || destination.isEmpty()) {
 				AlertWindowView.errorAlert("ERROR", "Anime Collection", "Anime collection destination need be set");
 				return;
@@ -76,7 +76,7 @@ public class HomeInterfaceController implements Initializable {
 		try {
 			configForm = xmlConfigurationOrchestrator.read();
 			String destination = configForm.getMangaConfig().getCollectionDestination();
-			System.out.println( "d: "+ destination);
+			
 			if(destination == null || destination.isEmpty()) {
 				AlertWindowView.errorAlert("ERROR", "Manga Collection", "Anime collection destination need be set");
 				return;

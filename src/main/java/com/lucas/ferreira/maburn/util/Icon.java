@@ -46,7 +46,7 @@ public class Icon {
 	}
 
 	public void setProperties(Consumer<ImageView> onClick) {
-		System.out.println(onClick);
+		
 		if (onClick != null)
 			setAction(onClick);
 

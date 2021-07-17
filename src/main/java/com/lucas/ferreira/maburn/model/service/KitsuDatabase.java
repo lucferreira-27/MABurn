@@ -36,7 +36,7 @@ public class KitsuDatabase implements Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("url: " + url + querry);
+		
 
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		CollectDatas datas =  kitsuApi.fetchFirst();
@@ -65,7 +65,7 @@ public class KitsuDatabase implements Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("url: " + url + querry);
+		
 		// TODO Auto-generated method stub
 		kitsuApi = new KitsuResponseAPI(url + querry);
 		List<CollectDatas> datas =  kitsuApi.fetchAll();

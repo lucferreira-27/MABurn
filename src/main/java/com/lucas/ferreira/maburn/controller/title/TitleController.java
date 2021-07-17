@@ -118,7 +118,7 @@ public class TitleController implements Initializable {
 
 		Icon iconRating = new Icon(imgAverageRating, new IconConfig(ICON_PATH, Icons.RATING, "Rating"));
 		
-		System.out.println(Icons.RATING.getIconName());
+		
 		
 		Icon iconDownload = new Icon(imgDownload, new IconConfig(ICON_PATH,Icons.DOWNLOAD_2, "Download"));
 		iconDownload.setProperties((event) -> onClickButtonDownload());
@@ -147,7 +147,7 @@ public class TitleController implements Initializable {
 
 	@FXML
 	public void onClickButtonBack() {
-		System.out.println("Back: " + collections);
+		
 		navigator.back();
 		// itensView.setCollections(collections);
 

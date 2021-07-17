@@ -22,7 +22,7 @@ public class Documents {
 	public final static String THUMBNAILS_LOCAL_MANGAS = THUMBNAILS_LOCAL + "\\Mangas\\";
 
 	public static void createDocumentFolders() {
-		System.out.println(DOCUMENTS_LOCAL);
+		
 		String local = DOCUMENTS_LOCAL;
 		if (!(new File(local).exists())) {
 			File fileLocal = new File(local);

@@ -43,7 +43,7 @@ public class ItemValueNumberValidador implements Validador {
 			}else if (newvalue.matches(ONLY_NUMBERS_REGEX)) {
 				
 				if(totalItems < Integer.valueOf(newvalue)) {
-					System.out.println("Total Items: " + totalItems  + " [ " + txtField + " ]");
+					
 					validate.set(false);
 					error.set("Value can't be big than total of items (" + totalItems +")");
 				}else {

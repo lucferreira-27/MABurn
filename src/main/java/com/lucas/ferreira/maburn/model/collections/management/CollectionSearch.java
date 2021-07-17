@@ -52,7 +52,7 @@ public class CollectionSearch {
 
 		showQuickLoad();
 		loadImageLoadArea.setVisible(true);
-		System.out.println("Search " + querry);
+		
 		List<CollectionTitle> items = new ArrayList<CollectionTitle>();
 
 		Database database = new KitsuDatabase();

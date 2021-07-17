@@ -76,7 +76,7 @@ public class ConnectionModel implements Callable<String> {
 
 	public static String connect(String url) throws ConnectionException{
 		
-		System.out.println("connect: " + url);
+		
 		HttpURLConnection httpConn = null;
 		
 		try {
@@ -115,7 +115,7 @@ public class ConnectionModel implements Callable<String> {
 	}
 
 	private static HttpURLConnection Httpsetup(String url) throws IOException {
-		System.out.println("HTTPSETUP:  " + url);
+		
 		URL uc = new URL(url);
 
 		HttpURLConnection httpConn = (HttpURLConnection) uc.openConnection();

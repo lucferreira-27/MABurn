@@ -7,7 +7,7 @@ public class Remover {
 	public boolean removeItemFormById(CollectionForm form, Integer id) throws JsonProcessingException {
 
 		form.getItems().forEach(f -> {
-			System.out.println(f.getId().equals(id));
+			
 		});
 
 		boolean remove = form.getItems().removeIf(item -> item.getId().equals(id));
@@ -18,7 +18,7 @@ public class Remover {
 	public boolean removeItemFormByIdAndWrite(CollectionForm form, Integer id) throws JsonProcessingException {
 
 		form.getItems().forEach(f -> {
-			System.out.println(f.getId().equals(id));
+			
 		});
 
 		boolean remove = form.getItems().removeIf(item -> item.getId().equals(id));

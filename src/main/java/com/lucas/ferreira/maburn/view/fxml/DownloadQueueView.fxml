@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fx:id="itensImagesScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" styleClass="itensImagesScroll" vbarPolicy="AS_NEEDED">
         <BorderPane fx:id="borderMain" xmlns:fx="http://javafx.com/fxml/1">
             <!-- TODO Add Nodes -->

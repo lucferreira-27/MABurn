@@ -29,7 +29,7 @@ public class PlayerIcons implements CardInteractIcons{
 		Icon iconPlay = (Icon) downloadCard.getImageViewPlayerIcon().getUserData();
 		Icon iconPause = (Icon) downloadCard.getImageViewPauseIcon().getUserData();
 		iconPlay.setProperties(event -> {
-			System.out.println("resume");
+			
 			controller.resume();
 			iconPlay.setVisible(false);
 			iconPause.setVisible(true);
@@ -49,7 +49,7 @@ public class PlayerIcons implements CardInteractIcons{
 		Icon iconPause = (Icon) downloadCard.getImageViewPauseIcon().getUserData();
 
 		iconPause.setProperties(event -> {
-			System.out.println("pause");
+			
 			controller.pause();
 			iconPause.setVisible(false);
 			iconPlay.setVisible(true);

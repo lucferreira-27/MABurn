@@ -86,7 +86,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 
 		updateState(DownloadState.READY);
 		try {
-			System.out.println("LINK: " + link);
+			
 			URL url = downloadSetup(link);
 			File location = getURLFileProprieres(url, 0);
 			rbc = Channels.newChannel(httpConn.getInputStream());
@@ -96,8 +96,8 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 			updateState(DownloadState.DOWNLOADING);
 			checkSpeed();
 
-			System.out.println(link);
-			System.out.println(location.getAbsolutePath());
+			
+			
 			fos.getChannel().transferFrom(this, 0, Long.MAX_VALUE);
 			fos.close();
 			subItem.setDestination(location.getAbsolutePath());

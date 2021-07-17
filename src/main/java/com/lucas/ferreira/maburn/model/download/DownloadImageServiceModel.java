@@ -68,7 +68,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 		fileName += type;
 
 		CustomLogger.log(("[Download Image] (" + link + ")"));
-		System.out.println(location.getAbsolutePath());
+		
 		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\"  +fileName);
 		double size = (double) httpConn.getContentLength() / 1048576;
 

@@ -27,7 +27,7 @@ public class ItemPanel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		System.out.println("INITIALIZE: " + location);
+		
 		Rectangle form = new Rectangle(imgImagePanel.getFitWidth() - 1, imgImagePanel.getFitHeight() - 1);
 		form.setArcHeight(20);
 		form.setArcWidth(20);

@@ -16,7 +16,7 @@ public class ShadeLayer {
 	
 	public void show() {
 		recShade.setVisible(true);
-		System.out.println(recShade.isVisible());
+		
 	}
 	public void hide() {
 		recShade.setVisible(false);

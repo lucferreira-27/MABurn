@@ -26,8 +26,8 @@ public class ScreenshotFullDetails {
 		siteScreenshot.loadImage(pageInfo.getImageSmall());
 		siteScreenshot.showImage();
 		imgZoomOut.setVisible(true);
-		System.out.println("ShadeLayer: " + shadeLayer);
-		System.out.println(shadeLayer.getRecShade());
+		
+		
 		shadeLayer.show();
 
 	}

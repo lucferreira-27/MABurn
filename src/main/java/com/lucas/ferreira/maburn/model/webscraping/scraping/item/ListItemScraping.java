@@ -46,7 +46,7 @@ public abstract class ListItemScraping {
 			while (!executorService.isTerminated()) {
 				try {
 					Thread.sleep(500);
-					System.out.println("Scraping ...");
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public abstract class ListItemScraping {
 	}
 
 	private void finish() {
-		System.out.println("FINISH");
+		
 		myBrowser.killAll();
 		scrapingDone.set(true);
 
