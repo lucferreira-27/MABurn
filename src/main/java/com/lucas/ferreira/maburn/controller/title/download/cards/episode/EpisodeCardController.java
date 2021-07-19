@@ -1,13 +1,14 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
-import java.io.IOException;
+import java.io.File;
 
+import com.lucas.ferreira.maburn.controller.title.download.ContentDownloadList;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardIconVisibility;
 import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
 import com.lucas.ferreira.maburn.exceptions.InitializeIconsException;
-import com.lucas.ferreira.maburn.model.DirectoryModel;
+import com.lucas.ferreira.maburn.model.DeleteFile;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.EpisodeDownload;
 import com.lucas.ferreira.maburn.model.effects.DefaultAnimationCard;
@@ -21,28 +22,36 @@ public class EpisodeCardController implements DownloadCardController {
 	private EpisodeDownloadItemValues episodeDownloadItemValues = new EpisodeDownloadItemValues();
 	private EpisodeDownload episodeDownload;
 	private DownloadInfo downloadInfo;
+	private ContentDownloadList contentDownloadList;
 
-	public EpisodeCardController(EpisodeCard episodeCard, DownloadInfo downloadInfo) {
+	public EpisodeCardController(EpisodeCard episodeCard, DownloadInfo downloadInfo,
+			ContentDownloadList contentDownloadList) {
 		this.episodeCard = episodeCard;
 		this.downloadInfo = downloadInfo;
+		this.contentDownloadList = contentDownloadList;
 	}
 
-	public DownloadCardFull initialize() throws Exception{
+	public DownloadCardFull initialize() {
 
 		initializeValuesCard();
-		initializeIcons();
-		
+		try {
+			initializeIcons();
+		} catch (InitializeIconsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		DownloadCardFull downloadCardFull = new EpisodeCardFull();
 		downloadCardFull.setCard(episodeCard);
 		downloadCardFull.setCardController(this);
 		downloadCardFull.setCardValues(episodeDownloadItemValues);
-		
+
 		DownloadCardInteractIcons downloadCardInteractIcons = new DownloadCardInteractIcons(this, episodeCard);
 		downloadCardInteractIcons.interactTurnOn();
-		DownloadCardIconVisibility episodeCardIconVisibility = new DownloadCardIconVisibility(downloadCardInteractIcons);
+		DownloadCardIconVisibility episodeCardIconVisibility = new DownloadCardIconVisibility(
+				downloadCardInteractIcons);
 		episodeCardIconVisibility.onDownloadState(episodeDownloadItemValues.getDownloadProgressState());
 		initializeAnimations();
-		initializeDownload();
 		return downloadCardFull;
 	}
 
@@ -70,18 +79,18 @@ public class EpisodeCardController implements DownloadCardController {
 		defaultAnimationCard.initAnimationCard();
 	}
 
-	public void initializeDownload() {
+	public void initializeDownload() throws Exception {
 
 		episodeDownload = new EpisodeDownload(downloadInfo, episodeDownloadItemValues);
-		new Thread(() -> {
 
-			try {
-				episodeDownload.download();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		episodeDownload.download();
 
-		}).start();
+	}
+
+	@Override
+	public void start() throws Exception {
+		initializeDownload();
+
 	}
 
 	@Override
@@ -99,10 +108,11 @@ public class EpisodeCardController implements DownloadCardController {
 		episodeDownload.stop();
 		resetValues();
 	}
+
 	@Override
 	public void openFolder() {
-			EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
-			episodeDirectoryModel.openFolder();
+		EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
+		episodeDirectoryModel.openFolder();
 
 	}
 
@@ -111,6 +121,7 @@ public class EpisodeCardController implements DownloadCardController {
 		EpisodeDirectoryModel episodeDirectoryModel = new EpisodeDirectoryModel(downloadInfo);
 		episodeDirectoryModel.openFile();
 	}
+
 	private void resetValues() {
 		episodeDownloadItemValues.getDownloadSpeed().set(0);
 		episodeDownloadItemValues.getTimeRemain().set(0);
@@ -118,16 +129,18 @@ public class EpisodeCardController implements DownloadCardController {
 
 	@Override
 	public void remove() {
-		
+		contentDownloadList.removeCard(episodeCard);
+
+		String filePath = downloadInfo.getRoot() + "\\" + downloadInfo.getFilename() + "."
+				+ downloadInfo.getPrefFiletype().getName();
+		DeleteFile deleteFile = new DeleteFile();
+		deleteFile.delete(filePath);
+
 	}
 
 	@Override
-	public void refresh() {
-		
-		
-
+	public void refresh() throws Exception {
+		initializeDownload();
 	}
-
-
 
 }

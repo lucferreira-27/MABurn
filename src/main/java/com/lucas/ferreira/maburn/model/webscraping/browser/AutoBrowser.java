@@ -23,11 +23,13 @@ public abstract class AutoBrowser {
 	}
 
 	protected void launch() {
+		System.out.println("LAUNCHING FIREFOX");
 		playwright = Playwright.create();
 		context = playwright.firefox().launch().newContext();
 	}
 
 	protected void launch(boolean headless) {
+		System.out.println("LAUNCHING FIREFOX HEADLESS");
 		playwright = Playwright.create();
 
 		context = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(headless)).newContext();
@@ -37,7 +39,7 @@ public abstract class AutoBrowser {
 		if (playwright == null) {
 			return null;
 		}
-
+		System.out.println("NEW PAGE");
 		Page page = context.newPage();
 
 		return page;

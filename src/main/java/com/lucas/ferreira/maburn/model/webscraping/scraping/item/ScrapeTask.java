@@ -21,6 +21,7 @@ public class ScrapeTask implements Callable<ItemScraped> {
 	@Override
 	public ItemScraped call() throws Exception {
 		scrapingWork.setScrapeState(ScrapeState.WORKING);
+		System.out.println("WORKING");
 		ItemScraped itemScraped = listItemScraping.startItemScraping(scrapingWork.getTarget(), browserPage);
 		scrapingWork.setWorkResult(itemScraped);
 

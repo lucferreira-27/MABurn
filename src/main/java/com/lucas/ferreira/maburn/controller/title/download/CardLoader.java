@@ -1,12 +1,20 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
+import java.io.IOException;
+
 import com.lucas.ferreira.maburn.controller.title.download.cards.AnimeDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.MangaDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCard;
+import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCard;
+import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCard;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
+import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
 import com.lucas.ferreira.maburn.controller.title.download.title.Title;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
@@ -16,19 +24,27 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.item.EpisodeScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
 import com.lucas.ferreira.maburn.util.MapKeyValue;
+import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 
 public class CardLoader {
 
 	private Title title;
-	public CardLoader(Title title) {
+	private DownloadList downloadList;
+	public CardLoader(Title title, DownloadList downloadList) {
 		this.title = title;
+		this.downloadList = downloadList;
 	}
-	
-	public DownloadCardLoaded load(ItemScraped itemScraped) {
+	private FXMLViewLoader<StackPane> fxmlViewLoader = new FXMLViewLoader<StackPane>();
+
+	public DownloadCardFull load(ItemScraped itemScraped) {
 		return loadDownloadCard(itemScraped);
 	}
 	
-	public FetchCardLoaded loadFetchCard(ScrapingWork scrapingWork) {
+	public FetchCardFull loadFetchCard(ScrapingWork scrapingWork) {
 		FetchCard fetchCard = new FetchCard();
 		
 		
@@ -36,17 +52,21 @@ public class CardLoader {
 		String itemUrl = scrapingWork.getTarget();
 	
 		FetchCardValues fetchCardValues = new FetchCardValues(title.getCollectionTitle());		
-		FetchCardLoaded fetchCardLoaded = new FetchCardLoaded();
 		fetchCardValues.setItemName(itemName);
 		fetchCardValues.setItemUrl(itemUrl);
-		fetchCardLoaded.setFetchCard(fetchCard);
-		fetchCardLoaded.setFetchCardValues(fetchCardValues);
 		
 		
-		return fetchCardLoaded;
+		Node node = loadCardFxml(fetchCard, itemName, CardFXML.FETCH_CARD);
+		FetchCardFull cardFull= new FetchCardController(fetchCard, fetchCardValues).initialize();
+		cardFull.setNode(node);
+		return cardFull;
+		
 	}
 	
-	private DownloadCardLoaded loadDownloadCard(ItemScraped itemScraped) {
+	private DownloadCardFull loadDownloadCard(ItemScraped itemScraped) {
+		
+		
+		
 		if (itemScraped.getSite().getCategory() == Category.ANIME) {
 
 			AnimeDownloadInfo animeDownloadInfo = new AnimeDownloadInfo(title.getTaggedItems());
@@ -68,26 +88,47 @@ public class CardLoader {
 	}
 
 
-	private DownloadCardLoaded loadDownloadEpisodeCard(DownloadInfo downloadInfo) {
+	private DownloadCardFull loadDownloadEpisodeCard(DownloadInfo downloadInfo) {
 		EpisodeCard episodeCard = new EpisodeCard();
-		DownloadCardLoaded downloadCardLoaded = new DownloadCardLoaded();
-		downloadCardLoaded.setDownloadCard(episodeCard);
-		downloadCardLoaded.setCardFXML(CardFXML.DOWNLOAD_EPISODE_CARD);
-		downloadCardLoaded.setDownloadInfo(downloadInfo);
-		return downloadCardLoaded;
 
+		Node node =loadCardFxml(episodeCard, downloadInfo.getFilename(), CardFXML.DOWNLOAD_EPISODE_CARD);
+		
+		DownloadCardFull downloadCardFull = new EpisodeCardController(episodeCard, downloadInfo, downloadList.getContentDownloadList()).initialize();
+		downloadCardFull.setNode(node);
+		return downloadCardFull;
+		
 	}
 
-	private DownloadCardLoaded loadDownloadChapterCard(DownloadInfo downloadInfo) {
+	private DownloadCardFull loadDownloadChapterCard(DownloadInfo downloadInfo) {
 		ChapterCard chapterCard = new ChapterCard();
-		DownloadCardLoaded downloadCardLoaded = new DownloadCardLoaded();
-		downloadCardLoaded.setDownloadCard(chapterCard);
-		downloadCardLoaded.setCardFXML(CardFXML.DOWNLOAD_CHAPTER_CARD);
-		downloadCardLoaded.setDownloadInfo(downloadInfo);
-		return downloadCardLoaded;
+
+		Node node =loadCardFxml(chapterCard, downloadInfo.getFilename(), CardFXML.DOWNLOAD_CHAPTER_CARD);
+		
+		DownloadCardFull downloadCardFull = new ChapterCardController(chapterCard, downloadInfo, downloadList.getContentDownloadList()).initialize();
+		downloadCardFull.setNode(node);
+
+		 return downloadCardFull;
+
 	}
+
 	
+	public Node loadCardFxml(Initializable initializable, String name, CardFXML cardFxml) {
+		StackPane stackPane = new StackPane();
+		try {
+			StackPane item = fxmlViewLoader.load(cardFxml.getFxml(), initializable, stackPane);
+			defineId(name, item);
+			return item;
 
+		} catch (IOException e) {
+			 
+			e.printStackTrace();
+			return null;
+		}
+	}
 
+	private void defineId(String name, StackPane item) {
+		String definedId = name;
+		item.setUserData(definedId);
+	}
 
 }

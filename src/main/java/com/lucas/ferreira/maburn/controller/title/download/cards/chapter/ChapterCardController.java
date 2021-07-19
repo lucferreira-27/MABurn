@@ -1,18 +1,17 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.chapter;
 
-import java.io.IOException;
-
+import com.lucas.ferreira.maburn.controller.title.download.ContentDownloadList;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.PageDownloadItemValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardIconVisibility;
 import com.lucas.ferreira.maburn.controller.title.download.cards.icons.DownloadCardInteractIcons;
-import com.lucas.ferreira.maburn.model.DirectoryModel;
+import com.lucas.ferreira.maburn.exceptions.ChapterDownloadException;
+import com.lucas.ferreira.maburn.model.DeleteFile;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.item.ChapterDownload;
 import com.lucas.ferreira.maburn.model.effects.DefaultAnimationCard;
 import com.lucas.ferreira.maburn.model.media.ChapterDirecotoryModel;
-import com.lucas.ferreira.maburn.model.media.EpisodeDirectoryModel;
 
 public class ChapterCardController implements DownloadCardController {
 
@@ -22,14 +21,15 @@ public class ChapterCardController implements DownloadCardController {
 	private ChapterDownload chapterDownload;
 	private ChapterDownloadValues chapterDownloadValues = new ChapterDownloadValues();
 	private ChapterCardIcons chapterCardIcons;
-
-	public ChapterCardController(ChapterCard chapterCard, DownloadInfo downloadInfo) {
+	private ContentDownloadList contentDownloadList;
+	
+	public ChapterCardController(ChapterCard chapterCard, DownloadInfo downloadInfo, ContentDownloadList contentDownloadList) {
 		this.chapterCard = chapterCard;
 		this.downloadInfo = downloadInfo;
 	}
 
 	@Override
-	public DownloadCardFull initialize() throws Exception{
+	public DownloadCardFull initialize() {
 		
 		DownloadCardFull downloadCardFull = new ChapterCardFull();
 		downloadCardFull.setCard(chapterCard);
@@ -43,7 +43,6 @@ public class ChapterCardController implements DownloadCardController {
 		DownloadCardIconVisibility episodeCardIconVisibility = new DownloadCardIconVisibility(downloadCardInteractIcons);
 		episodeCardIconVisibility.onDownloadState(chapterDownloadValues.getDownloadProgressState());
 		initializeAnimations();
-		initializeDownload();
 		return downloadCardFull;
 	}
 
@@ -66,7 +65,7 @@ public class ChapterCardController implements DownloadCardController {
 		defaultAnimationCard.initAnimationCard();
 	}
 
-	public void initializeDownload() {
+	public void initializeDownload() throws ChapterDownloadException {
 
 		downloadInfo.getListUrls().forEach(link -> {
 			PageDownloadItemValues pageDownloadItemValues = new PageDownloadItemValues();
@@ -75,17 +74,15 @@ public class ChapterCardController implements DownloadCardController {
 		});
 
 		chapterDownload = new ChapterDownload(chapterDownloadValues, downloadInfo);
-		new Thread(() -> {
 
-			try {
 				chapterDownload.download();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
-		}).start();
 	}
+	@Override
+	public void start() throws Exception {
+		initializeDownload();
 
+	}
 	@Override
 	public void resume() {
 		chapterDownload.resume();
@@ -124,7 +121,11 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void remove() {
-		
+		contentDownloadList.removeCard(chapterCard);
+		String filePath = downloadInfo.getRoot() + "\\" + downloadInfo.getFilename() + "."
+				+ downloadInfo.getPrefFiletype().getName();
+		DeleteFile deleteFile = new DeleteFile();
+		deleteFile.delete(filePath);
 	}
 
 	@Override
@@ -133,5 +134,7 @@ public class ChapterCardController implements DownloadCardController {
 		
 
 	}
+
+
 
 }

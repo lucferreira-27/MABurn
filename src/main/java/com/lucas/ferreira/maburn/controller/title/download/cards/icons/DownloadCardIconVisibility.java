@@ -17,66 +17,79 @@ public class DownloadCardIconVisibility {
 
 		downloadStateProperty.addListener((obs, oldvalue, newvalue) -> {
 			switch (newvalue) {
-				case COMPLETED:
-					downloadCompleted();
-					break;
-			
-				case CANCELED:
-					downloadCanceled();
-					break;
-				case FAILED:
-					downloadFailed();
-					break;
-				case WAITING:
-					disableCardIcons(downloadCardInteractIcons.getPlayerIcons());
-					break;
-				case DOWNLOADING:
-					enableCardIcons(downloadCardInteractIcons.getPlayerIcons());
-					break;
-				default:
-					break;
+
+
+
+			case COMPLETED:
+				downloadCompleted();
+				break;
+
+			case CANCELED:
+				downloadCanceled();
+				break;
+			case FAILED:
+				downloadFailed();
+				break;
+			case WAITING:
+				disableCardIcons(downloadCardInteractIcons.getPlayerIcons());
+				break;
+			case DOWNLOADING:
+				enableCardIcons(downloadCardInteractIcons.getPlayerIcons());
+				if(oldvalue == DownloadProgressState.FAILED || oldvalue == DownloadProgressState.CANCELED) {
+					downloadRefreshed();
 				}
+				break;
+			default:
+				break;
+			}
 		});
 
 	}
 
-	
 	private void hideCardIcons(CardInteractIcons cardInteractIcons) {
 		cardInteractIcons.hideAll();
 	}
+
 	private void showCardIcons(CardInteractIcons cardInteractIcons) {
 		cardInteractIcons.showAll();
 
 	}
+
 	private void disableCardIcons(CardInteractIcons cardInteractIcons) {
 		cardInteractIcons.disableAll();
 
 	}
+
 	private void enableCardIcons(CardInteractIcons cardInteractIcons) {
 		cardInteractIcons.enableAll();
 
 	}
 	
+	private void downloadRefreshed() {
+		showCardIcons(downloadCardInteractIcons.getPlayerIcons());
+		hideCardIcons(downloadCardInteractIcons.getFailedDownloadIcons());
+	}
+	
 	private void downloadFailed() {
-		
+
 		hideCardIcons(downloadCardInteractIcons.getPlayerIcons());
 		showCardIcons(downloadCardInteractIcons.getFailedDownloadIcons());
 
-
 	}
+
 	private void downloadCanceled() {
-		
+
 		disableCardIcons(downloadCardInteractIcons.getPlayerIcons());
-		
+
 		downloadCardInteractIcons.getPlayerIcons().hideAll();
 		downloadCardInteractIcons.getFailedDownloadIcons().showAll();
 
 	}
+
 	private void downloadCompleted() {
-		
+
 		downloadCardInteractIcons.getPlayerIcons().hideAll();
 		downloadCardInteractIcons.getCompletedDownloadIcons().showAll();
-
 
 	}
 }

@@ -14,7 +14,7 @@ public class EpisodeDirectoryModel {
 	}
 	
 	public void openFile() {
-		String diretory = downloadInfo.getPath() + "\\" + downloadInfo.getFilename() +  "." + downloadInfo.getPrefFiletype().getName();
+		String diretory = downloadInfo.getRoot() + "\\" + downloadInfo.getFilename() +  "." + downloadInfo.getPrefFiletype().getName();
 		
 		try {
 			DirectoryModel.openDirectory(diretory);
@@ -24,7 +24,7 @@ public class EpisodeDirectoryModel {
 		}
 	}
 	public void openFolder() {
-		String diretory = downloadInfo.getPath();
+		String diretory = downloadInfo.getRoot();
 		
 		try {
 			DirectoryModel.openDirectory(diretory);

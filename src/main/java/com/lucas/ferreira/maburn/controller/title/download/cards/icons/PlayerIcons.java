@@ -77,7 +77,7 @@ public class PlayerIcons implements CardInteractIcons{
 	
 	public void showAll() {
 		iconVisibility.showIcon(downloadCard.getImageViewPauseIcon());
-		iconVisibility.showIcon(downloadCard.getImageViewPlayerIcon());
+		iconVisibility.showIcon(downloadCard.getImageViewStopIcon());
 	}
 
 

@@ -24,7 +24,7 @@ public class AnimeDownloadInfo {
 		DownloadInfo downloadInfo = new DownloadInfo();
 
 		downloadInfo.setFilename(itemName);
-		downloadInfo.setPath(collectionTitle.getDestination());
+		downloadInfo.setRoot(collectionTitle.getDestination());
 		downloadInfo.setPrefFiletype(FileTypeAccept.MP4);
 		downloadInfo.setReferer(episodeScraped.getSite().getUrl());
 		downloadInfo.setUrl(directDownload);

@@ -85,7 +85,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 	private void downloadInfos(DownloadInfo downloadInfo) {
 		url = downloadInfo.getUrl();
 		filename = downloadInfo.getFilename();
-		path = downloadInfo.getPath();
+		path = downloadInfo.getRoot();
 		referer = downloadInfo.getReferer();
 		prefFileType = downloadInfo.getPrefFiletype().getName();
 	}

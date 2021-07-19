@@ -17,7 +17,7 @@ public class ChapterDirecotoryModel {
 	}
 
 	public void openFile() {
-		String diretory = downloadInfo.getPath() + "\\" + downloadInfo.getFilename() + "\\"
+		String diretory = downloadInfo.getRoot() + "\\" + downloadInfo.getFilename() + "\\"
 				+ chapterDownloadValues.getListItemsDownloadValues().get(0).getName().get();
 		
 
@@ -31,7 +31,7 @@ public class ChapterDirecotoryModel {
 	}
 
 	public void openFolder() {
-		String diretory = downloadInfo.getPath() + "\\" + downloadInfo.getFilename();
+		String diretory = downloadInfo.getRoot() + "\\" + downloadInfo.getFilename();
 
 		try {
 			

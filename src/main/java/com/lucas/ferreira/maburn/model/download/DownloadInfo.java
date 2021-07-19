@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DownloadInfo {
 	private String filename;
-	private String path;
+	private String root;
 	private String url;
 	private List<String> listUrls = new ArrayList<String>();
 	private String referer;
@@ -17,11 +17,11 @@ public class DownloadInfo {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-	public String getPath() {
-		return path;
+	public String getRoot() {
+		return root;
 	}
-	public void setPath(String path) {
-		this.path = path;
+	public void setRoot(String root) {
+		this.root = root;
 	}
 	public String getUrl() {
 		return url;
@@ -47,7 +47,7 @@ public class DownloadInfo {
 	@Override
 	public String toString() {
 		return String.format("DownloadInfo [filename=%s, path=%s, url=%s, listUrls=%s, referer=%s, prefFiletype=%s]",
-				filename, path, url, listUrls, referer, prefFiletype);
+				filename, root, url, listUrls, referer, prefFiletype);
 	}
 	
 	

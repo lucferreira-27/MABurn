@@ -66,7 +66,7 @@ public class ChapterDownload implements ItemDownload {
 	}
 
 	public void createChapterFolder() {
-		folderPath = chapterDownloadInfo.getPath() + "\\" + chapterDownloadInfo.getFilename() + "\\";
+		folderPath = chapterDownloadInfo.getRoot() + "\\" + chapterDownloadInfo.getFilename() + "\\";
 
 		File file = new File(folderPath);
 		file.mkdir();
@@ -126,7 +126,7 @@ public class ChapterDownload implements ItemDownload {
 		DownloadInfo pageDownloadInfo = new DownloadInfo();
 		String pageName = pageNameForPosition(pagePostion);
 
-		pageDownloadInfo.setPath(folderPath);
+		pageDownloadInfo.setRoot(folderPath);
 		pageDownloadInfo.setUrl(page.getDirectLink().get());
 		pageDownloadInfo.setFilename(pageName);
 		pageDownloadInfo.setPrefFiletype(chapterDownloadInfo.getPrefFiletype());

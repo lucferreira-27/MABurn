@@ -22,14 +22,20 @@ import javafx.beans.value.ObservableValue;
 public class DownloadList {
 
 	private NavDownloadList navDownloadList = new NavDownloadList(this);
-	private ContentDownloadList contentDownloadList = new ContentDownloadList(navDownloadList);
-	private ContentFetchList contentFetchList = new ContentFetchList(navDownloadList);
+	private ContentDownloadList contentDownloadList;
+	private ContentFetchList contentFetchList;
 	private Title title;
-	private ListAddCard listAddCard;
 
 	public DownloadList(Title title) {
 		this.title = title;
-		
+		contentDownloadList = new ContentDownloadList(navDownloadList, title.getTitleDownload().getvBoxListDownloads());
+		contentDownloadList.setOnRemovedCard(() ->{
+			updateDownloadListTotal();
+			contentDownloadList.updateCardsValues();
+			contentFetchList.updateCardsValues();
+			return null;
+		});
+		contentFetchList = new ContentFetchList(navDownloadList, title.getTitleDownload().getvBoxListDownloads());
 	}
 
 	public void onScrapingWork(List<ScrapingWork> scrapingWorks) {
@@ -42,52 +48,51 @@ public class DownloadList {
 
 	private void addListener(ScrapingWork scrapingWork) {
 
-		CardLoader cardLoader = new CardLoader(title);
-		FetchCardLoaded fetchCardLoaded = cardLoader.loadFetchCard(scrapingWork);
-		listAddCard = new ListAddCard(title.getTitleDownload().getvBoxListDownloads());
-		FetchCardFull fetchCardFull = listAddCard.createFetchCardFull(fetchCardLoaded);
-
-		contentFetchList.addCard(fetchCardFull);
-		updateNavDownloadListCardTotal(navDownloadList.getTotalCards().get() + 1);
-		fetchCardFull.getCardController().show();
-
-		scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
-			contentFetchList.updateCardsValues();
-			FetchCardValues fetchCardValues = fetchCardLoaded.getFetchCardValues();
+		
+			CardLoader cardLoader = new CardLoader(title, this);
+			FetchCardFull fetchCardFull = cardLoader.loadFetchCard(scrapingWork);
 			
-			if (newvalue == ScrapeState.WORKING) {
-				fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
-			}
-			
+			contentFetchList.addCard(fetchCardFull);
+			updateNavDownloadListCardTotal(contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
 
-			else if (newvalue == ScrapeState.SUCCEED) {
-				ItemScraped itemScraped;
-				try {
-					itemScraped = scrapingWork.getWorkResult();
-					
-					DownloadCardLoaded downloadCardLoaded = cardLoader.load(itemScraped);
+			scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
+				
+				contentFetchList.updateCardsValues();
+				FetchCardValues fetchCardValues = fetchCardFull.getCardValues();
 
-					fetchCardValues.getFetchCardState().set(FetchCardState.READY);
-					DownloadCardFull downloadCardFull = listAddCard.createDownloadCardFull(downloadCardLoaded);
-					contentDownloadList.addCard(downloadCardFull);
-					downloadCardFull.getCardValues().getDownloadProgressState().addListener(navUpdate());
-				} catch (Exception e) {
-
-					e.printStackTrace();
+				if (newvalue == ScrapeState.WORKING) {
+					fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
 				}
 
-			} else if (newvalue == ScrapeState.FAILED) {
-				try {
-					fetchCardValues.getFetchCardState().set(FetchCardState.ERROR);
-					ItemScraped itemScraped = scrapingWork.getWorkResult();
-					throw itemScraped.getException();
-				} catch (Exception e) {
-					
-					e.printStackTrace();
+				else if (newvalue == ScrapeState.SUCCEED) {
+					ItemScraped itemScraped;
+					try {
+						itemScraped = scrapingWork.getWorkResult();
+
+						fetchCardValues.getFetchCardState().set(FetchCardState.READY);
+						DownloadCardFull downloadCardFull = cardLoader.load(itemScraped);
+
+						contentDownloadList.addCard(downloadCardFull);
+						contentFetchList.removeCard(fetchCardFull);
+						downloadCardFull.getCardValues().getDownloadProgressState().addListener(navUpdate());
+					} catch (Exception e) {
+
+						e.printStackTrace();
+					}
+
+				} else if (newvalue == ScrapeState.FAILED) {
+					try {
+						fetchCardValues.getFetchCardState().set(FetchCardState.ERROR);
+						ItemScraped itemScraped = scrapingWork.getWorkResult();
+						throw itemScraped.getException();
+					} catch (Exception e) {
+
+						e.printStackTrace();
+					}
+
 				}
 
-			}
-		});
+			});
 
 	}
 
@@ -99,12 +104,18 @@ public class DownloadList {
 					DownloadProgressState oldValue, DownloadProgressState newValue) {
 				contentDownloadList.updateCardsValues();
 				contentFetchList.updateCardsValues();
+
 			}
+
+
 
 		};
 	}
-
+	private void updateDownloadListTotal() {
+		updateNavDownloadListCardTotal(contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
+	}
 	private void updateNavDownloadListCardTotal(int total) {
+		System.out.println("updateNavDownloadListCardTotal: " + total);
 		navDownloadList.getTotalCards().set(total);
 	}
 

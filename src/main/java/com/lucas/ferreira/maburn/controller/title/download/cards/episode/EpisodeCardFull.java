@@ -5,11 +5,14 @@ import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardCon
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
 
+import javafx.scene.Node;
+
 public class EpisodeCardFull implements DownloadCardFull{
 
 	private EpisodeCardController episodeCardController;
 	private EpisodeCard episodeCard;
 	private EpisodeDownloadItemValues episodeDownloadItemValues;
+	private Node node;
 	@Override
 	public EpisodeCardController getCardController() {
 		return episodeCardController;
@@ -42,6 +45,16 @@ public class EpisodeCardFull implements DownloadCardFull{
 	
 		this.episodeDownloadItemValues = (EpisodeDownloadItemValues) episodeDownloadItemValues;
 		
+	}
+
+	@Override
+	public void setNode(Node node) {
+		this.node = node;
+	}
+
+	@Override
+	public Node getNode() {
+		return node;
 	}
 
 

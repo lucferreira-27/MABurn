@@ -25,7 +25,7 @@ public class MangaDownloadInfo {
 		DownloadInfo downloadInfo = new DownloadInfo();
 
 		downloadInfo.setFilename(itemName);
-		downloadInfo.setPath(collectionTitle.getDestination());
+		downloadInfo.setRoot(collectionTitle.getDestination());
 		downloadInfo.setPrefFiletype(FileTypeAccept.MP4);
 		downloadInfo.setReferer(chapterScraped.getSite().getUrl());
 		downloadInfo.setUrl(chapterScraped.getUrl());

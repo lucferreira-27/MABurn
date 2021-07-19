@@ -17,14 +17,28 @@ public class ContentFetchList {
 
 	private NavDownloadList navDownloadList;
 	private List<FetchCardFull> fetchCardsCardFulls = new ArrayList<FetchCardFull>();
-	
-	public ContentFetchList(NavDownloadList navDownloadList) {
+	private CardInsert cardInsert;
+
+	public ContentFetchList(NavDownloadList navDownloadList, VBox vbox) {
 		this.navDownloadList = navDownloadList;
+		cardInsert = new CardInsert(vbox);
 	}
 	
-	public void addCard(FetchCardFull fetchCardControllers) {
-		fetchCardsCardFulls.add(fetchCardControllers);
-
+	public void addCard(FetchCardFull fetchCardFull) {
+		fetchCardsCardFulls.add(fetchCardFull);
+		cardInsert.insertInList(fetchCardFull.getCardValues().getItemName(), fetchCardFull.getNode());
+		showCard(fetchCardFull);
+	}
+	private void showCard(FetchCardFull fetchCardFull) {
+		fetchCardFull.getCardController().show();
+	}
+	
+	public void removeCard(FetchCardFull fetchCardFull) {
+		hideCard(fetchCardFull);
+		fetchCardsCardFulls.remove(fetchCardFull);
+	}
+	private void hideCard(FetchCardFull fetchCardFull) {
+		fetchCardFull.getCardController().hide();
 	}
 	public List<FetchCardFull> getFetchCardsCardFulls() {
 		return fetchCardsCardFulls;
@@ -41,5 +55,7 @@ public class ContentFetchList {
 		navDownloadList.getFetchingCards().set(count);
 
 	}
+
+
 
 }

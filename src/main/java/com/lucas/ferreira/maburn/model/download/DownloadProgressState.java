@@ -7,4 +7,5 @@ public enum DownloadProgressState {
 	DOWNLOADING,
 	FAILED,
 	COMPLETED,
+
 }
