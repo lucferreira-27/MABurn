@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.download.item;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,11 +19,13 @@ import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class ChapterDownload implements ItemDownload {
 
-	private static final int NUMBER_PAGES_THREADS = 5;
+	private static final int NUMBER_PAGES_THREADS = 1;
 
 	private String folderPath;
 	private DownloadInfo chapterDownloadInfo;
 	private ChapterDownloadValues chapterDownloadValues;
+	private List<PageDownload> pageDownloads = new ArrayList<>();
+	private List<PageDownloadItemValues> pageValues = new ArrayList<>();
 
 	private DownloadRealTimeInfo downloadRealTimeInfo = new DownloadRealTimeInfo();
 	private ChapterInfoRefresher chapterInfoRefresher;
@@ -55,7 +58,7 @@ public class ChapterDownload implements ItemDownload {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				 
+
 				e.printStackTrace();
 			}
 		}
@@ -99,18 +102,19 @@ public class ChapterDownload implements ItemDownload {
 			});
 			pageDownload.onDownloadFailed(downloadedPage -> notifyPageDownloadFailed(page));
 
-			Thread thDownloadPage = new Thread(() -> {
-				downloadPage(pageDownload);
-			});
+			Thread thDownloadPage = new Thread(() -> downloadPage(pageDownload));
 			executorService.execute(thDownloadPage);
-
+			pageDownloads.add(pageDownload);
+			pageValues.add(page);
 		}
 
 	}
 
 	private void checkState() {
 
-		if (chapterDownloadValues.getDownloadProgressState().get() != DownloadProgressState.FAILED) {
+		if (chapterDownloadValues.getDownloadProgressState().get() != DownloadProgressState.FAILED
+				&& chapterDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED) {
+
 			boolean allMath = chapterDownloadValues.getListItemsDownloadValues().stream()
 					.allMatch(page -> page.getDownloadProgressState().get() == DownloadProgressState.COMPLETED);
 			if (allMath) {
@@ -181,16 +185,23 @@ public class ChapterDownload implements ItemDownload {
 	@Override
 	public void pause() {
 
+		pageDownloads.forEach(page -> {
+			page.pause();
+		});
 	}
 
 	@Override
 	public void resume() {
-
+		pageDownloads.forEach(page -> {
+			page.resume();
+		});
 	}
 
 	@Override
 	public void stop() {
-
+		pageDownloads.forEach(page -> {
+			page.stop();
+		});
 	}
 
 }

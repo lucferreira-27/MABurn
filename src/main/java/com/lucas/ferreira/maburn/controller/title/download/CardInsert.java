@@ -30,7 +30,6 @@ public class CardInsert {
 				replaceFetchCardByDownloadCard(item, card);
 			else
 				vBox.getChildren().add(item);
-				System.out.println(item.isVisible());
 		});
 	}
 

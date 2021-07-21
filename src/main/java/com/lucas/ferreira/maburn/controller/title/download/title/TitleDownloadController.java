@@ -32,7 +32,7 @@ import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
-import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListChapterScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListEpisodeScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListItemScraping;

@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
 import java.util.concurrent.Callable;
 
-import com.lucas.ferreira.maburn.model.webscraping.browser.BrowserPage;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
 
 public class ScrapeTask implements Callable<ItemScraped> {
 

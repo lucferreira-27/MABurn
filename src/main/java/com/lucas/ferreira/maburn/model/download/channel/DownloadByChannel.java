@@ -15,6 +15,7 @@ import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.FileTypeDetection;
 import com.lucas.ferreira.maburn.model.download.URLFixer;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public class DownloadByChannel extends DownloadProgressListener {
@@ -52,19 +53,17 @@ public class DownloadByChannel extends DownloadProgressListener {
 					closeChannel(channel);
 				if (trackByteChannel != null)
 					closeTrack(trackByteChannel);
-				if(fos != null) {
+				if (fos != null) {
 					closeOutPutStream(fos);
 				}
 			} catch (IOException e) {
-				 
+
 				e.printStackTrace();
 			}
 		}
 		finishDownload();
 		return itemDownloadValues;
 	}
-
-
 
 	private void finishDownload() {
 		if (itemDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED)
@@ -74,6 +73,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 	private void prefDownload() throws MalformedURLException, IOException, FileNotFoundException {
 		URLConnection connection = newConnection();
 		setDownloadSize(connection.getContentLengthLong());
+		setDownloadUrl(url);
 		channel = newChannel(connection);
 		setFileType(connection.getContentType());
 		trackByteChannel = newTrackChannel(channel);
@@ -95,7 +95,10 @@ public class DownloadByChannel extends DownloadProgressListener {
 		itemDownloadValues.getDownloadSize().set(megabytes);
 
 	}
-
+	private void setDownloadUrl(String url) {
+		itemDownloadValues.getDirectLink().set(url);
+	}
+	
 	private void setFileType(String contentType) {
 		String splitContentType = contentType.split("/")[1];
 		String type = FileTypeDetection.isAcceptType(splitContentType) ? splitContentType : prefFileType;
@@ -103,11 +106,11 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	private void appendFilenameAndPath() {
-		absolutePath = path + "\\" +filename;
+		absolutePath = path + "\\" + filename;
 	}
 
 	private URLConnection newConnection() throws MalformedURLException, IOException {
-		if(URLFixer.needBeFixed(url)) {
+		if (URLFixer.needBeFixed(url)) {
 			url = URLFixer.addHttpInUrl(url);
 		}
 		URLConnection connection = new URL(url).openConnection();
@@ -128,7 +131,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 	private void newOutputStream(String path) throws FileNotFoundException {
 		fos = new FileOutputStream(path);
-	
+
 	}
 
 	protected void initTransfer() throws IOException {
@@ -141,26 +144,27 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 	public void pause() {
 		if (trackByteChannel != null) {
-			trackByteChannel.getRunning().set(false);
+			trackByteChannel.setRunning(false);
 			changeDownloadState(DownloadProgressState.PAUSE);
 		}
 	}
 
 	public void resume() {
-		if (trackByteChannel != null)
-			trackByteChannel.getRunning().set(true);
-		changeDownloadState(DownloadProgressState.DOWNLOADING);
+		if (trackByteChannel != null  ) {
+			trackByteChannel.setRunning(true);
+			changeDownloadState(DownloadProgressState.DOWNLOADING);
+		}
 	}
 
 	public void stop() {
 		try {
-			if (trackByteChannel != null) {
+			if (trackByteChannel != null ) {
 				trackByteChannel.close();
 				changeDownloadState(DownloadProgressState.CANCELED);
-				trackByteChannel.getRunning().set(false);
+				trackByteChannel.setRunning(false);
 			}
 		} catch (IOException e) {
-			 
+
 			e.printStackTrace();
 		}
 	}
@@ -172,15 +176,17 @@ public class DownloadByChannel extends DownloadProgressListener {
 	private void closeChannel(ReadableByteChannel channel) throws IOException {
 		channel.close();
 	}
+
 	private void closeOutPutStream(FileOutputStream fos) {
 		try {
 			fos.close();
 		} catch (IOException e) {
-			 
+
 			e.printStackTrace();
 		}
-	
+
 	}
+
 	public String getUrl() {
 		return url;
 	}

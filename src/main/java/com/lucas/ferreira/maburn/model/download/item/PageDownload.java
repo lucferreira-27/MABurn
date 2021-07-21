@@ -16,7 +16,8 @@ public class PageDownload implements ItemDownload {
 	private ImageDownloadByChannel imageDownloadByChannel;
 	private Consumer<PageDownloadItemValues> onDownloadComplete;
 	private Consumer<PageDownloadItemValues> onDownloadFailed;
-
+	private boolean pause = false;
+	private boolean stop = false;
 	public PageDownload(PageDownloadItemValues pageDownloadItemValues, DownloadInfo downloadInfo) {
 		this.pageDownloadItemValues = pageDownloadItemValues;
 		this.downloadInfo = downloadInfo;
@@ -24,13 +25,23 @@ public class PageDownload implements ItemDownload {
 
 	@Override
 	public void download() throws Exception {
-		try {
-			imageDownloadByChannel = new ImageDownloadByChannel(pageDownloadItemValues);
-			imageDownloadByChannel.download(downloadInfo);
-			onDownloadComplete.accept(pageDownloadItemValues);
-		} catch (Exception e) {
-			onDownloadFailed.accept(pageDownloadItemValues);
-		}
+	
+			try {
+				imageDownloadByChannel = new ImageDownloadByChannel(pageDownloadItemValues);
+				imageDownloadByChannel.download(downloadInfo);
+
+				if(pause) {
+					pause();
+				}
+				if(stop) {
+					stop();
+					throw new Exception("Download stoped");
+				}
+
+				onDownloadComplete.accept(pageDownloadItemValues);
+			} catch (Exception e) {
+				onDownloadFailed.accept(pageDownloadItemValues);
+			}
 	}
 
 	public ImageMetadata readPageMetadata() {
@@ -62,17 +73,23 @@ public class PageDownload implements ItemDownload {
 
 	@Override
 	public void pause() {
-		
+		pause = true;
+		if (imageDownloadByChannel != null)
+			imageDownloadByChannel.pause();
 	}
 
 	@Override
 	public void resume() {
-		
+		pause = false;
+		if (imageDownloadByChannel != null)
+			imageDownloadByChannel.resume();
 	}
 
 	@Override
 	public void stop() {
-		
+		stop = true;
+		if (imageDownloadByChannel != null)
+			imageDownloadByChannel.stop();
 	}
 
 }

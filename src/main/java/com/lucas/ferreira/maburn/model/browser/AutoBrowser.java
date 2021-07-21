@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping.browser;
+package com.lucas.ferreira.maburn.model.browser;
 
 import java.io.ByteArrayInputStream;
 

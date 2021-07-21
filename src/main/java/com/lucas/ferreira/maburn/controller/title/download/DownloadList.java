@@ -115,7 +115,6 @@ public class DownloadList {
 		updateNavDownloadListCardTotal(contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
 	}
 	private void updateNavDownloadListCardTotal(int total) {
-		System.out.println("updateNavDownloadListCardTotal: " + total);
 		navDownloadList.getTotalCards().set(total);
 	}
 

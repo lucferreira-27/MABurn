@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.model.webscraping.browser;
+package com.lucas.ferreira.maburn.model.webscraping.navigate;
 
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;

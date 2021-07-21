@@ -26,6 +26,7 @@ public class ChapterCardController implements DownloadCardController {
 	public ChapterCardController(ChapterCard chapterCard, DownloadInfo downloadInfo, ContentDownloadList contentDownloadList) {
 		this.chapterCard = chapterCard;
 		this.downloadInfo = downloadInfo;
+		this.contentDownloadList = contentDownloadList;
 	}
 
 	@Override
@@ -95,6 +96,7 @@ public class ChapterCardController implements DownloadCardController {
 
 	@Override
 	public void stop() {
+		
 		chapterDownload.stop();
 		resetValues();
 	}
@@ -129,8 +131,8 @@ public class ChapterCardController implements DownloadCardController {
 	}
 
 	@Override
-	public void refresh() {
-		
+	public void refresh() throws Exception {
+		initializeDownload();
 		
 
 	}

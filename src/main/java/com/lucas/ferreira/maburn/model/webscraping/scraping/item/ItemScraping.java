@@ -4,7 +4,7 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
 import com.lucas.ferreira.maburn.model.webscraping.Options;
 import com.lucas.ferreira.maburn.model.webscraping.RulesProperties;
-import com.lucas.ferreira.maburn.model.webscraping.browser.ItemNavigateOptions;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.ItemNavigateOptions;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.Scraping;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;

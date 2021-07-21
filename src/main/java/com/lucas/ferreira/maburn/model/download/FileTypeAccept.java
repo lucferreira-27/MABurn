@@ -4,7 +4,9 @@ public enum FileTypeAccept {
 	MP4("mp4"),
 	JPG("jpg"), 
 	JPEG("jpeg"), 
-	PNG("png");
+	PNG("png"),
+	ZIP("zip");
+
 	
 	private String name;
 	

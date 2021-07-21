@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.download.channel;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
+import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public abstract class DownloadProgressListener {
@@ -64,6 +65,9 @@ public abstract class DownloadProgressListener {
 	}
 
 	protected void changeDownloadState(DownloadProgressState downloadProgressState) {
+
+
+		CustomLogger.log(downloadProgressState.toString());
 		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
 	}
 

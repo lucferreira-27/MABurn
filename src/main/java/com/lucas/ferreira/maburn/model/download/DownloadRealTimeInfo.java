@@ -8,30 +8,29 @@ public class DownloadRealTimeInfo {
 
 	private boolean showInfoEnable = false;
 	private ChangeListener<Number> changeListenerProgress;
-	
+
 	public void stopShowInfo() {
 		showInfoEnable = false;
 	}
-	
+
 	public void showInfoForTime(DownloadValues downloadValues, long time) {
 		showInfoEnable = true;
-		while (showInfoEnable || !downloadIsRunning(downloadValues)) {
-
+		while (showInfoEnable && downloadIsRunning(downloadValues)) {
 			printInfos(downloadValues);
 			sleep(time);
 		}
 	}
 
-
 	public void showInfoWithProgress(DownloadValues downloadValues) {
 		changeListenerProgress = (obs, oldValue, newValue) -> {
 			printInfos(downloadValues);
-			if(showInfoEnable || !downloadIsRunning(downloadValues)) {
+			if (showInfoEnable || !downloadIsRunning(downloadValues)) {
 				removeChangeListerProgress(downloadValues);
 			}
 		};
 		downloadValues.getDownloadProgress().addListener(changeListenerProgress);
 	}
+
 	private void sleep(long time) {
 		try {
 			Thread.sleep(time);
@@ -39,23 +38,25 @@ public class DownloadRealTimeInfo {
 			e.printStackTrace();
 		}
 	}
+
 	private boolean downloadIsRunning(DownloadValues downloadValues) {
 		DownloadProgressState downloadProgressState = downloadValues.getDownloadProgressState().get();
-		
-		if(downloadProgressState == DownloadProgressState.COMPLETED || downloadProgressState == DownloadProgressState.FAILED) {
+		if (downloadProgressState == DownloadProgressState.COMPLETED
+				|| downloadProgressState == DownloadProgressState.FAILED
+				|| downloadProgressState == DownloadProgressState.CANCELED) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	private void removeChangeListerProgress(DownloadValues downloadValues) {
 		downloadValues.getDownloadProgress().removeListener(changeListenerProgress);
 
 	}
+
 	private void printInfos(DownloadValues downloadValues) {
-		
-		
-		
+		System.out.println(downloadValues.toString());
+
 	}
 }

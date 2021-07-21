@@ -1,8 +1,8 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
 import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.webscraping.browser.BrowserPage;
-import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 
 import javafx.collections.ObservableList;
 

@@ -2,15 +2,15 @@ package com.lucas.ferreira.maburn.model.webscraping.scraping;
 
 import java.io.IOException;
 
+import com.lucas.ferreira.maburn.model.browser.AutoBrowser;
 import com.lucas.ferreira.maburn.model.enums.SearchEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.Options;
 import com.lucas.ferreira.maburn.model.webscraping.PageNavigate;
 import com.lucas.ferreira.maburn.model.webscraping.RulesProperties;
 import com.lucas.ferreira.maburn.model.webscraping.ScrapingRuler;
-import com.lucas.ferreira.maburn.model.webscraping.browser.AutoBrowser;
-import com.lucas.ferreira.maburn.model.webscraping.browser.CustomNavigateOptions;
 import com.lucas.ferreira.maburn.model.webscraping.event.ClickInteractEvent;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.CustomNavigateOptions;
 import com.microsoft.playwright.Page;
 
 public abstract class Scraping extends AutoBrowser {

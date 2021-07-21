@@ -7,7 +7,7 @@ public class ConfigForm {
 	private GeralConfigForm geralConfigForm = new GeralConfigForm();
 	private AnimeConfigForm animeConfig = new AnimeConfigForm();
 	private MangaConfigForm mangaConfig = new MangaConfigForm();
-
+	
 	public AnimeConfigForm getAnimeConfig() {
 		return animeConfig;
 	}

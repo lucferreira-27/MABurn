@@ -5,8 +5,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import com.lucas.ferreira.maburn.model.webscraping.browser.BrowserPage;
-import com.lucas.ferreira.maburn.model.webscraping.browser.MyBrowser;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
 import javafx.beans.property.BooleanProperty;

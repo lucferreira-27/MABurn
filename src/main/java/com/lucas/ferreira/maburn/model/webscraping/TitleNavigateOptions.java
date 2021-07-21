@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.model.webscraping;
 
-import com.lucas.ferreira.maburn.model.webscraping.browser.CustomNavigateOptions;
+import com.lucas.ferreira.maburn.model.webscraping.navigate.CustomNavigateOptions;
 
 public class TitleNavigateOptions implements CustomNavigateOptions {
 	
