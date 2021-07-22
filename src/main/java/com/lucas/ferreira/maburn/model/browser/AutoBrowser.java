@@ -3,20 +3,21 @@ package com.lucas.ferreira.maburn.model.browser;
 import java.io.ByteArrayInputStream;
 
 import com.lucas.ferreira.maburn.model.webscraping.PageInfo;
-import com.lucas.ferreira.maburn.model.webscraping.event.ClickInteractEvent;
 import com.lucas.ferreira.maburn.util.StringUtil;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Page.ScreenshotOptions;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.Playwright.CreateOptions;
 
 import javafx.scene.image.Image;
 
 public abstract class AutoBrowser {
 	private Playwright playwright;
 	private BrowserContext context;
-
+	
+	
 	public AutoBrowser() {
 		
 
@@ -24,13 +25,13 @@ public abstract class AutoBrowser {
 
 	protected void launch() {
 		System.out.println("LAUNCHING FIREFOX");
-		playwright = Playwright.create();
+		playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
 		context = playwright.firefox().launch().newContext();
 	}
 
 	protected void launch(boolean headless) {
 		System.out.println("LAUNCHING FIREFOX HEADLESS");
-		playwright = Playwright.create();
+		playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
 
 		context = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(headless)).newContext();
 	}
@@ -71,8 +72,12 @@ public abstract class AutoBrowser {
 	}
 
 	protected void close() {
-		if (playwright != null) {
+		
+		if(context != null) {
 			context.close();
+		}
+		
+		if (playwright != null) {
 			playwright.close();
 		}
 	}

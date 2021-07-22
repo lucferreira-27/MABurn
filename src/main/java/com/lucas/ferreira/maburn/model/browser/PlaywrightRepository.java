@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.json.JSONArray;
@@ -18,7 +19,6 @@ import com.lucas.ferreira.maburn.util.Resources;
 
 public class PlaywrightRepository {
 	private URLConnection urlConnection;
-
 	public List<RepositoryBrowserJson> requestAllBrowsersInRespository() throws Exception {
 		
 			String responseBody = downloadFileContent();
@@ -67,9 +67,10 @@ public class PlaywrightRepository {
 
 	public String loadUrlFromConfig() {
 		try {
-			Properties prop = getPropeties();
-			String version = prop.getProperty("VERSION");
-			String repositoryUrl = prop.getProperty("REPOSITORY_URL");
+			PlaywrightProperties playwrightProperties = new PlaywrightProperties();
+			Map<String, String> properties = playwrightProperties.load("config.properties", "VERSION", "REPOSITORY_URL");
+			String version =  properties.get("VERSION");
+			String repositoryUrl = properties.get("REPOSITORY_URL");
 			version = repositoryUrl.replace("${version}", version);
 			return version;
 		} catch (IOException e) {
@@ -106,15 +107,7 @@ public class PlaywrightRepository {
 		return sb.toString();
 	}
 
-	private Properties getPropeties() throws IOException {
-		InputStream inputStream = Resources.getResourceAsStream("playwright/config.properties");
-		Properties prop = new Properties();
 
-		if (inputStream != null) {
-			prop.load(inputStream);
-		}
-		return prop;
-	}
 
 
 }

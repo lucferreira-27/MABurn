@@ -35,6 +35,7 @@ public abstract class TitleScraping extends Scraping {
 			return titleScraped;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		} finally {
 			close();

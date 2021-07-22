@@ -1,10 +1,10 @@
 package com.lucas.ferreira.maburn.model;
 
-import javax.naming.ConfigurationException;
+import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.lucas.ferreira.maburn.exceptions.CollectionReaderException;
 import com.lucas.ferreira.maburn.exceptions.InitializeExcpetion;
+import com.lucas.ferreira.maburn.model.browser.PlaywrightSettings;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
@@ -21,12 +21,15 @@ public class InitializeModel {
 		try {
 			if (isFirstBoot()) {
 				createDocumentesFolders();
+				initialize();
 			} else {
 				initialize();
 			}
 		} catch (InitializeExcpetion e) {
 			
 			e.printStackTrace();
+			System.out.println("BOOT ERROR CLOSING ....");
+			System.exit(0);
 		}
 
 	}
@@ -57,10 +60,22 @@ public class InitializeModel {
 		}
 	}
 
-	public void initialize() {
+	public void initialize() throws InitializeExcpetion {
+		try {
+		initializePlaywright();
+		welcomeMessage();
+		}catch (Exception e) {
+			// TODO: handle exception
+			throw new InitializeExcpetion(e.getMessage());
+		}
+		
+	}
+	public void initializePlaywright() throws IOException{
+		PlaywrightSettings.initConfig();
+	}
+	public void welcomeMessage(){
 		CustomLogger.log("> WELCOME!");
 		CustomLogger.log("CollectionData Local: " + Documents.DATA_LOCAL);
 		CustomLogger.log("Configuration Local: " + Documents.CONFIG_LOCAL);
-
 	}
 }

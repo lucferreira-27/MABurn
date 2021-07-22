@@ -1,8 +1,9 @@
 package com.lucas.ferreira.maburn.model.fetch.title;
 
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Collections;
 
+import com.lucas.ferreira.maburn.model.browser.PlaywrightSettings;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraping;
 import com.microsoft.playwright.impl.Driver;
@@ -14,7 +15,7 @@ public class FetchTitle  {
 	public TitleScraped fetch(TitleScraping titleScraping, String url) {
 		
 		if(driver == null) {
-			driver = Driver.ensureDriverInstalled();
+			driver = Driver.ensureDriverInstalled(PlaywrightSettings.getEnv());
 		}
 		
 		TitleScraped titleScraped = titleScraping.scrapeTitle(url);

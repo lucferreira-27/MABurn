@@ -45,6 +45,7 @@ public class SearchScraping extends Scraping {
 			return searchScraped;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		} finally {
 			close();

@@ -3,10 +3,11 @@ package com.lucas.ferreira.maburn.model.webscraping.navigate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lucas.ferreira.maburn.model.browser.PlaywrightSettings;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.Playwright.CreateOptions;
 
 public class MyBrowser {
 	private static final int MAX_BROWSER_PAGES = 1;
@@ -28,7 +29,7 @@ public class MyBrowser {
 		}
 
 		for (int i = 0; i < nPages; i++) {
-			Playwright playwright = Playwright.create();
+			Playwright playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
 			BrowserContext browserContext = playwright.firefox()
 					.launch(new BrowserType.LaunchOptions().setHeadless(headless)).newContext();
 			// browsersPages.add(new BrowserPage(playwright));

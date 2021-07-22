@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.download;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
+import com.lucas.ferreira.maburn.model.browser.FileExtractValues;
 
 import javafx.beans.value.ChangeListener;
 
@@ -30,6 +31,15 @@ public class DownloadRealTimeInfo {
 		};
 		downloadValues.getDownloadProgress().addListener(changeListenerProgress);
 	}
+	public void showInfoWithProgress(FileExtractValues downloadValues) {
+		changeListenerProgress = (obs, oldValue, newValue) -> {
+			printInfos(downloadValues);
+			if (showInfoEnable || !extractIsRunning(downloadValues)) {
+				removeChangeListerProgress(downloadValues);
+			}
+		};
+		downloadValues.getExtractingProgress().addListener(changeListenerProgress);
+	}
 
 	private void sleep(long time) {
 		try {
@@ -49,14 +59,27 @@ public class DownloadRealTimeInfo {
 
 		return true;
 	}
+	private boolean extractIsRunning(FileExtractValues fileExtractValues) {
+		if (fileExtractValues.getFinish().get() || fileExtractValues.getFailed().get()) {
+			return false;
+		}
 
+		return true;
+	}
 	private void removeChangeListerProgress(DownloadValues downloadValues) {
 		downloadValues.getDownloadProgress().removeListener(changeListenerProgress);
 
 	}
+	private void removeChangeListerProgress(FileExtractValues fileExtractValues) {
+		fileExtractValues.getExtractingProgress().removeListener(changeListenerProgress);
 
+	}
 	private void printInfos(DownloadValues downloadValues) {
 		System.out.println(downloadValues.toString());
+
+	}
+	private void printInfos(FileExtractValues fileExtractValues) {
+		System.out.println(fileExtractValues.toString());
 
 	}
 }

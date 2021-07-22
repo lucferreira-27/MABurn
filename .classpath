@@ -24,7 +24,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="playwright"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
@@ -32,5 +31,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/lucfe/Downloads/driver-bundle-1.13.0-20210615.192733-3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucfe/Downloads/driver-1.13.0-20210615.192735-3.jar" sourcepath="C:/Users/lucfe/Downloads/driver-1.13.0-20210615.192735-3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucfe/Downloads/playwright-1.13.0-20210615.192733-3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -3,6 +3,7 @@ package com.lucas.ferreira.maburn.controller.title.download.register;
 import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
 import com.lucas.ferreira.maburn.exceptions.BadScrapingException;
 import com.lucas.ferreira.maburn.exceptions.NotSourceSelectException;
+import com.lucas.ferreira.maburn.exceptions.NotURLFoundInRecover;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.fetch.title.FetchTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
@@ -23,7 +24,7 @@ public class RegisterTitleFetcher {
 	private Message succededMessage;
 
 	private final String errorSourceMsg = "You need select a source before fetch.";
-//	private final String errorRecoverMsg = "No recover data found for this source.";
+	private final String errorRecoverMsg = "No recover data found for this source.";
 	private final String errorScrapingMsg = "Sorry something went wrong. Try again or other source";
 	private final String warningMsgFetch = "Fetching please wait ...";
 	private final String succededMsg = " fetched!";
@@ -61,6 +62,10 @@ public class RegisterTitleFetcher {
 		} catch (BadScrapingException e) {
 			errorMessage.showMessage(errorScrapingMsg);
 			throw new BadScrapingException(errorScrapingMsg + "\n" + e.getMessage());
+
+		}catch (NotURLFoundInRecover e) {
+			errorMessage.showMessage(errorRecoverMsg);
+			throw new NotURLFoundInRecover(errorRecoverMsg + "\n" + e.getMessage());
 
 		}
 		return titleScraped;
