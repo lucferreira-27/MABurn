@@ -11,10 +11,10 @@ import com.lucas.ferreira.maburn.model.enums.Sites;
 public class TitleDownloadControlers  implements Initialize{
 
 	private TitleDownloadController titleDownloadController;
-	private TitleDownload titleDownload;
+	private TitleDownloadModel titleDownload;
 	private Title title;
 
-	public TitleDownloadControlers(TitleDownload titleDownload, TitleDownloadController titleDownloadController,
+	public TitleDownloadControlers(TitleDownloadModel titleDownload, TitleDownloadController titleDownloadController,
 			Title title) {
 		this.titleDownload = titleDownload;
 		this.titleDownloadController = titleDownloadController;

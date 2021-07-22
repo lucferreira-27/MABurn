@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.util.IconConfig;
 
 public class TitleDownloadIcons  implements Initialize{
 	private String ICON_PATH = "icons/";
-	private TitleDownload titleDownload;
+	private TitleDownloadModel titleDownload;
 	private TitleDownloadController titleDownloadController;
 	private Icon iconFetch;
 	private Icon iconRecover;
@@ -18,7 +18,7 @@ public class TitleDownloadIcons  implements Initialize{
 	private Icon iconZoomIn;
 	private Icon iconZoomOut;
 
-	public TitleDownloadIcons(TitleDownload titleDownload, TitleDownloadController titleDownloadController) {
+	public TitleDownloadIcons(TitleDownloadModel titleDownload, TitleDownloadController titleDownloadController) {
 		this.titleDownload = titleDownload;
 		this.titleDownloadController = titleDownloadController;
 	}
@@ -46,7 +46,7 @@ public class TitleDownloadIcons  implements Initialize{
 
 	}
 
-	public TitleDownload getTitleDownload() {
+	public TitleDownloadModel getTitleDownload() {
 		return titleDownload;
 	}
 

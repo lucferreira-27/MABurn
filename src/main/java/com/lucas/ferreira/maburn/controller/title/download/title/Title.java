@@ -16,9 +16,9 @@ public class Title implements Initialize{
 	private Category category;
 	private TaggedItems taggedItems;
 	private CollectionTitle collectionTitle;
-	private TitleDownload titleDownload;
+	private TitleDownloadModel titleDownload;
 	
-	public Title(TitleDownload titleDownload) {
+	public Title(TitleDownloadModel titleDownload) {
 		this.titleDownload = titleDownload;
 	}
 	
@@ -46,7 +46,7 @@ public class Title implements Initialize{
 	public TaggedItems getTaggedItems() {
 		return taggedItems;
 	}
-	public TitleDownload getTitleDownload() {
+	public TitleDownloadModel getTitleDownload() {
 		return titleDownload;
 	}
 	public void setTaggedItems(TaggedItems taggedItems) {

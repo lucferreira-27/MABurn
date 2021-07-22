@@ -75,7 +75,6 @@ public class Icon {
 	private void properties() {
 		if (config.getIconTip() != null)
 			setToolTip(config.getIconTip());
-
 		icon.setImage(new Image(Resources.getResourceAsStream(config.getIconsPath() + config.getIcon().getIconName())));
 		if (config.getIcon().getAlterIconName() != null)
 			onHoverIcon();

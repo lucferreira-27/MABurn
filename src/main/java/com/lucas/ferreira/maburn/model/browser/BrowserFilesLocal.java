@@ -10,8 +10,11 @@ public class BrowserFilesLocal {
 	private final static String WINDOWS_LOCAL = "%USERPROFILE%\\AppData\\Local\\ms-playwright\\";
 	private final static String LINUX_LOCAL = "~/Library/Caches/ms-playwright/";
 	private final static String MAC_LOCAL = "~/.cache/ms-playwright/";
+	public final static String PLAYWRIGHT_FOLDER = "ms-playwright";
+	
 
-	public String getLocal(Browsers browsers, Platform platform) {
+	
+	public String getLocal(Platform platform) {
 		String local = customLocal();
 		if (!local.equals(LOCAL_DEFAULT) && new File(local).exists()) {
 			return local;

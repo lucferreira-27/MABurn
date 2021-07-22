@@ -25,8 +25,7 @@ import javafx.scene.layout.VBox;
 
 public class FXMLViewLoader<T extends Node> {
 	private static FXMLLoader loader;
-	private VBox vBox = new VBox();
-	private ScrollPane scrollPane = new ScrollPane();
+
 	
 	static {
 		loader = new FXMLLoader();
@@ -93,6 +92,14 @@ public class FXMLViewLoader<T extends Node> {
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 		loader.setRoot(root);
+		T fxmlLoaded = loader.load();
+		return fxmlLoaded;
+
+	}
+	public T loadContainer(String fxml, Initializable initializable) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(fxml));
+		loader.setController(initializable);
 		T fxmlLoaded = loader.load();
 		return fxmlLoaded;
 

@@ -12,8 +12,7 @@ public class PlaywrightDownload {
 	private PlaywrightRepository repository = new PlaywrightRepository();
 	private URLBuilder urlBuilder = new URLBuilder();
 	private UserSystem userSytem = new UserSystem();
-	private FileDownloadValues fileDownloadValues = new FileDownloadValues();
-	private DownloadByChannel downloadByChannel = new DownloadByChannel(fileDownloadValues);
+	private DownloadByChannel downloadByChannel;
 	private DownloadRealTimeInfo downloadRealTimeInfo = new DownloadRealTimeInfo();
 
 	public FileDownloadValues download(String local, Browsers browser) throws Exception {
@@ -21,11 +20,12 @@ public class PlaywrightDownload {
 		RepositoryBrowserJson repositoryBrowserJson = repository.requestBrowsersInRespository(browser);
 		int build = repositoryBrowserJson.getRevision();
 		String url = urlBuilder.getBrowserBuildUrl(build, browser, platform);
-
+		FileDownloadValues fileDownloadValues = new FileDownloadValues();
 		printBuildInfo(platform, repositoryBrowserJson, url);
 
-		DownloadInfo downloadInfo = defineDownloadInfo(local, browser.name().toLowerCase() + "-" + repositoryBrowserJson.getRevision(), url);
-
+		DownloadInfo downloadInfo = defineDownloadInfo(local,
+				browser.name().toLowerCase() + "-" + repositoryBrowserJson.getRevision(), url);
+		downloadByChannel = new DownloadByChannel(fileDownloadValues);
 		new Thread(() -> {
 			try {
 				downloadByChannel.download(downloadInfo);
@@ -35,6 +35,11 @@ public class PlaywrightDownload {
 		}).start();
 
 		return fileDownloadValues;
+
+	}
+
+	public void stop() {
+		downloadByChannel.stop();
 
 	}
 
@@ -55,14 +60,14 @@ public class PlaywrightDownload {
 		CustomLogger.log("URL: " + url);
 	}
 
-	public void showInfo(boolean show) {
+	public void showInfo(FileDownloadValues fileDownloadValues, boolean show) {
 		if (show)
 			downloadRealTimeInfo.showInfoWithProgress(fileDownloadValues);
 		else
 			downloadRealTimeInfo.stopShowInfo();
 	}
 
-	public void showInfo(boolean show, long time) {
+	public void showInfo(FileDownloadValues fileDownloadValues, boolean show, long time) {
 		if (show)
 			downloadRealTimeInfo.showInfoForTime(fileDownloadValues, time);
 		else

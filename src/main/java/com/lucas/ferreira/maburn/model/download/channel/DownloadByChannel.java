@@ -95,10 +95,11 @@ public class DownloadByChannel extends DownloadProgressListener {
 		itemDownloadValues.getDownloadSize().set(megabytes);
 
 	}
+
 	private void setDownloadUrl(String url) {
 		itemDownloadValues.getDirectLink().set(url);
 	}
-	
+
 	private void setFileType(String contentType) {
 		String splitContentType = contentType.split("/")[1];
 		String type = FileTypeDetection.isAcceptType(splitContentType) ? splitContentType : prefFileType;
@@ -150,7 +151,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	public void resume() {
-		if (trackByteChannel != null  ) {
+		if (trackByteChannel != null) {
 			trackByteChannel.setRunning(true);
 			changeDownloadState(DownloadProgressState.DOWNLOADING);
 		}
@@ -158,9 +159,13 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 	public void stop() {
 		try {
-			if (trackByteChannel != null ) {
+			changeDownloadState(DownloadProgressState.CANCELED);
+			if (fos != null)
+				fos.close();
+			if (channel != null)
+				channel.close();
+			if (trackByteChannel != null) {
 				trackByteChannel.close();
-				changeDownloadState(DownloadProgressState.CANCELED);
 				trackByteChannel.setRunning(false);
 			}
 		} catch (IOException e) {

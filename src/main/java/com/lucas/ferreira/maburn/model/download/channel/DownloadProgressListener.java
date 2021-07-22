@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.download.channel;
 
+import javax.management.RuntimeErrorException;
+
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.util.CustomLogger;

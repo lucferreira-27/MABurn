@@ -52,12 +52,12 @@ public class TitleDownloadController {
 	private ItemsSelectedAll itemsSelectedAll;
 	private ItemsSelectedSingle<String> itemsSelectedSingle;
 	private ItemsSelectedUpdate itemsSelectedUpdate;
-	private TitleDownload titleDownload;
+	private TitleDownloadModel titleDownload;
 	private TitleDownloadInitialize titleDownloadInitialize;
 	private CollectionTitle collectionTitle;
 	private Title title;
 	
-	public TitleDownloadController(TitleDownload titleDownload) {
+	public TitleDownloadController(TitleDownloadModel titleDownload) {
 
 		this.titleDownload = titleDownload;
 		titleDownloadInitialize = new TitleDownloadInitialize(titleDownload, this);

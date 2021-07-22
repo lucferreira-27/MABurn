@@ -1,15 +1,13 @@
 package com.lucas.ferreira.mangaburn.testing;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.lucas.ferreira.maburn.model.FolderReaderModel;
 import com.lucas.ferreira.maburn.model.collections.AnimeCollection;
@@ -17,6 +15,9 @@ import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class FolderReaderModelTest {
 	private static final String MANGA_LOCAL = "D:\\MABurnTest\\Mangas";
@@ -25,7 +26,7 @@ public class FolderReaderModelTest {
 	private MangaCollection mangaCollection;
 	private AnimeCollection animeCollection;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		folderReaderModel = new FolderReaderModel();
 		mangaCollection = new MangaCollection();

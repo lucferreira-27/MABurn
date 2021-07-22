@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.enums;
 
 public enum Icons {
 
-	
+
 	
 	
 	STATUS("title/status_icon.png",null),
@@ -36,8 +36,19 @@ public enum Icons {
 	
 	
 
+	// BROWSER INSTALL
+	
+	BROWSER_INSTALL_ICON("browser-install/browser_install_white_icon.png",null),
+	CLOSE("browser-install/close_white_icon.png","browser-install/close_red_icon.png"),
 	
 	
+	
+	// SETTINGS
+	
+	BROWSER_INSTALL_ICON_SETTINGS("settings/browser_install_white_icon.png",null),
+	BROWSER_CHECK_BAD("settings/installed_bad_red_icon.png", null),
+	BROWSER_CHECK_OK("settings/installed_ok_green_icon.png", null),
+
 	
 	// DOWNLOAD CARDS ICONS	 
 	LINK("title-download/link_white_icon.png","title-download/link_red_icon.png"),

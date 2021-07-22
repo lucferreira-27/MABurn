@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownload;
+import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadModel;
+import com.lucas.ferreira.maburn.controller.settings.SettingsController;
+import com.lucas.ferreira.maburn.controller.settings.SettingsModel;
 import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadController;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.Interfaces;
@@ -43,16 +45,18 @@ public class Navigator {
 
 		Initializable controller = interfaces.getController();
 		String fxml = interfaces.getFxml();
-		
 
 		mapNavigator.put(interfaces, interfaces.getController());
 		interfacesList.add(interfaces);
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
-		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) ->{
-			if(newvalue) {
-				if(interfaces == Interfaces.TITLE_DOWNLOAD) {
-						new TitleDownloadController((TitleDownload) interfaces.getController());
+		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
+			if (newvalue) {
+				if (interfaces == Interfaces.TITLE_DOWNLOAD) {
+					new TitleDownloadController((TitleDownloadModel) interfaces.getController());
+				}
+				if (interfaces == Interfaces.CONFIGURATION) {
+					new SettingsController((SettingsModel) interfaces.getController()).initialize();
 				}
 			}
 		});
@@ -69,8 +73,8 @@ public class Navigator {
 		if (interfaces == Interfaces.COLLECTION) {
 			loadComponent(Components.COLLECTION_MENU);
 		}
-		if(interfaces == Interfaces.TITLE_DOWNLOAD) {
-			//loadComponent(Components.DOWNLOAD_CARD);
+		if (interfaces == Interfaces.TITLE_DOWNLOAD) {
+			// loadComponent(Components.DOWNLOAD_CARD);
 		}
 
 	}
@@ -78,7 +82,6 @@ public class Navigator {
 	public void preload(Interfaces interfaces) {
 		Initializable controller = interfaces.getController();
 		String fxml = interfaces.getFxml();
-		
 
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
@@ -102,7 +105,7 @@ public class Navigator {
 	public static Interfaces getLastInterface() {
 		if (interfacesList.size() > 0)
 			return interfacesList.get(interfacesList.size() - 2);
-		else 
+		else
 			return null;
 	}
 
@@ -110,7 +113,6 @@ public class Navigator {
 
 		Initializable controller = mapNavigator.get(interfaces);
 		String fxml = interfaces.getFxml();
-		
 
 		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		fxmlViewLoader.loadInterface(fxml, controller, true);
@@ -131,8 +133,6 @@ public class Navigator {
 		Interfaces interfaces = interfacesList.get(interfacesList.size() - 1);
 		return interfaces;
 	}
-
-
 
 	public static Map<Interfaces, Initializable> getMapNavigator() {
 		return mapNavigator;

@@ -19,7 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class TitleDownload  implements Initializable{
+public class TitleDownloadModel  implements Initializable{
 	@FXML
 	private AnchorPane apShade;
 	

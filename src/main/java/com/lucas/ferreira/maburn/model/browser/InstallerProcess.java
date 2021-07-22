@@ -1,38 +1,41 @@
 package com.lucas.ferreira.maburn.model.browser;
 
-import com.lucas.ferreira.maburn.model.download.FileDownloadValues;
+import java.util.function.Supplier;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import com.lucas.ferreira.maburn.model.download.FileDownloadValues;
+import com.lucas.ferreira.maburn.model.enums.InstallationState;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class InstallerProcess {
 	private FileDownloadValues fileDownloadValues;
 	private FileExtractValues fileExtractValues;
-	private String fileLocal;
-	private BooleanProperty processFailed = new SimpleBooleanProperty(false);
-	private BooleanProperty processSuccess = new SimpleBooleanProperty(false);
-	
+	private ObjectProperty<InstallationState> installationState = new SimpleObjectProperty<InstallationState>(InstallationState.CONNECTING);
+
 	public InstallerProcess(FileExtractValues fileExtractValues, FileDownloadValues fileDownloadValues) {
-		this.fileDownloadValues  = fileDownloadValues;
+		this.fileDownloadValues = fileDownloadValues;
 		this.fileExtractValues = fileExtractValues;
 	}
+	
+
 	
 	public FileDownloadValues getFileDownloadValues() {
 		return fileDownloadValues;
 	}
+
 	public String getFileLocal() {
 		return fileExtractValues.getPath();
 	}
 
-	public BooleanProperty getProcessFailed() {
-		return processFailed;
+	public ObjectProperty<InstallationState> getInstallationState() {
+		return installationState;
 	}
-	public BooleanProperty getProcessSuccess() {
-		return processSuccess;
-	}
+
 	public void setFileExtractValues(FileExtractValues extractValues) {
 		this.fileExtractValues = extractValues;
 	}
+
 	public FileExtractValues getFileExtractValues() {
 		return fileExtractValues;
 	}

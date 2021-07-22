@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.model.alert.ManualSearchAlertController;
 
 public class TitleDownloadInitialize implements Initialize{
 
-	private TitleDownload titleDownload;
+	private TitleDownloadModel titleDownload;
 	private TitleDownloadController titleDownloadController;
 	private TitleDownloadControlers titleDownloadControlers;
 	private Title title;
@@ -15,7 +15,7 @@ public class TitleDownloadInitialize implements Initialize{
 	private TitleDownloadListCard titleDownloadListCard;
 	private ManualSearchAlertController manualSearchAlertController;
 	
-	public TitleDownloadInitialize(TitleDownload titleDownload, TitleDownloadController titleDownloadController) {
+	public TitleDownloadInitialize(TitleDownloadModel titleDownload, TitleDownloadController titleDownloadController) {
 		this.titleDownload = titleDownload;
 		this.titleDownloadController = titleDownloadController;
 	}
@@ -39,7 +39,7 @@ public class TitleDownloadInitialize implements Initialize{
 		}
 	}
 
-	public TitleDownload getTitleDownload() {
+	public TitleDownloadModel getTitleDownload() {
 		return titleDownload;
 	}
 
