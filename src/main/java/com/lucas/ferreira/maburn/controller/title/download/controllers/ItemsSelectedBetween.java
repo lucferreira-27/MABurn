@@ -112,6 +112,9 @@ public class ItemsSelectedBetween implements Controllers {
 	public void setVisible(boolean visible) {
 		itemValueTextFieldBegin.getTxtField().setVisible(visible);
 		itemValueTextFieldEnd.getTxtField().setVisible(visible);
+		txtAreaMessage.setVisible(visible);
+		itemValueTextFieldBegin.getTxtArea().setVisible(visible);
+		itemValueTextFieldEnd.getTxtArea().setVisible(visible);
 		this.visible = visible;
 	}
 
