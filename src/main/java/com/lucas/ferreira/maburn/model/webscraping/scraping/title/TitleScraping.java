@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.title;
 
+import com.lucas.ferreira.maburn.model.MarkTime;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
 import com.lucas.ferreira.maburn.model.webscraping.Options;
@@ -12,7 +13,7 @@ import com.microsoft.playwright.Page;
 public abstract class TitleScraping extends Scraping {
 
 	private Sites site;
-
+	
 	public TitleScraping(Sites site) {
 		this.site = site;
 		
@@ -20,6 +21,7 @@ public abstract class TitleScraping extends Scraping {
 	public TitleScraped scrapeTitle(String url) {
 		
 		try {
+			markTime.begin();
 			launch(true);
 			Page page = newPage();
 

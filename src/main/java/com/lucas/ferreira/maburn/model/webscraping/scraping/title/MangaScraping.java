@@ -29,6 +29,8 @@ public class MangaScraping   extends TitleScraping {
 		PageInfo pageInfo = fillPageInfo(page);
 		String url = page.url();
 		MangaScraped mangaScraped = new MangaScraped(url, site, pageInfo,chapters);
+		pageInfo = fillMorePageInfo(pageInfo, mangaScraped);
+
 		return mangaScraped;
 	}
 	

@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
 import com.lucas.ferreira.maburn.model.webscraping.PageInfo;
+import com.lucas.ferreira.maburn.util.TimeText;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +27,11 @@ public class FetchInfo {
 	public void showInfo() {
 		siteScreenshotSmall.loadImage(pageInfo.getImageSmall());
 		siteScreenshotSmall.showImage();
-		fetchTextDetails.setSiteTitle("Title: " + pageInfo.getTitle());
+		fetchTextDetails.setSiteTitle(pageInfo.getTitle());
+		fetchTextDetails.setSiteUrl(pageInfo.getUrl());
+		fetchTextDetails.setSiteName(pageInfo.getSite().name());
+		fetchTextDetails.setTime(TimeText.secondsToText(pageInfo.getTime()));
+		fetchTextDetails.setTotalItems(String.valueOf(pageInfo.getTotalItems()));
 		
 	}
 	public void zoomIn() {
@@ -37,9 +42,7 @@ public class FetchInfo {
 		screenshotFullDetails.hideDetails();
 
 	}	
-	public void changeImageThumbnail(Image image) {
-		
-	}
+
 
 	
 	public ImageView getImgScreeshotSmall() {

@@ -51,6 +51,10 @@ public enum Icons {
 
 	
 	// DOWNLOAD CARDS ICONS	 
+	LABEL_ICON("title-download/label_white_icon.png","title-download/label_red_icon.png"),
+	TAB_ICON("title-download/tab_white_icon.png","title-download/tab_red_icon.png"),
+	FORM_LIST_ICON("title-download/form_list_white_icon.png","title-download/form_list_red_icon.png"),
+	TIME_ICON("title-download/time_white_icon.png","title-download/time_red_icon.png"),
 	LINK("title-download/link_white_icon.png","title-download/link_red_icon.png"),
 	FETCH_IN_CARD("title-download/fetch_small_icon.png",null),
 	DOWNLOAD_IN_CARD("title-download/download_card_icon.png",null),

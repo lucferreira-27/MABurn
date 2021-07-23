@@ -6,6 +6,8 @@ import com.lucas.ferreira.maburn.model.enums.Icons;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -21,9 +23,10 @@ public class Icon {
 	private String secondaryColor;
 	private BooleanProperty primaryColorOn = new SimpleBooleanProperty(true);
 	private boolean enable = true;
-	
+	private ChangeListener<? super Boolean> onHover;
+
 	public Icon(ImageView icon, IconConfig config) {
-		
+
 		this.config = config;
 		this.icon = icon;
 
@@ -37,16 +40,16 @@ public class Icon {
 	}
 
 	private void setAction(Consumer<ImageView> onClick) {
-	
-		icon.setOnMouseClicked(event ->{
-			if(enable)
+
+		icon.setOnMouseClicked(event -> {
+			if (enable)
 				onClick.accept(icon);
 		});
 
 	}
 
 	public void setProperties(Consumer<ImageView> onClick) {
-		
+
 		if (onClick != null)
 			setAction(onClick);
 
@@ -81,21 +84,25 @@ public class Icon {
 	}
 
 	private void onHoverIcon() {
+		onHover = new ChangeListener<Boolean>() {
 
-		icon.hoverProperty().addListener((event) -> {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (icon.isHover())
+					changeToSecondaryColorIcon();
+				else
+					changeToPrimaryColorIcon();
+			}
 
-			if (icon.isHover())
-				changeToSecondaryColorIcon();
-			else
-				changeToPrimaryColorIcon();
+		};
 
-		});
+		icon.hoverProperty().addListener(onHover);
 	}
 
 	public void setToolTip(String tip) {
 		Tooltip tooltip = new Tooltip(tip);
-		//Java 9 or higher
-		//tooltip.setShowDelay(Duration.seconds(0.5));
+		// Java 9 or higher
+		// tooltip.setShowDelay(Duration.seconds(0.5));
 		Tooltip.install(icon, tooltip);
 	}
 
@@ -122,5 +129,10 @@ public class Icon {
 
 	public ImageView getIconImageView() {
 		return icon;
+	}
+
+	public void removeListenerOnHover() {
+		if (onHover != null)
+			icon.hoverProperty().removeListener(onHover);
 	}
 }

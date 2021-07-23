@@ -229,8 +229,7 @@ public class TitleDownloadController {
 		ShadeLayer shadeLayer = new ShadeLayer(titleDownload.getApShade());
 		ScreenshotFullDetails screenshotFullDetails = new ScreenshotFullDetails(titleDownload.getBpThumbnailFull(),
 				shadeLayer, titleDownload.getImgThumbnailFullSize(), titleDownload.getImgZoomOut());
-		FetchTextDetails fetchTextDetails = new FetchTextDetails(titleDownload.getLblSiteTitle(),
-				titleDownload.getLblSource(), titleDownload.getLblUrl(), titleDownload.getLblItemsTotal());
+		FetchTextDetails fetchTextDetails = new FetchTextDetails(titleDownload);
 		fetchInfo = new FetchInfo(titleScraped.getPageInfo(), titleDownload.getImgThumbnail(), screenshotFullDetails,
 				fetchTextDetails);
 	}

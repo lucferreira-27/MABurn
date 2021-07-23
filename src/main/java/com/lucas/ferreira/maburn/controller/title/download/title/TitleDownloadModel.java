@@ -146,6 +146,24 @@ public class TitleDownloadModel  implements Initializable{
 	@FXML
 	private Label labelCardsFailed;
 	
+	@FXML
+	private Label lblLabel;
+	@FXML
+	private Label lblSiteUrl;
+	@FXML
+	private Label lblTime;
+	
+	@FXML
+	private ImageView imgLabel;
+	@FXML
+	private ImageView imgTab;
+	@FXML
+	private ImageView imgDetailsLink;
+	@FXML
+	private ImageView imgListForm;
+	@FXML
+	private ImageView imgTime;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
@@ -335,6 +353,30 @@ public StackPane getSpMainPane() {
 
 	public Label getLabelCardsFailed() {
 		return labelCardsFailed;
+	}
+	public ImageView getImgDetailsLink() {
+		return imgDetailsLink;
+	}
+	public ImageView getImgLabel() {
+		return imgLabel;
+	}
+	public ImageView getImgListForm() {
+		return imgListForm;
+	}
+	public ImageView getImgTab() {
+		return imgTab;
+	}
+	public ImageView getImgTime() {
+		return imgTime;
+	}
+	public Label getLblLabel() {
+		return lblLabel;
+	}
+	public Label getLblSiteUrl() {
+		return lblSiteUrl;
+	}
+	public Label getLblTime() {
+		return lblTime;
 	}
 
 	@Override

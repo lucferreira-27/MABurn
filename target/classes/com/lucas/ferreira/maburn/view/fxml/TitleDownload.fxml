@@ -41,12 +41,12 @@
                                  <Image url="@../../../../../../../resources/icons/source.png" />
                               </image>
                            </ImageView>
-                           <Label style="-fx-font-size: 20;" text="Source" />
+                           <Label style="-fx-font-size: 20;" text="Site" />
                         </children>
                      </HBox>
                      <HBox layoutX="48.0" layoutY="118.0" minWidth="0.0" prefHeight="54.0" prefWidth="488.0" spacing="20.0">
                         <children>
-                           <ComboBox fx:id="cbSource" prefWidth="225.0" promptText="Source">
+                           <ComboBox fx:id="cbSource" prefWidth="225.0" promptText="Site">
                               <HBox.margin>
                                  <Insets right="30.0" />
                               </HBox.margin>
@@ -103,7 +103,7 @@
                                  <Image url="@../../../../../../../resources/icons/title-download/choose_white_icon.png" />
                               </image>
                            </ImageView>
-                           <Label style="-fx-font-size: 20;" text="Choose the chapters" />
+                           <Label style="-fx-font-size: 20;" text="Chapters" />
                         </children>
                      </HBox>
                      <HBox layoutX="45.0" layoutY="278.0" minWidth="0.0" prefHeight="48.0" prefWidth="512.0" spacing="40.0">
@@ -210,10 +210,78 @@
                            </AnchorPane>
                         </children>
                      </AnchorPane>
-                     <Label fx:id="lblSource" style="-fx-background-size: 24;" text="Source:" visible="false" />
-                     <Label fx:id="lblSiteTitle" style="-fx-background-size: 24;" text="Site title:" visible="false" />
-                     <Label fx:id="lblUrl" style="-fx-background-size: 24;" text="URL" visible="false" />
-                     <Label fx:id="lblItemsTotal" style="-fx-background-size: 24;" text="Items Total" visible="false" />
+                     <VBox prefHeight="237.0" prefWidth="430.0" spacing="10.0">
+                        <children>
+                           <AnchorPane>
+                              <children>
+                                 <ImageView fx:id="imgLabel" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/title-download/label_white_icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="lblLabel" layoutX="37.0" layoutY="4.0" prefHeight="21.0" prefWidth="334.0" style="-fx-background-size: 24;" text="MangaHost" textFill="WHITE" visible="false">
+                                    <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                    </cursor></Label>
+                              </children>
+                           </AnchorPane>
+                           <AnchorPane>
+                              <children>
+                                 <ImageView fx:id="imgTab" fitHeight="24.0" fitWidth="24.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/title-download/tab_white_icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="lblSiteTitle" layoutX="33.0" layoutY="-5.0" prefHeight="59.0" prefWidth="345.0" style="-fx-background-size: 24;" text="&quot;Boku no Hero Academia | Mangá Host - Ler Online em Português&quot;" visible="false" wrapText="true">
+                                    <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                    </cursor></Label>
+                              </children>
+                           </AnchorPane>
+                           <AnchorPane>
+                              <children>
+                                 <ImageView fx:id="imgDetailsLink" fitHeight="15.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/title-download/link_white_icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="lblSiteUrl" layoutX="41.0" layoutY="-2.0" prefHeight="47.0" prefWidth="346.0" style="-fx-background-size: 16;" text="https://mangahosted.com/manga/boku-no-hero-academia-mh15271" visible="false" wrapText="true">
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor></Label>
+                              </children>
+                           </AnchorPane>
+                           <AnchorPane>
+                              <children>
+                                 <ImageView fx:id="imgListForm" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/title-download/form_list_white_icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="lblItemsTotal" layoutX="35.0" layoutY="3.0" style="-fx-background-size: 24;" text="345" visible="false">
+                                    <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                    </cursor></Label>
+                              </children>
+                           </AnchorPane>
+                           <AnchorPane>
+                              <children>
+                                 <ImageView fx:id="imgTime" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <image>
+                                       <Image url="@../../../../../../../resources/icons/title-download/time_white_icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="lblTime" layoutX="32.0" layoutY="2.0" style="-fx-background-size: 24;" text="Time: 9 Seconds" visible="false">
+                                    <cursor>
+                                       <Cursor fx:constant="DEFAULT" />
+                                    </cursor></Label>
+                              </children>
+                           </AnchorPane>
+                        </children>
+                        <padding>
+                           <Insets top="30.0" />
+                        </padding>
+                     </VBox>
                   </children>
                </VBox>
             </right>

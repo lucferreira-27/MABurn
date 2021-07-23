@@ -32,6 +32,8 @@ public class AnimeScraping extends TitleScraping {
 		PageInfo pageInfo = fillPageInfo(page);
 		String url = page.url();
 		AnimeScraped animeScraped = new AnimeScraped(url, site, pageInfo,episodios);
+		pageInfo = fillMorePageInfo(pageInfo, animeScraped);
+
 		return animeScraped;
 	}
 
