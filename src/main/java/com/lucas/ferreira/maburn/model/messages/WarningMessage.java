@@ -10,8 +10,9 @@ public class WarningMessage extends Message{
 
 	@Override
 	protected void fillText() {
-
-		area.setStyle("-fx-text-fill: #d8a027;");
+		synchronized (area) {
+			area.setStyle("-fx-text-fill: #d8a027;");
+		}
 
 	}
 

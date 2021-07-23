@@ -18,7 +18,6 @@ import javafx.scene.control.TextArea;
 
 public class RegisterTitleFetcher {
 
-
 	private Message errorMessage;
 	private Message warningMessage;
 	private Message succededMessage;
@@ -28,30 +27,26 @@ public class RegisterTitleFetcher {
 	private final String errorScrapingMsg = "Sorry something went wrong. Try again or other source";
 	private final String warningMsgFetch = "Fetching please wait ...";
 	private final String succededMsg = " fetched!";
-	
-	
-	
 
 	public RegisterTitleFetcher(TextArea txtFetchMsg) {
 		errorMessage = new ErrorMessage(txtFetchMsg);
 		warningMessage = new WarningMessage(txtFetchMsg);
 		succededMessage = new SucceedMessage(txtFetchMsg);
 
-
 	}
 
-
-
-	public TitleScraped fetch(FetchAction fetchAction, FetchableTittle  fetchableTittle) throws Exception {
+	public TitleScraped fetch(FetchAction fetchAction, FetchableTittle fetchableTittle) throws Exception {
 
 		TitleScraped titleScraped = null;
 		try {
-			
 
 			checkSource(fetchableTittle.getSourceSelect());
 			fetchAction.action(fetchableTittle);
 
-			CollectionTitle collectionTitle =  fetchableTittle.getCollectionTitle();
+			if (fetchableTittle.getTitleUrl() == null || fetchableTittle.getTitleUrl().isEmpty()) {
+				return null;
+			}
+			CollectionTitle collectionTitle = fetchableTittle.getCollectionTitle();
 			titleScraped = fetchTitleNow(fetchableTittle.getTitleUrl(), fetchableTittle.getSourceSelect());
 			succededMessage.showMessage(collectionTitle.getTitleDataBase() + succededMsg);
 
@@ -63,7 +58,7 @@ public class RegisterTitleFetcher {
 			errorMessage.showMessage(errorScrapingMsg);
 			throw new BadScrapingException(errorScrapingMsg + "\n" + e.getMessage());
 
-		}catch (NotURLFoundInRecover e) {
+		} catch (NotURLFoundInRecover e) {
 			errorMessage.showMessage(errorRecoverMsg);
 			throw new NotURLFoundInRecover(errorRecoverMsg + "\n" + e.getMessage());
 
@@ -85,7 +80,7 @@ public class RegisterTitleFetcher {
 	}
 
 	private void checkSource(Sites sourceSelect) throws NotSourceSelectException {
-		
+
 		if (sourceSelect == null) {
 			throw new NotSourceSelectException();
 		}

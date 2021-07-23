@@ -26,6 +26,8 @@ public class BrowserInstallerModel implements ModelInitialiable{
 	@FXML
 	private Label lblProgres;
 	@FXML
+	private Label lblNumberProcess;
+	@FXML
 	private ImageView imgBrowserInstall;
 	@FXML
 	private ImageView imgClose;
@@ -91,7 +93,9 @@ public class BrowserInstallerModel implements ModelInitialiable{
 	}
 
 
-
+public Label getLblNumberProcess() {
+	return lblNumberProcess;
+}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

@@ -10,24 +10,27 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="bpConteiner" maxHeight="150.0" maxWidth="369.0" minHeight="150.0" minWidth="369.0" prefHeight="150.0" prefWidth="369.0" style="-fx-border-radius: 15; -fx-background-radius: 15; -fx-background-color: gray;" stylesheets="@../css/DarkThema.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bpConteiner" maxHeight="182.0" maxWidth="369.0" minHeight="150.0" minWidth="369.0" prefHeight="167.0" prefWidth="369.0" style="-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: white; -fx-background-color: #272727;" stylesheets="@../css/DarkThema.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="54.0" prefHeight="112.0" prefWidth="274.0">
                <children>
+                  <Label fx:id="lblNumberProcess" text="1/2" />
                   <Label fx:id="lblStatus" style="-fx-font-size: 11;" text="Status" />
                   <ProgressBar fx:id="pbPogress" prefHeight="21.0" prefWidth="239.0" progress="0.0">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </ProgressBar>
-                  <Label fx:id="lblProgres" style="-fx-font-size: 11;" text="0%" />
-                  <Button fx:id="btnAction" minHeight="30.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="100.0" text="Cancel">
+                  <Label fx:id="lblProgres" style="-fx-font-size: 11;" text="0%">
                      <VBox.margin>
-                        <Insets top="5.0" />
+                        <Insets />
                      </VBox.margin>
-                  </Button>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding></Label>
+                  <Button fx:id="btnAction" minHeight="30.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="100.0" text="Cancel" />
                </children>
             </VBox>
          </children>
@@ -36,7 +39,7 @@
    <top>
       <AnchorPane BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="20.0" />
+            <Insets />
          </BorderPane.margin>
          <children>
             <Label fx:id="lblTitle" layoutX="117.0" layoutY="8.0" style="-fx-font-size: 18;" text="Browser Installer" />

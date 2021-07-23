@@ -12,7 +12,6 @@ public class CheckBrowserFiles {
 		if (!fileLocal.exists()) {
 			return false;
 		}
-		System.out.println(fileLocal.getAbsolutePath());
 		List<String> results = listAllFilesNamesInFolder(fileLocal);
 		if (results.size() <= 0) {
 			return false;

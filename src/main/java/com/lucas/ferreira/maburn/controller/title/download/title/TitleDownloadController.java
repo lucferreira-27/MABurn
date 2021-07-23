@@ -1,11 +1,14 @@
 package com.lucas.ferreira.maburn.controller.title.download.title;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionAutomatic;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionManual;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionRecover;
@@ -16,6 +19,7 @@ import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSele
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedBetween;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedSingle;
 import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedUpdate;
+import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemAll;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemBetween;
 import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemSingle;
@@ -29,7 +33,14 @@ import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitl
 import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleSearcher;
 import com.lucas.ferreira.maburn.controller.title.download.register.ScreenshotFullDetails;
 import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
+import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
+import com.lucas.ferreira.maburn.model.UserSystem;
+import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
+import com.lucas.ferreira.maburn.model.browser.BrowserInstallerLaunch;
+import com.lucas.ferreira.maburn.model.browser.Browsers;
+import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.fetch.FetchRecover;
 import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
@@ -56,7 +67,9 @@ public class TitleDownloadController {
 	private TitleDownloadInitialize titleDownloadInitialize;
 	private CollectionTitle collectionTitle;
 	private Title title;
-	
+
+	private boolean blockFetch = false;
+
 	public TitleDownloadController(TitleDownloadModel titleDownload) {
 
 		this.titleDownload = titleDownload;
@@ -68,69 +81,111 @@ public class TitleDownloadController {
 		this.title = titleDownloadInitialize.getTitle();
 	}
 
-	public void onClickFetch() {
-
+	private void fetch(Runnable fetch) {
 		new Thread(() -> {
 			try {
-				FetchActionAutomatic fetchActionAutomatic = new FetchActionAutomatic(
-						new RegisterTitleSearcher(titleDownload.getTxtFetchMsg()));
-				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
-				titleScraped = registerTitleFetcher.fetch(fetchActionAutomatic,
-						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
+				if (isFetchPossible()) {
+					if (!blockFetch) {
+						blockFetch = true;
+						fetch.run();
+					}
+					return;
+				} else {
+					browserLaunch();
+				}
 
-				TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
-				title.setTaggedItems(taggedItems);
-				initializeFetchResults();
+				if (isFetchPossible()) {
+					if (!blockFetch) {
+						blockFetch = true;
+						fetch.run();
+					}
+				} else {
+					throw new Exception("BROWSER FILES ERROR");
 
+				}
 			} catch (Exception e) {
-				
 				e.printStackTrace();
 			}
 		}).start();
+	}
 
+	private boolean isFetchPossible() {
+		BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
+		String local = browserFilesLocal.getLocal(new UserSystem().getUserPlataform());
+		CheckBrowserFiles checkBrowserFiles = new CheckBrowserFiles();
+		boolean foundFirefox = checkBrowserFiles.hasBrowserFilesAvailable(local, Browsers.FIREFOX);
+		boolean foundFfmpeg = checkBrowserFiles.hasBrowserFilesAvailable(local, Browsers.FFMPEG);
+		return foundFirefox && foundFfmpeg;
+	}
+
+	private void browserLaunch() {
+		BrowserInstallerLaunch browserInstallerLaunch = new BrowserInstallerLaunch();
+		try {
+			BrowserInstallerController browserInstallerController = browserInstallerLaunch
+					.openBrowserInstaller(titleDownload.getSpMainPane());
+
+			try {
+				browserInstallerController.install(Browsers.FIREFOX, Browsers.FFMPEG);
+			} catch (BrowserInstallerException e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	private void fetchNormal() {
+		registerFetch(new FetchActionAutomatic(new RegisterTitleSearcher(titleDownload.getTxtFetchMsg())));
+	}
+
+	private void fetchRecover() {
+		registerFetch(new FetchActionRecover());
+	}
+
+	private void fetchManual() {
+		registerFetch(new FetchActionManual(titleDownloadInitialize.getManualSearchAlertController()));
+	}
+
+	private void registerFetch(FetchAction fetchAction) {
+		new Thread(() -> {
+			try {
+				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
+				titleScraped = registerTitleFetcher.fetch(fetchAction,
+						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
+				if (titleScraped != null) {
+					TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped,
+							collectionTitle.getCategory());
+					title.setTaggedItems(taggedItems);
+					initializeFetchResults();
+				}
+			} catch (Exception e) {
+				blockFetch = false;
+				e.printStackTrace();
+			}
+			blockFetch = false;
+		}).start();
+	}
+
+	private void initializeFetchResults() {
+		initializeControllers();
+		itemsSelectedBetween.validates();
+		titleDownload.getCbSelect().setDisable(false);
+		loadFetchInfo();
+		fetchInfo.showInfo();
+	}
+
+	public void onClickFetch() {
+		fetch(() -> fetchNormal());
 	}
 
 	public void onClickRecover() {
-		new Thread(() -> {
-			try {
-				FetchActionRecover fetchActionRecover = new FetchActionRecover();
-				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
-				titleScraped = registerTitleFetcher.fetch(fetchActionRecover,
-						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
-
-				TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
-				title.setTaggedItems(taggedItems);
-
-				initializeFetchResults();
-
-			} catch (Exception e) {
-				
-				e.printStackTrace();
-			}
-		}).start();
-
+		fetch(() -> fetchRecover());
 	}
 
 	public void onClickManualSearch() {
 
-		new Thread(() -> {
-			try {
-				FetchActionManual fetchActionManual = new FetchActionManual(
-						titleDownloadInitialize.getManualSearchAlertController());
-				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
-				titleScraped = registerTitleFetcher.fetch(fetchActionManual,
-						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
-
-				TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped, collectionTitle.getCategory());
-				title.setTaggedItems(taggedItems);
-
-				initializeFetchResults();
-
-			} catch (Exception e) {
-				
-				e.printStackTrace();
-			}
-		}).start();
+		fetch(() -> fetchManual());
 
 	}
 
@@ -182,7 +237,7 @@ public class TitleDownloadController {
 
 	public void initializeControllers() {
 		TaggedItems taggedItems = title.getTaggedItems();
-		
+
 		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(titleDownload.getTxtStartItemValue(),
 				taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldFirstMsg());
 		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(titleDownload.getTxtEndItemValue(),
@@ -203,14 +258,6 @@ public class TitleDownloadController {
 
 		titleDownload.getCbSelect().valueProperty().addListener(fetchTypeSelect);
 
-	}
-
-	private void initializeFetchResults() {
-		initializeControllers();
-		itemsSelectedBetween.validates();
-		titleDownload.getCbSelect().setDisable(false);
-		loadFetchInfo();
-		fetchInfo.showInfo();
 	}
 
 }

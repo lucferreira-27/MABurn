@@ -1,33 +1,25 @@
 package com.lucas.ferreira.maburn.controller.settings;
 
 import java.io.File;
+import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
-import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerModel;
 import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.exceptions.InitializeExcpetion;
-import com.lucas.ferreira.maburn.model.ContainerBoxLoad;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.UserSystem;
 import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
+import com.lucas.ferreira.maburn.model.browser.BrowserInstallerLaunch;
 import com.lucas.ferreira.maburn.model.browser.Browsers;
 import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.enums.Containers;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
-import com.lucas.ferreira.maburn.view.ShadeLayer;
-
-import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 
 public class SettingsController implements Initialize {
 
@@ -199,7 +191,6 @@ public class SettingsController implements Initialize {
 			try {
 				controller.install(Browsers.FIREFOX, Browsers.FFMPEG);
 			} catch (BrowserInstallerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -207,32 +198,16 @@ public class SettingsController implements Initialize {
 	}
 
 	private BrowserInstallerController openBrowserInstaller() {
-		ContainerBoxLoad<BorderPane> containerBoxLoad = new ContainerBoxLoad<BorderPane>();
-		Containers containers = Containers.BROWSE_INSTALLER;
-		AnchorPane anchorPane = new AnchorPane();
-		ShadeLayer shadeLayer = new ShadeLayer(anchorPane);
-		BrowserInstallerModel browserInstallerModel = (BrowserInstallerModel) containers.getModelInitialize();
+		BrowserInstallerLaunch launch = new BrowserInstallerLaunch();
 		try {
-			BorderPane borderPane = containerBoxLoad.load(Containers.BROWSE_INSTALLER);
-			BrowserInstallerController browserInstallerController = (BrowserInstallerController) containerBoxLoad
-					.setContainerController(Containers.BROWSE_INSTALLER, browserInstallerModel);
-			browserInstallerController.onClose(() -> {
-				settingsModel.getSpMainPane().getChildren().remove(borderPane);
-				settingsModel.getSpMainPane().getChildren().remove(shadeLayer.getRecShade());
-				changeIconCheck();
-				initializePrefInstallation();
-				return null;
-			});
-			StackPane.setAlignment(borderPane, Pos.CENTER);
-
-			shadeLayer.show();
-			Platform.runLater(() -> {
-				settingsModel.getSpMainPane().getChildren().add(shadeLayer.getRecShade());
-				settingsModel.getSpMainPane().getChildren().add(borderPane);
-			});
-
-			return browserInstallerController;
-		} catch (Exception e) {
+			 BrowserInstallerController controller = launch.openBrowserInstaller(settingsModel.getSpMainPane());
+			 controller.addOnClose(() ->{
+				 changeIconCheck();
+				 initializePrefInstallation();
+				 return null;
+			 });
+			 return controller;
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
