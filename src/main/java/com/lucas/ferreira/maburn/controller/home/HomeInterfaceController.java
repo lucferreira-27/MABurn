@@ -14,10 +14,13 @@ import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class HomeInterfaceController implements Initializable {
+public class HomeInterfaceController implements ModelInterface {
+
+	private static final long serialVersionUID = -6957084711836026682L;
 	private Navigator navigator = new Navigator();
 	private Category category;
 	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();	
@@ -170,6 +173,12 @@ public class HomeInterfaceController implements Initializable {
 
 	public Category getCategory() {
 		return category;
+	}
+
+	@Override
+	public Node getRoot() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -13,15 +13,14 @@ public class MyBrowser {
 	private static final int MAX_BROWSER_PAGES = 1;
 
 	private List<BrowserPage> browsersPages = new ArrayList<>();
-	
+
 	private boolean headless = true;
-	
+
 	public MyBrowser(boolean headless) {
-		
+
 		this.headless = headless;
 	}
-	
-	
+
 	public void createBrowserPage(int nPages) {
 
 		if (nPages > MAX_BROWSER_PAGES) {
@@ -30,9 +29,9 @@ public class MyBrowser {
 
 		for (int i = 0; i < nPages; i++) {
 			Playwright playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
-			BrowserContext browserContext = playwright.firefox()
-					.launch(new BrowserType.LaunchOptions().setHeadless(headless)).newContext();
-			// browsersPages.add(new BrowserPage(playwright));
+			BrowserContext browserContext = playwright.firefox().launch(
+					new BrowserType.LaunchOptions().setHeadless(headless).setArgs(PlaywrightSettings.getArguments()))
+					.newContext();
 			browsersPages.add(new BrowserPage(playwright, browserContext));
 
 		}
@@ -44,11 +43,9 @@ public class MyBrowser {
 
 	public void killAll() {
 
-		browsersPages.forEach(bp -> 
-		{
+		browsersPages.forEach(bp -> {
 			bp.killPlaywiright();
 		});
-	//	browsersPages.clear();
 
 	}
 }

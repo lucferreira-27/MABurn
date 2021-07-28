@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.controller.home.HomeInterfaceController;
+import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.collections.management.CollectionFilter;
@@ -29,6 +30,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -45,7 +47,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-public class CollectionInterfaceController implements Initializable {
+public class CollectionInterfaceController implements ModelInterface {
+
+
 
 	@FXML
 	private StackPane collectionStackPane;
@@ -119,7 +123,6 @@ public class CollectionInterfaceController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		HomeInterfaceController homeController = (HomeInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.HOME);
 		if (homeController == null || homeController.getCategory() == null) {
@@ -362,6 +365,12 @@ public class CollectionInterfaceController implements Initializable {
 
 	public CollectionFilter getFilter() {
 		return filter;
+	}
+
+	@Override
+	public Node getRoot() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

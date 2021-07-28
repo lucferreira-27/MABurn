@@ -6,15 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadModel;
+import com.lucas.ferreira.maburn.controller.download.DownloadQueueController;
+import com.lucas.ferreira.maburn.controller.download.DownloadQueueModal;
 import com.lucas.ferreira.maburn.controller.settings.SettingsController;
 import com.lucas.ferreira.maburn.controller.settings.SettingsModel;
 import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadController;
+import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadModel;
+import com.lucas.ferreira.maburn.model.states.InterfaceState;
+import com.lucas.ferreira.maburn.model.states.ModalStateAdapter;
+import com.lucas.ferreira.maburn.model.states.ObjectState;
+import com.lucas.ferreira.maburn.model.states.RegisteredStates;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 
-import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
@@ -23,9 +28,9 @@ public class Navigator {
 	private static Map<Interfaces, Initializable> mapNavigator = new HashMap<Interfaces, Initializable>();
 	private static List<Interfaces> interfacesList = new ArrayList<Interfaces>();
 	private static Map<Initializable, Node> mapNodesComponts = new HashMap<Initializable, Node>();
+	private FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
 
 	private void loadComponent(Components component) {
-		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 		try {
 			fxmlViewLoader.loadComponent(component);
 		} catch (IOException e) {
@@ -35,34 +40,93 @@ public class Navigator {
 	}
 
 	private void hideComponenet(Components component) {
-		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
 
 		fxmlViewLoader.hideComponent(component);
 
 	}
 
 	public void open(Interfaces interfaces) {
+		try {
+			Initializable controller = interfaces.getFinalModalInterface();
+			String fxml = interfaces.getFxml();
 
-		Initializable controller = interfaces.getController();
-		String fxml = interfaces.getFxml();
+			mapNavigator.put(interfaces, controller);
+			interfacesList.add(interfaces);
+			LoadInterface loadInterface = new LoadInterface();
+			loadInterface.setFxml(fxml);
+			loadInterface.setInitializable(controller);
+			fxmlViewLoader.loadInterface(loadInterface);
+			fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
+				try {
+					if (newvalue) {
 
-		mapNavigator.put(interfaces, interfaces.getController());
-		interfacesList.add(interfaces);
-		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
-		fxmlViewLoader.loadInterface(fxml, controller, true);
-		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
-			if (newvalue) {
-				if (interfaces == Interfaces.TITLE_DOWNLOAD) {
-					new TitleDownloadController((TitleDownloadModel) interfaces.getController());
+						if (interfaces == Interfaces.CONFIGURATION) {
+							new SettingsController((SettingsModel) controller).initialize();
+							return;
+						}
+						if (interfaces == Interfaces.DOWNLOADS) {
+							new DownloadQueueController((DownloadQueueModal) controller)
+									.initialize();
+							return;
+						}
+						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				if (interfaces == Interfaces.CONFIGURATION) {
-					new SettingsController((SettingsModel) interfaces.getController()).initialize();
-				}
-			}
-		});
 
-		loadComponents(interfaces);
+			});
+
+			loadComponents(interfaces);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
+	public void openFromRegisteredState(Interfaces interfaces, String id) throws IOException {
+		try {
+			mapNavigator.put(interfaces, interfaces.getNewModalInterface());
+			interfacesList.add(interfaces);
+
+			recoverStateAndOpen(interfaces, id);
+
+			loadComponents(interfaces);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void recoverStateAndOpen(Interfaces interfaces, String id) {
+		try {
+
+			LoadInterface loadInterface = loadInterface(interfaces);
+
+			RecoverInterface recoverInterface =new RecoverInterface();
+			loadInterface.setInterfaces(interfaces);
+
+			recoverInterface.recoverState(loadInterface, id);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@SuppressWarnings("unused")
+	private LoadInterface loadInterface(Interfaces interfaces) throws Exception {
+		
+		Class<?> c = Class.forName(interfaces.getNewModalInterface().getClass().getName());
+		
+		Initializable controller = (Initializable) c.newInstance();
+		String fxml = interfaces.getFxml();
+		LoadInterface loadInterface = new LoadInterface();
+		
+		InterfaceState interfaceState = new InterfaceState();
+		loadInterface.setFxml(fxml);
+		loadInterface.setInitializable(controller);
+		loadInterface.setInterfaces(interfaces);
+		
+		return loadInterface;
+	}
+
 
 	private void loadComponents(Interfaces interfaces) {
 		if (interfaces == Interfaces.HOME) {
@@ -73,26 +137,11 @@ public class Navigator {
 		if (interfaces == Interfaces.COLLECTION) {
 			loadComponent(Components.COLLECTION_MENU);
 		}
-		if (interfaces == Interfaces.TITLE_DOWNLOAD) {
-			// loadComponent(Components.DOWNLOAD_CARD);
-		}
+
 
 	}
 
-	public void preload(Interfaces interfaces) {
-		Initializable controller = interfaces.getController();
-		String fxml = interfaces.getFxml();
 
-		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
-		fxmlViewLoader.loadInterface(fxml, controller, true);
-
-		if (interfaces == Interfaces.HOME) {
-			hideComponenet(Components.MENU);
-		} else {
-			loadComponent(Components.MENU);
-		}
-
-	}
 
 	public void back() {
 
@@ -114,8 +163,10 @@ public class Navigator {
 		Initializable controller = mapNavigator.get(interfaces);
 		String fxml = interfaces.getFxml();
 
-		FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
-		fxmlViewLoader.loadInterface(fxml, controller, true);
+		LoadInterface loadInterface = new LoadInterface();
+		loadInterface.setFxml(fxml);
+		loadInterface.setInitializable(controller);
+		fxmlViewLoader.loadInterface(loadInterface);
 		loadComponents(interfaces);
 
 	}

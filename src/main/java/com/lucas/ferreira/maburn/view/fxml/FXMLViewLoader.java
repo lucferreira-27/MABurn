@@ -1,12 +1,12 @@
 package com.lucas.ferreira.maburn.view.fxml;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
+import com.lucas.ferreira.maburn.model.states.ObjectState;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
+import com.lucas.ferreira.maburn.view.navigator.LoadInterface;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
@@ -16,17 +16,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class FXMLViewLoader<T extends Node> {
 	private static FXMLLoader loader;
 
-	
 	static {
 		loader = new FXMLLoader();
 	}
@@ -34,25 +29,28 @@ public class FXMLViewLoader<T extends Node> {
 	private BooleanProperty loaded = new SimpleBooleanProperty(false);
 	private Pane root;
 	private long start;
+
 	public FXMLViewLoader() {
-		
+
 		start = System.currentTimeMillis(); // Gets the current date
 
 		loaded.addListener((obs, oldvalue, newvalue) -> {
 			if (newvalue) {
 				long end = System.currentTimeMillis();
 
-				
 			}
 		});
 	}
 
-	public void loadInterface(String fxml, Initializable initializable, boolean visibility) {
+	public void loadInterface(LoadInterface loadInterface) {
 
 		this.root = MainInterfaceView.getInstance().getRoot();
 		new Thread(() -> {
 			remove(root); // Removes the previous nodes.
-			initFX(fxml, initializable, visibility); // Initializes interface.
+			initFX(loadInterface); // Initializes
+									// new
+			// interface.
+
 		}).start();
 
 	}
@@ -73,11 +71,10 @@ public class FXMLViewLoader<T extends Node> {
 				break;
 			case COLLECTION_MENU:
 				StackPane stackPane = (StackPane) root.getChildren().get(1);
-				
+
 				StackPane.setAlignment(fxmlLoaded, Pos.BOTTOM_CENTER);
 				stackPane.getChildren().add(fxmlLoaded);
 				break;
-
 
 			default:
 				break;
@@ -87,6 +84,7 @@ public class FXMLViewLoader<T extends Node> {
 		});
 
 	}
+
 	public T load(String fxml, Initializable initializable, Node root) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(fxml));
@@ -96,6 +94,7 @@ public class FXMLViewLoader<T extends Node> {
 		return fxmlLoaded;
 
 	}
+
 	public T loadContainer(String fxml, Initializable initializable) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(fxml));
@@ -138,28 +137,31 @@ public class FXMLViewLoader<T extends Node> {
 		try {
 			initFXMLLoader(initializable, root, fxml, true);
 		} catch (IOException e) {
-			 
+
 			e.printStackTrace();
 		}
 
 	}
-	
-
 
 	public boolean isDone() {
 		return loaded.get();
 	}
 
-	private void initFX(String fxml, Initializable initializable, boolean visibility) {
-		CustomLogger.log("> Run " + fxml);
+	private void initFX(LoadInterface loadInterface) {
+		CustomLogger.log("> Run " + loadInterface.getFxml());
 		Platform.runLater(() -> {
 
 			try {
-				initFXMLLoader(initializable, root, fxml, visibility);
+				if (loadInterface.getObjectState() == ObjectState.NEW_OBJECT)
+					initFXMLLoader(loadInterface.getInitializable(), root, loadInterface.getFxml(),
+							loadInterface.isVisibility());
+				else
+					addNodeInRoot(root, loadInterface.isVisibility(), loadInterface.getOldNode());
+
 				loaded.set(true);
 
 			} catch (IOException e) {
-				 
+
 				e.printStackTrace();
 			}
 
@@ -180,25 +182,27 @@ public class FXMLViewLoader<T extends Node> {
 			throws IOException {
 
 		loader.setRoot(root);
-		
-		
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 		Object fxmlLoaded;
 
 		fxmlLoaded = loader.load();
-		// Navigator.getMapRoot().put(initializable, (Pane) fxmlLoaded);
+
+		addNodeInRoot(root, visibility, fxmlLoaded);
+
+	}
+
+	private void addNodeInRoot(Pane root, boolean visibility, Object fxmlLoaded) {
 		if (root == null || fxmlLoaded == root) {
 			root = (Pane) fxmlLoaded;
 			root.setVisible(visibility);
 			return;
 		}
 		root.getChildren().add((Node) fxmlLoaded);
-
 	}
 
 	public BooleanProperty loadProperty() {
 		return loaded;
 	}
-	
+
 }

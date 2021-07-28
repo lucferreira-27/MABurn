@@ -97,8 +97,10 @@ public class ChapterCardController implements DownloadCardController {
 	@Override
 	public void stop() {
 		
-		chapterDownload.stop();
-		resetValues();
+		new Thread(() -> {
+			chapterDownload.stop();
+			resetValues();
+		}).start();
 	}
 
 	private void resetValues() {

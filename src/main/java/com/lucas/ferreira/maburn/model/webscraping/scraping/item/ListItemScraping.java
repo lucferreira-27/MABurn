@@ -3,11 +3,9 @@ package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
-import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

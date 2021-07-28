@@ -12,11 +12,13 @@ import com.lucas.ferreira.maburn.model.fetch.title.FetchTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.navigator.LoadInterface;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -35,7 +37,7 @@ public class MainInterfaceView {
 	private boolean initializeIsDone = false;
 	private MenuController menuController = new MenuController();
 	private static MainInterfaceView app;
-	private FXMLViewLoader fxmlViewLoader = new FXMLViewLoader();
+	private FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
 
 	public MainInterfaceView() {
 		
@@ -94,7 +96,12 @@ public class MainInterfaceView {
 	}
 
 	private void loadFXML() {
-		fxmlViewLoader.loadInterface("MainViewFXML.fxml", menuController, true);
+		LoadInterface loadInterface =new LoadInterface();
+		loadInterface.setFxml("MainViewFXML.fxml");
+		loadInterface.setInitializable(menuController);
+		loadInterface.setVisibility(true);
+
+		fxmlViewLoader.loadInterface(loadInterface);
 
 	}
 
@@ -125,13 +132,10 @@ public class MainInterfaceView {
 
 	private void initFX(final JFXPanel fxPanel) throws IOException {
 
-//		fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
-//			initializeIsDone = true;
-//		});
+
 		CustomLogger.log("> Initialize MainInterfaceView");
 		createScene();
-		Navigator navigator = new Navigator();
-		navigator.preload(Interfaces.COLLECTION); // preload collection.
+
 		initializeIsDone = true;
 
 		CustomLogger.log("> Initialization Complete  MainInterfaceView");

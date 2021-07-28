@@ -1,11 +1,9 @@
 package com.lucas.ferreira.maburn.controller.title.download.title;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
@@ -40,9 +38,9 @@ import com.lucas.ferreira.maburn.model.browser.BrowserInstallerLaunch;
 import com.lucas.ferreira.maburn.model.browser.Browsers;
 import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.fetch.FetchRecover;
 import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
+import com.lucas.ferreira.maburn.model.states.ControllerStateAdapter;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListChapterScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListEpisodeScraping;
@@ -50,11 +48,9 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListItemScrapin
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
-import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
-public class TitleDownloadController {
+public class TitleDownloadController implements ControllerStateAdapter {
 
-	private Navigator navigator = new Navigator();
 	private FetchInfo fetchInfo;
 	private TitleScraped titleScraped;
 	private FetchTypeSelect fetchTypeSelect;
@@ -73,12 +69,19 @@ public class TitleDownloadController {
 	public TitleDownloadController(TitleDownloadModel titleDownload) {
 
 		this.titleDownload = titleDownload;
+
+	}
+
+	@Override
+	public void initialize() {
+		System.out.println("Initialize");
 		titleDownloadInitialize = new TitleDownloadInitialize(titleDownload, this);
 		titleDownloadInitialize.initialize();
 		organizeFetchResult = new OrganizeFetchResult(titleDownload.getCbItems(), titleDownload.getCbSource(),
 				titleDownloadInitialize.getTitle().getCollectionTitle());
-		this.collectionTitle = titleDownloadInitialize.getTitle().getCollectionTitle();
-		this.title = titleDownloadInitialize.getTitle();
+		collectionTitle = titleDownloadInitialize.getTitle().getCollectionTitle();
+		title = titleDownloadInitialize.getTitle();
+
 	}
 
 	private void fetch(Runnable fetch) {
@@ -257,6 +260,13 @@ public class TitleDownloadController {
 
 		titleDownload.getCbSelect().valueProperty().addListener(fetchTypeSelect);
 
+	}
+	
+	public TitleDownloadInitialize getTitleDownloadInitialize() {
+		return titleDownloadInitialize;
+	}
+	public Title getTitle() {
+		return title;
 	}
 
 }

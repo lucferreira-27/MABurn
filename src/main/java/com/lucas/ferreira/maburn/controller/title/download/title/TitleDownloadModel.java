@@ -3,11 +3,12 @@ package com.lucas.ferreira.maburn.controller.title.download.title;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -20,13 +21,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class TitleDownloadModel  implements Initializable{
-	
+public class TitleDownloadModel implements ModelInterface {
+
 	@FXML
 	private StackPane spMainPane;
 	@FXML
 	private AnchorPane apShade;
-	
+
 	@FXML
 	private AnchorPane apManualSearch;
 	@FXML
@@ -127,14 +128,17 @@ public class TitleDownloadModel  implements Initializable{
 	private Label lblSource;
 
 	@FXML
+	private Label lblItemsSelecter;
+
+	@FXML
 	private Label lblItemsTotal;
 
 	@FXML
 	private Label lblSiteTitle;
-	
+
 	@FXML
 	private Label lblItems;
-	
+
 	@FXML
 	private Label labelCardsTotal;
 	@FXML
@@ -145,14 +149,14 @@ public class TitleDownloadModel  implements Initializable{
 	private Label labelCardsFetching;
 	@FXML
 	private Label labelCardsFailed;
-	
+
 	@FXML
 	private Label lblLabel;
 	@FXML
 	private Label lblSiteUrl;
 	@FXML
 	private Label lblTime;
-	
+
 	@FXML
 	private ImageView imgLabel;
 	@FXML
@@ -163,13 +167,21 @@ public class TitleDownloadModel  implements Initializable{
 	private ImageView imgListForm;
 	@FXML
 	private ImageView imgTime;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
-public StackPane getSpMainPane() {
-	return spMainPane;
-}
+
+	@Override
+	public Node getRoot() {
+
+		return spMainPane;
+	}
+
+	public StackPane getSpMainPane() {
+		return spMainPane;
+	}
+
 	public AnchorPane getApShade() {
 		return apShade;
 	}
@@ -354,29 +366,41 @@ public StackPane getSpMainPane() {
 	public Label getLabelCardsFailed() {
 		return labelCardsFailed;
 	}
+
 	public ImageView getImgDetailsLink() {
 		return imgDetailsLink;
 	}
+
 	public ImageView getImgLabel() {
 		return imgLabel;
 	}
+
 	public ImageView getImgListForm() {
 		return imgListForm;
 	}
+
 	public ImageView getImgTab() {
 		return imgTab;
 	}
+
 	public ImageView getImgTime() {
 		return imgTime;
 	}
+
 	public Label getLblLabel() {
 		return lblLabel;
 	}
+
 	public Label getLblSiteUrl() {
 		return lblSiteUrl;
 	}
+
 	public Label getLblTime() {
 		return lblTime;
+	}
+
+	public Label getLblItemsSelecter() {
+		return lblItemsSelecter;
 	}
 
 	@Override
@@ -400,9 +424,5 @@ public StackPane getSpMainPane() {
 				+ labelCardsCompleted + ", labelCardsFetching=" + labelCardsFetching + ", labelCardsFailed="
 				+ labelCardsFailed + "]";
 	}
-	
-	
-	
-	
 
 }

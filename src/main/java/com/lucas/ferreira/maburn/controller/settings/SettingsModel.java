@@ -3,8 +3,11 @@ package com.lucas.ferreira.maburn.controller.settings;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.lucas.ferreira.maburn.controller.home.ModelInterface;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,8 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class SettingsModel implements Initializable {
+public class SettingsModel implements ModelInterface {
 
+
+	private static final long serialVersionUID = 3548154041118919878L;
 	@FXML
 	private StackPane spMainPane;
 	@FXML
@@ -86,6 +91,12 @@ public class SettingsModel implements Initializable {
 
 	public ImageView getImgCheckOk() {
 		return imgCheckOk;
+	}
+
+	@Override
+	public Node getRoot() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

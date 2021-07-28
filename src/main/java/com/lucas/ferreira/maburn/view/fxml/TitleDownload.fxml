@@ -103,7 +103,7 @@
                                  <Image url="@../../../../../../../resources/icons/title-download/choose_white_icon.png" />
                               </image>
                            </ImageView>
-                           <Label style="-fx-font-size: 20;" text="Chapters" />
+                           <Label fx:id="lblItemsSelecter" style="-fx-font-size: 20;" text="Chapters" />
                         </children>
                      </HBox>
                      <HBox layoutX="45.0" layoutY="278.0" minWidth="0.0" prefHeight="48.0" prefWidth="512.0" spacing="40.0">

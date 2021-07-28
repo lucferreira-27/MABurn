@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.controller.collection.CollectionInterfaceController;
+import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.TableCollectionItemModel;
 import com.lucas.ferreira.maburn.model.collections.Collections;
@@ -53,7 +54,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class TitleController implements Initializable {
+public class TitleController implements ModelInterface {
+
+	private static final long serialVersionUID = 137374207309422526L;
 	private static final String ICON_PATH = "icons/";
 	private Navigator navigator = new Navigator();
 	private Collections collections;
@@ -210,7 +213,12 @@ public class TitleController implements Initializable {
 	}
 
 	public void onClickButtonDownload() {
-		navigator.open(Interfaces.TITLE_DOWNLOAD);
+		try {
+			navigator.openFromRegisteredState(Interfaces.TITLE_DOWNLOAD, String.valueOf(collections.getActualItem().getId()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -343,6 +351,12 @@ public class TitleController implements Initializable {
 
 	public CollectionTitle getTitle() {
 		return title;
+	}
+
+	@Override
+	public Node getRoot() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -105,8 +105,11 @@ public class EpisodeCardController implements DownloadCardController {
 
 	@Override
 	public void stop() {
-		episodeDownload.stop();
-		resetValues();
+		new Thread(() -> {
+			episodeDownload.stop();
+			resetValues();
+		}).start();
+
 	}
 
 	@Override

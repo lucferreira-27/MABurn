@@ -25,24 +25,18 @@ public abstract class AutoBrowser {
 
 	}
 
-	protected void launch() {
-		System.out.println("LAUNCHING FIREFOX");
-		playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
-		context = playwright.firefox().launch().newContext();
-	}
+
 
 	protected void launch(boolean headless) {
-		System.out.println("LAUNCHING FIREFOX HEADLESS");
 		playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
 
-		context = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(headless)).newContext();
+		context = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(headless).setArgs(PlaywrightSettings.getArguments())).newContext();
 	}
 
 	protected Page newPage() {
 		if (playwright == null) {
 			return null;
 		}
-		System.out.println("NEW PAGE");
 		Page page = context.newPage();
 
 		return page;
@@ -62,19 +56,10 @@ public abstract class AutoBrowser {
 	}
 
 	protected PageInfo fillPageInfo(Page page) {
-		Long time;
-		try {
-			time = markTime.end();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String title = page.title();
-		String screenshotPath = System.getProperty("java.io.tmpdir") + StringUtil.stringUtilFile(title) + ".png";
+
 		Image imageSmall = screenshot(page);
 		Image imageFull = screenshotFull(page);
 
-		// page.screenshot(new ScreenshotOptions().setPath(Paths.get(screenshotPath)));
 		PageInfo pageInfo = new PageInfo(imageSmall, imageFull);
 		pageInfo.setTitle(page.title());
 		pageInfo.setUrl(page.url());
@@ -82,7 +67,7 @@ public abstract class AutoBrowser {
 		return pageInfo;
 	}
 
-	protected PageInfo fillMorePageInfo(PageInfo pageInfo,TitleScraped titleScraped) {
+	protected PageInfo fillMorePageInfo(PageInfo pageInfo, TitleScraped titleScraped) {
 		Sites site = titleScraped.getSite();
 		Long time = null;
 		try {

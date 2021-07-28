@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.lucas.ferreira.maburn.controller.collection.CollectionInterfaceController;
+import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
@@ -20,12 +21,15 @@ import com.lucas.ferreira.maburn.view.navigator.Navigator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 
-public class TittleSearchInterfaceController implements Initializable {
+public class TittleSearchInterfaceController implements ModelInterface {
+
+	private static final long serialVersionUID = 4013518062488454167L;
 	private Collections collections;
 	private Navigator navigator = new Navigator();
 
@@ -116,6 +120,12 @@ public class TittleSearchInterfaceController implements Initializable {
 			 
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Node getRoot() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
