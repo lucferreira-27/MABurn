@@ -3,21 +3,18 @@ package com.lucas.ferreira.maburn.controller.menu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MenuController implements Initializable {
 
 	private Navigator navigator = new Navigator();
-	private InitializeModel initialize;
 
 	private static final String ICON_PATH = "icons/";
 
@@ -32,7 +29,6 @@ public class MenuController implements Initializable {
 
 	public MenuController() {
 		
-		initialize = new InitializeModel();
 
 	}
 
@@ -67,7 +63,7 @@ public class MenuController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		initialize.boot();
+		
 
 		imgHome.setImage(new Image(Resources.getResourceAsStream(ICON_PATH + "home_white.png")));
 		imgHome.hoverProperty().addListener((event) -> {
