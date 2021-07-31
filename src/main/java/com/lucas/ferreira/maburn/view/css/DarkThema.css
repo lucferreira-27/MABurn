@@ -236,7 +236,14 @@
     -fx-background-color: #A32020;
     -fx-pref-height: 3.0;
 }
+.scroll-pane :horizontal .track {
+    -fx-background-color: #1C1C1C;
+}
 
+.scroll-pane :horizontal .thumb {
+    -fx-background-color: #A32020;
+    -fx-pref-height: 3.0;
+}
 .image-title {
     -fx-cursor: hand;
 }
@@ -274,6 +281,15 @@
     -fx-background-color: transparent;
 }
 
+.scroll-pane :horizontal .increment-button .increment-arrow, .decrement-button .decrement-arrow {
+    -fx-padding: 0.0;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane :horizontal .increment-button, .decrement-button {
+    -fx-padding: 0.0;
+    -fx-background-color: transparent;
+}
 .itensImagesGridPane {
     -fx-background-color: #1C1C1C;
 }

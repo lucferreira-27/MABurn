@@ -47,6 +47,8 @@ public class Navigator {
 
 	public void open(Interfaces interfaces) {
 		try {
+			FXMLViewLoader<Node> openFxmlViewLoader = new FXMLViewLoader<Node>();
+
 			Initializable controller = interfaces.getFinalModalInterface();
 			String fxml = interfaces.getFxml();
 
@@ -55,18 +57,17 @@ public class Navigator {
 			LoadInterface loadInterface = new LoadInterface();
 			loadInterface.setFxml(fxml);
 			loadInterface.setInitializable(controller);
-			fxmlViewLoader.loadInterface(loadInterface);
-			fxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
+			openFxmlViewLoader.loadInterface(loadInterface);
+			openFxmlViewLoader.loadProperty().addListener((obs, oldvalue, newvalue) -> {
 				try {
-					if (newvalue) {
 
+					if (newvalue) {
 						if (interfaces == Interfaces.CONFIGURATION) {
 							new SettingsController((SettingsModel) controller).initialize();
 							return;
 						}
 						if (interfaces == Interfaces.DOWNLOADS) {
-							new DownloadQueueController((DownloadQueueModal) controller)
-									.initialize();
+							new DownloadQueueController((DownloadQueueModal) controller).initialize();
 							return;
 						}
 						

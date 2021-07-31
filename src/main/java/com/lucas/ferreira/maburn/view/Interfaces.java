@@ -16,7 +16,8 @@ public enum Interfaces {
 	TITLE_DOWNLOAD("TitleDownload.fxml", new TitleDownloadModel()),
 
 	DOWNLOADS("DownloadQueueView.fxml", new DownloadQueueModal()),
-	CONFIGURATION("HelperViewFXML.fxml", new SettingsModel()), CALENDAR("", null),
+	CONFIGURATION("HelperViewFXML.fxml", new SettingsModel()),
+	CALENDAR("", null),
 	COLLECTION("ItemsViewFXML.fxml", new CollectionInterfaceController()), DOWNLOAD_CARD("DownloadCard.fxml", null);
 
 	private String fxml;
