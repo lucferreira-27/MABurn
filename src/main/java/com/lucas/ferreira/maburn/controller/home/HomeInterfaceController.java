@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
@@ -13,18 +14,17 @@ import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class HomeInterfaceController implements ModelInterface {
 
-	private static final long serialVersionUID = -6957084711836026682L;
 	private Navigator navigator = new Navigator();
 	private Category category;
-	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();	
+	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();
 	private static final String TEMPLATE_PATH = "template/home/";
+	private InitializeModel initialize = new InitializeModel();
 
 	@FXML
 	private ImageView imgAnimes;
@@ -45,28 +45,29 @@ public class HomeInterfaceController implements ModelInterface {
 	private ImageView imgCalendar;
 
 	public HomeInterfaceController() {
-		
 
 	}
 
 	@FXML
 	public void onClickOnAnime() {
-		
-		
+
 		ConfigForm configForm;
+		String destination = null;
+
 		try {
-			configForm = xmlConfigurationOrchestrator.read();
-			String destination = configForm.getAnimeConfig().getCollectionDestination();
-			
-			if(destination == null || destination.isEmpty()) {
+			if (xmlConfigurationOrchestrator.exists()) {
+				configForm = xmlConfigurationOrchestrator.read();
+				destination = configForm.getAnimeConfig().getCollectionDestination();
+			}
+
+			if (destination == null || destination.isEmpty()) {
 				AlertWindowView.errorAlert("ERROR", "Anime Collection", "Anime collection destination need be set");
 				return;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		category = Category.ANIME;
 		navigator.open(Interfaces.COLLECTION);
 
@@ -75,21 +76,22 @@ public class HomeInterfaceController implements ModelInterface {
 	@FXML
 	public void onClickOnManga() {
 		ConfigForm configForm;
+		String destination = null;
 		try {
-			configForm = xmlConfigurationOrchestrator.read();
-			String destination = configForm.getMangaConfig().getCollectionDestination();
-			
-			if(destination == null || destination.isEmpty()) {
-				AlertWindowView.errorAlert("ERROR", "Manga Collection", "Anime collection destination need be set");
+			if (xmlConfigurationOrchestrator.exists()) {
+				configForm = xmlConfigurationOrchestrator.read();
+				destination = configForm.getMangaConfig().getCollectionDestination();
+			}
+			if (destination == null || destination.isEmpty()) {
+				AlertWindowView.errorAlert("ERROR", "Manga Collection", "Manga collection destination need be set");
 				return;
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		category = Category.MANGA;
 		navigator.open(Interfaces.COLLECTION);
-
-
 
 	}
 
@@ -109,7 +111,7 @@ public class HomeInterfaceController implements ModelInterface {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		try {
-
+			initialize.boot();
 			imgAnimes.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_01.png")));
 			imgAnimes.hoverProperty().addListener((event) -> {
 				if (imgAnimes.isHover())
@@ -140,7 +142,8 @@ public class HomeInterfaceController implements ModelInterface {
 			imgDownloads.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_05.png")));
 			imgDownloads.hoverProperty().addListener((event) -> {
 				if (imgDownloads.isHover())
-					imgDownloads.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_05.png")));
+					imgDownloads
+							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_05.png")));
 				else
 					imgDownloads
 							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_05.png")));
@@ -158,7 +161,8 @@ public class HomeInterfaceController implements ModelInterface {
 			imgBugReport.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_06.png")));
 			imgBugReport.hoverProperty().addListener((event) -> {
 				if (imgBugReport.isHover())
-					imgBugReport.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_06.png")));
+					imgBugReport
+							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_red_06.png")));
 				else
 					imgBugReport
 							.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_06.png")));
@@ -166,7 +170,7 @@ public class HomeInterfaceController implements ModelInterface {
 			});
 
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 	}
