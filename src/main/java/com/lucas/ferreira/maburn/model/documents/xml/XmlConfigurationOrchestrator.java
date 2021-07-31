@@ -11,7 +11,11 @@ import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 public class XmlConfigurationOrchestrator {
 
 	private final File FILE = new File(Documents.CONFIG_LOCAL);
-
+	
+	public boolean exists() {
+		return FILE.exists();
+	}
+	
 	public ConfigForm read() throws JsonParseException, JsonMappingException, IOException {
 
 		Reader reader = new Reader();
