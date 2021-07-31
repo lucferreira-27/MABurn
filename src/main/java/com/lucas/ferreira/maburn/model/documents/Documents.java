@@ -20,6 +20,7 @@ public class Documents {
 	public final static String THUMBNAILS_LOCAL_ANIMES = THUMBNAILS_LOCAL + "\\Animes\\";
 	
 	public final static String THUMBNAILS_LOCAL_MANGAS = THUMBNAILS_LOCAL + "\\Mangas\\";
+	public final static String BROWSER_LOCAL = DOCUMENTS_LOCAL + "\\Browser\\";
 
 	public static void createDocumentFolders() {
 		
