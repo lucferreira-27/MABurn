@@ -306,10 +306,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 			@Override
 			public void accept(int value) {
 				
-				// CustomLogger.log("ACCEPT: \n" + "VALUE: "+ value +"\nContent Length: " +
-				// BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
 				updateProgress(value, BytesUtil.convertMegasBytesToBytes(sizeProperty.get()));
-				// CustomLogger.log(progressProperty().getValue().doubleValue());
 
 			}
 		};
