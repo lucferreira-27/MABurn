@@ -81,6 +81,7 @@ public class BrowserInstaller {
 
 	public void removeAllFiles() {
 		String local = browserFilesLocal.getLocal(new UserSystem().getUserPlataform()).replaceAll("\\\\$", "");
+		System.out.println(local);
 		Path file = Paths.get(local);
 		try {
 

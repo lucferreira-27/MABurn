@@ -6,17 +6,16 @@ import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrato
 
 public class BrowserFilesLocal {
 
-	private final static String LOCAL_DEFAULT = "DEFAULT";
+	private final static String LOCAL_DEFAULT = "DEFAULT\\";
 	private final static String WINDOWS_LOCAL = "%USERPROFILE%\\AppData\\Local\\ms-playwright\\";
 	private final static String LINUX_LOCAL = "~/Library/Caches/ms-playwright/";
 	private final static String MAC_LOCAL = "~/.cache/ms-playwright/";
-	public final static String PLAYWRIGHT_FOLDER = "ms-playwright";
-	
+
 
 	
 	public String getLocal(Platform platform) {
 		String local = customLocal();
-		if (!local.equals(LOCAL_DEFAULT) && new File(local).exists()) {
+		if (!local.equals(LOCAL_DEFAULT)) {
 			return local;
 		} else {
 			local = defaultLocal(platform);
@@ -45,7 +44,7 @@ public class BrowserFilesLocal {
 
 	private String customLocal() {
 		XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
-
+		
 		try {
 			String local = configurationOrchestrator.read().getGeralConfigForm().getBrowserLocal() + "\\";
 			return local;
