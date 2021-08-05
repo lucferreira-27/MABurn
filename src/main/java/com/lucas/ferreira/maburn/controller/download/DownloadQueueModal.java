@@ -8,12 +8,14 @@ import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 
 public class DownloadQueueModal implements ModelInterface{
 	
 	@FXML
 	private ScrollPane spItemsImagesScroll;
-	
+	@FXML
+	private VBox vbTitles;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -24,6 +26,9 @@ public class DownloadQueueModal implements ModelInterface{
 	public Node getRoot() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public VBox getVbTitles() {
+		return vbTitles;
 	}
 
 
