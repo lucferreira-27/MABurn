@@ -20,11 +20,11 @@
 
             </top>
          <center>
-            <SplitPane dividerPositions="0.3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #272727; -fx-background-radius: 15; -fx-border-radius: 15;" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #272727; -fx-background-radius: 15; -fx-border-radius: 15;" BorderPane.alignment="CENTER">
                <items>
                   <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="1.7976931348623157E308" prefHeight="689.0" prefWidth="324.0" style="-fx-background-color: transparent;">
                      <content>
-                        <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="689.0" prefWidth="400.0" style="-fx-background-color: transparent;">
+                        <VBox fx:id="vbTitles" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="689.0" prefWidth="400.0" style="-fx-background-color: transparent;">
                            <children>
                               <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="52.0" prefWidth="475.0">
                                  <children>
