@@ -35,6 +35,16 @@ public enum Icons {
 	ZOOM_IN_BIG("title-download/zoom_in_white_big_icon.png","title-download/zoom_in_red_big_icon.png"),
 	
 	
+	//DOWNLOAD QUEUE
+	COMPLETED_ICON("download-queue/completed_white_icon.png","download-queue/completed_red_icon.png"),
+	DOWNLOADING_ICON("download-queue/downloading_white_icon.png","download-queue/downloading_red_icon).png"),
+	ERROR_ICON("download-queue/error_white_icon.png","download-queue/error_red_icon.png"),
+	LAUNCH_ICON("download-queue/launch_white_icon.png","download-queue/launch_red_icon.png"),
+
+//	FOLDER_ICON("",""),
+//	PLAY_ICON("",""),
+//	STOP_ICON("",""),
+
 
 	// BROWSER INSTALL
 	
