@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.view;
 
-public interface CardInteractIcons {
+public interface InteractIcons {
 	
 
 	void interactTurnOn();
