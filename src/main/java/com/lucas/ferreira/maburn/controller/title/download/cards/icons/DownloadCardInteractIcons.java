@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
-import com.lucas.ferreira.maburn.view.CardInteractIcons;
+import com.lucas.ferreira.maburn.view.InteractIcons;
 
 public class DownloadCardInteractIcons  {
 	private DownloadCard downloadCard;
@@ -25,14 +25,14 @@ public class DownloadCardInteractIcons  {
 		completedDownloadIcons = new CompletedDownloadIcons(downloadCard, downloadCardController);
 		failedDownloadIcons = new FailedDownloadIcons(downloadCard, downloadCardController);
 
-		List<CardInteractIcons> cardIntereactIcons = Arrays.asList(playerIcons, completedDownloadIcons,
+		List<InteractIcons> cardIntereactIcons = Arrays.asList(playerIcons, completedDownloadIcons,
 				failedDownloadIcons);
 
 		addAllCardInteraectIcons(cardIntereactIcons);
 
 	}
 
-	private void addAllCardInteraectIcons(List<CardInteractIcons> cardIntereactIcons) {
+	private void addAllCardInteraectIcons(List<InteractIcons> cardIntereactIcons) {
 		cardIntereactIcons.forEach(card -> {
 			card.interactTurnOn();
 		});

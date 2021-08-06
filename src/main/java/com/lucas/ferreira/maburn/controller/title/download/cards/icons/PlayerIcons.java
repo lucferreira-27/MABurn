@@ -3,10 +3,10 @@ package com.lucas.ferreira.maburn.controller.title.download.cards.icons;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.util.Icon;
-import com.lucas.ferreira.maburn.view.CardInteractIcons;
+import com.lucas.ferreira.maburn.view.InteractIcons;
 import com.lucas.ferreira.maburn.view.IconVisibility;
 
-public class PlayerIcons implements CardInteractIcons{
+public class PlayerIcons implements InteractIcons{
 	
 	
 	private IconVisibility iconVisibility = new IconVisibility();

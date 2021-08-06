@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
+import com.lucas.ferreira.maburn.model.enums.Category;
+
 import javafx.scene.Node;
 
 public interface CardFull<C extends CardController,P extends PaneCard, V> {

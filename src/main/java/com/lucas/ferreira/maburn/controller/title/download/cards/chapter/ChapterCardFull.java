@@ -4,6 +4,7 @@ import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
+import com.lucas.ferreira.maburn.model.enums.Category;
 
 import javafx.scene.Node;
 
@@ -51,6 +52,8 @@ public class ChapterCardFull implements DownloadCardFull {
 	public Node getNode() {
 		return node;
 	}
+
+
 
 
 

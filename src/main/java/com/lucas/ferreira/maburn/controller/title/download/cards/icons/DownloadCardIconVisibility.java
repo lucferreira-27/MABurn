@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.icons;
 
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
-import com.lucas.ferreira.maburn.view.CardInteractIcons;
+import com.lucas.ferreira.maburn.view.InteractIcons;
 import com.lucas.ferreira.maburn.view.IconVisibility;
 
 import javafx.beans.property.ObjectProperty;
@@ -46,21 +46,21 @@ public class DownloadCardIconVisibility {
 
 	}
 
-	private void hideCardIcons(CardInteractIcons cardInteractIcons) {
+	private void hideCardIcons(InteractIcons cardInteractIcons) {
 		cardInteractIcons.hideAll();
 	}
 
-	private void showCardIcons(CardInteractIcons cardInteractIcons) {
+	private void showCardIcons(InteractIcons cardInteractIcons) {
 		cardInteractIcons.showAll();
 
 	}
 
-	private void disableCardIcons(CardInteractIcons cardInteractIcons) {
+	private void disableCardIcons(InteractIcons cardInteractIcons) {
 		cardInteractIcons.disableAll();
 
 	}
 
-	private void enableCardIcons(CardInteractIcons cardInteractIcons) {
+	private void enableCardIcons(InteractIcons cardInteractIcons) {
 		cardInteractIcons.enableAll();
 
 	}
