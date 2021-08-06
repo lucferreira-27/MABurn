@@ -29,7 +29,7 @@ public class DownloadList {
 	public DownloadList(Title title) {
 		this.title = title;
 		contentDownloadList = new ContentDownloadList(navDownloadList, title.getTitleDownload().getvBoxListDownloads());
-		contentDownloadList.setOnRemovedCard(() ->{
+		contentDownloadList.setOnRemovedCard(() -> {
 			updateDownloadListTotal();
 			contentDownloadList.updateCardsValues();
 			contentFetchList.updateCardsValues();
@@ -48,51 +48,51 @@ public class DownloadList {
 
 	private void addListener(ScrapingWork scrapingWork) {
 
-		
-			CardLoader cardLoader = new CardLoader(title, this);
-			FetchCardFull fetchCardFull = cardLoader.loadFetchCard(scrapingWork);
-			
-			contentFetchList.addCard(fetchCardFull);
-			updateNavDownloadListCardTotal(contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
+		CardLoader cardLoader = new CardLoader(title, this);
+		FetchCardFull fetchCardFull = cardLoader.loadFetchCard(scrapingWork);
 
-			scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
-				
-				contentFetchList.updateCardsValues();
-				FetchCardValues fetchCardValues = fetchCardFull.getCardValues();
+		contentFetchList.addCard(fetchCardFull);
+		updateNavDownloadListCardTotal(
+				contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
 
-				if (newvalue == ScrapeState.WORKING) {
-					fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
+		scrapingWork.getPropertyScrapeState().addListener((obs, oldvalue, newvalue) -> {
+
+			contentFetchList.updateCardsValues();
+			FetchCardValues fetchCardValues = fetchCardFull.getCardValues();
+
+			if (newvalue == ScrapeState.WORKING) {
+				fetchCardValues.getFetchCardState().set(FetchCardState.WORKING);
+			}
+
+			else if (newvalue == ScrapeState.SUCCEED) {
+				ItemScraped itemScraped;
+				try {
+					itemScraped = scrapingWork.getWorkResult();
+
+					fetchCardValues.getFetchCardState().set(FetchCardState.READY);
+					DownloadCardFull downloadCardFull = cardLoader.load(itemScraped);
+
+					contentDownloadList.addCard(downloadCardFull);
+					contentFetchList.removeCard(fetchCardFull);
+					downloadCardFull.getCardValues().getDownloadProgressState().addListener(navUpdate());
+				} catch (Exception e) {
+
+					e.printStackTrace();
 				}
 
-				else if (newvalue == ScrapeState.SUCCEED) {
-					ItemScraped itemScraped;
-					try {
-						itemScraped = scrapingWork.getWorkResult();
+			} else if (newvalue == ScrapeState.FAILED) {
+				try {
+					fetchCardValues.getFetchCardState().set(FetchCardState.ERROR);
+					ItemScraped itemScraped = scrapingWork.getWorkResult();
+					throw itemScraped.getException();
+				} catch (Exception e) {
 
-						fetchCardValues.getFetchCardState().set(FetchCardState.READY);
-						DownloadCardFull downloadCardFull = cardLoader.load(itemScraped);
-
-						contentDownloadList.addCard(downloadCardFull);
-						contentFetchList.removeCard(fetchCardFull);
-						downloadCardFull.getCardValues().getDownloadProgressState().addListener(navUpdate());
-					} catch (Exception e) {
-
-						e.printStackTrace();
-					}
-
-				} else if (newvalue == ScrapeState.FAILED) {
-					try {
-						fetchCardValues.getFetchCardState().set(FetchCardState.ERROR);
-						ItemScraped itemScraped = scrapingWork.getWorkResult();
-						throw itemScraped.getException();
-					} catch (Exception e) {
-
-						e.printStackTrace();
-					}
-
+					e.printStackTrace();
 				}
 
-			});
+			}
+
+		});
 
 	}
 
@@ -107,15 +107,34 @@ public class DownloadList {
 
 			}
 
-
-
 		};
 	}
+
 	private void updateDownloadListTotal() {
-		updateNavDownloadListCardTotal(contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
+		updateNavDownloadListCardTotal(
+				contentDownloadList.getDownloadCardFulls().size() + contentFetchList.getFetchCardsCardFulls().size());
 	}
+
 	private void updateNavDownloadListCardTotal(int total) {
 		navDownloadList.getTotalCards().set(total);
+	}
+
+	public void pause() {
+		contentDownloadList.getDownloadCardFulls().forEach(full ->{
+			full.getCardController().pause();
+		});
+	}
+
+	public void resume() {
+		contentDownloadList.getDownloadCardFulls().forEach(full ->{
+			full.getCardController().resume();
+		});
+	}
+
+	public void stop() {
+		contentDownloadList.getDownloadCardFulls().forEach(full ->{
+			full.getCardController().stop();
+		});
 	}
 
 	public ContentDownloadList getContentDownloadList() {
