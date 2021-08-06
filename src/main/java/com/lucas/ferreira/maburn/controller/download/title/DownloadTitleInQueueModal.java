@@ -10,11 +10,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class DownloadTitleInQueueModal implements ModelInterface {
-	
+
+	@FXML
+	private StackPane spMain;
 	@FXML
 	private HBox hbMainPane;
+	@FXML
+	private HBox hbShade;
 
 	@FXML
 	private ImageView imgTitleCover;
@@ -44,6 +49,9 @@ public class DownloadTitleInQueueModal implements ModelInterface {
 	private ImageView imgPause;
 
 	@FXML
+	private ImageView imgPlay;
+
+	@FXML
 	private ImageView imgStop;
 
 	@FXML
@@ -68,11 +76,19 @@ public class DownloadTitleInQueueModal implements ModelInterface {
 
 	@Override
 	public Node getRoot() {
-		return hbMainPane;
+		return spMain;
 	}
 
 	public HBox getHbMainPane() {
 		return hbMainPane;
+	}
+
+	public StackPane getSpMain() {
+		return spMain;
+	}
+
+	public HBox getHbShade() {
+		return hbShade;
 	}
 
 	public ImageView getImgTitleCover() {
@@ -133,6 +149,10 @@ public class DownloadTitleInQueueModal implements ModelInterface {
 
 	public ImageView getImgLaunch() {
 		return imgLaunch;
+	}
+
+	public ImageView getImgPlay() {
+		return imgPlay;
 	}
 
 }

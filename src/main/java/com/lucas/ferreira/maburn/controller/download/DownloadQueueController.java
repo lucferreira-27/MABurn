@@ -19,8 +19,8 @@ public class DownloadQueueController implements Controller {
 
 	private DownloadQueueModal downloadQueueModal;
 	private List<DownloadTitleInQueueController> downloadTitleInQueueControllers = new ArrayList<>();;
-	
-	
+	private List<DownloadTitleInQueueModal> downloadTitleInQueueModals = new ArrayList<>();;
+
 	public DownloadQueueController(DownloadQueueModal downloadQueueModal) {
 		this.downloadQueueModal = downloadQueueModal;
 
@@ -28,26 +28,55 @@ public class DownloadQueueController implements Controller {
 
 	@Override
 	public void initialize() {
-		
+
 		FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
-		
-	RegisteredStates.states.values().stream()
-				.map(k -> (TitleDownloadController) k.getControllerStateAdapter()).collect(Collectors.toList()).forEach(controller ->{
+
+		RegisteredStates.states.values().stream()
+				.map(downloadController -> (TitleDownloadController) downloadController.getControllerStateAdapter())
+				.collect(Collectors.toList()).forEach(controller -> {
 					try {
 						DownloadTitleInQueueModal downloadTitleInQueueModal = new DownloadTitleInQueueModal();
-						Node node = fxmlViewLoader.loadContainer("DownloadTitleInQueue.fxml", downloadTitleInQueueModal);
+						Node node = fxmlViewLoader.loadContainer("DownloadTitleInQueue.fxml",
+								downloadTitleInQueueModal);
 						Platform.runLater(() -> downloadQueueModal.getVbTitles().getChildren().add(node));
-						DownloadTitleInQueueController downloadTitleInQueueController = new DownloadTitleInQueueController(downloadTitleInQueueModal, controller.getTitleDownloadInitialize().getTitleDownloadListCard());
-						downloadTitleInQueueController.initialize();
-						downloadTitleInQueueControllers.add(downloadTitleInQueueController);
-					
+						createTitleQueueController(controller, downloadTitleInQueueModal);
+						downloadTitleInQueueModals.add(downloadTitleInQueueModal);
+
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				});;
+				});
 		
-		
+		onMouseClick();
+		selectFirstContainer();
+	}
+
+	private void createTitleQueueController(TitleDownloadController controller,
+			DownloadTitleInQueueModal downloadTitleInQueueModal) {
+		DownloadTitleInQueueController downloadTitleInQueueController = new DownloadTitleInQueueController(
+				downloadTitleInQueueModal, controller.getTitleDownloadInitialize().getTitleDownloadListCard());
+		downloadTitleInQueueController.initialize();
+		downloadTitleInQueueControllers.add(downloadTitleInQueueController);
+	}
+
+	private void selectFirstContainer() {
+		downloadTitleInQueueControllers.get(0).select();
+	}
+
+	private void onMouseClick() {
+		for (DownloadTitleInQueueController controller : downloadTitleInQueueControllers) {
+			controller.getSelect().addListener((obs, oldvalue, newvalue) -> {
+				if (newvalue) {
+					for (DownloadTitleInQueueController filterController : downloadTitleInQueueControllers) {
+						if (!filterController.equals(controller) && filterController.getSelect().get()) {
+							filterController.unselect();
+						}
+					}
+				}
+			});
+		}
+
 	}
 
 }
