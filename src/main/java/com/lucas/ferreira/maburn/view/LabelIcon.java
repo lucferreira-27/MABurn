@@ -32,6 +32,15 @@ public class LabelIcon {
 
 	}
 
+	public void setOnMousePressedDbLabel(Consumer<Label> onLabel) {
+		label.setOnMousePressed(event -> {
+			if (event.getClickCount() == 2) {
+				onLabel.accept(label);
+			}
+		});
+
+	}
+
 	public void setOnMousePressedIcon(Consumer<Icon> onIcon) {
 		label.setOnMousePressed(event -> {
 			onIcon.accept(icon);
