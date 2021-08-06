@@ -26,7 +26,6 @@ public class Icon {
 	private ChangeListener<? super Boolean> onHover;
 
 	public Icon(ImageView icon, IconConfig config) {
-
 		this.config = config;
 		this.icon = icon;
 
@@ -76,6 +75,8 @@ public class Icon {
 	}
 
 	private void properties() {
+		icon.setUserData(this);
+
 		if (config.getIconTip() != null)
 			setToolTip(config.getIconTip());
 		icon.setImage(new Image(Resources.getResourceAsStream(config.getIconsPath() + config.getIcon().getIconName())));
