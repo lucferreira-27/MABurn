@@ -31,7 +31,9 @@ public class DownloadByChannel extends DownloadProgressListener {
 	protected TrackByteChannel trackByteChannel;
 
 	public DownloadByChannel(ItemDownloadValues itemDownloadValues) {
+		
 		super(itemDownloadValues);
+	
 	}
 
 	public ItemDownloadValues download(DownloadInfo downloadInfo) throws Exception {
@@ -83,6 +85,8 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	private void downloadInfos(DownloadInfo downloadInfo) {
+		CustomLogger.log(downloadInfo.toString());
+
 		url = downloadInfo.getUrl();
 		filename = downloadInfo.getFilename();
 		path = downloadInfo.getRoot();
@@ -115,7 +119,12 @@ public class DownloadByChannel extends DownloadProgressListener {
 			url = URLFixer.addHttpInUrl(url);
 		}
 		URLConnection connection = new URL(url).openConnection();
-		connection.addRequestProperty("Referer", referer);
+		
+		connection.setRequestProperty("Method", "GET");
+		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
+		connection.setRequestProperty("Referer", referer);
+		CustomLogger.log("Request Propeties: " + connection.getRequestProperties());
+		
 		return connection;
 	}
 
