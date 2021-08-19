@@ -1,38 +1,35 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.title;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.webscraping.Options;
-import com.lucas.ferreira.maburn.model.webscraping.PageInfo;
+import com.lucas.ferreira.maburn.model.sites.InteractSite;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteResult;
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.microsoft.playwright.Page;
 
 public class AnimeScraping extends TitleScraping {
 
-	private Sites site;
+	private RegisteredSite registeredSite;
 	
 	
-	public AnimeScraping(Sites site) {
-		
-		super(site);
-		this.site = site;
 
-	}
 
-	public Sites getSite() {
-		return site;
+	public RegisteredSite getSite() {
+		return registeredSite;
 	}
 
 
 	@Override
-	protected TitleScraped scrape(Page page, String script, Options options) {
+	protected TitleScraped scrape(Page page,SiteValues siteValues) {
 		
-		List<String> episodios = (ArrayList<String>) page.evaluate(script, options.getSelectQuery());
-		PageInfo pageInfo = fillPageInfo(page);
-		String url = page.url();
-		AnimeScraped animeScraped = new AnimeScraped(url, site, pageInfo,episodios);
-		pageInfo = fillMorePageInfo(pageInfo, animeScraped);
+
+		InteractSite interactSite = new InteractSite(page);
+		SiteResult siteResult = interactSite.get(siteValues);
+		
+		AnimeScraped animeScraped = new AnimeScraped(siteResult);
+		
+		this.registeredSite = siteValues.getRegisteredSite();
+		siteResult.getPageInfo().setTotalItems(siteResult.getItemsValues().size());
+		siteResult.getPageInfo().setRegisteredSite(registeredSite);
 
 		return animeScraped;
 	}

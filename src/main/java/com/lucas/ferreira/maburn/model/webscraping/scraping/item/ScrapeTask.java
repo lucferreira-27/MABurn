@@ -22,7 +22,7 @@ public class ScrapeTask implements Callable<ItemScraped> {
 	public ItemScraped call() throws Exception {
 		scrapingWork.setScrapeState(ScrapeState.WORKING);
 		System.out.println("WORKING");
-		ItemScraped itemScraped = listItemScraping.startItemScraping(scrapingWork.getTarget(), browserPage);
+		ItemScraped itemScraped = listItemScraping.startItemScraping(scrapingWork.getSiteValues(), browserPage);
 		scrapingWork.setWorkResult(itemScraped);
 
 		if (itemScraped.getException() == null)

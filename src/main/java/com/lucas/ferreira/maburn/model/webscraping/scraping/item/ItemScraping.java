@@ -1,58 +1,53 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
-import com.lucas.ferreira.maburn.model.webscraping.Options;
-import com.lucas.ferreira.maburn.model.webscraping.RulesProperties;
-import com.lucas.ferreira.maburn.model.webscraping.navigate.ItemNavigateOptions;
+import com.lucas.ferreira.maburn.model.sites.InteractSite;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteResult;
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.Scraping;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Frame.AddScriptTagOptions;
 
-public abstract class  ItemScraping extends Scraping {
-	
-	private Sites site;
-	
+public abstract class ItemScraping extends Scraping {
+
 	private BrowserContext context;
-	
-	public ItemScraping(Sites site, BrowserContext context) {
-		
-		this.site = site;
+	private RegisteredSite registeredSite;
+
+	public ItemScraping(RegisteredSite registeredSite, BrowserContext context) {
+
+		this.registeredSite = registeredSite;
 		this.context = context;
 	}
-	
-	
-	public ItemScraped scrapeItem(String url) {
-		
+
+	public ItemScraped scrapeItem(SiteValues siteValues) {
+
 		try {
-		Page page = context.newPage();
-		Evaluate evaluate = new Evaluate();
-		String script = evaluate.findItemScript(site); 
-		
-		RulesProperties rulesProperties = readScrapingSiteRules(site);
-		Options options = getOptions(new ItemNavigateOptions(rulesProperties));
+			Page page = context.newPage();
+//			Evaluate evaluate = new Evaluate();
+//			String script = evaluate.findItemScript(site);
+			InteractSite interactSite = new InteractSite(page);
 
+			SiteResult siteResult = interactSite.get(siteValues);
+//			RulesProperties rulesProperties = readScrapingSiteRules(site);
+//			Options options = getOptions(new ItemNavigateOptions(rulesProperties));
+//
+//			navigate(url, page, options);
 
-		navigate(url, page, options);
-		
-		ItemScraped itemScraped = scrape(page, script, options);
-		itemScraped.setUrl(url);
-		
-		page.close();
-		
-		return itemScraped;
-	} catch (Exception e) {
-			
-		return itemScrapedWithException(e);
+			ItemScraped itemScraped = scrape(siteResult);
+			itemScraped.setRegisteredSite(registeredSite);
+			itemScraped.setSiteResult(siteResult);
+
+			page.close();
+
+			return itemScraped;
+		} catch (Exception e) {
+
+			return itemScrapedWithException(e);
 		}
 	}
 
+	protected abstract ItemScraped scrape(SiteResult siteResult);
 
-	protected abstract  ItemScraped scrape(Page page, String script, Options options);
-	protected abstract  ItemScraped itemScrapedWithException(Exception e);
+	protected abstract ItemScraped itemScrapedWithException(Exception e);
 
-
-
-	
 }

@@ -1,40 +1,32 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.title;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.webscraping.Options;
-import com.lucas.ferreira.maburn.model.webscraping.PageInfo;
+import com.lucas.ferreira.maburn.model.sites.InteractSite;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteResult;
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.microsoft.playwright.Page;
 
-public class MangaScraping   extends TitleScraping {
-	
-	private Sites site;
-	public MangaScraping(Sites site) {
-		
-		
-		super(site);
-		
-	}
-	
-	public Sites getSite() {
-		return site;
+public class MangaScraping extends TitleScraping {
+
+	private RegisteredSite registeredSite;
+
+	public RegisteredSite getRegisteredSite() {
+		return registeredSite;
 	}
 
 	@Override
-	protected TitleScraped scrape(Page page, String script, Options options) {
+	protected TitleScraped scrape(Page page, SiteValues siteValues) {
+
+		InteractSite interactSite = new InteractSite(page);
+		SiteResult siteResult = interactSite.get(siteValues);
 		
-		List<String> chapters = (ArrayList<String>) page.evaluate(script, options.getSelectQuery());
-		PageInfo pageInfo = fillPageInfo(page);
-		String url = page.url();
-		MangaScraped mangaScraped = new MangaScraped(url, site, pageInfo,chapters);
-		pageInfo = fillMorePageInfo(pageInfo, mangaScraped);
+		MangaScraped mangaScraped = new MangaScraped(siteResult);
+		this.registeredSite = siteValues.getRegisteredSite();
+		siteResult.getPageInfo().setTotalItems(siteResult.getItemsValues().size());
+		siteResult.getPageInfo().setRegisteredSite(registeredSite);
+
 
 		return mangaScraped;
 	}
-	
-
-	
 
 }

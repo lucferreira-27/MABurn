@@ -1,16 +1,18 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class ScrapingWork {
 	private ScrapeState scrapeState = ScrapeState.WAITING;
 	private ObjectProperty<ScrapeState> propertyScrapeState = new SimpleObjectProperty<ScrapeState>(ScrapeState.WAITING);
-	private String target;
+	private SiteValues siteValues;
 	private ItemScraped workResult;
 	
-	public ScrapingWork(String target) {
-		this.target = target;
+	public ScrapingWork(SiteValues siteValues) {
+		this.siteValues = siteValues;
 	}
 	
 	public ScrapeState getScrapeState() {
@@ -37,7 +39,7 @@ public class ScrapingWork {
 		this.workResult = workResult;
 	}
 	
-	public String getTarget() {
-		return target;
+	public SiteValues getSiteValues() {
+		return siteValues;
 	}
 }

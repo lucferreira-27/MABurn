@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 
@@ -61,7 +62,7 @@ public abstract class ListItemScraping {
 
 	}
 
-	public abstract ItemScraped startItemScraping(String url,
+	public abstract ItemScraped startItemScraping(SiteValues siteValues,
 			BrowserPage browserPage);
 
 	public BooleanProperty isScrapingDone() {

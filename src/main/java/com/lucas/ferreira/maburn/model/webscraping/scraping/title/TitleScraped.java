@@ -1,16 +1,15 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.title;
 
 import java.util.List;
+import java.util.Map;
 
-import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.webscraping.PageInfo;
-
-import javafx.scene.image.Image;
 
 public interface TitleScraped {
 	
-	Sites getSite();
+	RegisteredSite getRegisteredSite();
 	String getTitleUrl();
 	PageInfo getPageInfo();
-	List<String> getItemsScraped();
+	Map<String, List<String>> getItemsScraped();
 }

@@ -1,15 +1,40 @@
 package com.lucas.ferreira.maburn.model.webscraping;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import com.lucas.ferreira.maburn.model.enums.SearchEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.util.Resources;
 
 public class Evaluate {
 
 	private Scanner scanner;
+	
+	
+	public String findMainScript() {
 
+		scanner = new Scanner(Resources.getResourceAsStream("scraping/main.js"));
+		String script = read();
+		return script;
+	}
+
+	public String findScript(RegisteredSite registeredSite) throws FileNotFoundException {
+		scanner = new Scanner(new File(registeredSite.getFolder().getAbsolutePath() + "\\scripts\\" + registeredSite.getSiteConfig().getScriptPath()));
+		String findScript = read();
+		return findScript;
+	}
+	public String findScript(String name, String script) {
+
+		scanner = new Scanner(Resources.getResourceAsStream("scraping/sites/" + name + "/scripts/" + script));
+		String findScript = read();
+		return findScript;
+	}
+
+	
+	
 	public String findItemScript(Sites site) {
 
 		scanner = new Scanner(Resources.getResourceAsStream("scraping/sites/" + site.name() + "/scripts/item.js"));

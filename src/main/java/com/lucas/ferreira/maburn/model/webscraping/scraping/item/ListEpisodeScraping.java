@@ -1,27 +1,26 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 
-import javafx.collections.ObservableList;
-
 public class ListEpisodeScraping extends ListItemScraping {
 
-	private Sites site;
+	private RegisteredSite registeredSite;
 
-	public ListEpisodeScraping(Sites site, MyBrowser myBrowser) {
+	public ListEpisodeScraping(RegisteredSite registeredSite, MyBrowser myBrowser) {
 		
 		super(myBrowser);
-		this.site = site;
+		this.registeredSite = registeredSite;
 	}
 
 	@Override
-	public ItemScraped startItemScraping(String url, BrowserPage browserPage) {
+	public ItemScraped startItemScraping(SiteValues siteResult, BrowserPage browserPage) {
 	
-		ItemScraping episodeScraping = new EpisodeScraping(site, browserPage.getContext());
-		ItemScraped itemScraped = episodeScraping.scrapeItem(url);
-		itemScraped.setSite(site);
+		ItemScraping episodeScraping = new EpisodeScraping(registeredSite, browserPage.getContext());
+		ItemScraped itemScraped = episodeScraping.scrapeItem(siteResult);
+		itemScraped.setRegisteredSite(registeredSite);
 		browserPage.setAvailable(true);
 		return itemScraped;
 

@@ -1,35 +1,26 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.lucas.ferreira.maburn.model.enums.Definition;
-import com.lucas.ferreira.maburn.model.enums.Sites;
-import com.lucas.ferreira.maburn.model.webscraping.Options;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteResult;
 import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
 
 public class EpisodeScraping extends ItemScraping {
 
-	public EpisodeScraping(Sites site, BrowserContext context) {
+	public EpisodeScraping(RegisteredSite registeredSite, BrowserContext context) {
 
-		super(site, context);
+		super(registeredSite, context);
 	}
 
-	protected ItemScraped scrape(Page page, String script, Options options) {
+	protected ItemScraped scrape(SiteResult siteResult) {
 
-		try{
-		String video = (String) page.evaluate(script, options.getSelectQuery());
+		try {
 
-		Map<Definition, String> links = new HashMap<Definition, String>();
-		links.put(Definition.DEFINITION_1080, video);
-		EpisodeScraped episodeScraped = new EpisodeScraped(links);
-		return episodeScraped;
-		}catch (Exception e) {
+			EpisodeScraped episodeScraped = new EpisodeScraped(siteResult);
+			return episodeScraped;
+		} catch (Exception e) {
 			return itemScrapedWithException(e);
 		}
 	}
-
 
 	@Override
 	protected ItemScraped itemScrapedWithException(Exception e) {

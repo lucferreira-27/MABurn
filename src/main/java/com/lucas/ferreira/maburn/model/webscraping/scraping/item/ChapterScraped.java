@@ -4,23 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteResult;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.MangaScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
 public class ChapterScraped implements ItemScraped {
-
+	
+	
+	private String name;
 	private List<String> pagesLinks = new ArrayList<String>();
 	private MangaScraped mangaScraped;
 	private Exception exception;
-	private Sites sites;
-	private String url;
-	
-	public ChapterScraped(List<String> pagesLinks) {
-		this.pagesLinks = pagesLinks;
+	private RegisteredSite registeredSite;
+	private SiteResult siteResult;
+
+	public ChapterScraped(SiteResult siteResult) {
+		this.pagesLinks = siteResult.getItemsValues().get(0).getUrls();
+		this.name = siteResult.getItemsValues().get(0).getName();
 	}
+
 	public ChapterScraped(Exception exception) {
 		this.exception = exception;
 	}
+
 	@Override
 	public TitleScraped getTitle() {
 		return mangaScraped;
@@ -30,10 +37,6 @@ public class ChapterScraped implements ItemScraped {
 		return pagesLinks;
 	}
 
-	@Override
-	public Object getValues() {
-		return pagesLinks;
-	}
 
 	@Override
 	public String toString() {
@@ -44,31 +47,37 @@ public class ChapterScraped implements ItemScraped {
 	public Exception getException() {
 		return exception;
 	}
+
 	@Override
 	public void setTitle(TitleScraped titleScraped) {
 		mangaScraped = (MangaScraped) titleScraped;
+
+	}
+
+
+	@Override
+	public RegisteredSite getRegisteredSite() {
+		return registeredSite;
+	}
+
+	@Override
+	public void setRegisteredSite(RegisteredSite registeredSite) {
+		this.registeredSite = registeredSite;
+	}
+
+	@Override
+	public void setSiteResult(SiteResult siteResult) {
+		this.siteResult = siteResult;
 		
 	}
-	@Override
-	public Sites getSite() {
-		
-		return sites;
+	
+	public String getName() {
+		return name;
 	}
+	
 	@Override
-	public void setSite(Sites site) {
-		
-		this.sites = site;
-		
-	}
-	@Override
-	public String getUrl() {
-		
-		return url;
-	}
-	@Override
-	public void setUrl(String url) {
-		
-		this.url = url;
+	public SiteResult getSiteResult() {
+		return siteResult;
 	}
 
 }
