@@ -40,9 +40,6 @@ public abstract class DownloadProgressListener {
 
 					double end = itemDownloadValues.getTotalDownloaded().get();
 					double downloadSpeed = end - start;
-//					if(downloadSpeed == 0) {
-//						continue;
-//					}
 					itemDownloadValues.getDownloadSpeed().set(downloadSpeed);
 				}
 

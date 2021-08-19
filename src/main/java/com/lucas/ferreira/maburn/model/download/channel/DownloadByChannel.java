@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.download.channel;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -119,7 +118,6 @@ public class DownloadByChannel extends DownloadProgressListener {
 			url = URLFixer.addHttpInUrl(url);
 		}
 		URLConnection connection = new URL(url).openConnection();
-		
 		connection.setRequestProperty("Method", "GET");
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
 		connection.setRequestProperty("Referer", referer);

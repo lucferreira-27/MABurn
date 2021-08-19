@@ -29,7 +29,7 @@ public class FetchInfo {
 		siteScreenshotSmall.showImage();
 		fetchTextDetails.setSiteTitle(pageInfo.getTitle());
 		fetchTextDetails.setSiteUrl(pageInfo.getUrl());
-		fetchTextDetails.setSiteName(pageInfo.getSite().name());
+		fetchTextDetails.setSiteName(pageInfo.getRegisteredSite().getSiteConfig().getName());
 		fetchTextDetails.setTime(TimeText.secondsToText(pageInfo.getTime()));
 		fetchTextDetails.setTotalItems(String.valueOf(pageInfo.getTotalItems()));
 		

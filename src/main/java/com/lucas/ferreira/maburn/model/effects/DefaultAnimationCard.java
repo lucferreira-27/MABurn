@@ -2,12 +2,14 @@ package com.lucas.ferreira.maburn.model.effects;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 
-import javafx.application.Platform;
+import javafx.scene.layout.AnchorPane;
 
 public class DefaultAnimationCard {
 
 	private DownloadCard downloadCard;
 	private AnimationCard animationCard;
+	private  static final int INCREASE_VALUE = 60;
+	private  static final int DECREASE_VALUE = 10;
 
 	public DefaultAnimationCard(DownloadCard downloadCard) {
 		this.downloadCard = downloadCard;
@@ -18,6 +20,7 @@ public class DefaultAnimationCard {
 		consumers();
 		onMouseHover();
 	}
+
 	private void consumers() {
 		animationCard.onPlayAnimation(pane -> {
 			pane.setVisible(true);
@@ -27,6 +30,7 @@ public class DefaultAnimationCard {
 			pane.setVisible(false);
 		});
 	}
+
 	private void onMouseHover() {
 		downloadCard.getRoot().hoverProperty().addListener((obs, oldvalue, newvalue) -> {
 			if (downloadCard.getRoot().isHover()) {
@@ -38,28 +42,14 @@ public class DefaultAnimationCard {
 	}
 
 	private void show() {
-		animationCard.showCardDetails(180, 0.0005);
+
+		animationCard.showCardDetails((int) downloadCard.getBorderPaneMain().getHeight() + INCREASE_VALUE, 0.0005);
 
 	}
-	
-//	public void fadeInAnimation() {
-//		Platform.runLater(() -> {
-//			downloadCard.getBorderPaneDetails().setOpacity(0);
-//			AnimationOpacityCard animationOpacityCard = new AnimationOpacityCard(downloadCard.getBorderPaneDetails());
-//			animationOpacityCard.fadeInCardBody(1, 0.5 / 100);
-//		});
-//	}
-//	public void fadeOutAnimation() {
-//		Platform.runLater(() -> {
-//			downloadCard.getBorderPaneDetails().setOpacity(0);
-//			AnimationOpacityCard animationOpacityCard = new AnimationOpacityCard(downloadCard.getBorderPaneDetails());
-//			animationOpacityCard.fadeOutCardBody(1, 0.5 / 100);
-//		});
-//	}
+
 	private void hide() {
-		animationCard.hideCardDetails(115, 0.0005);
+		animationCard.hideCardDetails((int) downloadCard.getBorderPaneMain().getHeight() -  DECREASE_VALUE, 0.0005);
 
 	}
-
 
 }

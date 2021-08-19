@@ -11,6 +11,8 @@ import com.lucas.ferreira.maburn.model.messages.ErrorMessage;
 import com.lucas.ferreira.maburn.model.messages.Message;
 import com.lucas.ferreira.maburn.model.messages.SucceedMessage;
 import com.lucas.ferreira.maburn.model.messages.WarningMessage;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.AnimeScraping;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
@@ -67,11 +69,15 @@ public class RegisterTitleFetcher {
 
 	}
 
-	private TitleScraped fetchTitleNow(String bestResult, Sites sourceSelect) throws BadScrapingException {
+	private TitleScraped fetchTitleNow(String bestResult, RegisteredSite sourceSelect) throws BadScrapingException {
 		FetchTitle fetchTitle = new FetchTitle();
 		warningMessage.showMessage(warningMsgFetch);
-
-		TitleScraped titleScraped = fetchTitle.fetch(new AnimeScraping(sourceSelect), bestResult);
+		
+		SiteValues siteValues = new SiteValues();
+		siteValues.setRegisteredSite(sourceSelect);
+		siteValues.setUrl(bestResult);
+		
+		TitleScraped titleScraped = fetchTitle.fetch(new AnimeScraping(), siteValues);
 
 		if (titleScraped == null) {
 			throw new BadScrapingException();
@@ -79,7 +85,7 @@ public class RegisterTitleFetcher {
 		return titleScraped;
 	}
 
-	private void checkSource(Sites sourceSelect) throws NotSourceSelectException {
+	private void checkSource(RegisteredSite sourceSelect) throws NotSourceSelectException {
 
 		if (sourceSelect == null) {
 			throw new NotSourceSelectException();

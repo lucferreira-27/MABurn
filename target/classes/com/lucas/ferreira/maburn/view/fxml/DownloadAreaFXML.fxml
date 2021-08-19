@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+
+<fx:root fx:id="root" prefHeight="285.0" prefWidth="825.0" stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <ProgressBar fx:id="pbTotalProgress" layoutX="30.0" layoutY="226.0" prefHeight="22" prefWidth="768.0" progress="-1" visible="true" />
+
+
+
+    <Button fx:id="btnFetch" layoutX="36.0" layoutY="20.0" onAction="#onClickButtonFetch" prefHeight="33.0" prefWidth="133.0" text="Fetch" />
+    <ComboBox fx:id="cbSelect" disable="true" layoutX="36.0" layoutY="75.0" prefHeight="33.0" prefWidth="131.0" />
+    <ComboBox fx:id="cbSource" layoutX="221.0" layoutY="20.0" prefHeight="33.0" prefWidth="110.0" value="Source" />
+    <ComboBox fx:id="cbItens" disable="true" layoutX="221.0" layoutY="75.0" maxWidth="160" prefHeight="33.0" prefWidth="110.0" value="Items" />
+
+    <Line endX="0" endY="156.75" layoutX="380.0" layoutY="18.0" startX="0.0" startY="-18.0" styleClass="lineBar" />
+
+    <Label fx:id="lblTecTitle" alignment="CENTER" layoutX="432.0" layoutY="22.0" maxWidth="350" prefHeight="21.0" prefWidth="350.0" styleClass="label-subtitle" />
+    
+    <Button fx:id="btnReplaceLink" layoutX="432.0" layoutY="130.0" onAction="#onClickButtonReplaceLink" text="Replace" visible="true" />
+    <Button fx:id="btnNewFetch" layoutX="556.0" layoutY="130.0" onAction="#onClickButtonNewFetch" text="New Fetch" visible="true" />
+
+    <Label fx:id="lblSearchResult" layoutX="432.0" layoutY="65.0" maxWidth="350" text="Link:" />
+    
+    <Label fx:id="lblInformationTitle" alignment="CENTER" layoutX="286.0" layoutY="146.0" styleClass="downloadInformation" text="Download Information" visible="false" />
+
+    <Label fx:id="lblSource" layoutX="184.0" layoutY="195.0" maxWidth="300" text="Source:" visible="true" />
+    <Label fx:id="lblPath" layoutX="432.0" layoutY="96.0" maxWidth="300" text="Path:" visible="true" />
+    <Label fx:id="lblItemsTotal" layoutX="29.0" layoutY="262.0" text="Total:" visible="true" />
+    <Label fx:id="lblTimeRemain" layoutX="29.0" layoutY="195.0" text="Remain:" visible="true" />
+    <Label fx:id="lblItemsDownloaded" layoutX="144.0" layoutY="262.0" text="Downloaded:" visible="true" />
+    <Label fx:id="lblItemsFailed" layoutX="302.0" layoutY="262.0" text="Failed:" visible="true" />
+
+
+    <ProgressIndicator fx:id="piLoadDownload" layoutX="380" layoutY="216" styleClass="ringindicator" visible="false" />
+    <Label fx:id="lblLoadDownload" layoutX="389.0" layoutY="292.0" text="Fetching ${item}" visible="false" />
+
+    <Label fx:id="lblTotalProgress" text="TOTAL PROGRESS" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="44.0" />
+    <Button fx:id="btnPause" disable="true" layoutX="406.0" layoutY="253.0" onAction="#onClickButtonPause" text="PAUSE" visible="true" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="406.0" />
+    <Button fx:id="btnCancel" disable="true" layoutX="517.0" layoutY="253.0" onAction="#onClickButtonCancel" text="CANCEL " visible="true" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="517.0" />
+    <Button fx:id="btnDownload" disable="true" layoutX="662.0" layoutY="253.0" onAction="#onClickButtonDownload" text="DOWNLOAD " visible="true" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="27.25" />
+
+
+    <ProgressIndicator fx:id="piLoadFetch" layoutX="156.0" layoutY="33.0" styleClass="ringindicator" visible="false" />
+    <Label fx:id="lblLoadFetch" layoutX="149.0" layoutY="136.0" text="Fetching in ${site}" visible="false" />
+   <Line endX="379.0" endY="100.5" layoutX="445.0" layoutY="75.0" startX="-445.0" startY="100.5" styleClass="lineBar" />
+
+</fx:root>

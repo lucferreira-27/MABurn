@@ -10,7 +10,7 @@ public interface DownloadCard extends PaneCard{
 	public StackPane getRoot();
 
 	public BorderPane getBorderPaneDetails();
-
+	public BorderPane getBorderPaneMain();
 	public Label getLabelItemTitle();
 
 	public Label getLabelDownloadLink();

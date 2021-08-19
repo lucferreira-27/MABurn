@@ -20,6 +20,8 @@ public class EpisodeCard implements DownloadCard{
 	@FXML
 	private BorderPane borderPaneDetails;
 	@FXML
+	private BorderPane borderPaneMain;
+	@FXML
 	private Label labelItemTitle;
 	@FXML
 	private Label labelDownloadLink;
@@ -192,6 +194,11 @@ public class EpisodeCard implements DownloadCard{
 		return imageViewRefreshIcon;
 	}
 	@Override
+	public BorderPane getBorderPaneMain() {
+		// TODO Auto-generated method stub
+		return borderPaneMain;
+	}
+	@Override
 	public String toString() {
 		return String.format(
 				"EpisodeCard [root=%s, borderPaneDetails=%s, labelItemTitle=%s, labelDownloadLink=%s, labelTotalSize=%s, labelDownloadSpeed=%s, labelTimeRemain=%s, labelPorcentageConcluded=%s, labelDownloadedLink=%s, labelDownloadState=%s, labelCompletedDownloaded=%s, labelVideoResoution=%s, progressBarDownload=%s, imageViewDownloadIcon=%s, imageViewPlayerIcon=%s, imageViewStopIcon=%s, imageViewPauseIcon=%s, imageViewLinkIcon=%s]",
@@ -200,6 +207,9 @@ public class EpisodeCard implements DownloadCard{
 				labelCompletedDownloaded, labelVideoResoution, progressBarDownload, imageViewDownloadIcon,
 				imageViewPlayerIcon, imageViewStopIcon, imageViewPauseIcon, imageViewLinkIcon);
 	}
+
+
+
 
 
 

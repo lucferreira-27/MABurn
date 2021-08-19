@@ -19,6 +19,9 @@ public class ChapterCard implements DownloadCard {
 	@FXML
 	private BorderPane borderPaneDetails;
 	@FXML
+	private BorderPane borderPaneMain;
+
+	@FXML
 	private Label labelItemTitle;
 	@FXML
 	private Label labelDownloadLink;
@@ -186,5 +189,10 @@ public class ChapterCard implements DownloadCard {
 	public ImageView getImageViewRefreshIcon() {
 		
 		return imageViewRefreshIcon;
+	}
+
+	@Override
+	public BorderPane getBorderPaneMain() {
+		return borderPaneMain;
 	}
 }

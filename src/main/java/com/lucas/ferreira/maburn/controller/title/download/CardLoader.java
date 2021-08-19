@@ -48,8 +48,8 @@ public class CardLoader {
 		FetchCard fetchCard = new FetchCard();
 		
 		
-		String itemName = MapKeyValue.getKeyByValue(title.getTaggedItems().getNamedItemsValues(), scrapingWork.getTarget());
-		String itemUrl = scrapingWork.getTarget();
+		String itemName = scrapingWork.getSiteValues().getTarget();
+		String itemUrl = scrapingWork.getSiteValues().getUrl();
 	
 		FetchCardValues fetchCardValues = new FetchCardValues(title.getCollectionTitle());		
 		fetchCardValues.setItemName(itemName);
@@ -67,7 +67,7 @@ public class CardLoader {
 		
 		
 		
-		if (itemScraped.getSite().getCategory() == Category.ANIME) {
+		if (itemScraped.getRegisteredSite().getSiteConfig().getCategory() == Category.ANIME) {
 
 			AnimeDownloadInfo animeDownloadInfo = new AnimeDownloadInfo(title.getTaggedItems());
 			DownloadInfo downloadInfo = animeDownloadInfo.newEpisodeDownloadInfo(title.getCollectionTitle(),
@@ -76,7 +76,7 @@ public class CardLoader {
 			 
 		
 		}
-		if (itemScraped.getSite().getCategory() == Category.MANGA) {
+		if (itemScraped.getRegisteredSite().getSiteConfig().getCategory() == Category.MANGA) {
 			MangaDownloadInfo mangaDownloadInfo = new MangaDownloadInfo(title.getTaggedItems());
 			DownloadInfo downloadInfo = mangaDownloadInfo.newChapterDownloadInfo(title.getCollectionTitle(),
 					(ChapterScraped) itemScraped);

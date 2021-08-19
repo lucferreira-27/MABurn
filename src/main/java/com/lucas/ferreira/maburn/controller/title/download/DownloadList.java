@@ -68,7 +68,6 @@ public class DownloadList {
 				ItemScraped itemScraped;
 				try {
 					itemScraped = scrapingWork.getWorkResult();
-
 					fetchCardValues.getFetchCardState().set(FetchCardState.READY);
 					DownloadCardFull downloadCardFull = cardLoader.load(itemScraped);
 

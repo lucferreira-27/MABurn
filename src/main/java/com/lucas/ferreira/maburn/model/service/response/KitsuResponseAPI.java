@@ -84,7 +84,6 @@ public class KitsuResponseAPI implements ServiceResponse {
 	}
 
 	public CollectDatas fetchFirst() {
-		CustomLogger.log(responseBody);
 		JSONObject jsonResponse = new JSONObject(responseBody);
 		JSONObject firstData;
 		JSONArray allDatas;

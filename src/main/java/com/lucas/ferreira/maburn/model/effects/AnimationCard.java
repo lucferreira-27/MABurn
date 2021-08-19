@@ -6,6 +6,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -16,13 +17,12 @@ public class AnimationCard {
 	private Pane cardDetails;
 	private Consumer<Pane> onPlayConsumer;
 	private Consumer<Pane> onFinishConsumer;
-
+	
 	public AnimationCard(Pane cardDetails) {
 		this.cardDetails = cardDetails;
 		timeline.setCycleCount(Animation.INDEFINITE);
 
 	}
-
 
 	public void hideCardDetails(int start, double duration) {
 		KeyFrame keyFrameUp = createKeyFrameUp(start, duration);
@@ -30,6 +30,7 @@ public class AnimationCard {
 	}
 
 	public void showCardDetails(int end, double duration) {
+
 		KeyFrame keyFrameDown = createKeyFrameDown(end, duration);
 		play(keyFrameDown);
 
@@ -37,8 +38,13 @@ public class AnimationCard {
 
 	private KeyFrame createKeyFrameUp(int start, double duration) {
 		KeyFrame keyFrameUp = new KeyFrame(Duration.seconds(duration), ev -> {
+
 			if (cardDetails.getHeight() <= start) {
 				stopAndConsumer();
+				return;
+			}
+			if (cardDetails.getMinHeight() == 163.0) {
+				cardDetails.setMinHeight(50);
 				return;
 			}
 			cardDetails.setMinHeight(cardDetails.getHeight() - 2);
@@ -59,7 +65,6 @@ public class AnimationCard {
 		});
 		return keyFrameDown;
 	}
-
 
 	private void stopAndConsumer() {
 		timeline.stop();
@@ -87,8 +92,10 @@ public class AnimationCard {
 	public void onPlayAnimation(Consumer<Pane> consumer) {
 		onPlayConsumer = consumer;
 	}
+
 	private void consumer(Consumer<Pane> consumer) {
-		if(consumer != null)
+		System.out.println("consumer");
+		if (consumer != null)
 			consumer.accept(cardDetails);
 	}
 

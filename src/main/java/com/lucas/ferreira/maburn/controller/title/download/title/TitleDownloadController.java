@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionAutomatic;
@@ -40,6 +41,7 @@ import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
+import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.states.ControllerStateAdapter;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ListChapterScraping;
@@ -213,9 +215,17 @@ public class TitleDownloadController implements ControllerStateAdapter {
 
 		FetchItem fetchItem = new FetchItem();
 
+		List<ScrapingWork> scrapingWorks = new ArrayList<ScrapingWork>();
+		
 		new Thread(() -> {
-			List<ScrapingWork> scrapingWorks = new ArrayList<String>(choosedItems.values()).stream()
-					.map(url -> new ScrapingWork(url)).collect(Collectors.toList());
+			choosedItems.forEach((name,url)->{
+				SiteValues siteValues = new SiteValues();
+				siteValues.setRegisteredSite(titleDownload.getCbSource().getValue());
+				siteValues.setTarget(name);
+				siteValues.setUrl(url);
+				scrapingWorks.add(new ScrapingWork(siteValues));
+			});
+			
 
 			ListItemScraping listItemScraping = collectionTitle.getCategory() != Category.ANIME
 					? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true))

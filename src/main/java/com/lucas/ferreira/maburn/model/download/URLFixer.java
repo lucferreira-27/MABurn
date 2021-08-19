@@ -2,7 +2,7 @@ package com.lucas.ferreira.maburn.model.download;
 
 public class URLFixer {
 	public static boolean needBeFixed(String url) {
-		boolean check = !url.contains("https");
+		boolean check = !(url.contains("https") || url.contains("http"));
 		return check;
 	}
 	public static String addHttpInUrl(String url) {

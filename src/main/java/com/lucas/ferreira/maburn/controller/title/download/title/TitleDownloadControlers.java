@@ -8,10 +8,12 @@ import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.sites.RecoverSites;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 
 import javafx.application.Platform;
 
-public class TitleDownloadControlers  implements Initialize{
+public class TitleDownloadControlers implements Initialize {
 
 	private TitleDownloadController titleDownloadController;
 	private TitleDownloadModel titleDownload;
@@ -32,36 +34,41 @@ public class TitleDownloadControlers  implements Initialize{
 		intializeLabels();
 
 	}
+
 	private void initializeButtons() {
 		titleDownload.getBtnDownload().setOnAction(event -> titleDownloadController.onClickDownloadStart());
 	}
 
 	private void initializeSelectItemsValues() {
+		try {
 
-		List<Sites> sites = Arrays.asList(Sites.values()).stream().filter((f) -> f.getCategory() == title.getCategory())
-				.collect(Collectors.toList());
-		titleDownload.getCbSource().getItems().addAll(sites);
+			RecoverSites recoverSites = new RecoverSites();
 
+			List<RegisteredSite> registeredSites = recoverSites.recoverAll().stream()
+					.filter((f) -> f.getSiteConfig().getCategory() == title.getCategory()).collect(Collectors.toList());
+			titleDownload.getCbSource().getItems().addAll(registeredSites);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		titleDownload.getCbSelect().getItems().addAll(Arrays.asList((FetchItemType.values())));
+
 	}
-	
+
 	private void intializeLabels() {
-		
+
 		labelItemsSelector();
-		
 
 	}
 
 	private void labelItemsSelector() {
-		Platform.runLater(() ->{
-			if(title.getCategory() == Category.MANGA) {
+		Platform.runLater(() -> {
+			if (title.getCategory() == Category.MANGA) {
 				titleDownload.getLblItemsSelecter().setText(CHAPTERS_LABEL_NAME);
-			}else  if(title.getCategory() == Category.ANIME){
+			} else if (title.getCategory() == Category.ANIME) {
 				titleDownload.getLblItemsSelecter().setText(EPISODES_LABEL_NAME);
 
 			}
 		});
 	}
-		
 
 }

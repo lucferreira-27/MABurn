@@ -24,7 +24,6 @@ public class HomeInterfaceController implements ModelInterface {
 	private Category category;
 	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();
 	private static final String TEMPLATE_PATH = "template/home/";
-	private InitializeModel initialize = new InitializeModel();
 
 	@FXML
 	private ImageView imgAnimes;
@@ -111,7 +110,6 @@ public class HomeInterfaceController implements ModelInterface {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		try {
-			initialize.boot();
 			imgAnimes.setImage(new Image(Resources.getResourceAsStream(TEMPLATE_PATH + "banner_white_01.png")));
 			imgAnimes.hoverProperty().addListener((event) -> {
 				if (imgAnimes.isHover())

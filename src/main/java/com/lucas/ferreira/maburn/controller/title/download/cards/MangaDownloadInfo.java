@@ -20,15 +20,14 @@ public class MangaDownloadInfo {
 	public DownloadInfo newChapterDownloadInfo(CollectionTitle collectionTitle, ChapterScraped chapterScraped) {
 		List<String> pageslinks = chapterScraped.getPagesLinks();
 
-		String itemName = MapKeyValue.getKeyByValue(taggedItems.getNamedItemsValues(), chapterScraped.getUrl());
 
 		DownloadInfo downloadInfo = new DownloadInfo();
 
-		downloadInfo.setFilename(itemName);
+		downloadInfo.setFilename(chapterScraped.getName());
 		downloadInfo.setRoot(collectionTitle.getDestination());
-		downloadInfo.setPrefFiletype(FileTypeAccept.MP4);
-		downloadInfo.setReferer(chapterScraped.getSite().getUrl());
-		downloadInfo.setUrl(chapterScraped.getUrl());
+		downloadInfo.setPrefFiletype(FileTypeAccept.JPG);
+		downloadInfo.setReferer(chapterScraped.getRegisteredSite().getSiteConfig().getHomeUrl());
+		downloadInfo.setUrl(chapterScraped.getSiteResult().getPageInfo().getUrl());
 		downloadInfo.getListUrls().addAll(pageslinks);
 		return downloadInfo;
 

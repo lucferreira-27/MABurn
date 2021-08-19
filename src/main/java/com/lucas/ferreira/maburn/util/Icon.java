@@ -8,12 +8,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
 public class Icon {
 
@@ -64,24 +61,46 @@ public class Icon {
 	}
 
 	private void changeToPrimaryColorIcon() {
-		icon.setImage(new Image(Resources.getResourceAsStream(primaryColor)));
-		primaryColorOn.set(true);
+		try {
+			Image image = loadImage(primaryColor, config.getIcon().getImageType());
+			icon.setImage(image);
+			primaryColorOn.set(true);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
 	}
 
 	private void changeToSecondaryColorIcon() {
-		icon.setImage(new Image(Resources.getResourceAsStream(secondaryColor)));
-		primaryColorOn.set(false);
+		try {
+			Image image = loadImage(secondaryColor, config.getIcon().getImageType());
+			icon.setImage(image);
+			primaryColorOn.set(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
+	private Image loadImage(String path, IconImage.ImageType imageType) throws Exception {
+		return IconImage.parseImage(Resources.getResourceAsStream(path), imageType);
+	}
+
+
 	private void properties() {
 		icon.setUserData(this);
-
-		if (config.getIconTip() != null)
-			setToolTip(config.getIconTip());
-		icon.setImage(new Image(Resources.getResourceAsStream(config.getIconsPath() + config.getIcon().getIconName())));
-		if (config.getIcon().getAlterIconName() != null)
-			onHoverIcon();
+		try {
+			if (config.getIconTip() != null)
+				setToolTip(config.getIconTip());
+			Image image = loadImage(config.getIconsPath() + config.getIcon().getIconName(),
+					config.getIcon().getImageType());
+			icon.setImage(image);
+			if (config.getIcon().getAlterIconName() != null)
+				onHoverIcon();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void onHoverIcon() {

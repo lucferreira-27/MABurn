@@ -8,12 +8,14 @@ import java.nio.file.Files;
 import javax.swing.JFrame;
 
 import com.lucas.ferreira.maburn.controller.menu.MenuController;
+import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.fetch.title.FetchTitle;
 import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
 import com.lucas.ferreira.maburn.view.navigator.LoadInterface;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
+import com.lucas.ferreira.maburn.webserver.LocalServer;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -38,6 +40,7 @@ public class MainInterfaceView {
 	private MenuController menuController = new MenuController();
 	private static MainInterfaceView app;
 	private FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
+	private InitializeModel initialize = new InitializeModel();
 
 	public MainInterfaceView() {
 		
@@ -61,8 +64,8 @@ public class MainInterfaceView {
 		initializeFXPanel();
 		waitInitializeIsDone();
 		hideLoadFrame();
+		initialize.boot();
 		show();
-
 	}
 
 	private void hideLoadFrame() {
@@ -159,6 +162,7 @@ public class MainInterfaceView {
 			public void handle(WindowEvent t) {
 				try {
 					Files.delete(FetchTitle.getDriverPath());
+					LocalServer.getWebServer().stop();
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {

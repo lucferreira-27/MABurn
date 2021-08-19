@@ -18,15 +18,14 @@ public class AnimeDownloadInfo {
 
 	public DownloadInfo newEpisodeDownloadInfo(CollectionTitle collectionTitle, EpisodeScraped episodeScraped) {
 		String directDownload = episodeScraped.getVideoLinks().get(Definition.DEFINITION_1080);
-
-		String itemName = MapKeyValue.getKeyByValue(taggedItems.getNamedItemsValues(), episodeScraped.getUrl());
+	
 
 		DownloadInfo downloadInfo = new DownloadInfo();
 
-		downloadInfo.setFilename(itemName);
+		downloadInfo.setFilename(episodeScraped.getName());
 		downloadInfo.setRoot(collectionTitle.getDestination());
 		downloadInfo.setPrefFiletype(FileTypeAccept.MP4);
-		downloadInfo.setReferer(episodeScraped.getSite().getUrl());
+		downloadInfo.setReferer(episodeScraped.getRegisteredSite().getSiteConfig().getHomeUrl());
 		downloadInfo.setUrl(directDownload);
 		return downloadInfo;
 

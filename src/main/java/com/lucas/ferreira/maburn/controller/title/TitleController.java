@@ -279,9 +279,7 @@ public class TitleController implements ModelInterface {
 		}
 		try {
 			listSubItens.sort(new ItemFileComparator());
-			for (CollectionItem sub : listSubItens) {
-				CustomLogger.log(sub.getName());
-			}
+
 		} catch (NumberFormatException e) {
 			// e.printStackTrace();
 			

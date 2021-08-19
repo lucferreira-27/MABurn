@@ -20,11 +20,13 @@ public class PlaywrightSettings {
 	public static void initConfig() throws IOException {
 		XmlConfigurationOrchestrator configOrchestrator = new XmlConfigurationOrchestrator();
 
-		String[] envs = { "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD","PLAYWRIGHT_BROWSERS_PATH" ,"ARGUMENT_MUTE_AUDIO" };
+		String[] envs = { "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD","PLAYWRIGHT_BROWSERS_PATH","ARGUMENT_DISABLE-WEB-SECURITY" ,"ARGUMENT_MUTE_AUDIO" };
 
 		PlaywrightProperties playwrightProperties = new PlaywrightProperties();
-		Map<String, String> properties = playwrightProperties.load("config.properties", envs);
-		arguments.add(properties.get(envs[1]));
+		Map<String, String> properties = playwrightProperties.load("playwright\\config.properties", envs);
+		System.out.println(properties);
+		arguments.add(properties.get(envs[2]));
+		arguments.add(properties.get(envs[3]));
 		properties.remove(envs[2]);
 		env = properties;
 		

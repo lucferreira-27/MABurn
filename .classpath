@@ -24,15 +24,36 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_281">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/lucfe/Downloads/driver-bundle-1.13.0-20210615.192733-3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/lucfe/Downloads/driver-1.13.0-20210615.192735-3.jar" sourcepath="C:/Users/lucfe/Downloads/driver-1.13.0-20210615.192735-3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/lucfe/Downloads/playwright-1.13.0-20210615.192733-3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="D:/OneDrive - Fatec Centro Paula Souza/Workspace/Java/workspaceAtual/driver-1.13.0-20210615.192735-3.jar"/>
+	<classpathentry kind="lib" path="D:/OneDrive - Fatec Centro Paula Souza/Workspace/Java/workspaceAtual/driver-bundle-1.13.0-20210615.192733-3.jar"/>
+	<classpathentry kind="lib" path="D:/OneDrive - Fatec Centro Paula Souza/Workspace/Java/workspaceAtual/playwright-1.13.0-20210615.192733-3.jar"/>
+	<classpathentry kind="src" path="target/generated-sources/annotations">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

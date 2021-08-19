@@ -15,6 +15,8 @@ import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrato
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.webserver.LocalServer;
+import com.lucas.ferreira.maburn.webserver.WebServer;
 
 public class InitializeModel {
 
@@ -66,6 +68,7 @@ public class InitializeModel {
 
 	public void initialize() throws InitializeExcpetion {
 		try {
+			initializeLocalServer();
 			initializePlaywright();
 			welcomeMessage();
 		} catch (Exception e) {
@@ -78,6 +81,11 @@ public class InitializeModel {
 	public void initializePlaywright() throws IOException {
 		PlaywrightSettings.initConfig();
 
+	}
+	public void initializeLocalServer() throws IOException {
+		LocalServer localServer = new LocalServer();
+		WebServer webServer = localServer.create();
+		webServer.start();
 	}
 
 	public void welcomeMessage() {

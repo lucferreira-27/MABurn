@@ -1,10 +1,8 @@
 package com.lucas.ferreira.maburn.model.documents.xml.form;
 
-import com.lucas.ferreira.maburn.model.enums.Sites;
-
 public class SiteForm {
 	private String itemLink;
-	private Sites siteName;
+	private String siteName;
 	
 	public String getItemLink() {
 		return itemLink;
@@ -12,10 +10,10 @@ public class SiteForm {
 	public void setItemLink(String itemLink) {
 		this.itemLink = itemLink;
 	}
-	public Sites getSiteName() {
+	public String getSiteName() {
 		return siteName;
 	}
-	public void setSiteName(Sites site) {
+	public void setSiteName(String site) {
 		this.siteName = site;
 	}
 	

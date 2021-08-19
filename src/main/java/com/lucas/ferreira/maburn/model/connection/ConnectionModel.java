@@ -101,7 +101,7 @@ public class ConnectionModel implements Callable<String> {
 		}
 	}
 
-	private static String inputStreamToString(HttpURLConnection httpConn) throws IOException {
+	public static String inputStreamToString(HttpURLConnection httpConn) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader((httpConn.getInputStream())));

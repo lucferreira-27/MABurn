@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Button?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TextArea?>
+
+<fx:root type="javafx.scene.layout.VBox"
+	xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
+		<!-- TODO Add Nodes -->
+		<Button fx:id="btnBack" text="Back" layoutX="200.0"
+			layoutY="0.0" onAction="#onClickButtonBack" />
+
+
+		<ImageView fx:id="imageViewTitle" disable="false"
+			fitHeight="325.0" styleClass="image-title" fitWidth="321.0" layoutX="200.0" layoutY="50.0"
+			pickOnBounds="true" preserveRatio="true" />
+
+
+		<Label fx:id="lblStatus" AnchorPane.leftAnchor="500.0"
+			AnchorPane.rightAnchor="500.0" layoutY="100.0" visible="false"
+			text="Status" />
+		<Label fx:id="lblPublishedDate" AnchorPane.leftAnchor="500.0"
+			AnchorPane.rightAnchor="500.0" layoutY="120.0" visible="false"
+			text="Published" />
+		<Label fx:id="lblAverageRating" AnchorPane.leftAnchor="500.0"
+			AnchorPane.rightAnchor="500.0" layoutY="140.0" visible="false"
+			text="Avarege Rating" />
+
+			<Button fx:id="btnAdd" text="Add"  AnchorPane.leftAnchor="500.0"
+			layoutY="340.0" onAction="#onClickButtonAdd" />
+
+		<TextArea fx:id="txtAreaSynopsis"
+			AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="200.0"
+			layoutY="100.0" editable="false" wrapText="true" visible="false">
+
+
+
+		</TextArea>
+
+
+		<Label alignment="CENTER" AnchorPane.leftAnchor="500.0"
+			AnchorPane.rightAnchor="200.0" styleClass="label-title"
+			layoutY="40.0" fx:id="lblTitle" disable="false" />
+
+
+	</AnchorPane>
+
+</fx:root>

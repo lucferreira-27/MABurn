@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root alignment="TOP_RIGHT" stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <ScrollPane fx:id="spItemsImagesScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" styleClass="itensImagesScroll" vbarPolicy="AS_NEEDED">
+        <BorderPane fx:id="borderMain" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-radius: 20; -fx-border-radius: 20;">
+            <!-- TODO Add Nodes -->
+            <top>
+
+
+                <Label fx:id="lblTitle" alignment="CENTER" disable="false" prefWidth="665" styleClass="label-title" text="Download Queue" BorderPane.alignment="CENTER" />
+
+
+            </top>
+         <center>
+            <SplitPane dividerPositions="0.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #272727; -fx-background-radius: 15; -fx-border-radius: 15;" BorderPane.alignment="CENTER">
+               <items>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="1.7976931348623157E308" prefHeight="689.0" prefWidth="324.0" style="-fx-background-color: transparent;">
+                     <content>
+                        <VBox fx:id="vbTitles" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="689.0" prefWidth="400.0" style="-fx-background-color: transparent;">
+                           <children>
+                              <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="52.0" prefWidth="475.0">
+                                 <children>
+                                    <Label alignment="CENTER" styleClass="label-subtitle" text="Titles" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                     <content>
+                        <VBox minWidth="-Infinity" prefHeight="200.0" prefWidth="767.0">
+                           <children>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Label alignment="CENTER" styleClass="label-subtitle" text="Items" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </ScrollPane>
+               </items>
+               <BorderPane.margin>
+                  <Insets left="50.0" right="50.0" top="15.0" />
+               </BorderPane.margin>
+            </SplitPane>
+         </center>
+
+        </BorderPane>
+    </ScrollPane>
+</fx:root>

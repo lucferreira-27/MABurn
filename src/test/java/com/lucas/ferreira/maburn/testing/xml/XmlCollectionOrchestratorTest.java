@@ -79,8 +79,10 @@ public class XmlCollectionOrchestratorTest {
 			CollectionForm form = new CollectionForm();
 			ListItemForm itemForm = new ListItemForm();
 			SiteForm siteForm = new SiteForm();
-			siteForm.setSiteName(Sites.GOYABU);
-			siteForm.setItemLink(Sites.GOYABU.getUrl());
+			String sitename = "ANIME_ONLINE";
+			String url = "https://animeonline.com";
+			siteForm.setSiteName(sitename);
+			siteForm.setItemLink(url);
 			itemForm.setTitleDatabase("Test");
 			itemForm.setId(1);
 			form.getItems().add(itemForm);

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
 import com.lucas.ferreira.maburn.model.enums.Sites;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -80,7 +81,7 @@ public class TitleDownloadModel implements ModelInterface {
 	private ComboBox<String> cbItems;
 
 	@FXML
-	private ComboBox<Sites> cbSource;
+	private ComboBox<RegisteredSite> cbSource;
 
 	@FXML
 	private TextArea txtFetchMsg;
@@ -263,7 +264,8 @@ public class TitleDownloadModel implements ModelInterface {
 		return cbItems;
 	}
 
-	public ComboBox<Sites> getCbSource() {
+	public ComboBox<RegisteredSite> getCbSource() {
+		
 		return cbSource;
 	}
 
