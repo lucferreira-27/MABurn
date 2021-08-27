@@ -23,10 +23,10 @@ public class FolderCollectionItemLoaderTest {
 	private List<File> subFolders = new ArrayList<File>();
 	private List<File> files = new ArrayList<File>();
 
-	private void getSampleAndCreateFolder(String sampleType) throws IOException, URISyntaxException {
+	private void getSampleAndCreateFolder(String sampleType) throws Exception {
 		Resources resources = new Resources();
 
-		Path path = resources.getResourceAsPath("resources//" + sampleType + "//Sample.txt");
+		Path path = Resources.getResourcePath("resources//" + sampleType + "//Sample.txt");
 		String sample = resources.getResourceAsString("resources//" + sampleType + "//Sample.txt");
 		String name = sample.split("\n")[0];
 		name = StringUtil.stringUtilFile(name).trim();
@@ -64,7 +64,7 @@ public class FolderCollectionItemLoaderTest {
 	}
 
 	@Test
-	public void loadAnimeDownloadedTest() {
+	public void loadAnimeDownloadedTest() throws Exception {
 		try {
 
 			int expect = 10;
@@ -93,7 +93,7 @@ public class FolderCollectionItemLoaderTest {
 	}
 
 	@Test
-	public void loadMangaDownloadedTest() {
+	public void loadMangaDownloadedTest() throws Exception {
 		try {
 			int expect = 10;
 			int result;

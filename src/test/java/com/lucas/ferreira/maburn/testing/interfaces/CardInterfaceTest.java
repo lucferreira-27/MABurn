@@ -1,4 +1,4 @@
-package com.lucas.ferreira.maburn.testing.card;
+package com.lucas.ferreira.maburn.testing.interfaces;
 
 import java.io.IOException;
 
@@ -29,10 +29,18 @@ public class CardInterfaceTest {
 			FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
 			AnchorPane anchorPane = new AnchorPane();
 			try {
-				DownloadCard epCard =	new EpisodeCard();
-				Node node = fxmlViewLoader.load(CardFXML.DOWNLOAD_EPISODE_CARD.getFxml(), epCard,
+				DownloadCard epCard =	new ChapterCard();
+				Node node = fxmlViewLoader.load(CardFXML.DOWNLOAD_CHAPTER_CARD.getFxml(), epCard,
 						new StackPane());
-
+				epCard.getBorderPaneDetails().hoverProperty().addListener((obs, oldvalue, newvalue) ->{
+					System.out.println("Detaiçs");
+				});
+				epCard.getBorderPaneMain().hoverProperty().addListener((obs, oldvalue, newvalue) ->{
+					System.out.println("Mains");
+				});
+				epCard.getRoot().hoverProperty().addListener((obs, oldvalue, newvalue) ->{
+					System.out.println("Root");
+				});
 				DefaultAnimationCard defaultAnimationCard = new DefaultAnimationCard(epCard);
 				defaultAnimationCard.initAnimationCard();
 				

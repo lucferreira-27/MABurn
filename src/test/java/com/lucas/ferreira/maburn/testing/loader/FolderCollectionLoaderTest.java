@@ -22,10 +22,10 @@ public class FolderCollectionLoaderTest {
 
 	List<File> files = new ArrayList<File>();
 
-	private void getSampleAndCreateFolders(String sampleType) throws IOException, URISyntaxException {
+	private void getSampleAndCreateFolders(String sampleType) throws Exception {
 		Resources resources = new Resources();
 
-		Path path = resources.getResourceAsPath("resources//" + sampleType + "//Sample.txt");
+		Path path = Resources.getResourcePath("resources//" + sampleType + "//Sample.txt");
 		String sample = resources.getResourceAsString("resources//" + sampleType + "//Sample.txt");
 		for (String line : sample.split("\n")) {
 			line = StringUtil.stringUtilFile(line.trim());
@@ -41,7 +41,7 @@ public class FolderCollectionLoaderTest {
 	}
 
 	@Test
-	public void loadAnimeCollectionTest() {
+	public void loadAnimeCollectionTest() throws Exception {
 		try {
 
 			int expect = 50;
@@ -63,7 +63,7 @@ public class FolderCollectionLoaderTest {
 	}
 
 	@Test
-	public void loadMangaCollectionTest() {
+	public void loadMangaCollectionTest() throws Exception {
 		try {
 			getSampleAndCreateFolders("manga");
 			int expect = 50;

@@ -1,21 +1,31 @@
 package com.lucas.ferreira.maburn.model.download.channel;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import com.lucas.ferreira.maburn.controller.title.download.HttpResponseCode;
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
+import com.lucas.ferreira.maburn.exceptions.FileTypeNotSupportException;
+import com.lucas.ferreira.maburn.exceptions.HttpResponseCodeException;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.FileTypeDetection;
 import com.lucas.ferreira.maburn.model.download.URLFixer;
 import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.util.FileArchive;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
+
+import net.lingala.zip4j.ZipFile;
 
 public class DownloadByChannel extends DownloadProgressListener {
 
@@ -30,9 +40,9 @@ public class DownloadByChannel extends DownloadProgressListener {
 	protected TrackByteChannel trackByteChannel;
 
 	public DownloadByChannel(ItemDownloadValues itemDownloadValues) {
-		
+
 		super(itemDownloadValues);
-	
+
 	}
 
 	public ItemDownloadValues download(DownloadInfo downloadInfo) throws Exception {
@@ -46,7 +56,12 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			changeDownloadState(DownloadProgressState.FAILED);
+			if (e instanceof FileTypeNotSupportException)
+				changeDownloadState(DownloadProgressState.FAILED, "Type Unsupported");
+			else if (e instanceof HttpResponseCodeException)
+				changeDownloadState(DownloadProgressState.FAILED, e.getMessage());
+			else
+				changeDownloadState(DownloadProgressState.FAILED);
 			throw e;
 		} finally {
 			try {
@@ -61,17 +76,22 @@ public class DownloadByChannel extends DownloadProgressListener {
 
 				e.printStackTrace();
 			}
+
 		}
 		finishDownload();
+
 		return itemDownloadValues;
 	}
 
-	private void finishDownload() {
+	private void finishDownload() throws Exception {
+
+
 		if (itemDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED)
 			changeDownloadState(DownloadProgressState.COMPLETED);
 	}
 
-	private void prefDownload() throws MalformedURLException, IOException, FileNotFoundException {
+	private void prefDownload() throws MalformedURLException, IOException, FileNotFoundException,
+			FileTypeNotSupportException, HttpResponseCodeException {
 		URLConnection connection = newConnection();
 		setDownloadSize(connection.getContentLengthLong());
 		setDownloadUrl(url);
@@ -103,9 +123,12 @@ public class DownloadByChannel extends DownloadProgressListener {
 		itemDownloadValues.getDirectLink().set(url);
 	}
 
-	private void setFileType(String contentType) {
+	private void setFileType(String contentType) throws FileTypeNotSupportException {
 		String splitContentType = contentType.split("/")[1];
 		String type = FileTypeDetection.isAcceptType(splitContentType) ? splitContentType : prefFileType;
+		if(type.equals("octet-stream")) {
+			type = "zip";
+		}
 		filename += "." + type;
 	}
 
@@ -113,16 +136,21 @@ public class DownloadByChannel extends DownloadProgressListener {
 		absolutePath = path + "\\" + filename;
 	}
 
-	private URLConnection newConnection() throws MalformedURLException, IOException {
+	private URLConnection newConnection() throws MalformedURLException, IOException, HttpResponseCodeException {
 		if (URLFixer.needBeFixed(url)) {
 			url = URLFixer.addHttpInUrl(url);
 		}
 		URLConnection connection = new URL(url).openConnection();
 		connection.setRequestProperty("Method", "GET");
-		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
+		connection.setRequestProperty("User-Agent",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
 		connection.setRequestProperty("Referer", referer);
+
 		CustomLogger.log("Request Propeties: " + connection.getRequestProperties());
-		
+
+		HttpResponseCode httpResponseCode = new HttpResponseCode();
+		int code = httpResponseCode.getCode((HttpURLConnection) connection);
+		CustomLogger.log("Response Code: " + code);
 		return connection;
 	}
 

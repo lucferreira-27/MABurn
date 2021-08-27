@@ -47,7 +47,11 @@ public abstract class DownloadCardValuesBinder {
 	}
 
 	private void setCardDownloadState() {
-		downloadCard.getLabelDownloadState().setText(String.valueOf(downloadValues.getDownloadProgressState().get()));
+		if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
+			downloadCard.getLabelDownloadState().setText(String.valueOf(downloadValues.getDownloadProgressState().get()));
+		else
+			downloadCard.getLabelDownloadState().setText(downloadValues.getMessage().get());
+		
 		downloadStateStyle.setNodeStyleByState(downloadValues.getDownloadProgressState().get(),
 				downloadCard.getLabelDownloadState());
 
@@ -100,7 +104,12 @@ public abstract class DownloadCardValuesBinder {
 
 			Platform.runLater(() -> {
 				downloadStateStyle.setNodeStyleByState(newvalue, downloadCard.getLabelDownloadState());
-				downloadCard.getLabelDownloadState().setText(String.valueOf(newvalue.name()));
+				System.out.println(downloadValues.getMessage());
+				if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
+					downloadCard.getLabelDownloadState().setText(String.valueOf(newvalue.name()));
+				else
+					downloadCard.getLabelDownloadState().setText(downloadValues.getMessage().get());
+
 			});
 		});
 	}

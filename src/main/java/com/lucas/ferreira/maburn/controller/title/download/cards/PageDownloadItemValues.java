@@ -22,69 +22,80 @@ public class PageDownloadItemValues implements ItemDownloadValues {
 	private StringProperty name = new SimpleStringProperty();;
 	private StringProperty directLink = new SimpleStringProperty();;
 	private StringProperty target = new SimpleStringProperty();
+	private StringProperty message = new SimpleStringProperty();;
 
 	public PageDownloadItemValues() {
 	}
 
 	@Override
 	public StringProperty getName() {
-		
+
 		return name;
 	}
 
 	@Override
 	public StringProperty getTarget() {
-		
+
 		return target;
 	}
 
 	@Override
 	public StringProperty getDirectLink() {
-		
+
 		return directLink;
 	}
 
 	@Override
 	public DoubleProperty getDownloadProgress() {
-		
+
 		return downloadProgress;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSize() {
-		
+
 		return downloadSize;
 	}
 
 	@Override
 	public DoubleProperty getDownloadSpeed() {
-		
+
 		return downloadSpeed;
 	}
 
 	@Override
 	public DoubleProperty getTotalDownloaded() {
-		
+
 		return totalDownloaded;
 	}
 
 	@Override
 	public ObjectProperty<DownloadProgressState> getDownloadProgressState() {
-		
+
 		return downloadProgressState;
 	}
 
 	@Override
 	public DoubleProperty getTimeRemain() {
-		
+
 		return timeRemain;
 	}
 
 	@Override
 	public String toString() {
-		
+
 		return "[File: " + name.get() + " - Size: " + DataStorageUtil.converterUnit(downloadSize.get())
 				+ " - Download State: " + downloadProgressState.get() + "] \n" + "[" + directLink.get() + "]\n";
+	}
+
+	@Override
+	public void setMessage(String msg) {
+		this.message.set(msg);
+	}
+
+	@Override
+	public StringProperty getMessage() {
+		return message;
 	}
 
 }

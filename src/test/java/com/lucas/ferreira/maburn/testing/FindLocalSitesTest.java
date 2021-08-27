@@ -2,33 +2,37 @@ package com.lucas.ferreira.maburn.testing;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
 import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
+import com.lucas.ferreira.maburn.util.Resources;
+import com.lucas.ferreira.maburn.util.ResourcesFile;
 
 public class FindLocalSitesTest {
 	
 	@Test
-	public void testFind() {
+	public void testFind() throws Exception {
 		FindLocalSites findLocalSites = new FindLocalSites();
 		try {
-			File file = findLocalSites.find("SAIKO_ANIMES");
-			assertTrue(file != null && file.exists());
+			Path file = findLocalSites.find("SAIKO_ANIMES");
+			assertTrue(file != null && Files.exists(file));
 		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	@Test
-	public void testFindAll() {
+	public void testFindAll() throws Exception {
 		FindLocalSites findLocalSites = new FindLocalSites();
 		try {
-			File[] files = findLocalSites.findAll();
-			assertTrue(files != null && files.length > 0);
+			Path file = findLocalSites.findAll();
+			int length = ResourcesFile.listFiles(file).size();
+			assertTrue(file != null && length > 0);
 		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

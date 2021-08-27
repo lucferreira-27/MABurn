@@ -13,4 +13,6 @@ public interface ItemDownloadValues extends DownloadValues {
 	public DoubleProperty getTotalDownloaded();	
 	public DoubleProperty getTimeRemain();
 	public ObjectProperty<DownloadProgressState> getDownloadProgressState();
+	public void setMessage(String msg);
+	public StringProperty getMessage();
 }

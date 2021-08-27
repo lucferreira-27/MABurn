@@ -31,10 +31,11 @@ public class ChooseItemBetween implements ChooseItem{
 		int endValue = Integer.valueOf(txtEnd.getText()) - 1;
 		Map<String, String> choosedItemsMap = new LinkedHashMap<String, String>();
 		List<String> values = new ArrayList<String>(namedItemsValues.values());
-
+		List<String> keys = MapKeyValue.getKeys(namedItemsValues);
+		
 		for (int i = beginValue; i <= endValue; i++) {
 			String value = values.get(i);
-			String key = MapKeyValue.getKeyByValue(namedItemsValues, value);
+			String key = keys.get(i);
 			choosedItemsMap.put(key, value);
 		}
 		return choosedItemsMap;

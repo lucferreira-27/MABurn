@@ -13,7 +13,7 @@ public abstract class TitleScraping extends Scraping {
 		try {
 			
 			markTime.begin();
-			launch(false);
+			launch(true);
 			Page page = newPage();
 
 			TitleScraped titleScraped = scrape(page, siteValues);

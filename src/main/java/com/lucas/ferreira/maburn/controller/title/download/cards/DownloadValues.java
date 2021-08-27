@@ -23,5 +23,6 @@ public interface DownloadValues {
 	public DoubleProperty getTotalDownloaded();
 
 	public DoubleProperty getTimeRemain();
-
+	
+	public StringProperty getMessage();
 }

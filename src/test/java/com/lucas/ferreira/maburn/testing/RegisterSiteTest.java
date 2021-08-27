@@ -3,6 +3,7 @@ package com.lucas.ferreira.maburn.testing;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,16 +17,16 @@ import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 public class RegisterSiteTest {
 
 	@Test
-	public void testRegisterSite() {
+	public void testRegisterSite() throws Exception {
 		try {
 			FindLocalSites findLocalSites = new FindLocalSites();
-			File file;
+			Path path;
 
-			file = findLocalSites.find("SAIKO_ANIMES");
+			path = findLocalSites.find("SAIKO_ANIMES");
 
 			RegisterSite registerSite = new RegisterSite();
 
-			RegisteredSite site = registerSite.register(file);
+			RegisteredSite site = registerSite.register(path);
 			System.out.println(site.getSiteConfig());
 			
 
@@ -39,10 +40,10 @@ public class RegisterSiteTest {
 		}
 	}
 	@Test
-	public void testRegisterAllSites() {
+	public void testRegisterAllSites() throws Exception {
 		try {
 			FindLocalSites findLocalSites = new FindLocalSites();
-			List<File> files = new ArrayList<>();
+			List<Path> files = new ArrayList<>();
 
 			files = Arrays.asList(findLocalSites.findAll());
 

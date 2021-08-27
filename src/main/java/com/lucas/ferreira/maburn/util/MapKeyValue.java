@@ -1,15 +1,13 @@
 package com.lucas.ferreira.maburn.util;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MapKeyValue {
-	public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-	    return map.entrySet()
-	              .stream()
-	              .filter(entry -> Objects.equals(entry.getValue(), value))
-	              .map(Map.Entry::getKey)
-	              .collect(Collectors.toList()).get(0);
+
+	public static <T, E> List<T> getKeys(Map<T, E> map) {
+		return map.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
 	}
+
 }

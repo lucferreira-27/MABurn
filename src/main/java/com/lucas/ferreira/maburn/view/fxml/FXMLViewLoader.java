@@ -87,6 +87,8 @@ public class FXMLViewLoader<T extends Node> {
 
 	public T load(String fxml, Initializable initializable, Node root) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
+		System.out.println(fxml);
+		System.out.println(getClass().getResource(fxml));
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 		loader.setRoot(root);

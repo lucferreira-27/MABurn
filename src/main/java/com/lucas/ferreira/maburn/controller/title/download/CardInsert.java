@@ -25,6 +25,7 @@ public class CardInsert {
 
 	public void insertInList(String definedId, Node item) {
 		Platform.runLater(() -> {
+			System.out.println(definedId);
 			Node card = seekCardByDefinedIdInList(definedId).findFirst().orElse(null);
 			if (card != null)
 				replaceFetchCardByDownloadCard(item, card);

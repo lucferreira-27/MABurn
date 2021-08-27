@@ -33,7 +33,8 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	private ObservableList<ItemDownloadValues> obsListPageDownlaodItemsValues = FXCollections.observableArrayList();
 	private StringProperty target = new SimpleStringProperty();
 	private StringProperty name = new SimpleStringProperty();;
-
+	private StringProperty message =  new SimpleStringProperty();;
+	
 	@Override
 	public DoubleProperty getTotalDownloaded() {
 		
@@ -114,6 +115,12 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	public DoubleProperty getDownloadSpeed() {
 		
 		return downloadPageSpeed;
+	}
+
+	@Override
+	public StringProperty getMessage() {
+		// TODO Auto-generated method stub
+		return message;
 	}
 
 

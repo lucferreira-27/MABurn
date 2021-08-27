@@ -3,32 +3,27 @@ package com.lucas.ferreira.maburn.model.sites;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.util.List;
 
 import com.lucas.ferreira.maburn.util.Resources;
 
 public class FindLocalSites {
-	public File[] findAll() throws IOException, URISyntaxException {
-		Resources resources = new Resources();
-		String local = "scraping\\sites";
+	public Path findAll() throws Exception {
+		String local = "scraping/sites";
+		Path path = Resources.getResourcePath(local);
 
-		String pathname = resources.getResourceAsPath(local).toFile().getAbsolutePath();
+		return path;
 
-		File file = new File(pathname);
-		return file.listFiles();
-		
-	}
-	public File find(String site) throws IOException, URISyntaxException {
-		Resources resources = new Resources();
-		String local = "scraping\\sites\\" + site;
-
-		String pathname = resources.getResourceAsPath(local).toFile().getAbsolutePath();
-
-		File file = new File(pathname);
-		return file;
-		
 	}
 
+	public Path find(String site) throws Exception {
+		String local = "scraping/sites/" + site;
+		Path path = Resources.getResourcePath(local);
 
+		return path;
+
+	}
 
 	public void findInFiles(File file) {
 

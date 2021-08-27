@@ -2,12 +2,15 @@ package com.lucas.ferreira.maburn.model.webscraping;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import com.lucas.ferreira.maburn.model.enums.SearchEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.util.Resources;
+import com.lucas.ferreira.maburn.util.ResourcesFile;
 
 public class Evaluate {
 
@@ -22,7 +25,7 @@ public class Evaluate {
 	}
 
 	public String findScript(RegisteredSite registeredSite) throws FileNotFoundException {
-		scanner = new Scanner(new File(registeredSite.getFolder().getAbsolutePath() + "\\scripts\\" + registeredSite.getSiteConfig().getScriptPath()));
+		scanner = new Scanner(ResourcesFile.pathToInputStream(Paths.get(registeredSite.getFolder().toAbsolutePath() + "\\scripts\\" + registeredSite.getSiteConfig().getScriptPath())));
 		String findScript = read();
 		return findScript;
 	}

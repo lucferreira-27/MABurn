@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
@@ -57,8 +58,11 @@
                </padding>
             </AnchorPane>
          </bottom>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </BorderPane>
-      <AnchorPane prefWidth="363.0">
+      <Group StackPane.alignment="TOP_CENTER">
          <children>
             <BorderPane fx:id="borderPaneMain" prefHeight="134.0" prefWidth="365.0" style="-fx-background-color: #1D1D1D; -fx-background-radius: 20; -fx-border-radius: 20;">
                <center>
@@ -209,7 +213,7 @@
                </left>
             </BorderPane>
          </children>
-      </AnchorPane>
+      </Group>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />

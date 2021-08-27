@@ -24,7 +24,7 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues {
 
 	private StringProperty name = new SimpleStringProperty();;
 	private StringProperty directLink = new SimpleStringProperty();;
-
+	private StringProperty message = new SimpleStringProperty();;
 	public EpisodeDownloadItemValues() {
 
 	}
@@ -98,6 +98,16 @@ public class EpisodeDownloadItemValues implements ItemDownloadValues {
 						DataStorageUtil.converterUnit(totalDownloaded.get()), timeRemain.get(),
 						(downloadProgress.get() * 100))
 				+ "\n" + String.format("[Download link: %s - Resolution: %s]", directLink, resolution.get());
+	}
+
+	@Override
+	public void setMessage(String msg) {
+		message.set(msg);
+	}
+
+	@Override
+	public StringProperty getMessage() {
+		return message;
 	}
 
 

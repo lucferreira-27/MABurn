@@ -68,7 +68,7 @@ public class PlaywrightRepository {
 	public String loadUrlFromConfig() {
 		try {
 			PlaywrightProperties playwrightProperties = new PlaywrightProperties();
-			Map<String, String> properties = playwrightProperties.load("playwright\\config.properties", "VERSION", "REPOSITORY_URL");
+			Map<String, String> properties = playwrightProperties.load("playwright/config.properties", "VERSION", "REPOSITORY_URL");
 			String version =  properties.get("VERSION");
 			String repositoryUrl = properties.get("REPOSITORY_URL");
 			version = repositoryUrl.replace("${version}", version);

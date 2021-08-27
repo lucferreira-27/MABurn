@@ -23,7 +23,7 @@ public class PlaywrightSettings {
 		String[] envs = { "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD","PLAYWRIGHT_BROWSERS_PATH","ARGUMENT_DISABLE-WEB-SECURITY" ,"ARGUMENT_MUTE_AUDIO" };
 
 		PlaywrightProperties playwrightProperties = new PlaywrightProperties();
-		Map<String, String> properties = playwrightProperties.load("playwright\\config.properties", envs);
+		Map<String, String> properties = playwrightProperties.load("playwright/config.properties", envs);
 		System.out.println(properties);
 		arguments.add(properties.get(envs[2]));
 		arguments.add(properties.get(envs[3]));

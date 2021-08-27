@@ -2,9 +2,9 @@ package com.lucas.ferreira.maburn.testing;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,16 +28,16 @@ public class EvaluateTest {
 
 	}
 	@Test
-	public void testFindScriptByRegisteredSite() throws IOException, URISyntaxException {
+	public void testFindScriptByRegisteredSite() throws Exception {
 		
 		FindLocalSites findLocalSites = new FindLocalSites();
-		File file;
+		Path path;
 
-		file = findLocalSites.find("SAIKO_ANIMES");
+		path = findLocalSites.find("SAIKO_ANIMES");
 
 		RegisterSite registerSite = new RegisterSite();
 
-		RegisteredSite site = registerSite.register(file);
+		RegisteredSite site = registerSite.register(path);
 		
 		Evaluate evaluate = new Evaluate();
 		String script = evaluate.findScript(site);

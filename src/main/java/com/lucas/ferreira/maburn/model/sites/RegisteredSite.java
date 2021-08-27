@@ -1,13 +1,14 @@
 package com.lucas.ferreira.maburn.model.sites;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class RegisteredSite {
 
 	private SiteConfig siteConfig = new SiteConfig();
-	private final File folder;
+	private final Path folder;
 
-	public RegisteredSite(File folder) {
+	public RegisteredSite(Path folder) {
 		this.folder = folder;
 	}
 
@@ -15,7 +16,7 @@ public class RegisteredSite {
 		return siteConfig;
 	}
 
-	public File getFolder() {
+	public Path getFolder() {
 		return folder;
 	}
 

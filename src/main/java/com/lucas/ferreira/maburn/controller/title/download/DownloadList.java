@@ -70,7 +70,7 @@ public class DownloadList {
 					itemScraped = scrapingWork.getWorkResult();
 					fetchCardValues.getFetchCardState().set(FetchCardState.READY);
 					DownloadCardFull downloadCardFull = cardLoader.load(itemScraped);
-
+					System.out.println(downloadCardFull.getNode().getUserData());
 					contentDownloadList.addCard(downloadCardFull);
 					contentFetchList.removeCard(fetchCardFull);
 					downloadCardFull.getCardValues().getDownloadProgressState().addListener(navUpdate());

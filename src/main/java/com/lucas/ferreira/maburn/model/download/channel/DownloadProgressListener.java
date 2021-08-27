@@ -69,5 +69,12 @@ public abstract class DownloadProgressListener {
 		CustomLogger.log(downloadProgressState.toString());
 		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
 	}
+	protected void changeDownloadState(DownloadProgressState downloadProgressState, String msg) {
+
+
+		CustomLogger.log(downloadProgressState.toString());
+		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
+		itemDownloadValues.setMessage(msg);
+	}
 
 }

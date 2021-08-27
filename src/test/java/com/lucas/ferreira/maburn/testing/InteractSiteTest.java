@@ -318,7 +318,7 @@ public class InteractSiteTest {
 	}
 	
 	private SiteResult withoutTarget(String withoutTargeturl, String site, int repeat)
-			throws FileNotFoundException, IOException, URISyntaxException {
+			throws Exception {
 		SiteResult siteResult = null;
 		for (int i = 0; i < repeat; i++) {
 
@@ -351,7 +351,7 @@ public class InteractSiteTest {
 	}
 
 	private SiteResult interactWithoutTarget(String url, String sitename)
-			throws IOException, URISyntaxException, FileNotFoundException {
+			throws Exception {
 		
 		Playwright playwright = Playwright.create();
 		Browser browser = playwright.firefox().launch(new LaunchOptions().setHeadless(false));
@@ -361,11 +361,11 @@ public class InteractSiteTest {
 
 		FindLocalSites findLocalSites = new FindLocalSites();
 
-		File file = findLocalSites.find(sitename);
+		Path path = findLocalSites.find(sitename);
 
 		RegisterSite registerSite = new RegisterSite();
 
-		RegisteredSite site = registerSite.register(file);
+		RegisteredSite site = registerSite.register(path);
 
 		InteractSite interactSite = new InteractSite(page);
 		SiteValues siteValues = new SiteValues();
@@ -388,11 +388,17 @@ public class InteractSiteTest {
 
 		FindLocalSites findLocalSites = new FindLocalSites();
 
-		File file = findLocalSites.find(sitename);
+		Path path = null;
+		try {
+			path = findLocalSites.find(sitename);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		RegisterSite registerSite = new RegisterSite();
 
-		RegisteredSite site = registerSite.register(file);
+		RegisteredSite site = registerSite.register(path);
 		System.out.println("Execute: [" + site.getSiteConfig().getScriptPath() + "]");
 		System.out.println("URL: [" + url + "]");
 		System.out.println("Target: [" + target + "]");

@@ -22,14 +22,8 @@ public class ChooseItemUpdate implements ChooseItem{
 	
 	@Override
 	public Map<String, String> getChoosedItems() {
-		List<String> values = new ArrayList<String>(namedItemsValues.values());
-		Map<String, String> choosedItemsMap = new LinkedHashMap<String, String>();
+		Map<String, String> choosedItemsMap = namedItemsValues;
 
-		for (int i = 0; i < values.size(); i++) {
-			String value = values.get(i);
-			String key = MapKeyValue.getKeyByValue(namedItemsValues, value);
-			choosedItemsMap.put(key, value);
-		}
 		
 		return choosedItemsMap;
 	}

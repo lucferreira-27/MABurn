@@ -47,7 +47,7 @@ public class InitializeModel {
 				return true;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			return true;
 		}
 		return false;
@@ -73,6 +73,7 @@ public class InitializeModel {
 			welcomeMessage();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			throw new InitializeExcpetion(e.getMessage());
 		}
 

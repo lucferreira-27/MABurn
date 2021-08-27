@@ -94,7 +94,6 @@ public class AnimationCard {
 	}
 
 	private void consumer(Consumer<Pane> consumer) {
-		System.out.println("consumer");
 		if (consumer != null)
 			consumer.accept(cardDetails);
 	}
