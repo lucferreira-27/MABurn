@@ -24,7 +24,7 @@ about.html
 .settings
 .project
 .classpath
-target/
+*/target/**
 .settings
 .idea
 .classpath
