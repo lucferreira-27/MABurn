@@ -77,11 +77,9 @@ public class DownloadTitleInQueueController implements Controller {
 		titleDownloadListCard.getDownloadList().getContentDownloadList().getDownloadCardFulls().forEach(full -> {
 			if (title.getCollectionTitle().getCategory() == Category.MANGA) {
 				ChapterDownloadValues chapterDownloadValues = (ChapterDownloadValues) full.getCardValues();
-				System.out.println(chapterDownloadValues);
 			}
 			if (title.getCollectionTitle().getCategory() == Category.ANIME) {
 				EpisodeDownloadItemValues episodeDownloadItemValues = (EpisodeDownloadItemValues) full.getCardValues();
-				System.out.println(episodeDownloadItemValues);
 
 			}
 		});

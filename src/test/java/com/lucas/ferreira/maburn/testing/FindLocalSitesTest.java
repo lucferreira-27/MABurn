@@ -1,17 +1,15 @@
 package com.lucas.ferreira.maburn.testing;
 
-import static org.junit.Assert.assertTrue;
+import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
+import com.lucas.ferreira.maburn.util.ResourcesFile;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.junit.jupiter.api.Test;
-
-import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
-import com.lucas.ferreira.maburn.util.Resources;
-import com.lucas.ferreira.maburn.util.ResourcesFile;
+import static org.junit.Assert.assertTrue;
 
 public class FindLocalSitesTest {
 	

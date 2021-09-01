@@ -1,26 +1,13 @@
 package com.lucas.ferreira.maburn.view;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-
-import javax.swing.JFrame;
-
 import com.lucas.ferreira.maburn.controller.menu.MenuController;
 import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.fetch.title.FetchTitle;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Resources;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
-import com.lucas.ferreira.maburn.view.navigator.LoadInterface;
-import com.lucas.ferreira.maburn.view.navigator.Navigator;
 import com.lucas.ferreira.maburn.webserver.LocalServer;
-
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -28,7 +15,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.logging.Logger;
+
 public class MainInterfaceView {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private final JFXPanel fxPanel = new JFXPanel();
 	private Stage stage;
@@ -39,11 +34,10 @@ public class MainInterfaceView {
 	private boolean initializeIsDone = false;
 	private MenuController menuController = new MenuController();
 	private static MainInterfaceView app;
-	private FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
 	private InitializeModel initialize = new InitializeModel();
 
 	public MainInterfaceView() {
-		
+
 		Platform.runLater(() -> {
 			stage = new Stage();
 		});
@@ -57,9 +51,6 @@ public class MainInterfaceView {
 	}
 
 	public void initAndShowGUI() {
-		// This method is invoked on Swing thread
-
-		CustomLogger.log("> Run MainInterfaceView");
 		frameSettings();
 		initializeFXPanel();
 		waitInitializeIsDone();
@@ -69,7 +60,6 @@ public class MainInterfaceView {
 	}
 
 	private void hideLoadFrame() {
-		
 
 		Platform.runLater(() -> {
 
@@ -84,10 +74,8 @@ public class MainInterfaceView {
 		Platform.runLater(() -> {
 
 			try {
-//				Navigator navigator = new Navigator();
-//				navigator.open(Interfaces.MAIN);
+
 				initFX(fxPanel);
-//				loadFXML();
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -98,19 +86,8 @@ public class MainInterfaceView {
 		});
 	}
 
-	private void loadFXML() {
-		LoadInterface loadInterface =new LoadInterface();
-		loadInterface.setFxml("MainViewFXML.fxml");
-		loadInterface.setInitializable(menuController);
-		loadInterface.setVisibility(true);
-
-		fxmlViewLoader.loadInterface(loadInterface);
-
-	}
-
 	private void waitInitializeIsDone() {
 		while (!initializeIsDone) {
-			// CustomLogger.log("> Loading view");
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -120,7 +97,6 @@ public class MainInterfaceView {
 	}
 
 	private void frameSettings() {
-		Resources resources = new Resources();
 		ImagePanel imageContent = new ImagePanel();
 		loadFrame.getContentPane().add(imageContent);
 
@@ -135,19 +111,17 @@ public class MainInterfaceView {
 
 	private void initFX(final JFXPanel fxPanel) throws IOException {
 
-
-		CustomLogger.log("> Initialize MainInterfaceView");
+		LOGGER.config("Initialize MainInterfaceView");
 		createScene();
 
 		initializeIsDone = true;
-
-		CustomLogger.log("> Initialization Complete  MainInterfaceView");
+		LOGGER.config("Initialization Complete  MainInterfaceView");
 
 	}
 
 	private void createScene() {
 		scenePane = new Scene(root);
-		scenePane.getStylesheets().add("com/lucas/ferreira/maburn/view/css/DarkThema.css");
+		scenePane.getStylesheets().add("/com/lucas/ferreira/maburn/view/style/DarkThema.css");
 
 		InputStream in = Resources.getResourceAsStream("icons/icon.png");
 		Image icon = new Image(in);
@@ -175,12 +149,12 @@ public class MainInterfaceView {
 	}
 
 	public void hide() {
-		CustomLogger.log("HIDE INTERFACE");
+		LOGGER.config("Hide MainFrame");
 		Platform.runLater(() -> stage.hide());
 	}
 
 	public void show() {
-		CustomLogger.log("SHOW INTERFACE");
+		LOGGER.config("Show MainFrame");
 		Platform.runLater(() -> stage.show());
 
 	}

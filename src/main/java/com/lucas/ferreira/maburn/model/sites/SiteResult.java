@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 

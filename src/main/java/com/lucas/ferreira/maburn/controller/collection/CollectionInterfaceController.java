@@ -200,7 +200,6 @@ public class CollectionInterfaceController implements ModelInterface {
 	private void filterIcon() {
 
 		final ContextMenu contextMenu = new ContextMenu();
-		contextMenu.setOnAction(e -> System.out.print(((MenuItem) e.getTarget()).getText()));
 
 		List<MenuItem> items = Arrays.asList(CollectionFilterType.values()).stream().map(f -> new MenuItem(f.name()))
 				.collect(Collectors.toList());

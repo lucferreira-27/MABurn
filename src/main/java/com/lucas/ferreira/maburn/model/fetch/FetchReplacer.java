@@ -14,10 +14,8 @@ public class FetchReplacer {
 
 	public void replace(SaveData saveData) {
 		try {
-			System.out.println("!!");
 			ListItemForm form = orchestrator.readById(saveData.getTitle().getId());
 			
-			System.out.println(form.getScrapingLinks());
 
 			Optional<SiteForm> result = form.getScrapingLinks().stream().filter(link -> {
 

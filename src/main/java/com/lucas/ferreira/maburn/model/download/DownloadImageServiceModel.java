@@ -9,15 +9,13 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.List;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.model.connection.ConnectionModel;
-import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
-import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class DownloadImageServiceModel extends Downloader<File> {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private String link;
 	private File file;
@@ -32,10 +30,8 @@ public class DownloadImageServiceModel extends Downloader<File> {
 
 	public File download() throws IOException {
 		progressProperty().addListener((obs, oldValue, newValue) -> {
-			CustomLogger.log(("[Download Image] " + fileName + "[" + (int) (newValue.doubleValue() * 100) + "%]"));
-
+			LOGGER.config(("[Download Image] " + fileName + "[" + (int) (newValue.doubleValue() * 100) + "%]"));
 		});
-		CustomLogger.log(file.getAbsolutePath() + link);
 		URL url = null;
 		String failedMsg = "";
 		try {
@@ -67,7 +63,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 		location.mkdirs();
 		fileName += type;
 
-		CustomLogger.log(("[Download Image] (" + link + ")"));
+		LOGGER.config(("[Download Image] (" + link + ")"));
 		
 		OutputStream os = new FileOutputStream(location.getAbsolutePath() + "\\"  +fileName);
 		double size = (double) httpConn.getContentLength() / 1048576;
@@ -114,7 +110,7 @@ public class DownloadImageServiceModel extends Downloader<File> {
 	@Override
 	protected File call() throws Exception {
 		
-		CustomLogger.log("!");
+		
 		return download();
 	}
 

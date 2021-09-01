@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
@@ -17,7 +18,6 @@ import com.lucas.ferreira.maburn.model.images.ItemThumbnailLoader;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.loader.CollectionCheck;
 import com.lucas.ferreira.maburn.model.loader.DataFetcher;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
@@ -41,6 +41,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class CollectionGridPane {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private Navigator navigator = new Navigator();
 	private GridPaneTable table = new GridPaneTable();
@@ -64,7 +65,6 @@ public class CollectionGridPane {
 	private IntegerProperty propertyItemsTotal = new SimpleIntegerProperty();
 
 	public CollectionGridPane() {
-		
 
 	}
 
@@ -81,6 +81,7 @@ public class CollectionGridPane {
 	}
 
 	public void build() {
+		LOGGER.info("Building collection grid");
 		propertyDataFetcher.set(new DataFetcher());
 
 		propertyStatus.set(CollectionStatus.COLLECTION_LOCAL);
@@ -98,6 +99,7 @@ public class CollectionGridPane {
 		queryProperty.addListener((obs, oldvalue, newvalue) -> {
 
 			String querry = newvalue;
+			LOGGER.config("Swich Table Local");
 			if (propertyStatus.get() == CollectionStatus.COLLECTION_LOCAL) {
 				swichTableLocal(table, querry);
 				return;
@@ -135,6 +137,7 @@ public class CollectionGridPane {
 	}
 
 	public void rebuild() {
+		LOGGER.config("Rebuilding collection grid");
 
 		imagesGridPaneSetup();
 
@@ -145,8 +148,6 @@ public class CollectionGridPane {
 		tableSetter();
 		collectionLoadArea.hideArea();
 		propertyFullLoaded.set(true);
-
-		// defaultFilter();
 	}
 
 	private void tableSetter() {
@@ -165,20 +166,17 @@ public class CollectionGridPane {
 
 	private void reloadCollection() {
 		if (propertyDataFetcher.get().isRunning()) {
-			CustomLogger.log("AN OTHER RELOAD IS RUNNING!");
+			LOGGER.warning("An other reload process is running, wait");
 			return;
 		}
 		build();
-		// propertyStatus.set(CollectionStatus.COLLECTION_LOCAL);
-//		dataFetcher();
+
 	}
 
 	public void filter() {
 		if (filter.propertyActiveFilter().get() == CollectionFilterType.DESC) {
-			// btnFilter.setText("Z-A");
 			filter.filter(table, imagesGridPane, CollectionFilterType.ASC);
 		} else if (filter.propertyActiveFilter().get() == CollectionFilterType.ASC) {
-			// btnFilter.setText("A-Z");
 			filter.filter(table, imagesGridPane, CollectionFilterType.DESC);
 		}
 	}
@@ -234,7 +232,7 @@ public class CollectionGridPane {
 				try {
 					addItemInTable(item);
 				} catch (ThumbnailLoadException e) {
-					
+
 					e.printStackTrace();
 				}
 			}
@@ -331,8 +329,6 @@ public class CollectionGridPane {
 				mathTable.add(table.getCells().get(i));
 			}
 		}
-
-		
 
 		if (mathItens.size() == 0) {
 			propertyEmptyCollection.setValue(true);

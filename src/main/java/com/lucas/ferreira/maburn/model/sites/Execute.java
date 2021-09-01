@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.sites;
 
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.util.TryAgain;
 import com.microsoft.playwright.Page;
@@ -10,6 +11,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class Execute {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private BooleanProperty working = new SimpleBooleanProperty(false);
 	private AddElement addScript = new AddElement();
@@ -28,7 +30,6 @@ public class Execute {
 				evaluate(executeValues, cmd);
 			} catch (Exception e) {
 				if (e.getMessage().contains(expectErrorMsg)) {
-					System.err.println("Error " + e.getMessage().substring(0, 120));
 					try {
 						if (containsMaburnClass(page)) {
 							evaluate(executeValues, cmd);
@@ -65,14 +66,14 @@ public class Execute {
 				retryEvalutate(executeValues, cmd, 3);
 			}
 		} else {
-			System.err.println("[Evaluate not possible Page is closed.]");
+			LOGGER.warning("[Evaluate not possible Page is closed.]");
 			return;
 		}
 	}
 
 	private void retryEvalutate(ExecuteValues executeValues, String cmd, int attempts) {
 		for (int i = 0; i < attempts; i++) {
-			System.err.println("[Evaluate not possible.] \n [Trying again ...]");
+			LOGGER.warning("[Evaluate not possible.] \n [Trying again ...]");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -85,7 +86,7 @@ public class Execute {
 				continue;
 			}
 		}
-		System.err.println("[Evaluate Failed]");
+		LOGGER.severe("[Evaluate Failed]");
 
 	}
 
@@ -115,7 +116,7 @@ public class Execute {
 	public <T, C extends Exception> T tryagain(Supplier<T> run, int attempts, Class<C> e)
 			throws InstantiationException, IllegalAccessException {
 		for (int i = 0; i < attempts; i++) {
-			System.err.println("[TRYAGAIN] - [Trying again ...]");
+			LOGGER.warning("[TRYAGAIN] - [Trying again ...]");
 			try {
 				return run.get();
 

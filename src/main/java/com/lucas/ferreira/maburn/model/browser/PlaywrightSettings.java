@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 
 public class PlaywrightSettings {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static Map<String, String> env = new HashMap<>();
 	private static List<String> arguments = new ArrayList<>();
@@ -24,7 +26,7 @@ public class PlaywrightSettings {
 
 		PlaywrightProperties playwrightProperties = new PlaywrightProperties();
 		Map<String, String> properties = playwrightProperties.load("playwright/config.properties", envs);
-		System.out.println(properties);
+		LOGGER.config("Playwright Properties: " + properties);
 		arguments.add(properties.get(envs[2]));
 		arguments.add(properties.get(envs[3]));
 		properties.remove(envs[2]);

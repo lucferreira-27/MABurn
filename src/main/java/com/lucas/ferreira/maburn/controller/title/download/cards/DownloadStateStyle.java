@@ -26,8 +26,6 @@ public class DownloadStateStyle {
 		styles.put(DownloadProgressState.PAUSE, STYLE_PAUSE);
 		styles.put(DownloadProgressState.CANCELED, STYLE_CANCELED);
 		styles.put(DownloadProgressState.EXTRACTING, STYLE_WAITING);
-
-
 	}
 	
 	

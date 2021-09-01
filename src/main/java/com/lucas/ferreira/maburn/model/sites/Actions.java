@@ -1,15 +1,13 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Timeout;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Page.CloseOptions;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.Response;
 
@@ -18,6 +16,7 @@ import javafx.scene.image.Image;
 public class Actions {
 
 	private InteractSite interactSite;
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public Actions(InteractSite interactSite) {
 		this.interactSite = interactSite;
@@ -33,7 +32,6 @@ public class Actions {
 			SiteResult siteResult = interactSite.getSiteResult();
 			JSONArray jsonResponse = new JSONArray(json);
 			siteResult.getItemsValues().clear();
-			System.out.println("getResult: " + json.length());
 			for (int i = 0; i < jsonResponse.length(); i++) {
 				JSONObject jsonObject = jsonResponse.getJSONObject(i);
 				ItemValue item = new ItemValue(jsonObject.getString("name"));
@@ -60,27 +58,19 @@ public class Actions {
 
 	public void javascriptTurnOff() {
 
-		CustomLogger.log("[Javascript - Maburn OFF]");
+		LOGGER.config("[Javascript - Maburn OFF]");
 		interactSite.getWorking().set(false);
 		Timeout.waitUntil(interactSite.getLoadScript().getExecute().isWorking(), 30000);
 		try {
 			interactSite.getPage().close();
 		}catch (PlaywrightException e) {
 			if(e.getMessage().contains("Target closed.undefined")) {
-				System.err.println("[ON CLOSE] Target closed.undefined");
+				LOGGER.warning("[ON CLOSE] Target closed.undefined");
 			}
 		}
 	}
 
-	public void javascriptIs(String on) {
-		boolean isOn = Boolean.valueOf(on);
-//		if (isOn)
-//			CustomLogger.log("[Javascript - Maburn ON]");
-//		else {
-//			CustomLogger.log("[Javascript - Maburn EXIT]");
-//
-//		}
-	}
+
 
 	public void actionGoto(String url) {
 		Page page = interactSite.getPage();
@@ -89,15 +79,15 @@ public class Actions {
 	}
 
 	public void actionScreenshot() {
-		System.out.println("[SCREENSHOT]");
+		LOGGER.config("[SCREENSHOT]");
 		Page page = interactSite.getPage();
 		SiteResult siteResult = interactSite.getSiteResult();
 		if (page.isClosed()) {
-			System.out.println("[SCREENSHOT NOT TAKED, PAGE IS CLOSED]");
+			LOGGER.config("[SCREENSHOT NOT TAKED, PAGE IS CLOSED]");
 			return;
 		}
 		if (siteResult.getPageInfo().getImageSmall() != null) {
-			System.out.println("[SCREENSHOT ALREADY TAKED]");
+			LOGGER.config("[SCREENSHOT ALREADY TAKED]");
 			return;
 		}
 		Screenshot screenshot = new Screenshot();

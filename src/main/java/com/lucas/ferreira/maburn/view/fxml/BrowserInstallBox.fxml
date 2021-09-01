@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="bpConteiner" maxHeight="182.0" maxWidth="369.0" minHeight="150.0" minWidth="369.0" prefHeight="167.0" prefWidth="369.0" style="-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: white; -fx-background-color: #272727;" stylesheets="@../css/DarkThema.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bpConteiner" maxHeight="182.0" maxWidth="369.0" minHeight="150.0" minWidth="369.0" prefHeight="167.0" prefWidth="369.0" style="-fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: white; -fx-background-color: #272727;" stylesheets="@../style/DarkThema.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>

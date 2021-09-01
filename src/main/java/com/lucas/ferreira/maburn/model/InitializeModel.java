@@ -1,24 +1,21 @@
 package com.lucas.ferreira.maburn.model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lucas.ferreira.maburn.exceptions.InitializeExcpetion;
-import com.lucas.ferreira.maburn.model.browser.PlaywrightProperties;
 import com.lucas.ferreira.maburn.model.browser.PlaywrightSettings;
 import com.lucas.ferreira.maburn.model.documents.Documents;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.webserver.LocalServer;
 import com.lucas.ferreira.maburn.webserver.WebServer;
 
 public class InitializeModel {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private XmlConfigurationOrchestrator configOrchestrator = new XmlConfigurationOrchestrator();
 	private XmlCollectionOrchestrator collectionOrchestrator = new XmlCollectionOrchestrator();
@@ -34,7 +31,7 @@ public class InitializeModel {
 		} catch (InitializeExcpetion e) {
 
 			e.printStackTrace();
-			System.out.println("BOOT ERROR CLOSING ....");
+			LOGGER.severe("BOOT ERROR CLOSING ...." + e.getMessage());
 			System.exit(0);
 		}
 
@@ -54,7 +51,7 @@ public class InitializeModel {
 	}
 
 	public void createDocumentesFolders() {
-		CustomLogger.log("> CREATE DOCUMENTS FOLDERS");
+		LOGGER.info("> CREATE DOCUMENTS FOLDERS");
 		Documents.createDocumentFolders();
 		try {
 			collectionOrchestrator.write(new CollectionForm());
@@ -90,8 +87,8 @@ public class InitializeModel {
 	}
 
 	public void welcomeMessage() {
-		CustomLogger.log("> WELCOME!");
-		CustomLogger.log("CollectionData Local: " + Documents.DATA_LOCAL);
-		CustomLogger.log("Configuration Local: " + Documents.CONFIG_LOCAL);
+		LOGGER.fine("> WELCOME!");
+		LOGGER.info("CollectionData Local: " + Documents.DATA_LOCAL);
+		LOGGER.info("Configuration Local: " + Documents.CONFIG_LOCAL);
 	}
 }

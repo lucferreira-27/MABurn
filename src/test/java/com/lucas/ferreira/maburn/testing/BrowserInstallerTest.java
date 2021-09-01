@@ -51,7 +51,6 @@ public class BrowserInstallerTest {
 		}
 		while (!installerProcess.getFileExtractValues().getFinish().get()
 				&& !installerProcess.getFileExtractValues().getFailed().get()) {
-			System.out.println(installerProcess.getFileExtractValues().toString());
 			Thread.sleep(10);
 		}
 
@@ -73,7 +72,6 @@ public class BrowserInstallerTest {
 		}
 		while (!installerProcess.getFileExtractValues().getFinish().get()
 				&& !installerProcess.getFileExtractValues().getFailed().get()) {
-			System.out.println(installerProcess.getFileExtractValues().toString());
 			Thread.sleep(10);
 		}
 
@@ -94,7 +92,6 @@ public class BrowserInstallerTest {
 		}
 		while (!installerProcess.getFileExtractValues().getFinish().get()
 				&& !installerProcess.getFileExtractValues().getFailed().get()) {
-			System.out.println(installerProcess.getFileExtractValues().toString());
 			Thread.sleep(10);
 		}
 

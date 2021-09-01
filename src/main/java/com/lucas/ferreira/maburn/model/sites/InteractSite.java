@@ -1,17 +1,18 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.io.FileNotFoundException;
-
 import com.lucas.ferreira.maburn.util.Timeout;
 import com.lucas.ferreira.maburn.webserver.LocalServer;
 import com.lucas.ferreira.maburn.webserver.WebServer;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Response;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+import java.io.FileNotFoundException;
+import java.util.logging.Logger;
+
 public class InteractSite {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private Page page;
 	private SiteResult siteResult = new SiteResult();
@@ -44,7 +45,7 @@ public class InteractSite {
 				try {
 					Thread.sleep(500);
 					if (!loadScript.getExecute().containsMaburnClass(page)) {
-						System.out.println("Maburn not found in page!");
+						LOGGER.config("Maburn not found in page!");
 						loadScript.repeatExecute();
 					}
 				} catch (InterruptedException e) {
@@ -85,7 +86,7 @@ public class InteractSite {
 				try {
 					Message message = processMessage.process(body);
 					if (message.getMessageType() == MessagesTypes.RESULT) {
-						System.out.println("POST BODY " + message.getParam());
+						LOGGER.config("Post body length: " + message.getParam().length());
 					}
 					selectAction.selectAciton(message);
 				} catch (Exception e) {
@@ -98,16 +99,16 @@ public class InteractSite {
 
 	private void onClose() {
 		page.onClose((page) -> {
-			System.out.println("[PAGE CLOSED!] " + siteValues.getUrl());
+			LOGGER.config("[PAGE CLOSED!] " + siteValues.getUrl());
 
 		});
 	}
 
 	private void onConsole() {
-		page.onConsoleMessage((c) -> {
-			if (c.type().equals("error"))
-				System.out.println(c.text());
-		});
+//		page.onConsoleMessage((c) -> {
+//			if (c.type().equals("error"))
+//				System.out.println(c.text());
+//		});
 	}
 
 	private void onLoad() {

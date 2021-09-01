@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.fetch;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.model.documents.xml.XmlCollectionOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
@@ -11,12 +12,12 @@ import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 
 public class FetchRecover {
 	private XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public String recover(CollectionTitle title, RegisteredSite registeredSite) {
 		try {
 			ListItemForm form = orchestrator.readById(title.getId());
-
-			System.out.println(form.getScrapingLinks());
+			LOGGER.config("Recover Links: " + form.getScrapingLinks());
 
 			Optional<SiteForm> result = form.getScrapingLinks().stream().filter(link -> {
 
@@ -42,7 +43,7 @@ public class FetchRecover {
 		try {
 			ListItemForm form = orchestrator.readById(saveData.getTitle().getId());
 
-			System.out.println(form.getScrapingLinks());
+			LOGGER.config("Recover Links: " + form.getScrapingLinks());
 
 			Optional<SiteForm> result = form.getScrapingLinks().stream().filter(link -> {
 

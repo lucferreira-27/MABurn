@@ -2,19 +2,15 @@ package com.lucas.ferreira.maburn.controller.title.download;
 
 import java.util.List;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
-import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardState;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardValues;
-import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
 import com.lucas.ferreira.maburn.controller.title.download.title.Title;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapeState;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -70,7 +66,6 @@ public class DownloadList {
 					itemScraped = scrapingWork.getWorkResult();
 					fetchCardValues.getFetchCardState().set(FetchCardState.READY);
 					DownloadCardFull downloadCardFull = cardLoader.load(itemScraped);
-					System.out.println(downloadCardFull.getNode().getUserData());
 					contentDownloadList.addCard(downloadCardFull);
 					contentFetchList.removeCard(fetchCardFull);
 					downloadCardFull.getCardValues().getDownloadProgressState().addListener(navUpdate());

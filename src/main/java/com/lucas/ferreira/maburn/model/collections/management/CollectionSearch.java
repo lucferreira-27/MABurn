@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.collections.management;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
@@ -28,85 +29,84 @@ import javafx.scene.image.ImageView;
 
 public class CollectionSearch {
 
-	private final ProgressIndicator sortCollectionLoad;
-	private final ImageView loadImageLoadArea;
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	public CollectionSearch(ProgressIndicator sortCollectionLoad, ImageView loadImageLoadArea) {
-		
-		this.sortCollectionLoad = sortCollectionLoad;
-		this.loadImageLoadArea = loadImageLoadArea;
-	}
+    private final ProgressIndicator sortCollectionLoad;
+    private final ImageView loadImageLoadArea;
 
-	public void showQuickLoad() {
-		sortCollectionLoad.setVisible(true);
-	}
+    public CollectionSearch(ProgressIndicator sortCollectionLoad, ImageView loadImageLoadArea) {
 
-	public void hideQuickLoad() {
-		sortCollectionLoad.setVisible(false);
+        this.sortCollectionLoad = sortCollectionLoad;
+        this.loadImageLoadArea = loadImageLoadArea;
+    }
 
-	}
+    public void showQuickLoad() {
+        sortCollectionLoad.setVisible(true);
+    }
 
-	public GridPaneTable search(String querry, Collections collection, Category category) {
+    public void hideQuickLoad() {
+        sortCollectionLoad.setVisible(false);
 
-		GridPaneTable searchTable = new GridPaneTable();
+    }
 
-		showQuickLoad();
-		loadImageLoadArea.setVisible(true);
-		
-		List<CollectionTitle> items = new ArrayList<CollectionTitle>();
+    public GridPaneTable search(String querry, Collections collection, Category category) {
 
-		Database database = new KitsuDatabase();
-		database.readAll(querry, category).forEach(data -> {
+        GridPaneTable searchTable = new GridPaneTable();
 
-			switch (category) {
+        showQuickLoad();
+        loadImageLoadArea.setVisible(true);
 
-			case ANIME:
+        List<CollectionTitle> items = new ArrayList<CollectionTitle>();
 
-				ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate((AnimeCollection) collection);
-				items.add((CollectionTitle) animeCreator.createSearchItem(data));
-				break;
-			case MANGA:
-				ItemCreater<MangaDownloaded> mangaCreator = new MangaItemCreate((MangaCollection) collection);
-				items.add((CollectionTitle) mangaCreator.createSearchItem(data));
-				break;
+        Database database = new KitsuDatabase();
+        database.readAll(querry, category).forEach(data -> {
 
-			default:
-				break;
-			}
-		});
-		System.err.println("Database Result: " + items.size());
-		for (CollectionTitle item : items) {
+            switch (category) {
 
-			ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
-			try {
-				GridPaneCell cell = thumbnailLoader.onlineLoad();
+                case ANIME:
 
-				if (cell != null) {
-					Card card = new SearchCard(cell);
-					card.overlay();
-					cell.getNode().setUserData(cell);
-					searchTable.add(cell);
+                    ItemCreater<AnimeDownloaded> animeCreator = new AnimeItemCreate((AnimeCollection) collection);
+                    items.add((CollectionTitle) animeCreator.createSearchItem(data));
+                    break;
+                case MANGA:
+                    ItemCreater<MangaDownloaded> mangaCreator = new MangaItemCreate((MangaCollection) collection);
+                    items.add((CollectionTitle) mangaCreator.createSearchItem(data));
+                    break;
 
-				}
-			} catch (ThumbnailLoadException e1) {
+                default:
+                    break;
+            }
+        });
+        LOGGER.info("Database Result Size: " + items.size());
+        for (CollectionTitle item : items) {
 
-				e1.printStackTrace();
+            ItemThumbnailLoader thumbnailLoader = new ItemThumbnailLoader(item);
+            try {
+                GridPaneCell cell = thumbnailLoader.onlineLoad();
 
-				continue;
-			} catch (Exception e) {
-				
-				e.printStackTrace();
-			}
+                if (cell != null) {
+                    Card card = new SearchCard(cell);
+                    card.overlay();
+                    cell.getNode().setUserData(cell);
+                    searchTable.add(cell);
 
-		}
-		
-		hideQuickLoad();
+                }
+            } catch (ThumbnailLoadException e1) {
 
-		
-		System.err.println("Search Table: " + searchTable.getCells().size());
-		
-		return searchTable;
-		
-	}
+                e1.printStackTrace();
+
+                continue;
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+        }
+
+        hideQuickLoad();
+
+        return searchTable;
+
+    }
 
 }

@@ -10,11 +10,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 
 public class ConnectionModel implements Callable<String> {
 	private String link;
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public ConnectionModel(String link) {
 		this.link = link;
@@ -85,8 +87,7 @@ public class ConnectionModel implements Callable<String> {
 			httpConn = Httpsetup(url);
 			return inputStreamToString(httpConn);
 		} catch (IOException e) {
-			
-			System.err.println(e.getMessage());
+			LOGGER.severe(e.getMessage());
 			int responseCode;
 			try {
 				responseCode = httpConn.getResponseCode();

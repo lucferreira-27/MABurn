@@ -14,7 +14,7 @@
 
 <StackPane fx:id="spMain" prefHeight="96.0" prefWidth="593.0" style="-fx-border-color: grey;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox fx:id="hbMainPane" fillHeight="false" prefHeight="110.0" prefWidth="591.0" stylesheets="@../css/DarkThema.css">
+      <HBox fx:id="hbMainPane" fillHeight="false" prefHeight="110.0" prefWidth="591.0" stylesheets="@../style/DarkThema.css">
          <children>
             <AnchorPane prefHeight="108.0" prefWidth="78.0" style="-fx-border-radius: 15; -fx-background-color: grey;">
                <children>
@@ -175,6 +175,6 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </HBox>
-      <HBox fx:id="hbShade" prefHeight="100.0" prefWidth="200.0" style="-fx-opacity: 0.3; -fx-background-color: black;" stylesheets="@../css/DarkThema.css" />
+      <HBox fx:id="hbShade" prefHeight="100.0" prefWidth="200.0" style="-fx-opacity: 0.3; -fx-background-color: black;" stylesheets="@../style/DarkThema.css" />
    </children>
 </StackPane>

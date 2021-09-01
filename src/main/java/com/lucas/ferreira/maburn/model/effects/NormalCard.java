@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.effects;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 
@@ -23,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
 public class NormalCard implements Card {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private BooleanProperty isShowing = new SimpleBooleanProperty(false);
 	private Label lblTitle = new Label();
@@ -35,11 +37,11 @@ public class NormalCard implements Card {
 
 	private GridPaneCell cell;
 	private ImageView image;
-	
-	
-	
+
+
+
 	public NormalCard(GridPaneCell cell) {
-		
+
 		this.cell = cell;
 		pane = (Pane) cell.getNode();
 		image = (ImageView) pane.getChildren().get(0);
@@ -129,7 +131,7 @@ public class NormalCard implements Card {
 					longSize = FileUtils.sizeOfDirectory(new File(item.getDestination()));
 				} catch (Exception e) {
 					
-					System.err.println("Card loadSizeInDisk eror: " + e.getMessage());
+					LOGGER.severe("Card loadSizeInDisk error: " + e.getMessage());
 
 				}
 				String strSize = DataStorageUtil.converterUnit(BytesUtil.convertBytesToMegasBytes(longSize));
@@ -155,8 +157,7 @@ public class NormalCard implements Card {
 						.loadCollectionItems(item.getDestination(), item.getCategory()).getListSubItens());
 				numberOfSubItemsProperty.set(item.getListSubItens().size());
 			} catch (NullPointerException e) {
-				
-				System.err.println("Card loadNumberOfItem eror: " + e.getMessage());
+				LOGGER.warning("Card loadNumberOfItem eror: " + e.getMessage());
 				numberOfSubItemsProperty.set(0);
 			}
 

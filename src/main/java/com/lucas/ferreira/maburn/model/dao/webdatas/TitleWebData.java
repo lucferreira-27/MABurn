@@ -9,7 +9,6 @@ public abstract class TitleWebData {
 
 	public abstract void setUrl(String url);
 	public abstract Sites getSite();
-	public abstract List<ItemWebData> getWebDatas();
 	
 	public boolean isFetched() {
 		return fetched;

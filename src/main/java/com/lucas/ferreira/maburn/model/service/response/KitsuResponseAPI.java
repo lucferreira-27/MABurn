@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.model.service.response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,9 +11,9 @@ import org.json.JSONObject;
 import com.lucas.ferreira.maburn.exceptions.ConnectionException;
 import com.lucas.ferreira.maburn.model.dao.CollectDatas;
 import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class KitsuResponseAPI implements ServiceResponse {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static final String DATABASE_URL = "https://kitsu.io/";
 	private String responseBody;
@@ -108,26 +109,25 @@ public class KitsuResponseAPI implements ServiceResponse {
 		try {
 			enTitle = attributes.getJSONObject("titles").getString("en");
 		} catch (Exception e) {
-			
-			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
+			LOGGER.severe("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			enJpTitle = attributes.getJSONObject("titles").getString("en_jp");
 		} catch (Exception e) {
 			
-			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
+			LOGGER.severe("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			jaJpTitle = attributes.getJSONObject("titles").getString("ja_jp");
 		} catch (Exception e) {
 			
-			System.err.println("[DataBase] fetchTitles - " + e.getMessage());
+			LOGGER.severe("[DataBase] fetchTitles - " + e.getMessage());
 		}
 		try {
 			canonicalTitle = attributes.getString("canonicalTitle");
 		} catch (Exception e) {
 			
-			System.err.println("[DataBase] fetchTitles  - " + e.getMessage());
+			LOGGER.severe("[DataBase] fetchTitles  - " + e.getMessage());
 		}
 		String[] titles = { canonicalTitle, enTitle, enJpTitle, jaJpTitle };
 

@@ -29,7 +29,6 @@ public class ParseItemsNames {
 			if (intNumber < 10) {
 
 				number = zeroChain += number;
-				System.out.println(number);
 			}
 			 result = replaceFlag(str, category == Category.ANIME ? "Episode " + number : "Chapter " + number);
 

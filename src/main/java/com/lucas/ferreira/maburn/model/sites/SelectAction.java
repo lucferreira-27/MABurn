@@ -19,9 +19,7 @@ public class SelectAction {
 		case GOTO:
 			actions.actionGoto(message.getParam());
 			break;
-		case ON:
-			actions.javascriptIs(message.getParam());
-			break;
+
 		case SCREENSHOT:
 			actions.actionScreenshot();
 			break;

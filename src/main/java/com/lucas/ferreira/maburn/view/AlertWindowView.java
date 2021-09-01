@@ -3,8 +3,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 
-import com.lucas.ferreira.maburn.util.CustomLogger;
-
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -38,7 +36,6 @@ public class AlertWindowView {
 			alert.setTitle(title);
 			alert.setHeaderText(header);
 			alert.setContentText(msg);
-			CustomLogger.log(alert.getDialogPane().getStyleClass().get(1));
 			alert.showAndWait();
 			}catch (Exception e) {
 				
@@ -51,9 +48,6 @@ public class AlertWindowView {
 		Platform.runLater(() -> // switches to GUI Thread
 		{
 			Alert alert = new Alert(AlertType.INFORMATION);
-		
-			//alert.getDialogPane().getStylesheets().add(getClass().getResource("DarkThema.css").getPath());
-
 			alert.setTitle(title);
 			alert.setHeaderText(header);
 			alert.setContentText(msg);
@@ -85,10 +79,8 @@ public class AlertWindowView {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			// user chose OK
 			return true;
 		} else {
-			// user chose CANCEL or closed the dialog
 			return false;
 		}
 	}
@@ -99,7 +91,6 @@ public class AlertWindowView {
 		dialog.setTitle(title);
 		dialog.setHeaderText(header);
 
-		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
 		   return result.get();
@@ -140,24 +131,5 @@ public class AlertWindowView {
 
 	}
 
-//	public  String showInputTextDialog(String title, String header, String msg) {
-//		Platform.runLater(() -> // switches to GUI Thread
-//		{
-//			TextInputDialog dialog = new TextInputDialog();
-//			dialog.setTitle(title);
-//			dialog.setHeaderText(header);
-//			dialog.setContentText(msg);
-//			Optional<String> result = dialog.showAndWait();
-//			result.ifPresent(name -> {
-//				label = name;
-//			});
-//		});
-//		return label;
-//
-//	}
-
-//	public String getLabel() {
-//		return label;
-//	}
 
 }

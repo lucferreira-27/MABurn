@@ -1,10 +1,7 @@
 package com.lucas.ferreira.maburn.model.download.channel;
 
-import javax.management.RuntimeErrorException;
-
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 public abstract class DownloadProgressListener {
@@ -65,14 +62,11 @@ public abstract class DownloadProgressListener {
 
 	protected void changeDownloadState(DownloadProgressState downloadProgressState) {
 
-
-		CustomLogger.log(downloadProgressState.toString());
 		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
 	}
 	protected void changeDownloadState(DownloadProgressState downloadProgressState, String msg) {
 
 
-		CustomLogger.log(downloadProgressState.toString());
 		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
 		itemDownloadValues.setMessage(msg);
 	}

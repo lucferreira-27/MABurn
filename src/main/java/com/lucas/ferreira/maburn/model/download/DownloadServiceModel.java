@@ -14,11 +14,9 @@ import java.util.List;
 import java.util.function.IntConsumer;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
-import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.download.queue.Downloader;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
 import javafx.beans.property.BooleanProperty;
@@ -44,8 +42,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 	}
 
 	private File startDownload(URL url) throws IOException {
-		CustomLogger.log("Download: " + webData.getName() + "\n URL: " + webData.getUrl() + "\n SubItems: "
-				+ listLink.size() + "\nFetched: " + webData.isFetched());
+
 
 		if (listLink.size() == 1)
 			beginReader(listLink.get(0));
@@ -203,7 +200,6 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 		if (link == null) {
 			updateState(DownloadState.FAILED);
 			failedProperty.set(true);
-			CustomLogger.log("Error: " + subItem.getDestination());
 			return null;
 		}
 		updateState(DownloadState.PREPARING);
@@ -218,9 +214,7 @@ public class DownloadServiceModel extends Downloader<CollectionItem> implements 
 			httpConn.addRequestProperty("REFERER", referer);
 			return url;
 		} catch (Exception e) {
-			
-			System.err.println("LINK: " + link);
-			e.printStackTrace();
+						e.printStackTrace();
 			return null;
 		}
 

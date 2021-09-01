@@ -104,7 +104,6 @@ public abstract class DownloadCardValuesBinder {
 
 			Platform.runLater(() -> {
 				downloadStateStyle.setNodeStyleByState(newvalue, downloadCard.getLabelDownloadState());
-				System.out.println(downloadValues.getMessage());
 				if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
 					downloadCard.getLabelDownloadState().setText(String.valueOf(newvalue.name()));
 				else

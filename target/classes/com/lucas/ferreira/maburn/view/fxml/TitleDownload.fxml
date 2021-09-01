@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<fx:root stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root stylesheets="@../style/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <StackPane fx:id="spMainPane" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #1C1C1C;">
       <children>
          <BorderPane fx:id="bpRegisterFetch" prefHeight="200.0" prefWidth="200.0">
@@ -87,7 +87,7 @@
                                        <Cursor fx:constant="HAND" />
                                     </cursor>
                                  </ImageView>
-                                 <Label fx:id="lblManualSearch" layoutX="149.0" layoutY="39.0" prefHeight="15.0" prefWidth="97.0" style="-fx-font-size: 9; -fx-border-color: white; -fx-border-radius: 20;" text="MANUL SEARCH">
+                                 <Label fx:id="lblManualSearch" layoutX="149.0" layoutY="39.0" prefHeight="15.0" prefWidth="97.0" style="-fx-font-size: 9; -fx-border-color: white; -fx-border-radius: 20;" text="MANUAL SEARCH">
                                     <padding>
                                        <Insets left="10.0" right="10.0" />
                                     </padding>
@@ -125,7 +125,7 @@
                                              <AnchorPane maxWidth="307.0" prefWidth="74.0">
                                                 <children>
                                                    <TextArea fx:id="txtAreaFieldFirstMsg" editable="false" layoutX="9.0" layoutY="25.0" minHeight="0.0" prefHeight="59.0" prefWidth="95.0" style="-fx-font-size: 11;" visible="false" wrapText="true" />
-                                                   <TextField fx:id="txtStartItemValue" layoutX="10.0" maxHeight="22.0" minHeight="25.0" prefHeight="22.0" prefWidth="70.0" promptText="Last" styleClass="txtNormal" stylesheets="@../css/DarkThema.css" visible="false" />
+                                                   <TextField fx:id="txtStartItemValue" layoutX="10.0" maxHeight="22.0" minHeight="25.0" prefHeight="22.0" prefWidth="70.0" promptText="Last" styleClass="txtNormal" stylesheets="@../style/DarkThema.css" visible="false" />
                                                 </children>
                                              </AnchorPane>
                                           </children>

@@ -8,7 +8,6 @@ import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.images.ThumbnailController;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 
 public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 	private KitsuDatabase database = new KitsuDatabase();
@@ -26,7 +25,6 @@ public class AnimeItemCreate implements ItemCreater<AnimeDownloaded> {
 
 		AnimeDownloaded anime = new AnimeDownloaded();
 		anime.setName(destination.substring(destination.lastIndexOf("\\") + 1));
-		CustomLogger.log("Creating " + anime.getName());
 
 		CollectDatas collectDatas = database.read(anime.getName(), Category.ANIME);
 

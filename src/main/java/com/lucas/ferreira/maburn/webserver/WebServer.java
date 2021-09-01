@@ -6,10 +6,10 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.lucas.ferreira.maburn.util.CustomLogger;
+import java.util.logging.Logger;
 
 public class WebServer extends LocalServer {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private LocalServer localServer;
 	private URL url;
@@ -30,12 +30,12 @@ public class WebServer extends LocalServer {
 	}
 
 	public boolean start() {
-		CustomLogger.log("[SERVER LOCAL] - STARTING");
+		LOGGER.info("[SERVER LOCAL] - STARTING");
 		return localServer.start();
 	}
 
 	public boolean stop() {
-		CustomLogger.log("[SERVER LOCAL] - STOPPING");
+		LOGGER.info("[SERVER LOCAL] - STOPPING");
 		localServer.stop();
 		return true;
 	}

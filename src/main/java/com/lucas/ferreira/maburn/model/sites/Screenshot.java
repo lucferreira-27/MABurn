@@ -1,15 +1,14 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
+import java.util.logging.Logger;
 
 import com.microsoft.playwright.Page;
 
 public class Screenshot {
+		private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	public InputStream take(Page page, int attempts) {
 		try {
 			return takeScreenshot(page);
@@ -17,7 +16,7 @@ public class Screenshot {
 			try {
 				return retry(page, attempts);
 			} catch (RuntimeException e2) {
-				System.err.println("[SCREENSHOT FAILED] \n ERRO: " + e.getMessage());
+				LOGGER.warning("[SCREENSHOT FAILED] \n ERRO: " + e.getMessage());
 				return null;
 			}
 		}
@@ -26,7 +25,7 @@ public class Screenshot {
 	private InputStream retry(Page page, int attempts) throws RuntimeException {
 		for (int i = 0; i < attempts; i++) {
 			try {
-				System.err.println("[SCREENSHOT FAILED] \n TRYING AGAIN ....");
+				LOGGER.warning("[SCREENSHOT FAILED] \n TRYING AGAIN ....");
 				return takeScreenshot(page);
 			} catch (RuntimeException e) {
 				try {
@@ -43,7 +42,7 @@ public class Screenshot {
 	private InputStream takeScreenshot(Page page) {
 		byte[] bytes = page.screenshot();
 
-		System.out.println("[SCREENSHOT TAKED]");
+		LOGGER.info("[SCREENSHOT TAKED]");
 		InputStream is = new ByteArrayInputStream(bytes);
 		return is;
 

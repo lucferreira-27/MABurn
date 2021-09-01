@@ -3,13 +3,16 @@ package com.lucas.ferreira.maburn.util;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 public class TryAgain {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	//TODO ![MAKE A THIS A BUILD TYPE]!
 	public static <T, C extends Exception> T tryagain(Supplier<T> run, int attempts, Class<C> e)
 			throws InstantiationException, IllegalAccessException {
 		for (int i = 0; i < attempts; i++) {
-			System.err.println("[TRYAGAIN] - [Trying again ...]");
+			LOGGER.warning("[TRY AGAIN] - [Trying again ...]");
 			try {
 				return run.get();
 
@@ -29,7 +32,7 @@ public class TryAgain {
 	public static  <T, C extends Exception> T tryagain(Supplier<T> run, Predicate<Exception> check, int attempts,
 			Class<C> e) throws InstantiationException, IllegalAccessException {
 		for (int i = 0; i < attempts; i++) {
-			System.err.println("[TRYAGAIN] - [Trying again ...]");
+			LOGGER.warning("[TRYAGAIN] - [Trying again ...]");
 			try {
 				return run.get();
 

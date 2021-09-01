@@ -18,8 +18,7 @@ public class RandomNoRepeat {
 		if (lastIndex == arr.length - 1) {
 			lastIndex = 0;
 		}
-		System.out.println("Random INDEX[" + lastIndex + "]");
-		System.out.println("Random: "+ arr[lastIndex]);
+
 		return Integer.valueOf(arr[lastIndex++]);
 	}
 }

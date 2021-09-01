@@ -26,7 +26,6 @@ public class ZipModel {
 	private void extractProgress(FileExtractValues fileExtractValues) {
 		fileExtractValues.getCurrentFile().addListener((obs, oldvalue, newvalue) ->{
 			double progress = (double) (newvalue.doubleValue() / fileExtractValues.getTotalFiles().get());
-			System.out.println(progress);
 			fileExtractValues.getExtractingProgress().set(progress);
 		});
 	}

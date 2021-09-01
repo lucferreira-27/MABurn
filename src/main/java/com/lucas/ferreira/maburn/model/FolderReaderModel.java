@@ -9,7 +9,6 @@ import com.lucas.ferreira.maburn.model.collections.MangaCollection;
 import com.lucas.ferreira.maburn.model.dao.downloaded.AnimeDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.ChapterDownloaded;
 import com.lucas.ferreira.maburn.model.dao.downloaded.MangaDownloaded;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.datas.FolderReaderUtil;
 
 public class FolderReaderModel {

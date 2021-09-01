@@ -3,11 +3,16 @@ package com.lucas.ferreira.maburn.model.sites;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 
+import java.util.logging.Logger;
+
 public class AddElement {
+
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+
 	public boolean addScript(String content, Page page) {
 
 		String script =
-
 				"(content) =>{\n var head = document.getElementsByTagName('head')[0];\n"
 						+ "		var script = document.createElement('script');\n"
 						+ "		script.type = 'text/javascript';\n" + "		script.text = content\n"
@@ -23,13 +28,10 @@ public class AddElement {
 					Thread.sleep(2000);
 					page.evaluate(script, content);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			System.out.println("Maburn script added in page");
-			
+			LOGGER.config("Maburn script added in page");
 			return true;
 		}
 		return false;

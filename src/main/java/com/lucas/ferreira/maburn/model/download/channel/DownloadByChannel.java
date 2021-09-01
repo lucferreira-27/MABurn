@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.download.channel;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.controller.title.download.HttpResponseCode;
 import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadValues;
@@ -21,13 +19,10 @@ import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.FileTypeDetection;
 import com.lucas.ferreira.maburn.model.download.URLFixer;
-import com.lucas.ferreira.maburn.util.CustomLogger;
-import com.lucas.ferreira.maburn.util.FileArchive;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
-import net.lingala.zip4j.ZipFile;
-
 public class DownloadByChannel extends DownloadProgressListener {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	protected String url;
 	protected String filename;
@@ -104,7 +99,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 	}
 
 	private void downloadInfos(DownloadInfo downloadInfo) {
-		CustomLogger.log(downloadInfo.toString());
+		LOGGER.info((downloadInfo.toString()));
 
 		url = downloadInfo.getUrl();
 		filename = downloadInfo.getFilename();
@@ -146,11 +141,11 @@ public class DownloadByChannel extends DownloadProgressListener {
 				"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
 		connection.setRequestProperty("Referer", referer);
 
-		CustomLogger.log("Request Propeties: " + connection.getRequestProperties());
+		LOGGER.config("Request Propeties: " + connection.getRequestProperties());
 
 		HttpResponseCode httpResponseCode = new HttpResponseCode();
 		int code = httpResponseCode.getCode((HttpURLConnection) connection);
-		CustomLogger.log("Response Code: " + code);
+		LOGGER.config(("Response Code: " + code));
 		return connection;
 	}
 

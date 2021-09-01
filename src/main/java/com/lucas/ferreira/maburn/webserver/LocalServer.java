@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.logging.Logger;
 
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
 public class LocalServer {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static HttpServer server;
 	public static final String HOST = "localhost";
@@ -22,7 +23,7 @@ public class LocalServer {
 		if(server != null) {
 			throw new IllegalAccessError("Server already created! \n Stop the server first!");
 		}
-		CustomLogger.log("[SERVER LOCAL] - CREATING");
+		LOGGER.info("[SERVER LOCAL] - CREATING");
 		server = HttpServer.create(new InetSocketAddress(HOST, PORT), 0);
 		HttpContext contextInit =  server.createContext(InitHandle.PATH, new InitHandle());
 		HttpContext contextEnd = server.createContext(EndHandle.PATH, new EndHandle());

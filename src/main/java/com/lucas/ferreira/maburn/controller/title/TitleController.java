@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.controller.collection.CollectionInterfaceController;
 import com.lucas.ferreira.maburn.controller.home.ModelInterface;
@@ -23,12 +24,11 @@ import com.lucas.ferreira.maburn.model.documents.xml.form.CollectionForm;
 import com.lucas.ferreira.maburn.model.documents.xml.form.ListItemForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Icons;
-import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
 import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
 import com.lucas.ferreira.maburn.util.LanguageReader;
@@ -41,7 +41,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -55,6 +54,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class TitleController implements ModelInterface {
+	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static final long serialVersionUID = 137374207309422526L;
 	private static final String ICON_PATH = "icons/";
@@ -139,8 +139,7 @@ public class TitleController implements ModelInterface {
 				.get(Interfaces.COLLECTION);
 		collections = collectionController.getCollectionGridPane().getCollection();
 		title = collections.getActualItem();
-		CustomLogger.log("UPDATED SUB ITENS ....");
-		CustomLogger.log("UPDATEDED SUB ITENS!");
+		LOGGER.info("Initialize Title");
 
 		loadTitleDatas();
 
@@ -157,6 +156,7 @@ public class TitleController implements ModelInterface {
 	private void loadTitleDatas() {
 
 		CollectionTitle item = collections.getActualItem();
+		LOGGER.info("Loading data from Local title");
 
 		Image image = null;
 		try {
@@ -187,6 +187,7 @@ public class TitleController implements ModelInterface {
 	}
 
 	public void loadInformation(CollectionTitle item) {
+		LOGGER.info("Loading data from KitsuDatabase");
 		Database database = new KitsuDatabase();
 		CollectDatas datas = database.read(item.getId(), item.getCategory());
 		Platform.runLater(() -> {
@@ -202,6 +203,7 @@ public class TitleController implements ModelInterface {
 	}
 
 	public void onClickImageViewTitle() {
+		LOGGER.config("Click on [ImageViewTitle]");
 		CollectionTitle item = collections.getActualItem();
 		Desktop desk = Desktop.getDesktop();
 		try {
@@ -224,12 +226,13 @@ public class TitleController implements ModelInterface {
 
 	public void onClickButtonUpdate() {
 		CollectionTitle item = collections.getActualItem();
-		CustomLogger.log("UPDATED SUB ITENS ....");
-		CustomLogger.log("UPDATEDED SUB ITENS!");
+		LOGGER.config("Click on [Update]");
+
 		loadTable(item);
 	}
 
 	public void onClickButtonRemove() {
+		LOGGER.config("Click on [Remove]");
 		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
 		try {
 			CollectionForm collectionForm = orchestrator.read();
@@ -243,6 +246,7 @@ public class TitleController implements ModelInterface {
 	}
 
 	public void onClickButtonHide() {
+		LOGGER.config("Click on [Hide]");
 		XmlCollectionOrchestrator orchestrator = new XmlCollectionOrchestrator();
 		try {
 
@@ -270,7 +274,7 @@ public class TitleController implements ModelInterface {
 	}
 
 	public void loadTable(CollectionTitle item) {
-
+		LOGGER.config("Load Title Table");
 		List<CollectionItem> listSubItens = item.getListSubItens();
 
 		List<TableCollectionItemModel> tableItens = new ArrayList<>();

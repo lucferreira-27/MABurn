@@ -76,7 +76,6 @@ public class TitleDownloadController implements ControllerStateAdapter {
 
 	@Override
 	public void initialize() {
-		System.out.println("Initialize");
 		titleDownloadInitialize = new TitleDownloadInitialize(titleDownload, this);
 		titleDownloadInitialize.initialize();
 		organizeFetchResult = new OrganizeFetchResult(titleDownload.getCbItems(), titleDownload.getCbSource(),

@@ -1,17 +1,14 @@
 package com.lucas.ferreira.maburn.testing;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-
-import org.junit.jupiter.api.Test;
-
 import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
 import com.lucas.ferreira.maburn.model.sites.RegisterSite;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
+import org.junit.Test;
+
+import java.nio.file.Path;
+
+import static org.junit.Assert.assertTrue;
 
 public class EvaluateTest {
 	@Test

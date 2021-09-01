@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.exceptions.DownloadServiceException;
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.dao.webdatas.TitleWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
-import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.util.CustomLogger;
+import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.util.MathUtil;
 
 import javafx.application.Platform;
@@ -32,7 +32,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TitleDownload {
-	
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	private final static int MAXIMUM_NUMBER = 10;
 	private Integer downloadType = null;
 	private ExecutorService executorDownloader = Executors.newFixedThreadPool(MAXIMUM_NUMBER);
@@ -100,10 +101,6 @@ public class TitleDownload {
 			
 		});
 
-		state.addListener((obs, oldvalue, newvalue) -> {
-			CustomLogger.log("Change state from " + oldvalue + " to " + newvalue);
-			CustomLogger.log("[DownloadState] " + newvalue);
-		});
 
 	}
 
@@ -192,7 +189,7 @@ public class TitleDownload {
 
 		Platform.runLater(() -> {
 			downloader.setOnFailed(event -> {
-				System.err.println("The task failed with the following exception:");
+				LOGGER.severe("The task failed with the following exception:");
 
 			});
 		});
@@ -291,7 +288,6 @@ public class TitleDownload {
 		LongProperty e = new SimpleLongProperty(0);
 		totalProgressPropery.addListener((obs, oldvalue, newvalue) -> {
 			e.set(System.currentTimeMillis());
-			CustomLogger.log("[Speed] " + (newvalue.doubleValue()));
 
 		});
 

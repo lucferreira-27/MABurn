@@ -12,7 +12,6 @@ public class ParseItemsNamesTest {
 			ParseItemsNames parseItemsNames = new ParseItemsNames();
 			String r = parseItemsNames.parse("[1]", Category.ANIME, 1012);
 			String expect = "Episode 1";
-			System.out.println(r);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

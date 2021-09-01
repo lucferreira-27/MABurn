@@ -18,7 +18,6 @@ public class FetchSave {
 	private FetchReplacer fetchReplacer = new FetchReplacer();
 
 	public void save(SaveData saveData) {
-		System.out.println("");
 		if (existSite(saveData.getTitle(), saveData.getRegisteredSite())) {
 			fetchReplacer.replace(saveData);
 			return;

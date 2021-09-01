@@ -1,18 +1,15 @@
 package com.lucas.ferreira.maburn.view;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
+import com.lucas.ferreira.maburn.util.Resources;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
-import com.lucas.ferreira.maburn.util.Resources;
 
 public class ImagePanel extends JPanel {
 
@@ -23,7 +20,7 @@ public class ImagePanel extends JPanel {
 		setOpaque(false);
 		setLayout(new GridBagLayout());
 		try {
-			InputStream in = Resources.getResourceAsStream("template/frame.png");
+			InputStream in = Resources.getResourceAsStream("/template/frame.png");
 			img = ImageIO.read(in);
 		} catch (IOException ex) {
 			Logger.getLogger(CircleScreen.class.getName()).log(Level.SEVERE, null, ex);

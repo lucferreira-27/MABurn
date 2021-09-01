@@ -9,7 +9,6 @@ import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.dao.webdatas.ItemWebData;
 import com.lucas.ferreira.maburn.model.enums.DownloadState;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -249,14 +248,6 @@ public abstract class Downloader<T> extends Task<T> {
 		case PAUSE:
 			btnAction1.setText(btnResume.getText());
 			btnAction1.setOnAction(btnResume.getOnAction());
-			
-			break;
-		case PAUSING:
-			CustomLogger.log("Pausing please wait!");
-			
-			break;
-		case CANCELING:
-			CustomLogger.log("Pausing please wait!");
 			
 			break;
 		case DOWNLOADING:

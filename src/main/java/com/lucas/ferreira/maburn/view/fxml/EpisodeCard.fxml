@@ -83,7 +83,7 @@
                <bottom>
                   <HBox alignment="TOP_CENTER" prefHeight="49.0" prefWidth="332.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ProgressBar fx:id="progressBarDownload" maxHeight="26.0" maxWidth="244.0" prefHeight="26.0" prefWidth="233.0" progress="0.15" stylesheets="@../css/download_card.css">
+                        <ProgressBar fx:id="progressBarDownload" maxHeight="26.0" maxWidth="244.0" prefHeight="26.0" prefWidth="233.0" progress="0.15" stylesheets="@../style/download_card.css">
                            <HBox.margin>
                               <Insets left="10.0" top="5.0" />
                            </HBox.margin>
@@ -169,7 +169,7 @@
                <top>
                   <HBox alignment="BOTTOM_RIGHT" fillHeight="false" prefHeight="32.0" prefWidth="340.0" BorderPane.alignment="BOTTOM_RIGHT">
                      <children>
-                        <Label fx:id="labelDownloadState" alignment="CENTER" prefHeight="20.0" prefWidth="109.0" styleClass="card-state-queue" stylesheets="@../css/download_card.css" text="DOWNLOADING" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="labelDownloadState" alignment="CENTER" prefHeight="20.0" prefWidth="109.0" styleClass="card-state-queue" stylesheets="@../style/download_card.css" text="DOWNLOADING" textFill="WHITE" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </top>

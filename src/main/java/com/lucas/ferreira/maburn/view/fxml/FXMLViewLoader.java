@@ -1,14 +1,10 @@
 package com.lucas.ferreira.maburn.view.fxml;
 
-import java.io.IOException;
-
 import com.lucas.ferreira.maburn.model.states.ObjectState;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.navigator.LoadInterface;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
-
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,7 +15,12 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
+import java.io.IOException;
+import java.util.logging.Logger;
+
 public class FXMLViewLoader<T extends Node> {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	private static FXMLLoader loader;
 
 	static {
@@ -28,18 +29,10 @@ public class FXMLViewLoader<T extends Node> {
 
 	private BooleanProperty loaded = new SimpleBooleanProperty(false);
 	private Pane root;
-	private long start;
 
 	public FXMLViewLoader() {
 
-		start = System.currentTimeMillis(); // Gets the current date
 
-		loaded.addListener((obs, oldvalue, newvalue) -> {
-			if (newvalue) {
-				long end = System.currentTimeMillis();
-
-			}
-		});
 	}
 
 	public void loadInterface(LoadInterface loadInterface) {
@@ -87,8 +80,6 @@ public class FXMLViewLoader<T extends Node> {
 
 	public T load(String fxml, Initializable initializable, Node root) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		System.out.println(fxml);
-		System.out.println(getClass().getResource(fxml));
 		loader.setLocation(getClass().getResource(fxml));
 		loader.setController(initializable);
 		loader.setRoot(root);
@@ -150,7 +141,7 @@ public class FXMLViewLoader<T extends Node> {
 	}
 
 	private void initFX(LoadInterface loadInterface) {
-		CustomLogger.log("> Run " + loadInterface.getFxml());
+		LOGGER.config("Initialize FXML: " + loadInterface.getFxml());
 		Platform.runLater(() -> {
 
 			try {
@@ -172,7 +163,7 @@ public class FXMLViewLoader<T extends Node> {
 	}
 
 	private void remove(Pane root) {
-		CustomLogger.log("Root Children: " + root.getChildren().size());
+		LOGGER.config("Remove child from root");
 		Platform.runLater(() -> {
 			if (root.getChildren().size() > 1)
 				root.getChildren().remove(1, root.getChildren().size());

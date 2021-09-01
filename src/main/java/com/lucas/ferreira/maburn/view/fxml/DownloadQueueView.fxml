@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root alignment="TOP_RIGHT" stylesheets="@../css/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="TOP_RIGHT" stylesheets="@../style/DarkThema.css" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <ScrollPane fx:id="spItemsImagesScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" styleClass="itensImagesScroll" vbarPolicy="AS_NEEDED">
         <BorderPane fx:id="borderMain" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-radius: 20; -fx-border-radius: 20;">
             <!-- TODO Add Nodes -->

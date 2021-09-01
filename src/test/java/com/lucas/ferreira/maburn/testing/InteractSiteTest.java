@@ -1,27 +1,7 @@
 package com.lucas.ferreira.maburn.testing;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import org.junit.After;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-
 import com.lucas.ferreira.maburn.model.browser.PlaywrightSettings;
-import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
-import com.lucas.ferreira.maburn.model.sites.InteractSite;
-import com.lucas.ferreira.maburn.model.sites.RegisterSite;
-import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
-import com.lucas.ferreira.maburn.model.sites.SiteResult;
-import com.lucas.ferreira.maburn.model.sites.SiteValues;
+import com.lucas.ferreira.maburn.model.sites.*;
 import com.lucas.ferreira.maburn.webserver.LocalServer;
 import com.lucas.ferreira.maburn.webserver.WebServer;
 import com.microsoft.playwright.Browser;
@@ -29,8 +9,19 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import com.microsoft.playwright.Playwright.CreateOptions;
 import com.microsoft.playwright.impl.Driver;
+import org.junit.After;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class InteractSiteTest {
 	private Path driver;
@@ -339,7 +330,6 @@ public class InteractSiteTest {
 		for (int i = 0; i < repeat; i++) {
 
 			siteResult = interactWithTarget(withoutTargeturl, site, target);
-			System.out.println("[" + i + "] EACH RESULT " + siteResult);
 
 		}
 		assertNotNull(siteResult);

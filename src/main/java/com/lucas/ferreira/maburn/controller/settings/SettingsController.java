@@ -2,6 +2,7 @@ package com.lucas.ferreira.maburn.controller.settings;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
 import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
@@ -17,11 +18,11 @@ import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrato
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Icons;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
 
 public class SettingsController implements Initialize {
+	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
 	private SettingsModel settingsModel;
@@ -120,7 +121,7 @@ public class SettingsController implements Initialize {
 	}
 
 	public void onClickAnimeCollectionPath() {
-		CustomLogger.log("Anime Path");
+		LOGGER.info("Click on [Anime Path]");
 
 		File pathDestination = DirectoryModel
 				.selectDirectory(settingsModel.getvBoxConfiguration().getScene().getWindow());
@@ -136,7 +137,7 @@ public class SettingsController implements Initialize {
 	}
 
 	public void onClickMangaCollectionPath() {
-		CustomLogger.log("Manga Path");
+		LOGGER.info("Click on [Manga Path]");
 
 		File pathDestination = DirectoryModel
 				.selectDirectory(settingsModel.getvBoxConfiguration().getScene().getWindow());
@@ -152,22 +153,14 @@ public class SettingsController implements Initialize {
 	}
 
 	public void onClickInstall() {
+		LOGGER.config("Click on [Reinstall]");
 
 		install();
 
-//		try {
-//			BrowserInstaller browserInstaller = new BrowserInstaller();
-//			browserInstaller.install(Browsers.FIREFOX);
-//			
-//			
-//		} catch (BrowserInstallerException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
 	public void onClickReinstall() {
-		System.out.println("Reinstall");
+		LOGGER.config("Click on [Reinstall]");
 		reinstall();
 
 	}
@@ -178,7 +171,8 @@ public class SettingsController implements Initialize {
 			try {
 				controller.reinstall(Browsers.FIREFOX, Browsers.FFMPEG);
 			} catch (BrowserInstallerException e) {
-				// TODO Auto-generated catch block
+				LOGGER.severe("Error on Reinstall: " + e.getMessage());
+
 				e.printStackTrace();
 			}
 
@@ -191,6 +185,7 @@ public class SettingsController implements Initialize {
 			try {
 				controller.install(Browsers.FIREFOX, Browsers.FFMPEG);
 			} catch (BrowserInstallerException e) {
+				LOGGER.severe("Error on Install: " + e.getMessage());
 				e.printStackTrace();
 			}
 

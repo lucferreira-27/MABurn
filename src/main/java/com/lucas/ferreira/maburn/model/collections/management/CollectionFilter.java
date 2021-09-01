@@ -3,12 +3,11 @@ package com.lucas.ferreira.maburn.model.collections.management;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
 import com.lucas.ferreira.maburn.model.enums.CollectionFilterType;
-import com.lucas.ferreira.maburn.model.items.CollectionTitle;
-import com.lucas.ferreira.maburn.util.CustomLogger;
 import com.lucas.ferreira.maburn.util.comparator.FilterAscComparator;
 import com.lucas.ferreira.maburn.util.comparator.FilterDescComparator;
 import com.lucas.ferreira.maburn.util.comparator.FilterScoreComparator;
@@ -19,6 +18,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.GridPane;
 
 public class CollectionFilter {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private ObjectProperty<CollectionFilterType> propertyActiveFilter = new SimpleObjectProperty<CollectionFilterType>();
 
@@ -46,18 +46,18 @@ public class CollectionFilter {
 	}
 
 	private void filterByDate(GridPane table, GridPaneTable collectionTable) {
-		CustomLogger.log("FILTER BY DATE");
+		LOGGER.config("Active filter order DATE");
 
 	}
 	private void filterByScore(GridPane table, GridPaneTable collectionTable) {
-		CustomLogger.log("FILTER BY SCORE");
+		LOGGER.config("Active filter order SCORE");
 		List<GridPaneCell> cells = getCellsFromGridPane(table);
 		Collections.sort(cells, new FilterScoreComparator());
 		addCellsInGridPane(cells, table, collectionTable);
 
 	}
 	private void filterOrderAsc(GridPane table, GridPaneTable collectionTable) {
-		CustomLogger.log("FILTER ORDER ASC");
+		LOGGER.config("Active filter order ASC");
 		List<GridPaneCell> cells = getCellsFromGridPane(table);
 		Collections.sort(cells, new FilterAscComparator());
 		// printCellsValues(cells);
@@ -66,11 +66,7 @@ public class CollectionFilter {
 
 	}
 
-	private void printCellsValues(List<GridPaneCell> cells) {
-		cells.stream().forEach((cell) -> {
-			
-		});
-	}
+
 
 	private List<GridPaneCell> getCellsFromGridPane(GridPane table) {
 		List<GridPaneCell> cells = new ArrayList<GridPaneCell>();
@@ -100,7 +96,7 @@ public class CollectionFilter {
 	}
 
 	private void filterOrderDesc(GridPane table, GridPaneTable collectionTable) {
-		CustomLogger.log("FILTER ORDER DESC");
+		LOGGER.config("Active filter order DESC");
 		List<GridPaneCell> cells = getCellsFromGridPane(table);
 		Collections.sort(cells, new FilterDescComparator());
 		// printCellsValues(cells);
