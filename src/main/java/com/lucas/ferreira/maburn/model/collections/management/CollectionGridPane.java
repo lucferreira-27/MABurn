@@ -1,11 +1,5 @@
 package com.lucas.ferreira.maburn.model.collections.management;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Logger;
-
 import com.lucas.ferreira.maburn.exceptions.ThumbnailLoadException;
 import com.lucas.ferreira.maburn.model.GridPaneCell;
 import com.lucas.ferreira.maburn.model.GridPaneTable;
@@ -22,16 +16,9 @@ import com.lucas.ferreira.maburn.util.comparator.CollectionGridCellComparator;
 import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
-
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
 import javafx.scene.Node;
@@ -39,6 +26,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class CollectionGridPane {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -106,7 +99,6 @@ public class CollectionGridPane {
 			}
 			if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
 				swichTableLocal(tableSearch, querry);
-				return;
 			}
 
 		});
@@ -223,16 +215,13 @@ public class CollectionGridPane {
 	}
 
 	private void addAllItemsInTable() {
-		collection.getItens().sort((n1, n2) -> {
-			return n1.getTitleDataBase().compareTo(n2.getTitleDataBase());
-		});
+		collection.getItens().sort(Comparator.comparing(CollectionTitle::getTitleDataBase));
 		table.getCells().clear();
 		if (collection.getItens().size() > 0)
 			for (CollectionTitle item : collection.getItens()) {
 				try {
 					addItemInTable(item);
 				} catch (ThumbnailLoadException e) {
-
 					e.printStackTrace();
 				}
 			}
@@ -247,7 +236,7 @@ public class CollectionGridPane {
 		if (cell != null) {
 			Card card = new NormalCard(cell);
 			table.add(cell);
-			Platform.runLater(() -> card.overlay());
+			Platform.runLater(card::overlay);
 		}
 	}
 
@@ -294,11 +283,11 @@ public class CollectionGridPane {
 				cells = table.getCells();
 			else if (propertyStatus.get() == CollectionStatus.COLLECTION_SEARCH) {
 				cells = tableSearch.getCells();
-				java.util.Collections.sort(cells, new CollectionGridCellComparator());
+				cells.sort(new CollectionGridCellComparator());
 			}
 
 			imagesGridPane.getChildren().clear();
-			for (int i = 0; i < cells.size(); i++) {
+			for (int i = 0; i < (cells != null ? cells.size() : 0); i++) {
 				GridPaneCell cell = cells.get(i);
 				int c = GridPaneTable.getImagesGridPaneLastColumn(i, table.getColumnSize());
 				int r = GridPaneTable.getImagesGridPaneLastRow(i, table.getColumnSize());
@@ -317,22 +306,22 @@ public class CollectionGridPane {
 
 	public void swichTableSearch(GridPaneTable table, String querry) {
 		propertyStatus.set(CollectionStatus.COLLECTION_SEARCH);
-		List<CollectionTitle> mathItens = new ArrayList<>();
+		List<CollectionTitle> mathItems = new ArrayList<>();
 
 		mathTable = new GridPaneTable(table.getColumnSize());
 
-		table.getCells().stream().forEach(cell -> mathItens.add((CollectionTitle) cell.getUserData()));
+		table.getCells().forEach(cell -> mathItems.add((CollectionTitle) cell.getUserData()));
 
 		for (int i = 0; i < table.getCells().size(); i++) {
 			CollectionTitle item = (CollectionTitle) table.getCells().get(i).getUserData();
-			if (mathItens.contains(item)) {
+			if (mathItems.contains(item)) {
 				mathTable.add(table.getCells().get(i));
 			}
 		}
 
-		if (mathItens.size() == 0) {
+		if (mathItems.size() == 0) {
 			propertyEmptyCollection.setValue(true);
-		} else if (mathItens.size() > 0) {
+		} else {
 			propertyEmptyCollection.set(false);
 			tableSearch = mathTable;
 
@@ -341,25 +330,25 @@ public class CollectionGridPane {
 		}
 	}
 
-	public void swichTableLocal(GridPaneTable table, String querry) {
-		List<CollectionTitle> originalItens = new ArrayList<>();
-		List<CollectionTitle> mathItens = new ArrayList<>();
+	public void swichTableLocal(GridPaneTable table, String query) {
+		List<CollectionTitle> originalItems = new ArrayList<>();
+		List<CollectionTitle> mathItems;
 
 		mathTable = new GridPaneTable(table.getColumnSize());
 
-		table.getCells().forEach(cell -> originalItens.add((CollectionTitle) cell.getUserData()));
-		mathItens = CollectionMatch.locale(originalItens, querry);
+		table.getCells().forEach(cell -> originalItems.add((CollectionTitle) cell.getUserData()));
+		mathItems = CollectionMatch.locale(originalItems, query);
 
 		for (int i = 0; i < table.getCells().size(); i++) {
 			CollectionTitle item = (CollectionTitle) table.getCells().get(i).getUserData();
-			if (mathItens.contains(item)) {
+			if (mathItems.contains(item)) {
 				mathTable.add(table.getCells().get(i));
 			}
 		}
 
-		if (mathItens.size() == 0) {
+		if (mathItems.size() == 0) {
 			propertyEmptyCollection.setValue(true);
-		} else if (mathItens.size() > 0) {
+		} else {
 			propertyEmptyCollection.set(false);
 			replaceTable(mathTable);
 
@@ -369,7 +358,7 @@ public class CollectionGridPane {
 	private void replaceTable(GridPaneTable newTable) {
 
 		List<GridPaneCell> cells = newTable.getCells();
-		java.util.Collections.sort(cells, new CollectionGridCellComparator());
+		cells.sort(new CollectionGridCellComparator());
 		imagesGridPane.getChildren().clear();
 		for (int i = 0; i < cells.size(); i++) {
 			GridPaneCell cell = cells.get(i);

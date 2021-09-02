@@ -1,12 +1,5 @@
 package com.lucas.ferreira.maburn.model.browser;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
-
 import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.model.UserSystem;
 import com.lucas.ferreira.maburn.model.ZipModel;
@@ -14,12 +7,18 @@ import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.FileDownloadValues;
 import com.lucas.ferreira.maburn.model.enums.InstallationState;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+
 public class BrowserInstaller {
-	private PlaywrightDownload playwrightDownload = new PlaywrightDownload();
-	private BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
-	private UserSystem userSystem = new UserSystem();
-	private ZipModel zipModel;
-//	private final static Browsers BROWSER_DEFAULT = Browsers.FIREFOX;
+	private final PlaywrightDownload playwrightDownload = new PlaywrightDownload();
+	private final BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
+	private final UserSystem userSystem = new UserSystem();
+	//	private final static Browsers BROWSER_DEFAULT = Browsers.FIREFOX;
 
 	public InstallerProcess install(Browsers browser) throws BrowserInstallerException {
 		try {
@@ -27,9 +26,7 @@ public class BrowserInstaller {
 			FileExtractValues fileExtractValues = new FileExtractValues(local);
 			FileDownloadValues fileDownloadValues = download(local, browser);
 
-			InstallerProcess installerProcess = installProcess(fileDownloadValues, fileExtractValues);
-
-			return installerProcess;
+			return installProcess(fileDownloadValues, fileExtractValues);
 
 		} catch (Exception e) {
 			throw new BrowserInstallerException(e.getMessage());
@@ -38,8 +35,7 @@ public class BrowserInstaller {
 	}
 
 	private FileDownloadValues download(String local, Browsers browser) throws Exception {
-		FileDownloadValues fileDownloadValues = playwrightDownload.download(local, browser);
-		return fileDownloadValues;
+		return playwrightDownload.download(local, browser);
 	}
 
 	private InstallerProcess installProcess(FileDownloadValues fileDownloadValues,
@@ -63,7 +59,7 @@ public class BrowserInstaller {
 	private void extractBrowserFolder(InstallerProcess installerProcess) {
 		try {
 			installerProcess.getInstallationState().set(InstallationState.EXTRACTING);
-			zipModel = new ZipModel(installerProcess.getFileExtractValues());
+			ZipModel zipModel = new ZipModel(installerProcess.getFileExtractValues());
 			zipModel.unzipFile();
 		} catch (IOException e) {
 			e.printStackTrace();

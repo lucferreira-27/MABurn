@@ -14,11 +14,7 @@ public class ChapterScraping extends ItemScraping {
 
 	protected ItemScraped scrape(SiteResult siteResult) {
 		try {
-
-
-			ChapterScraped chapterScraped = new ChapterScraped(siteResult);
-
-			return chapterScraped;
+			return new ChapterScraped(siteResult);
 		} catch (Exception e) {
 			return itemScrapedWithException(e);
 		}

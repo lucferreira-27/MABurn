@@ -1,10 +1,5 @@
 package com.lucas.ferreira.maburn.controller.title.download.installer;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
 import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.ModelInitialiable;
@@ -15,14 +10,17 @@ import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.model.enums.InstallationState;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
-
 import javafx.application.Platform;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrowserInstallerController implements Initialize {
 
 	private BrowserInstallerModel browserInstallerModel;
 	private BrowserInstaller browserInstaller = new BrowserInstaller();
-	private List<Supplier<Void>> listOnClose = new ArrayList<>();
+	private List<Runnable> listOnClose = new ArrayList<>();
 	private static final String ICON_PATH = "icons/";
 
 	public BrowserInstallerController(BrowserInstallerModel browserInstallerModel) {
@@ -177,11 +175,11 @@ public class BrowserInstallerController implements Initialize {
 	}
 
 	private void close() {
-		listOnClose.forEach(Supplier::get);
+		listOnClose.forEach(Runnable::run);
 
 	}
 
-	public void addOnClose(Supplier<Void> onClose) {
+	public void addOnClose(Runnable onClose) {
 		this.listOnClose.add(onClose);
 	}
 

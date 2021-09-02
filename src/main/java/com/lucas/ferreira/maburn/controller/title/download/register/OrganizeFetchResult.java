@@ -1,24 +1,21 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.fetch.FetchInSystem;
 import com.lucas.ferreira.maburn.model.fetch.SaveData;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
-
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OrganizeFetchResult {
 
@@ -40,7 +37,7 @@ public class OrganizeFetchResult {
 		String tag = category == Category.ANIME ? EPISODE_CATEGORY_TAG : CHAPTER_CATEGORY_TAG;
 		titleScraped.getItemsScraped();
 		TaggedItems taggedItems = new TaggedItems(removeUselessListMap(titleScraped.getItemsScraped()));
-		cbItems.setCellFactory(param -> addCellFactory(tag));
+		cbItems.setCellFactory(param -> addCellFactory());
 		Platform.runLater(() -> cbItems.getItems().setAll(taggedItems.getKeyItems()));
 
 		cbItems.setDisable(false);
@@ -50,7 +47,7 @@ public class OrganizeFetchResult {
 
 	}
 	
-	public ListCell<String> addCellFactory(String tag){
+	public ListCell<String> addCellFactory(){
 		IntegerProperty count = new SimpleIntegerProperty();
 		return new ListCell<String>() {
 
@@ -68,11 +65,7 @@ public class OrganizeFetchResult {
                 if (item == null || empty) {
                     setGraphic(null);
                 } else {
-                    // Add our text to the Label
-
                     label.setText(item);
-
-            
                     setGraphic(label);
                 }
             }

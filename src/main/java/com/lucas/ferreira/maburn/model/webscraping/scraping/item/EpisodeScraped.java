@@ -1,18 +1,17 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.lucas.ferreira.maburn.model.enums.Definition;
-import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.sites.SiteResult;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.AnimeScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class EpisodeScraped implements ItemScraped {
 
-	private Map<Definition, String> videoLinks = new HashMap<Definition, String>();
+	private final Map<Definition, String> videoLinks = new HashMap<Definition, String>();
 	private String name;
 	private AnimeScraped animeScraped;
 	private Exception exception;

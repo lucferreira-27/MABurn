@@ -1,14 +1,10 @@
 package com.lucas.ferreira.maburn.model.browser;
 
-import java.io.IOException;
-
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerModel;
 import com.lucas.ferreira.maburn.model.ContainerBoxLoad;
 import com.lucas.ferreira.maburn.model.enums.Containers;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
-import com.sun.rowset.internal.InsertRow;
-
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,10 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
+import java.io.IOException;
+
 public class BrowserInstallerLaunch {
-	private ContainerBoxLoad<BorderPane> containerBoxLoad = new ContainerBoxLoad<BorderPane>();
-	private Containers containers = Containers.BROWSE_INSTALLER;
-	private ShadeLayer shadeLayer = new ShadeLayer(new AnchorPane());
+	private final ContainerBoxLoad<BorderPane> containerBoxLoad = new ContainerBoxLoad<BorderPane>();
+	private final Containers containers = Containers.BROWSE_INSTALLER;
+	private final ShadeLayer shadeLayer = new ShadeLayer(new AnchorPane());
 
 	public BrowserInstallerController openBrowserInstaller(StackPane stackPane) throws IOException {
 
@@ -28,18 +26,14 @@ public class BrowserInstallerLaunch {
 		BorderPane borderPane = loadContainer();
 		BrowserInstallerController browserInstallerController = loadController(browserInstallerModel);
 		
-		browserInstallerController.addOnClose(() -> {
-			removeContainerFromStackPane(stackPane, borderPane);
-			return null;
-		});
+		browserInstallerController.addOnClose(() -> removeContainerFromStackPane(stackPane, borderPane));
 		addContainerInStackPane(stackPane, borderPane);
 
 		return browserInstallerController;
 
 	}
 	private BorderPane loadContainer() throws IOException {
-		BorderPane borderPane = containerBoxLoad.load(Containers.BROWSE_INSTALLER);
-		return borderPane;
+		return containerBoxLoad.load(Containers.BROWSE_INSTALLER);
 	}
 	
 	private BrowserInstallerController loadController(BrowserInstallerModel browserInstallerModel) {
@@ -61,8 +55,4 @@ public class BrowserInstallerLaunch {
 		});
 
 	}
-
-
-
-
 }

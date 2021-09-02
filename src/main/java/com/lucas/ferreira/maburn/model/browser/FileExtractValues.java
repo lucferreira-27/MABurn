@@ -14,12 +14,12 @@ import javafx.collections.ObservableList;
 public class FileExtractValues {
 
 	private String path;
-	private IntegerProperty totalFiles = new SimpleIntegerProperty();
-	private IntegerProperty currentFile = new SimpleIntegerProperty();;
-	private DoubleProperty extractingProgress = new SimpleDoubleProperty();
-	private ObservableList<FileModel> fileModels = FXCollections.observableArrayList();
-	private BooleanProperty finish = new SimpleBooleanProperty(false);
-	private BooleanProperty failed = new SimpleBooleanProperty(false);
+	private final IntegerProperty totalFiles = new SimpleIntegerProperty();
+	private final IntegerProperty currentFile = new SimpleIntegerProperty();
+	private final DoubleProperty extractingProgress = new SimpleDoubleProperty();
+	private final ObservableList<FileModel> fileModels = FXCollections.observableArrayList();
+	private final BooleanProperty finish = new SimpleBooleanProperty(false);
+	private final BooleanProperty failed = new SimpleBooleanProperty(false);
 
 	public FileExtractValues(String path) {
 		this.path = path;

@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.io.File;
 import java.nio.file.Path;
 
 public class RegisteredSite {
@@ -22,7 +21,7 @@ public class RegisteredSite {
 
 	@Override
 	public String toString() {
-		return siteConfig.getName();
+		return siteConfig.getName() + " [" + siteConfig.getLanguage() + "]";
 	}
 
 }

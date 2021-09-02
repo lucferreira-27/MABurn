@@ -16,27 +16,28 @@ public class CheckBrowserFiles {
 		if (results.size() <= 0) {
 			return false;
 		}
-		boolean found = searchBrowserName(browser, results);
-		return found;
+		return searchBrowserName(browser, results);
 	}
 
 	private boolean searchBrowserName(Browsers browser, List<String> results) {
-		return results.stream().filter((result) -> result.contains(browser.name().toLowerCase())).findFirst()
-				.isPresent();
+		return results.stream().anyMatch((result) -> result.contains(browser.name().toLowerCase()));
 	}
 
 	private List<String> listAllFilesNamesInFolder(File fileLocal) {
-		List<String> results = new ArrayList<String>();
+		List<String> results = new ArrayList<>();
 
 		File[] files = fileLocal.listFiles();
 
-		for (File file : files) {
-			if (file.isFile() || file.isDirectory()) {
-				results.add(file.getName());
+		if (files != null) {
+			for (File file : files) {
+				if (file.isFile() || file.isDirectory()) {
+					results.add(file.getName());
+				}
 			}
 		}
-
 		return results;
+
+
 	}
 
 }

@@ -1,17 +1,22 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.title;
 
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import com.lucas.ferreira.maburn.model.sites.SiteResult;
 import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.Scraping;
 import com.microsoft.playwright.Page;
 
 public abstract class TitleScraping extends Scraping {
 
-	
+	private RegisteredSite registeredSite;
+
+	protected RegisteredSite getSite() {
+		return registeredSite;
+	}
 
 	public TitleScraped scrapeTitle(SiteValues siteValues) {
 		
 		try {
-			
 			markTime.begin();
 			launch(true);
 			Page page = newPage();
@@ -34,4 +39,12 @@ public abstract class TitleScraping extends Scraping {
 	
 	protected abstract TitleScraped scrape(Page page, SiteValues siteValues);
 
+	protected SiteResult scrapeTitle(Page page, SiteValues siteValues){
+		this.registeredSite = siteValues.getRegisteredSite();
+
+		SiteResult siteResult = get(siteValues,page);
+
+		setPageInfos(siteResult, registeredSite);
+		return siteResult;
+	}
 }

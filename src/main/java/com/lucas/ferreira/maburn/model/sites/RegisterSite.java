@@ -1,15 +1,15 @@
 package com.lucas.ferreira.maburn.model.sites;
 
+import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.util.ReadProperties;
+import com.lucas.ferreira.maburn.util.ResourcesFile;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.util.ReadProperties;
-import com.lucas.ferreira.maburn.util.ResourcesFile;
 
 public class RegisterSite {
 
@@ -56,6 +56,8 @@ public class RegisterSite {
 		registeredSite.getSiteConfig().setScriptPath(properties.getProperty("script"));
 		registeredSite.getSiteConfig().setCategory(
 				(properties.getProperty("category").equals(Category.ANIME.name())) ? Category.ANIME : Category.MANGA);
+		registeredSite.getSiteConfig().setSlug(properties.getProperty("slug"));
+		registeredSite.getSiteConfig().setLanguage(properties.getProperty("language"));
 		return registeredSite;
 
 	}

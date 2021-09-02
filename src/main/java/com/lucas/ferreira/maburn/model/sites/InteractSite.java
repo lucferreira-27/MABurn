@@ -30,6 +30,7 @@ public class InteractSite {
 	public SiteResult get(SiteValues siteValues) {
 		this.siteValues = siteValues;
 		working.set(true);
+		LOGGER.info("Navigate to " + siteValues.getUrl());
 		Response response = page.navigate(siteValues.getUrl());
 		response.finished();
 		processScript(siteValues);

@@ -4,7 +4,11 @@ import com.lucas.ferreira.maburn.controller.title.download.cards.ItemDownloadVal
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
+import java.util.logging.Logger;
+
 public abstract class DownloadProgressListener {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	protected ItemDownloadValues itemDownloadValues;
 
 	public DownloadProgressListener(ItemDownloadValues itemDownloadValues) {
@@ -19,9 +23,9 @@ public abstract class DownloadProgressListener {
 	}
 
 	protected void trackDownloadBytes(TrackByteChannel trackByteChannel) {
-		trackByteChannel.setOnRead((readedByte) -> {
+		trackByteChannel.setOnRead((readByte) -> {
 
-			double megabytes = BytesUtil.convertBytesToMegasBytes(readedByte);
+			double megabytes = BytesUtil.convertBytesToMegasBytes(readByte);
 			itemDownloadValues.getTotalDownloaded().set(megabytes);
 
 		});
@@ -33,7 +37,7 @@ public abstract class DownloadProgressListener {
 				while (itemDownloadValues.getDownloadProgressState().get() == DownloadProgressState.DOWNLOADING) {
 					double start = itemDownloadValues.getTotalDownloaded().get();
 
-					Thread.sleep(1000);
+					Thread.sleep(1000); // Download speed per second
 
 					double end = itemDownloadValues.getTotalDownloaded().get();
 					double downloadSpeed = end - start;
@@ -61,12 +65,11 @@ public abstract class DownloadProgressListener {
 	}
 
 	protected void changeDownloadState(DownloadProgressState downloadProgressState) {
-
+		LOGGER.config("Download: " + itemDownloadValues.getName() + " changed state to " + downloadProgressState);
 		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
 	}
 	protected void changeDownloadState(DownloadProgressState downloadProgressState, String msg) {
-
-
+		LOGGER.config("Download: " + itemDownloadValues.getName() + " changed state to " + downloadProgressState);
 		itemDownloadValues.getDownloadProgressState().set(downloadProgressState);
 		itemDownloadValues.setMessage(msg);
 	}

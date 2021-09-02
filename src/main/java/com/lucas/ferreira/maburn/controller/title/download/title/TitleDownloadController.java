@@ -1,37 +1,12 @@
 package com.lucas.ferreira.maburn.controller.title.download.title;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionAutomatic;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionManual;
 import com.lucas.ferreira.maburn.controller.title.download.FetchActionRecover;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.FetchTypeSelect;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemValueTextField;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedAll;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedBetween;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedSingle;
-import com.lucas.ferreira.maburn.controller.title.download.controllers.ItemsSelectedUpdate;
+import com.lucas.ferreira.maburn.controller.title.download.controllers.*;
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
-import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemAll;
-import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemBetween;
-import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemSingle;
-import com.lucas.ferreira.maburn.controller.title.download.register.ChooseItemUpdate;
-import com.lucas.ferreira.maburn.controller.title.download.register.FetchInfo;
-import com.lucas.ferreira.maburn.controller.title.download.register.FetchItemsLinks;
-import com.lucas.ferreira.maburn.controller.title.download.register.FetchTextDetails;
-import com.lucas.ferreira.maburn.controller.title.download.register.FetchableTittle;
-import com.lucas.ferreira.maburn.controller.title.download.register.OrganizeFetchResult;
-import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleFetcher;
-import com.lucas.ferreira.maburn.controller.title.download.register.RegisterTitleSearcher;
-import com.lucas.ferreira.maburn.controller.title.download.register.ScreenshotFullDetails;
-import com.lucas.ferreira.maburn.controller.title.download.register.TaggedItems;
+import com.lucas.ferreira.maburn.controller.title.download.register.*;
 import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.model.UserSystem;
 import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
@@ -51,7 +26,14 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
 public class TitleDownloadController implements ControllerStateAdapter {
+	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private FetchInfo fetchInfo;
 	private TitleScraped titleScraped;
@@ -86,6 +68,9 @@ public class TitleDownloadController implements ControllerStateAdapter {
 	}
 
 	private void fetch(Runnable fetch) {
+
+		LOGGER.config("Click on Fetch");
+
 		new Thread(() -> {
 			try {
 				if (isFetchPossible()) {
@@ -140,14 +125,17 @@ public class TitleDownloadController implements ControllerStateAdapter {
 	}
 
 	private void fetchNormal() {
+		LOGGER.config("Initializing FetchNormal");
 		registerFetch(new FetchActionAutomatic(new RegisterTitleSearcher(titleDownload.getTxtFetchMsg())));
 	}
 
 	private void fetchRecover() {
+		LOGGER.config("Initializing FetchRecover");
 		registerFetch(new FetchActionRecover());
 	}
 
 	private void fetchManual() {
+		LOGGER.config("Initializing FetchManual");
 		registerFetch(new FetchActionManual(titleDownloadInitialize.getManualSearchAlertController()));
 	}
 
@@ -180,16 +168,16 @@ public class TitleDownloadController implements ControllerStateAdapter {
 	}
 
 	public void onClickFetch() {
-		fetch(() -> fetchNormal());
+		fetch(this::fetchNormal);
 	}
 
 	public void onClickRecover() {
-		fetch(() -> fetchRecover());
+		fetch(this::fetchRecover);
 	}
 
 	public void onClickManualSearch() {
 
-		fetch(() -> fetchManual());
+		fetch(this::fetchManual);
 
 	}
 

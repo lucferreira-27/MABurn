@@ -1,13 +1,13 @@
 package com.lucas.ferreira.maburn.model.service;
 
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
+import com.lucas.ferreira.maburn.model.enums.Category;
+import com.lucas.ferreira.maburn.model.service.response.KitsuResponseAPI;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.logging.Logger;
-
-import com.lucas.ferreira.maburn.model.dao.CollectDatas;
-import com.lucas.ferreira.maburn.model.enums.Category;
-import com.lucas.ferreira.maburn.model.service.response.KitsuResponseAPI;
 
 public class KitsuDatabase implements Database {
 
@@ -15,8 +15,8 @@ public class KitsuDatabase implements Database {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	@Override
-	public CollectDatas read(String querry,Category category) {
-		LOGGER.info(("Read - KitsuDatabase - " +"\nquerry: " +querry + " category: " + category));
+	public CollectDatas read(String query,Category category) {
+		LOGGER.info(("Read - KitsuDatabase - " +"\nquery: " +query + " category: " + category));
 
 		String type = null;
 		switch (category) {
@@ -32,22 +32,22 @@ public class KitsuDatabase implements Database {
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
 		
 		try {
-			querry = URLEncoder.encode(querry, "UTF-8");
+			query = URLEncoder.encode(query, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			 
 			e.printStackTrace();
 		}
 		
 
-		kitsuApi = new KitsuResponseAPI(url + querry);
+		kitsuApi = new KitsuResponseAPI(url + query);
 		CollectDatas datas =  kitsuApi.fetchFirst();
 		
 		return datas;
 
 	}
 	@Override
-	public List<CollectDatas> readAll(String querry,Category category) {
-		LOGGER.info("ReadAll - KitsuDatabase - " +"\nquerry: " +querry + " category: " + category);
+	public List<CollectDatas> readAll(String query,Category category) {
+		LOGGER.info("ReadAll - KitsuDatabase - " +"\nquery: " +query + " category: " + category);
 		String type = null;
 		switch (category) {
 		case ANIME:
@@ -61,16 +61,15 @@ public class KitsuDatabase implements Database {
 		
 		String url = "https://kitsu.io/api//edge/"+type+"?filter[text]=";
 		try {
-			querry = URLEncoder.encode(querry, "UTF-8");
+			query = URLEncoder.encode(query, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			 
 			e.printStackTrace();
 		}
 		
 		
-		kitsuApi = new KitsuResponseAPI(url + querry);
-		List<CollectDatas> datas =  kitsuApi.fetchAll();
-		return datas;
+		kitsuApi = new KitsuResponseAPI(url + query);
+		return kitsuApi.fetchAll();
 
 	}
 	@Override
@@ -89,8 +88,7 @@ public class KitsuDatabase implements Database {
 		String url = "https://kitsu.io/api//edge/"+type+"/";
 		
 		kitsuApi = new KitsuResponseAPI(url + id);
-		CollectDatas datas =  kitsuApi.fetchFirst();
-		return datas;
+		return kitsuApi.fetchFirst();
 
 	}
 

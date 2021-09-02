@@ -1,21 +1,19 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.io.InputStream;
-import java.util.logging.Logger;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.lucas.ferreira.maburn.util.Timeout;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.Response;
-
 import javafx.scene.image.Image;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.util.logging.Logger;
 
 public class Actions {
 
-	private InteractSite interactSite;
+	private final InteractSite interactSite;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public Actions(InteractSite interactSite) {
@@ -73,7 +71,9 @@ public class Actions {
 
 
 	public void actionGoto(String url) {
+		LOGGER.config("Select Action Goto");
 		Page page = interactSite.getPage();
+		LOGGER.config("Navigate to " + url);
 		Response response = page.navigate(url);
 		response.finished();
 	}

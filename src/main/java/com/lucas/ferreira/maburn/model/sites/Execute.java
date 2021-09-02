@@ -1,14 +1,13 @@
 package com.lucas.ferreira.maburn.model.sites;
 
-import java.util.function.Supplier;
-import java.util.logging.Logger;
-
 import com.lucas.ferreira.maburn.util.TryAgain;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+
+import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 public class Execute {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -63,15 +62,14 @@ public class Execute {
 
 				}
 			} catch (RuntimeException e) {
-				retryEvalutate(executeValues, cmd, 3);
+				retryEvaluate(executeValues, cmd, 3);
 			}
 		} else {
 			LOGGER.warning("[Evaluate not possible Page is closed.]");
-			return;
 		}
 	}
 
-	private void retryEvalutate(ExecuteValues executeValues, String cmd, int attempts) {
+	private void retryEvaluate(ExecuteValues executeValues, String cmd, int attempts) {
 		for (int i = 0; i < attempts; i++) {
 			LOGGER.warning("[Evaluate not possible.] \n [Trying again ...]");
 			try {
@@ -83,27 +81,23 @@ public class Execute {
 				evaluate(executeValues, cmd);
 				break;
 			} catch (RuntimeException e) {
-				continue;
+				e.printStackTrace();
 			}
 		}
 		LOGGER.severe("[Evaluate Failed]");
 
 	}
 
-	private void addApp(Page page) {
-		page.evaluate("() => {" + "var app = document.createElement('app')\n" + "app.id = 'maburn'\n"
-				+ "document.children[0].appendChild(app)" + "}");
-	}
 
 	public boolean containsMaburnClass(Page page) throws PlaywrightException {
 
 		try {
 
-			return TryAgain.tryagain(
+			return Boolean.TRUE.equals(TryAgain.tryagain(
 					() -> page.content().contains("class Maburn"),
-					e -> e.getMessage().equals(expectErrorMsg), 
-					3, 
-					PlaywrightException.class);
+					e -> e.getMessage().equals(expectErrorMsg),
+					3,
+					PlaywrightException.class));
 			
 		} catch (InstantiationException | IllegalAccessException e) {
 			// TODO Auto-generated catch block

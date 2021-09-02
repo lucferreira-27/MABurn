@@ -1,17 +1,16 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class ListItemScraping {
 
@@ -29,9 +28,9 @@ public abstract class ListItemScraping {
 		myBrowser.createBrowserPage(scrapingWorks.size());
 		BrowserPage browserPage = myBrowser.getBrowsersPages().get(0);
 		ObservableList<ScrapingWork> obsItems = FXCollections.observableArrayList();
-		
-		for (int i = 0; i < scrapingWorks.size(); i++) {
-			ScrapeTask scrapeTask = new ScrapeTask(scrapingWorks.get(i), browserPage, this);
+
+		for (ScrapingWork scrapingWork : scrapingWorks) {
+			ScrapeTask scrapeTask = new ScrapeTask(scrapingWork, browserPage, this);
 			executorService.submit(scrapeTask);
 		}
 		executorService.shutdown();

@@ -3,7 +3,7 @@ package com.lucas.ferreira.maburn.model.alert;
 public class ManualSearchAlertController {
 	
 	
-	private ManualSearchAlert manualSearchAlert;
+	private final ManualSearchAlert manualSearchAlert;
 	
 	
 	public ManualSearchAlertController(ManualSearchAlert manualSearchAlert) {

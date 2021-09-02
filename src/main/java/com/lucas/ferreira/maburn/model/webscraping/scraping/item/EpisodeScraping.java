@@ -15,8 +15,7 @@ public class EpisodeScraping extends ItemScraping {
 
 		try {
 
-			EpisodeScraped episodeScraped = new EpisodeScraped(siteResult);
-			return episodeScraped;
+			return new EpisodeScraped(siteResult);
 		} catch (Exception e) {
 			return itemScrapedWithException(e);
 		}

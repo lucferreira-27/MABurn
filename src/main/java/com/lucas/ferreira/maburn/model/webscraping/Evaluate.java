@@ -1,31 +1,32 @@
 package com.lucas.ferreira.maburn.model.webscraping;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Scanner;
-
 import com.lucas.ferreira.maburn.model.enums.SearchEngine;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.util.ResourcesFile;
 
+import java.io.FileNotFoundException;
+import java.nio.file.Paths;
+import java.util.Scanner;
+import java.util.logging.Logger;
+
 public class Evaluate {
+	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private Scanner scanner;
 	
 	
 	public String findMainScript() {
-
+		LOGGER.config("Find main script");
 		scanner = new Scanner(Resources.getResourceAsStream("scraping/main.js"));
 		String script = read();
+		LOGGER.config("Main script found");
 		return script;
 	}
 
 	public String findScript(RegisteredSite registeredSite) throws FileNotFoundException {
-		scanner = new Scanner(ResourcesFile.pathToInputStream(Paths.get(registeredSite.getFolder().toAbsolutePath() + "\\scripts\\" + registeredSite.getSiteConfig().getScriptPath())));
+		scanner = new Scanner(ResourcesFile.pathToInputStream(Paths.get(registeredSite.getFolder().toString() + "\\scripts\\" + registeredSite.getSiteConfig().getScriptPath())));
 		String findScript = read();
 		return findScript;
 	}

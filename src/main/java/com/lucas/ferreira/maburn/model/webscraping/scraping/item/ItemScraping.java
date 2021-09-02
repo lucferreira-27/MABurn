@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import com.lucas.ferreira.maburn.model.sites.InteractSite;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.sites.SiteResult;
 import com.lucas.ferreira.maburn.model.sites.SiteValues;
@@ -10,8 +9,8 @@ import com.microsoft.playwright.Page;
 
 public abstract class ItemScraping extends Scraping {
 
-	private BrowserContext context;
-	private RegisteredSite registeredSite;
+	private final BrowserContext context;
+	private final RegisteredSite registeredSite;
 
 	public ItemScraping(RegisteredSite registeredSite, BrowserContext context) {
 
@@ -23,16 +22,8 @@ public abstract class ItemScraping extends Scraping {
 
 		try {
 			Page page = context.newPage();
-//			Evaluate evaluate = new Evaluate();
-//			String script = evaluate.findItemScript(site);
-			InteractSite interactSite = new InteractSite(page);
 
-			SiteResult siteResult = interactSite.get(siteValues);
-//			RulesProperties rulesProperties = readScrapingSiteRules(site);
-//			Options options = getOptions(new ItemNavigateOptions(rulesProperties));
-//
-//			navigate(url, page, options);
-
+			SiteResult siteResult = get(siteValues,page);
 			ItemScraped itemScraped = scrape(siteResult);
 			itemScraped.setRegisteredSite(registeredSite);
 			itemScraped.setSiteResult(siteResult);

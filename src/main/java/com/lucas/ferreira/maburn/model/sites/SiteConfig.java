@@ -7,6 +7,8 @@ public class SiteConfig {
 	private String homeUrl;
 	private String scriptPath;
 	private Category category;
+	private String slug;
+	private String language;
 
 	public String getName() {
 		return name;
@@ -38,6 +40,18 @@ public class SiteConfig {
 				+ category + "]";
 	}
 
-	
+	public String getSlug() {
+		return slug;
+	}
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
 
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 }

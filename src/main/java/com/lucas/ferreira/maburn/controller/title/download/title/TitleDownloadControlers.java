@@ -1,17 +1,19 @@
 package com.lucas.ferreira.maburn.controller.title.download.title;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.FetchItemType;
-import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.sites.RecoverSites;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
-
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TitleDownloadControlers implements Initialize {
 
@@ -31,7 +33,7 @@ public class TitleDownloadControlers implements Initialize {
 	public void initialize() {
 		initializeButtons();
 		initializeSelectItemsValues();
-		intializeLabels();
+		initializeLabels();
 
 	}
 
@@ -47,14 +49,46 @@ public class TitleDownloadControlers implements Initialize {
 			List<RegisteredSite> registeredSites = recoverSites.recoverAll().stream()
 					.filter((f) -> f.getSiteConfig().getCategory() == title.getCategory()).collect(Collectors.toList());
 			titleDownload.getCbSource().getItems().addAll(registeredSites);
+			titleDownload.getCbSource().setCellFactory(param -> addCellFactory());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		titleDownload.getCbSelect().getItems().addAll(Arrays.asList((FetchItemType.values())));
 
 	}
+	public ListCell<RegisteredSite> addCellFactory(){
+		IntegerProperty count = new SimpleIntegerProperty();
+		return new ListCell<RegisteredSite>() {
 
-	private void intializeLabels() {
+			final Label label = new Label();
+
+			@Override
+			protected void updateItem(RegisteredSite item, boolean empty) {
+				super.updateItem(item, empty);
+				count.set(count.get() + 1);
+				if (item == null || empty) {
+					setGraphic(null);
+				} else {
+					String name = item.getSiteConfig().getName();
+					String language = getLongLanguagName(item.getSiteConfig().getLanguage());
+					label.setText(name + " (" + language +")");
+					setGraphic(label);
+				}
+			}
+			private String getLongLanguagName(String shortLanguageName){
+				if(shortLanguageName.equals("PT_BR")){
+					return "Portuguese BR";
+				}
+				if(shortLanguageName.equals("EN_USA")){
+					return "English USA";
+				}
+				return null;
+			}
+		};
+
+	}
+
+	private void initializeLabels() {
 
 		labelItemsSelector();
 

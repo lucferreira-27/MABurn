@@ -72,7 +72,7 @@ public class FXMLViewLoader<T extends Node> {
 			default:
 				break;
 			}
-			Navigator.getMapNodesComponts().put(initializable, fxmlLoaded);
+			Navigator.getMapNodesComponents().put(initializable, fxmlLoaded);
 
 		});
 
@@ -104,14 +104,14 @@ public class FXMLViewLoader<T extends Node> {
 			Initializable initializable = components.getController();
 			switch (components) {
 			case MENU:
-				component = Navigator.getMapNodesComponts().get(initializable);
+				component = Navigator.getMapNodesComponents().get(initializable);
 				if (root.getChildren().contains(component)) {
 					root.getChildren().get(0).setVisible(false);
 				}
 				break;
 			case COLLECTION_MENU:
 				StackPane stackPane = (StackPane) root.getChildren().get(2);
-				component = Navigator.getMapNodesComponts().get(initializable);
+				component = Navigator.getMapNodesComponents().get(initializable);
 				if (stackPane.getChildren().contains(component)) {
 					int index = stackPane.getChildren().size() - 1;
 					stackPane.getChildren().get(index).setVisible(false);

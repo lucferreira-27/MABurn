@@ -7,7 +7,6 @@ import com.microsoft.playwright.options.WaitForSelectorState;
 import com.microsoft.playwright.options.WaitUntilState;
 
 public class PageNavigate {
-
 	private Page page;
 	private Options options;
 
@@ -18,7 +17,6 @@ public class PageNavigate {
 	}
 
 	public void navigate(String url) throws Exception{
-
 
 		String query = options.getSelectQuery();
 		//Double timeout = options.getTimeout();

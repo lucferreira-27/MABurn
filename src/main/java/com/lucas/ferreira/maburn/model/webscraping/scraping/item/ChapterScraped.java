@@ -1,19 +1,18 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.sites.SiteResult;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.MangaScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChapterScraped implements ItemScraped {
 	
 	
 	private String name;
-	private List<String> pagesLinks = new ArrayList<String>();
+	private List<String> pagesLinks = new ArrayList<>();
 	private MangaScraped mangaScraped;
 	private Exception exception;
 	private RegisteredSite registeredSite;

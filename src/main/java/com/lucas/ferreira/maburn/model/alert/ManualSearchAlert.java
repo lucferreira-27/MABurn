@@ -1,13 +1,9 @@
 package com.lucas.ferreira.maburn.model.alert;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.lucas.ferreira.maburn.model.effects.AlertAnimation;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,6 +18,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ManualSearchAlert implements Alert {
 
 	private final AnchorPane anchorPane;
@@ -30,9 +29,9 @@ public class ManualSearchAlert implements Alert {
 	private final TextField txtLink;
 	private final Label lblTitle;
 	private final Parent parent;
-	private String ICON_PATH = "icons/";
-	private StringProperty propertyAnswear = new SimpleStringProperty();
-	private BooleanProperty propertyResponse = new SimpleBooleanProperty();
+	private final String ICON_PATH = "icons/";
+	private final StringProperty propertyAnswer = new SimpleStringProperty();
+	private final BooleanProperty propertyResponse = new SimpleBooleanProperty();
 
 	private AlertAnimation alertAnimation = new AlertAnimation(this);
 
@@ -71,10 +70,9 @@ public class ManualSearchAlert implements Alert {
 
 	@Override
 	public void hide() {
-
-		parent.setLayoutY(5);
-		
-		
+		if (parent != null) {
+			parent.setLayoutY(5);
+		}
 		ChangeListener<Boolean> hidePanelAfterAnimation = new ChangeListener<Boolean>() {
 
 			@Override
@@ -113,7 +111,7 @@ public class ManualSearchAlert implements Alert {
 
 	public void response(String value) {
 
-		propertyAnswear.setValue(value);
+		propertyAnswer.setValue(value);
 		propertyResponse.setValue(true);
 	}
 
@@ -162,7 +160,7 @@ public class ManualSearchAlert implements Alert {
 			}
 		}
 
-		return propertyAnswear.get();
+		return propertyAnswer.get();
 
 	}
 

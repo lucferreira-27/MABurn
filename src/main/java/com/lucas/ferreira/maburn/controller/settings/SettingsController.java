@@ -1,11 +1,6 @@
 package com.lucas.ferreira.maburn.controller.settings;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
-import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.exceptions.InitializeExcpetion;
 import com.lucas.ferreira.maburn.model.DirectoryModel;
 import com.lucas.ferreira.maburn.model.Initialize;
@@ -21,12 +16,15 @@ import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
+
 public class SettingsController implements Initialize {
+
 	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-	private XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
-	private SettingsModel settingsModel;
-
+	private final XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
+	private final SettingsModel settingsModel;
 	private ConfigForm configForm;
 	private static final String ICON_PATH = "icons/";
 
@@ -110,12 +108,8 @@ public class SettingsController implements Initialize {
 		try {
 
 			String path = configForm.getTitleConfigFormByCategory(category).getCollectionDestination();
-			if (path == null || path.isEmpty()) {
-				return false;
-			}
-			return true;
+			return path != null && !path.isEmpty();
 		} catch (Exception e) {
-
 			return false;
 		}
 	}
@@ -167,10 +161,14 @@ public class SettingsController implements Initialize {
 
 	private void reinstall() {
 		new Thread(() -> {
-			BrowserInstallerController controller = openBrowserInstaller();
 			try {
-				controller.reinstall(Browsers.FIREFOX, Browsers.FFMPEG);
-			} catch (BrowserInstallerException e) {
+				BrowserInstallerController controller = openBrowserInstaller();
+
+				if (controller != null) {
+					controller.reinstall(Browsers.FIREFOX, Browsers.FFMPEG);
+				}else
+					throw new NullPointerException();
+			} catch (Exception e) {
 				LOGGER.severe("Error on Reinstall: " + e.getMessage());
 
 				e.printStackTrace();
@@ -181,10 +179,13 @@ public class SettingsController implements Initialize {
 
 	private void install() {
 		new Thread(() -> {
-			BrowserInstallerController controller = openBrowserInstaller();
 			try {
-				controller.install(Browsers.FIREFOX, Browsers.FFMPEG);
-			} catch (BrowserInstallerException e) {
+				BrowserInstallerController controller = openBrowserInstaller();
+				if (controller != null) {
+					controller.install(Browsers.FIREFOX, Browsers.FFMPEG);
+				}else
+					throw new NullPointerException();
+			} catch (Exception e) {
 				LOGGER.severe("Error on Install: " + e.getMessage());
 				e.printStackTrace();
 			}
@@ -199,7 +200,6 @@ public class SettingsController implements Initialize {
 			 controller.addOnClose(() ->{
 				 changeIconCheck();
 				 initializePrefInstallation();
-				 return null;
 			 });
 			 return controller;
 		} catch (IOException e) {

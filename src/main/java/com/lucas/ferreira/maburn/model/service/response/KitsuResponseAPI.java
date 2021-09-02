@@ -1,16 +1,15 @@
 package com.lucas.ferreira.maburn.model.service.response;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
+import com.lucas.ferreira.maburn.exceptions.ConnectionException;
+import com.lucas.ferreira.maburn.model.dao.CollectDatas;
+import com.lucas.ferreira.maburn.model.enums.Category;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.lucas.ferreira.maburn.exceptions.ConnectionException;
-import com.lucas.ferreira.maburn.model.dao.CollectDatas;
-import com.lucas.ferreira.maburn.model.enums.Category;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class KitsuResponseAPI implements ServiceResponse {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -41,8 +40,7 @@ public class KitsuResponseAPI implements ServiceResponse {
 				JSONObject data = allDatas.getJSONObject(i);
 				collectDatas.add(fetch(data));
 			} catch (Exception e) {
-				
-				continue;
+				e.printStackTrace();
 			}
 		}
 
@@ -129,9 +127,8 @@ public class KitsuResponseAPI implements ServiceResponse {
 			
 			LOGGER.severe("[DataBase] fetchTitles  - " + e.getMessage());
 		}
-		String[] titles = { canonicalTitle, enTitle, enJpTitle, jaJpTitle };
 
-		return titles;
+		return new String[]{ canonicalTitle, enTitle, enJpTitle, jaJpTitle };
 	}
 
 	private Category fetchType(JSONObject firstData) {
@@ -186,9 +183,8 @@ public class KitsuResponseAPI implements ServiceResponse {
 	private Double fetchAvaregeRating(JSONObject attributes) {
 		try {
 			String ratingString = attributes.getString("averageRating");
-			Double rating = (ratingString == null ? 0.00 : Double.parseDouble(ratingString.trim()));
 
-			return rating;
+			return ratingString == null ? 0.00 : Double.parseDouble(ratingString.trim());
 		} catch (JSONException e) {
 			
 			return null;
@@ -203,15 +199,12 @@ public class KitsuResponseAPI implements ServiceResponse {
 		String largeImage = attributes.getJSONObject("posterImage").getString("large");
 		String originalImage = attributes.getJSONObject("posterImage").getString("original");
 
-		String[] images = { tinyImage, smallImage, mediumImage, largeImage, originalImage };
-
-		return images;
+		return new String[]{ tinyImage, smallImage, mediumImage, largeImage, originalImage };
 
 	}
 
 	private Integer fetchId(JSONObject firstData) {
-		Integer id = firstData.getInt("id");
-		return id;
+		return firstData.getInt("id");
 	}
 
 	private String getItemDataBaseUrl(Integer id, Category category) {

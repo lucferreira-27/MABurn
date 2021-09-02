@@ -1,5 +1,9 @@
 package com.lucas.ferreira.maburn.model.browser;
 
+import com.lucas.ferreira.maburn.model.documents.Documents;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,15 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import com.lucas.ferreira.maburn.model.documents.Documents;
-import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
-import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
-
 public class PlaywrightSettings {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private static Map<String, String> env = new HashMap<>();
-	private static List<String> arguments = new ArrayList<>();
+	private static final List<String> ARGUMENTS = new ArrayList<>();
 
 	public static void initConfig() throws IOException {
 		XmlConfigurationOrchestrator configOrchestrator = new XmlConfigurationOrchestrator();
@@ -27,8 +27,8 @@ public class PlaywrightSettings {
 		PlaywrightProperties playwrightProperties = new PlaywrightProperties();
 		Map<String, String> properties = playwrightProperties.load("playwright/config.properties", envs);
 		LOGGER.config("Playwright Properties: " + properties);
-		arguments.add(properties.get(envs[2]));
-		arguments.add(properties.get(envs[3]));
+		ARGUMENTS.add(properties.get(envs[2]));
+		ARGUMENTS.add(properties.get(envs[3]));
 		properties.remove(envs[2]);
 		env = properties;
 		
@@ -55,14 +55,7 @@ public class PlaywrightSettings {
 	}
 
 	public static List<String> getArguments() {
-		return arguments;
+		return ARGUMENTS;
 	}
 
-	public void addEnv(String key, String value) {
-		env.put(key, value);
-	}
-
-	public void addArgument(String arg) {
-		arguments.add(arg);
-	}
 }

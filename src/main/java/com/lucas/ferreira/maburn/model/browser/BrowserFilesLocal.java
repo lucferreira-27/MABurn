@@ -1,8 +1,8 @@
 package com.lucas.ferreira.maburn.model.browser;
 
-import java.io.File;
-
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+
+import java.io.File;
 
 public class BrowserFilesLocal {
 

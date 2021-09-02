@@ -1,34 +1,28 @@
 package com.lucas.ferreira.maburn.view.navigator;
 
+import com.lucas.ferreira.maburn.controller.download.DownloadQueueController;
+import com.lucas.ferreira.maburn.controller.download.DownloadQueueModal;
+import com.lucas.ferreira.maburn.controller.settings.SettingsController;
+import com.lucas.ferreira.maburn.controller.settings.SettingsModel;
+import com.lucas.ferreira.maburn.model.states.InterfaceState;
+import com.lucas.ferreira.maburn.view.Components;
+import com.lucas.ferreira.maburn.view.Interfaces;
+import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lucas.ferreira.maburn.controller.download.DownloadQueueController;
-import com.lucas.ferreira.maburn.controller.download.DownloadQueueModal;
-import com.lucas.ferreira.maburn.controller.settings.SettingsController;
-import com.lucas.ferreira.maburn.controller.settings.SettingsModel;
-import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadController;
-import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadModel;
-import com.lucas.ferreira.maburn.model.states.InterfaceState;
-import com.lucas.ferreira.maburn.model.states.ModalStateAdapter;
-import com.lucas.ferreira.maburn.model.states.ObjectState;
-import com.lucas.ferreira.maburn.model.states.RegisteredStates;
-import com.lucas.ferreira.maburn.view.Components;
-import com.lucas.ferreira.maburn.view.Interfaces;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
-
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-
 public class Navigator {
 
-	private static Map<Interfaces, Initializable> mapNavigator = new HashMap<Interfaces, Initializable>();
-	private static List<Interfaces> interfacesList = new ArrayList<Interfaces>();
-	private static Map<Initializable, Node> mapNodesComponts = new HashMap<Initializable, Node>();
-	private FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<Node>();
+	private static Map<Interfaces, Initializable> mapNavigator = new HashMap<>();
+	private static List<Interfaces> interfacesList = new ArrayList<>();
+	private static Map<Initializable, Node> mapNodesComponts = new HashMap<>();
+	private FXMLViewLoader<Node> fxmlViewLoader = new FXMLViewLoader<>();
 
 	private void loadComponent(Components component) {
 		try {
@@ -39,7 +33,7 @@ public class Navigator {
 		}
 	}
 
-	private void hideComponenet(Components component) {
+	private void hideComponents(Components component) {
 
 		fxmlViewLoader.hideComponent(component);
 
@@ -64,11 +58,9 @@ public class Navigator {
 					if (newvalue) {
 						if (interfaces == Interfaces.CONFIGURATION) {
 							new SettingsController((SettingsModel) controller).initialize();
-							return;
 						}
-						if (interfaces == Interfaces.DOWNLOADS) {
+						else if (interfaces == Interfaces.DOWNLOADS) {
 							new DownloadQueueController((DownloadQueueModal) controller).initialize();
-							return;
 						}
 						
 					}
@@ -131,7 +123,7 @@ public class Navigator {
 
 	private void loadComponents(Interfaces interfaces) {
 		if (interfaces == Interfaces.HOME) {
-			hideComponenet(Components.MENU);
+			hideComponents(Components.MENU);
 			return;
 		}
 		loadComponent(Components.MENU);
@@ -152,13 +144,6 @@ public class Navigator {
 		get(interfaceParent);
 	}
 
-	public static Interfaces getLastInterface() {
-		if (interfacesList.size() > 0)
-			return interfacesList.get(interfacesList.size() - 2);
-		else
-			return null;
-	}
-
 	public void get(Interfaces interfaces) {
 
 		Initializable controller = mapNavigator.get(interfaces);
@@ -177,20 +162,18 @@ public class Navigator {
 	}
 
 	public Interfaces getParent() {
-		Interfaces interfaces = interfacesList.get(interfacesList.size() - 2);
-		return interfaces;
+		return interfacesList.get(interfacesList.size() - 2);
 	}
 
 	public Interfaces getActual() {
-		Interfaces interfaces = interfacesList.get(interfacesList.size() - 1);
-		return interfaces;
+		return interfacesList.get(interfacesList.size() - 1);
 	}
 
 	public static Map<Interfaces, Initializable> getMapNavigator() {
 		return mapNavigator;
 	}
 
-	public static Map<Initializable, Node> getMapNodesComponts() {
+	public static Map<Initializable, Node> getMapNodesComponents() {
 		return mapNodesComponts;
 	}
 }
