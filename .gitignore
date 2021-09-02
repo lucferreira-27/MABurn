@@ -25,7 +25,7 @@ about.html
 .project
 .classpath
 */target/**
-.settings
+*/.settings**
 .idea
 .classpath
 MaBurn.iml
