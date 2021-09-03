@@ -4,7 +4,7 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.util.ReadProperties;
 import com.lucas.ferreira.maburn.util.ResourcesFile;
 
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -27,9 +27,6 @@ public class RegisterSite {
 						if(a.getFileName().toString().contains("config")) {
 							try {
 								registerSites.add(register(a));
-							} catch (FileNotFoundException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -46,10 +43,10 @@ public class RegisterSite {
 
 	}
 
-	public RegisteredSite register(Path path) throws FileNotFoundException, IOException {
+	public RegisteredSite register(Path path) throws IOException {
 
 		ReadProperties readProperties = new ReadProperties();
-		Properties properties = readProperties.load(ResourcesFile.pathToInputStream(path));
+		Properties properties = readProperties.load(new FileInputStream(path.toFile()));
 		RegisteredSite registeredSite = new RegisteredSite(path.getParent());
 		registeredSite.getSiteConfig().setName(properties.getProperty("name"));
 		registeredSite.getSiteConfig().setHomeUrl(properties.getProperty("homeUrl"));

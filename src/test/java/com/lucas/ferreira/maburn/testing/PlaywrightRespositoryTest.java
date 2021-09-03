@@ -41,7 +41,7 @@ public class PlaywrightRespositoryTest {
 		expect.setRevision(1269);
 		expect.setName("firefox");
 
-		RepositoryBrowserJson result = playwrightRepository.requestBrowsersInRespository(Browsers.FIREFOX);
+		RepositoryBrowserJson result = playwrightRepository.requestBrowsersInRepository(Browsers.FIREFOX);
 		assertThat(expect, is(result));
 	}
 	@Test
@@ -52,7 +52,7 @@ public class PlaywrightRespositoryTest {
 		expect.setRevision(888113);
 		expect.setName("chromium");
 
-		RepositoryBrowserJson result = playwrightRepository.requestBrowsersInRespository(Browsers.CHROMIUM);
+		RepositoryBrowserJson result = playwrightRepository.requestBrowsersInRepository(Browsers.CHROMIUM);
 		assertThat(expect, is(result));
 	}
 	@Test
@@ -63,7 +63,7 @@ public class PlaywrightRespositoryTest {
 		expect.setRevision(1492);
 		expect.setName("webkit");
 
-		RepositoryBrowserJson result = playwrightRepository.requestBrowsersInRespository(Browsers.WEBKIT);
+		RepositoryBrowserJson result = playwrightRepository.requestBrowsersInRepository(Browsers.WEBKIT);
 		assertThat(expect, is(result));
 	}
 

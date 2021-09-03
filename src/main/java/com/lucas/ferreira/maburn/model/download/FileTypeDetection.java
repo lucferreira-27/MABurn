@@ -1,16 +1,14 @@
 package com.lucas.ferreira.maburn.model.download;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-
 import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.lucas.ferreira.maburn.exceptions.FileMetadataNotFound;
 import com.lucas.ferreira.maburn.exceptions.FileTypeNotSupportException;
+
+import java.io.File;
+import java.util.Arrays;
 
 public class FileTypeDetection {
 
@@ -22,7 +20,7 @@ public class FileTypeDetection {
 			if (isNotSupportType(type)) {
 				throw new FileTypeNotSupportException("File type " + type + " not supported!");
 			} else {
-				return false;
+				return true;
 			}
 		} else {
 			return true;
@@ -30,12 +28,12 @@ public class FileTypeDetection {
 	}
 
 	private static boolean anySupportTypeMathFound(String type) {
-		return Arrays.asList(FileTypeAccept.values()).stream()
+		return Arrays.stream(FileTypeAccept.values())
 				.anyMatch((fileTypeAccept) -> fileTypeAccept.getName().equals(type));
 	}
 
 	private static boolean isNotSupportType(String type) {
-		return Arrays.asList(FileTypeNotSupport.values()).stream()
+		return Arrays.stream(FileTypeNotSupport.values())
 				.anyMatch((fileTypeAccept) -> fileTypeAccept.getName().equals(type));
 	}
 
@@ -61,8 +59,7 @@ public class FileTypeDetection {
 	private Metadata getMetadata(String path) throws FileMetadataNotFound {
 		try {
 			File file = new File(path);
-			Metadata metadata = ImageMetadataReader.readMetadata(file);
-			return metadata;
+			return ImageMetadataReader.readMetadata(file);
 		} catch (Exception e) {
 
 			throw new FileMetadataNotFound(e.getMessage());
