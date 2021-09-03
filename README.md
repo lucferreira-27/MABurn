@@ -8,9 +8,6 @@
 
 Este projeto visa auxiliar e facilitar o controle de animes/mangas armazenados localmente, além da possibilidade de adição de novos títulos. Também é possível realizar o baixar de episódios/capítulos diretamente de sites e busca de informações com a Kitsu API.
 
-## Download
-Em breve
-
 ## Images da interface
 
 ### Home
