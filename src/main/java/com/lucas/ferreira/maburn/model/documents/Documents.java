@@ -2,8 +2,6 @@ package com.lucas.ferreira.maburn.model.documents;
 
 import java.io.File;
 
-import javax.swing.filechooser.FileSystemView;
-
 public class Documents {
 	
 	public final static String DOCUMENTS_LOCAL = System.getProperty("user.home")
@@ -22,6 +20,7 @@ public class Documents {
 	public final static String THUMBNAILS_LOCAL_MANGAS = THUMBNAILS_LOCAL + "\\Mangas\\";
 	public final static String BROWSER_LOCAL = DOCUMENTS_LOCAL + "\\Browser\\";
 	public final static String SCRIPT_LOCAL = DOCUMENTS_LOCAL + "\\Scripts\\";
+	public final static String LOGS_LOCAL = DOCUMENTS_LOCAL + "\\Logs\\";
 
 	public static void createDocumentFolders() {
 		
@@ -32,15 +31,18 @@ public class Documents {
 		}
 		File folderDocuments = new File(local + "//Documents");
 		File folderFiles = new File(local + "//Files");
-		
+		File folderLogs = new File(LOGS_LOCAL);
+		File folderScripts = new File(SCRIPT_LOCAL);
+
 		File folderThumbnailsAnimes = new File(local + "//Files//Thumbnails//Animes");
 		File folderThumbnailsMangas = new File(local + "//Files//Thumbnails//Mangas");
-		
-		folderDocuments.mkdirs();
-		folderFiles.mkdirs();
-		folderThumbnailsAnimes.mkdirs();
-		folderThumbnailsMangas.mkdirs();
-		
+
+		 folderDocuments.mkdirs();
+		 folderFiles.mkdirs();
+		 folderLogs.mkdirs();
+		 folderScripts.mkdirs();
+		 folderThumbnailsAnimes.mkdirs();
+		 folderThumbnailsMangas.mkdirs();
 	}
 	
 

@@ -1,6 +1,6 @@
 package com.lucas.ferreira.maburn.testing;
 
-import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
+import com.lucas.ferreira.maburn.model.sites.FindResourcesSites;
 import com.lucas.ferreira.maburn.model.sites.RegisterSite;
 import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 import com.lucas.ferreira.maburn.model.webscraping.Evaluate;
@@ -27,10 +27,10 @@ public class EvaluateTest {
 	@Test
 	public void testFindScriptByRegisteredSite() throws Exception {
 		
-		FindLocalSites findLocalSites = new FindLocalSites();
+		FindResourcesSites findResourcesSites = new FindResourcesSites();
 		Path path;
 
-		path = findLocalSites.find("SAIKO_ANIMES");
+		path = findResourcesSites.findAll();
 
 		RegisterSite registerSite = new RegisterSite();
 

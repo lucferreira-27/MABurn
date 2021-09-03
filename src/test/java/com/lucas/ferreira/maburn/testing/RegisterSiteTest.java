@@ -1,28 +1,25 @@
 package com.lucas.ferreira.maburn.testing;
 
-import java.io.File;
+import com.lucas.ferreira.maburn.model.sites.FindResourcesSites;
+import com.lucas.ferreira.maburn.model.sites.RegisterSite;
+import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import org.junit.Test;
-
-import com.lucas.ferreira.maburn.model.sites.FindLocalSites;
-import com.lucas.ferreira.maburn.model.sites.RegisterSite;
-import com.lucas.ferreira.maburn.model.sites.RegisteredSite;
 
 public class RegisterSiteTest {
 
 	@Test
 	public void testRegisterSite() throws Exception {
 		try {
-			FindLocalSites findLocalSites = new FindLocalSites();
+			FindResourcesSites findResourcesSites = new FindResourcesSites();
 			Path path;
 
-			path = findLocalSites.find("SAIKO_ANIMES");
+			path = findResourcesSites.findAll();
 
 			RegisterSite registerSite = new RegisterSite();
 
@@ -31,10 +28,7 @@ public class RegisterSiteTest {
 			
 
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
+		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -42,10 +36,10 @@ public class RegisterSiteTest {
 	@Test
 	public void testRegisterAllSites() throws Exception {
 		try {
-			FindLocalSites findLocalSites = new FindLocalSites();
-			List<Path> files = new ArrayList<>();
+			FindResourcesSites findResourcesSites = new FindResourcesSites();
+			List<Path> files;
 
-			files = Arrays.asList(findLocalSites.findAll());
+			files = Collections.singletonList(findResourcesSites.findAll());
 
 			RegisterSite registerSite = new RegisterSite();
 
@@ -54,10 +48,7 @@ public class RegisterSiteTest {
 			
 
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
+		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
