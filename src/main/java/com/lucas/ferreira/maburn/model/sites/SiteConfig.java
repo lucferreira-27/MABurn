@@ -9,6 +9,7 @@ public class SiteConfig {
 	private Category category;
 	private String slug;
 	private String language;
+	private boolean enable;
 
 	public String getName() {
 		return name;
@@ -34,12 +35,12 @@ public class SiteConfig {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	@Override
-	public String toString() {
-		return "SiteConfig [name=" + name + ", homeUrl=" + homeUrl + ", scriptPath=" + scriptPath + ", category="
-				+ category + "]";
+	public boolean isEnable() {
+		return enable;
 	}
-
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
 	public String getSlug() {
 		return slug;
 	}
@@ -54,4 +55,19 @@ public class SiteConfig {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+
+	@Override
+	public String toString() {
+		return "SiteConfig{" +
+				"name='" + name + '\'' +
+				", homeUrl='" + homeUrl + '\'' +
+				", scriptPath='" + scriptPath + '\'' +
+				", category=" + category +
+				", slug='" + slug + '\'' +
+				", language='" + language + '\'' +
+				", enable=" + enable +
+				'}';
+	}
+
+
 }

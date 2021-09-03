@@ -55,6 +55,7 @@ public class RegisterSite {
 				(properties.getProperty("category").equals(Category.ANIME.name())) ? Category.ANIME : Category.MANGA);
 		registeredSite.getSiteConfig().setSlug(properties.getProperty("slug"));
 		registeredSite.getSiteConfig().setLanguage(properties.getProperty("language"));
+		registeredSite.getSiteConfig().setEnable(Boolean.parseBoolean(properties.getProperty("enable")));
 		return registeredSite;
 
 	}

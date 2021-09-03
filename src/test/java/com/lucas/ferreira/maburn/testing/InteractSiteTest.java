@@ -1,5 +1,6 @@
 package com.lucas.ferreira.maburn.testing;
 
+import com.lucas.ferreira.maburn.model.InitializeModel;
 import com.lucas.ferreira.maburn.model.browser.PlaywrightSettings;
 import com.lucas.ferreira.maburn.model.sites.*;
 import com.lucas.ferreira.maburn.webserver.LocalServer;
@@ -27,6 +28,7 @@ public class InteractSiteTest {
 
     @BeforeEach
     public void setup() throws IOException {
+
         driver = Driver.ensureDriverInstalled(PlaywrightSettings.getEnv());
         if (LocalServer.getWebServer() == null) {
             WebServer webServer = localServer.create();
@@ -310,9 +312,27 @@ public class InteractSiteTest {
 
     }
 
+    @Test
+    public void testGetInMangaYehWithoutTarget() throws Exception {
 
-    private void withoutTarget(String withoutTargeturl, String site, int repeat)
+
+        String withoutTargeturl = "https://mangayeh.com/manga/shingeki-no-kyojin";
+       SiteResult siteResult = withoutTarget(withoutTargeturl, "MANGA_YEH", 1);
+
+    }
+
+    @Test
+    public void testGetInMangaYehWithTarget() throws Exception {
+
+
+        String withTargeturl = "https://mangayeh.com/chapter/shingeki-no-kyojin/chapter-139-final-chapter-facing-that-tree-on-the-hill";
+        SiteResult siteResult = withTarget(withTargeturl, "MANGA_YEH", "Chapter 139 - Final Chapter: Facing that tree on the hill", 1);
+        assertTrue(siteResult.getItemsValues().get(0).getUrls().size() > 1);
+    }
+    private SiteResult withoutTarget(String withoutTargeturl, String site, int repeat)
             throws Exception {
+        InitializeModel initializeModel = new InitializeModel();
+        initializeModel.boot();
         SiteResult siteResult = null;
         for (int i = 0; i < repeat; i++) {
 
@@ -323,11 +343,14 @@ public class InteractSiteTest {
         assertTrue(siteResult.getItemsValues().size() > 0);
         assertNotNull(siteResult.getPageInfo().getImageSmall());
         assertTrue(siteResult.getPageInfo().getImageSmall().getWidth() > 0);
-
+         return  siteResult;
     }
 
     private SiteResult withTarget(String withoutTargeturl, String site, String target, int repeat)
             throws Exception {
+
+        InitializeModel initializeModel = new InitializeModel();
+        initializeModel.boot();
         SiteResult siteResult = null;
         for (int i = 0; i < repeat; i++) {
 
@@ -352,9 +375,8 @@ public class InteractSiteTest {
         Page page = context.newPage();
 
         RecoverSites recoverSites = new RecoverSites();
-
         RegisteredSite site = recoverSites.recoverAll().stream()
-                .filter(fsite -> fsite.getSiteConfig().getName().contains(sitename))
+                .filter(fsite -> fsite.getSiteConfig().getSlug().contains(sitename))
                 .collect(Collectors.toList()).get(0);
 
         InteractSite interactSite = new InteractSite(page);
@@ -380,7 +402,7 @@ public class InteractSiteTest {
         RecoverSites recoverSites = new RecoverSites();
 
         RegisteredSite site = recoverSites.recoverAll().stream()
-                .filter(fsite -> fsite.getSiteConfig().getName().contains(sitename))
+                .filter(fsite -> fsite.getSiteConfig().getSlug().contains(sitename))
                 .collect(Collectors.toList()).get(0);
 
         System.out.println("Execute: [" + site.getSiteConfig().getScriptPath() + "]");

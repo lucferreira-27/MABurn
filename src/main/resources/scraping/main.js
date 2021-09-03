@@ -32,6 +32,21 @@ class Maburn {
         this.active = false;
     }
 
+    waitUntil(test, timeout= 10){
+        return new Promise(async (resolve, reject) =>{
+            for(let i = 0; i < timeout; i++){
+                if(test.call()){
+                    resolve(true)
+                }else{
+                   await this.sleep(1000)
+                }
+            }
+            reject("Time out")
+
+        })
+
+    }
+
     sleep(milliseconds) {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
