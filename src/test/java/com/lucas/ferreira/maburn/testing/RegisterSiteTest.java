@@ -24,8 +24,7 @@ public class RegisterSiteTest {
 			RegisterSite registerSite = new RegisterSite();
 
 			RegisteredSite site = registerSite.register(path);
-			System.out.println(site.getSiteConfig());
-			
+
 
 			
 		} catch (IOException | URISyntaxException e) {
@@ -45,7 +44,7 @@ public class RegisterSiteTest {
 
 			List<RegisteredSite> sites = registerSite.registerAll(files);
 			System.out.println(sites);
-			
+
 
 			
 		} catch (IOException | URISyntaxException e) {

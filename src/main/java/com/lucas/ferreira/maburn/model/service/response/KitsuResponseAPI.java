@@ -20,8 +20,8 @@ public class KitsuResponseAPI implements ServiceResponse {
 	public KitsuResponseAPI(String url) {
 		
 		try {
-			
-			
+
+
 			responseBody = connect(url);
 
 		} catch (ConnectionException e) {

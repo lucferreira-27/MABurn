@@ -44,7 +44,11 @@ public class Resources {
 			Map<String, String> env = new HashMap<>();
 			String[] array = uri.toString().split("!");
 			resourceFileSystem = FileSystems.newFileSystem(URI.create(array[0]), env);
-			return resourceFileSystem.getPath(array[1]);
+			Path temp = Files.createTempDirectory("scripts-");
+			Path path = resourceFileSystem.getPath(array[1]);
+			ResourcesFile.copyDirectory(path, temp);
+			resourceFileSystem.close();
+			return temp;
 		}else {
 
 			return Paths.get(uri);

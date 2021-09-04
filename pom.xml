@@ -4,6 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>manga-burn</groupId>
 	<artifactId>MaBurn</artifactId>
+	<packaging>jar</packaging>
+
 	<version>1.0.1-SNAPSHOT</version>
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
@@ -47,10 +49,6 @@
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>2.12.1</version>
 		</dependency>
-		 <dependency> <groupId>com.microsoft.playwright</groupId>
-			 <artifactId>playwright</artifactId>
-		 <version>1.14.1</version>
-		 </dependency>
 		<dependency>
 			<groupId>com.drewnoakes</groupId>
 			<artifactId>metadata-extractor</artifactId>
@@ -91,6 +89,9 @@
 			<version>RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.microsoft.playwright/playwright -->
+
+
 
 	</dependencies>
 
@@ -100,6 +101,7 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
+
 	</build>
 
 
