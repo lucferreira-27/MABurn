@@ -3,6 +3,8 @@
 ![Icon](https://i.imgur.com/7hjlHAW.png) 
 
 
+# Build
+É necessario baixar as playwright dependências, você pode baixa-las em [release](https://github.com/lucferreira-27/MABurn/releases/tag/v1.0.0-beta) ou direto do repositório oficial [aqui](https://github.com/microsoft/playwright-java) **(versão 1.13)**
 
 ## Objetivos
 
