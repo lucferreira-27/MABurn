@@ -14,7 +14,7 @@ Este projeto visa auxiliar e facilitar o controle de animes/mangas armazenados l
 ## Images da interface
 
 ### Home
-![Home](https://i.ibb.co/pvdwLbX/Maburn-02.png)
+![Home](https://i.ibb.co/CHqGL2S/Maburn-02.png)
 
 ### Coleção
 ![Collection](https://i.ibb.co/tXYpGtm/Maburn-04.png)
@@ -23,7 +23,7 @@ Foi escolhido um sistema de collections para organização das pastas do usuári
 
 
 ### Titulo
-![Titulo](https://i.ibb.co/BnSHmVP/Maburn-05.png)
+![Titulo](https://i.ibb.co/9ZKyxBm/Maburn-05.png)
 
 
 ### Gerenciador de Download
@@ -35,7 +35,7 @@ Foi escolhido um sistema de collections para organização das pastas do usuári
 
 
 ### Configuração
-![Configuration](https://i.ibb.co/PDPNs48/Maburn-03.png)
+![Configuration](https://i.ibb.co/Xtnrs8R/Maburn-03.png)
 
 ## Kitsu API
 **Todas as informações técnicas como titulo, sinopse, número de episodies, data de lançamento, etc. Foram colhidas utilizando à Kitsu API.**
