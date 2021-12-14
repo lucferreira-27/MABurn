@@ -75,8 +75,7 @@ public class ChapterCardController implements DownloadCardController {
 		});
 
 		chapterDownload = new ChapterDownload(chapterDownloadValues, downloadInfo);
-
-				chapterDownload.download();
+		chapterDownload.download();
 
 	}
 	@Override

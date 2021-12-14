@@ -1,15 +1,9 @@
 package com.lucas.ferreira.maburn.controller.title.download;
 
-import java.io.IOException;
 import java.util.stream.Stream;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
-
 import javafx.application.Platform;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class CardInsert {

@@ -20,11 +20,11 @@ public class ChapterCardValuesBinder extends DownloadCardValuesBinder{
 	}
 	
 	private void setCardChapterTotalPagesDownloaded() {
-		chapterCard.getLabelTotalPagesDownloaded().setText(String.valueOf(chapterDownloadValues.getTotalPagesDownloaded()));
+		chapterCard.getLabelTotalPagesDownloaded().setText(String.valueOf(chapterDownloadValues.getTotalItemsDownloaded()));
 	}
 	
 	private void addCardChapterTotalPagesDownloadedListener() {
-		chapterDownloadValues.getTotalPagesDownloaded().addListener((obs, oldvalue, newvalue) -> {
+		chapterDownloadValues.getTotalItemsDownloaded().addListener((obs, oldvalue, newvalue) -> {
 
 			Platform.runLater(() -> chapterCard.getLabelTotalPagesDownloaded().setText(String.valueOf(newvalue.intValue())));
 		});

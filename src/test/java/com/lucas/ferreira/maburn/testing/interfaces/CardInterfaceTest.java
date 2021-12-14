@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCard;
-import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCard;
 import com.lucas.ferreira.maburn.model.effects.DefaultAnimationCard;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
-import com.microsoft.playwright.Download;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -51,6 +49,8 @@ public class CardInterfaceTest {
 				stage.show();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});

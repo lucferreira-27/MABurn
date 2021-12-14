@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.title.download.installer.BrowserInstallerController;
 import com.lucas.ferreira.maburn.model.enums.Containers;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 
 import javafx.scene.Node;
 
@@ -12,7 +12,7 @@ public class ContainerBoxLoad<T extends Node> {
 
 	private FXMLViewLoader<T> fxmlViewLoader = new FXMLViewLoader<T>();
 
-	public T load(Containers container) throws IOException {
+	public T load(Containers container) throws Exception {
 		T box = fxmlViewLoader.loadContainer(container.getFxml(), container.getModelInitialize());
 		return box;
 	}

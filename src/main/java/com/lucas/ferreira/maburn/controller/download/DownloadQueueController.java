@@ -12,7 +12,7 @@ import com.lucas.ferreira.maburn.controller.download.title.DownloadTitleInQueueM
 import com.lucas.ferreira.maburn.controller.title.download.title.TitleDownloadController;
 import com.lucas.ferreira.maburn.model.states.InterfaceState;
 import com.lucas.ferreira.maburn.model.states.RegisteredStates;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -51,6 +51,8 @@ public class DownloadQueueController implements Controller {
 			downloadTitleInQueueModals.add(downloadTitleInQueueModal);
 
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

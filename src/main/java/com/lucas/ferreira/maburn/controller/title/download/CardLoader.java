@@ -4,14 +4,12 @@ import java.io.IOException;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.AnimeDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.CardFXML;
-import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.MangaDownloadInfo;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.chapter.ChapterCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardController;
-import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeCardFull;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCard;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardController;
 import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchCardFull;
@@ -23,8 +21,8 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ChapterScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.EpisodeScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ItemScraped;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
-import com.lucas.ferreira.maburn.util.MapKeyValue;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.util.Resources;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -116,10 +114,11 @@ public class CardLoader {
 		StackPane stackPane = new StackPane();
 		try {
 			StackPane item = fxmlViewLoader.load(cardFxml.getFxml(), initializable, stackPane);
+			item.getStylesheets().add("/style/download_card.css");
 			defineId(name, item);
 			return item;
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			 
 			e.printStackTrace();
 			return null;

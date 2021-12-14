@@ -16,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 @RunWith(JfxRunner.class)
 public class ContainerBoxLoadTest {
 	@Test
-	public void testLoadBrowserInstalleContainer() throws IOException {
+	public void testLoadBrowserInstalleContainer() throws Exception {
 		ContainerBoxLoad<BorderPane> containerBoxLoad= new ContainerBoxLoad<BorderPane>();
 		BorderPane box =containerBoxLoad.load(Containers.BROWSE_INSTALLER);
 		

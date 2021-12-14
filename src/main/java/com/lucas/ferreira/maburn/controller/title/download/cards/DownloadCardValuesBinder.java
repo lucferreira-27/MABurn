@@ -1,6 +1,5 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards;
 
-import com.lucas.ferreira.maburn.controller.title.download.cards.fetch.FetchStateStyle;
 import com.lucas.ferreira.maburn.model.enums.DefaultNullValue;
 import com.lucas.ferreira.maburn.util.MathUtil;
 import com.lucas.ferreira.maburn.util.TimeText;
@@ -27,12 +26,12 @@ public abstract class DownloadCardValuesBinder {
 	protected abstract void customBinder();
 
 	private void addAllCardDownloadInfo() {
-		addCardDownloadConclued();
+		addCardDownloadConcluded();
 		addCardDownloadStateListener();
 		addCardDownloadProgressListener();
 		addCardDownloadSizeListener();
 		addCardDownloadSpeed();
-		addCardDownloadConclued();
+		addCardDownloadConcluded();
 		addCardDownloadTimeRemain();
 	}
 
@@ -132,7 +131,7 @@ public abstract class DownloadCardValuesBinder {
 		});
 	}
 
-	private void addCardDownloadConclued() {
+	private void addCardDownloadConcluded() {
 		downloadValues.getTotalDownloaded().addListener((obs, oldvalue, newvalue) -> {
 
 			Platform.runLater(() -> downloadCard.getLabelCompletedDownload()

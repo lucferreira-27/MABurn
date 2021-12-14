@@ -12,8 +12,8 @@ public interface GroupDownloadValues extends DownloadValues {
 	
 	
 	 List<ItemDownloadValues> getListItemsDownloadValues();
-	 DoubleProperty getDownloadPageSpeed();
-	 IntegerProperty getTotalPagesDownloaded();	
+	 DoubleProperty getDownloadItemSpeed();
+	 IntegerProperty getTotalItemsDownloaded();
 	 DoubleProperty getTimeRemain();
 	 ObjectProperty<DownloadProgressState> getDownloadProgressState();
 }

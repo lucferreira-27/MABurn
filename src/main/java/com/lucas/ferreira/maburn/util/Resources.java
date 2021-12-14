@@ -39,12 +39,17 @@ public class Resources {
 	}
 
 	public static Path getResourcePath(String resourceName) throws Exception {
+		String prefix = resourceName;
+		if(resourceName.contains("/")){
+			 prefix = resourceName.split("/")[0];
+		}
 		URI uri = Objects.requireNonNull(Resources.class.getClassLoader().getResource(resourceName)).toURI();
 		if (isResourceInJar(uri)) { //if we are load file within IDE
 			Map<String, String> env = new HashMap<>();
 			String[] array = uri.toString().split("!");
 			resourceFileSystem = FileSystems.newFileSystem(URI.create(array[0]), env);
-			Path temp = Files.createTempDirectory("scripts-");
+			Path temp = Files.createTempDirectory(prefix + "-");
+			temp.toFile().deleteOnExit();
 			Path path = resourceFileSystem.getPath(array[1]);
 			ResourcesFile.copyDirectory(path, temp);
 			resourceFileSystem.close();

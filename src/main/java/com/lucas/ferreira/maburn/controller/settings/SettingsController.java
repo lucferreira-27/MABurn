@@ -147,7 +147,7 @@ public class SettingsController implements Initialize {
 	}
 
 	public void onClickInstall() {
-		LOGGER.config("Click on [Reinstall]");
+		LOGGER.config("Click on [Install]");
 
 		install();
 
@@ -202,7 +202,7 @@ public class SettingsController implements Initialize {
 				 initializePrefInstallation();
 			 });
 			 return controller;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

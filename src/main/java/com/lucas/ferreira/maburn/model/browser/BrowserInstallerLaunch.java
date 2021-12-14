@@ -19,7 +19,7 @@ public class BrowserInstallerLaunch {
 	private final Containers containers = Containers.BROWSE_INSTALLER;
 	private final ShadeLayer shadeLayer = new ShadeLayer(new AnchorPane());
 
-	public BrowserInstallerController openBrowserInstaller(StackPane stackPane) throws IOException {
+	public BrowserInstallerController openBrowserInstaller(StackPane stackPane) throws Exception {
 
 		BrowserInstallerModel browserInstallerModel = (BrowserInstallerModel) containers.getModelInitialize();
 
@@ -32,7 +32,7 @@ public class BrowserInstallerLaunch {
 		return browserInstallerController;
 
 	}
-	private BorderPane loadContainer() throws IOException {
+	private BorderPane loadContainer() throws Exception {
 		return containerBoxLoad.load(Containers.BROWSE_INSTALLER);
 	}
 	

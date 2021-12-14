@@ -126,9 +126,9 @@ public class ChapterDownload implements ItemDownload {
 		}
 	}
 
-	private DownloadInfo fillPageDownloadInfo(int pagePostion, PageDownloadItemValues page) {
+	private DownloadInfo fillPageDownloadInfo(int pagePosition, PageDownloadItemValues page) {
 		DownloadInfo pageDownloadInfo = new DownloadInfo();
-		String pageName = pageNameForPosition(pagePostion);
+		String pageName = pageNameForPosition(pagePosition);
 
 		pageDownloadInfo.setRoot(folderPath);
 		pageDownloadInfo.setUrl(page.getDirectLink().get());

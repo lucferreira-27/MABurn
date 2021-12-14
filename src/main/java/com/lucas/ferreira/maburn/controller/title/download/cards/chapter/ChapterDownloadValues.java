@@ -68,13 +68,13 @@ public class ChapterDownloadValues implements GroupDownloadValues {
 	}
 
 	@Override
-	public DoubleProperty getDownloadPageSpeed() {
+	public DoubleProperty getDownloadItemSpeed() {
 
 		return downloadPageSpeed;
 	}
 
 	@Override
-	public IntegerProperty getTotalPagesDownloaded() {
+	public IntegerProperty getTotalItemsDownloaded() {
 
 		return totalPagesDownloaded;
 	}

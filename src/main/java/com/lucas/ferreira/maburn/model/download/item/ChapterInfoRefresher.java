@@ -11,17 +11,17 @@ public class ChapterInfoRefresher {
 	}
 
 	public void incresePagesAmount() {
-		int total = chapterDownloadValues.getTotalPagesDownloaded().get();
+		int total = chapterDownloadValues.getTotalItemsDownloaded().get();
 		int incresedTotal = total + 1;
-		chapterDownloadValues.getTotalPagesDownloaded().set(incresedTotal);
+		chapterDownloadValues.getTotalItemsDownloaded().set(incresedTotal);
 		refreshChapterTotalPages(incresedTotal);
 	}
 
 	public void decreasePagesAmount() {
 
-		int total = chapterDownloadValues.getTotalPagesDownloaded().get();
+		int total = chapterDownloadValues.getTotalItemsDownloaded().get();
 		if (total > 0) {
-			chapterDownloadValues.getTotalPagesDownloaded().set(total - 1);
+			chapterDownloadValues.getTotalItemsDownloaded().set(total - 1);
 			refreshChapterTotalPages(total);
 
 		}
@@ -34,7 +34,7 @@ public class ChapterInfoRefresher {
 	}
 
 	public void refreshChapterProgress() {
-		double numberOfPagesDownloaded = chapterDownloadValues.getTotalPagesDownloaded().doubleValue();
+		double numberOfPagesDownloaded = chapterDownloadValues.getTotalItemsDownloaded().doubleValue();
 		int totalPages = chapterDownloadValues.getListItemsDownloadValues().size();
 
 		chapterDownloadValues.getDownloadProgress().set(numberOfPagesDownloaded / totalPages);
@@ -45,7 +45,7 @@ public class ChapterInfoRefresher {
 	}
 
 	private void refreshChapterTotalPages(int newTotal) {
-		chapterDownloadValues.getTotalPagesDownloaded().set(newTotal);
+		chapterDownloadValues.getTotalItemsDownloaded().set(newTotal);
 
 	}
 
