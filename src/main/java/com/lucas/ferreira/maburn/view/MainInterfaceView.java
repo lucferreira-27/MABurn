@@ -121,7 +121,7 @@ public class MainInterfaceView {
 
 	private void createScene() {
 		scenePane = new Scene(root);
-		scenePane.getStylesheets().add("/com/lucas/ferreira/maburn/view/style/DarkThema.css");
+		scenePane.getStylesheets().add("/style/DarkThema.css");
 
 		InputStream in = Resources.getResourceAsStream("icons/icon.png");
 		Image icon = new Image(in);

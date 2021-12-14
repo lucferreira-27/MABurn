@@ -1,6 +1,8 @@
-package com.lucas.ferreira.maburn.view.fxml;
+package com.lucas.ferreira.maburn.view;
 
 import com.lucas.ferreira.maburn.model.states.ObjectState;
+import com.lucas.ferreira.maburn.util.JarUtils;
+import com.lucas.ferreira.maburn.util.Resources;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.navigator.LoadInterface;
@@ -20,7 +22,7 @@ import java.util.logging.Logger;
 
 public class FXMLViewLoader<T extends Node> {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+	private final String FXML_ROOT;
 	private static FXMLLoader loader;
 
 	static {
@@ -31,7 +33,17 @@ public class FXMLViewLoader<T extends Node> {
 	private Pane root;
 
 	public FXMLViewLoader() {
+		boolean isResourceInJar = false;
+		try {
+			isResourceInJar = JarUtils.isResourceInJar();
+		}catch(Exception e){
 
+		}
+		if(isResourceInJar){
+			FXML_ROOT = "../../../../../fxml/";
+		}else{
+			FXML_ROOT = "../../../../../fxml/";
+		}
 
 	}
 
@@ -48,13 +60,13 @@ public class FXMLViewLoader<T extends Node> {
 
 	}
 
-	public void loadComponent(Components components) throws IOException {
+	public void loadComponent(Components components) throws Exception {
 
 		this.root = MainInterfaceView.getInstance().getRoot();
 		Initializable initializable = components.getController();
 		String fxml = components.getFxml();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(fxml));
+		loader.setLocation(Resources.getResourcePath("fxml/" + fxml).toUri().toURL());
 		loader.setController(initializable);
 		Node fxmlLoaded = loader.load();
 		Platform.runLater(() -> {
@@ -78,9 +90,9 @@ public class FXMLViewLoader<T extends Node> {
 
 	}
 
-	public T load(String fxml, Initializable initializable, Node root) throws IOException {
+	public T load(String fxml, Initializable initializable, Node root) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(fxml));
+		loader.setLocation(Resources.getResourcePath("fxml/" + fxml).toUri().toURL());
 		loader.setController(initializable);
 		loader.setRoot(root);
 		T fxmlLoaded = loader.load();
@@ -88,9 +100,9 @@ public class FXMLViewLoader<T extends Node> {
 
 	}
 
-	public T loadContainer(String fxml, Initializable initializable) throws IOException {
+	public T loadContainer(String fxml, Initializable initializable) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(fxml));
+		loader.setLocation(Resources.getResourcePath("fxml/" + fxml).toUri().toURL());
 		loader.setController(initializable);
 		T fxmlLoaded = loader.load();
 		return fxmlLoaded;
@@ -132,6 +144,8 @@ public class FXMLViewLoader<T extends Node> {
 		} catch (IOException e) {
 
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -153,7 +167,7 @@ public class FXMLViewLoader<T extends Node> {
 
 				loaded.set(true);
 
-			} catch (IOException e) {
+			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
@@ -172,10 +186,11 @@ public class FXMLViewLoader<T extends Node> {
 	}
 
 	private void initFXMLLoader(Initializable initializable, Pane root, String fxml, boolean visibility)
-			throws IOException {
-
+			throws Exception {
 		loader.setRoot(root);
-		loader.setLocation(getClass().getResource(fxml));
+
+
+		loader.setLocation(Resources.getResourcePath("fxml/" + fxml).toUri().toURL());
 		loader.setController(initializable);
 		Object fxmlLoaded;
 

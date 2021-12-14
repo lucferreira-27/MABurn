@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.controller.settings.SettingsModel;
 import com.lucas.ferreira.maburn.model.states.InterfaceState;
 import com.lucas.ferreira.maburn.view.Components;
 import com.lucas.ferreira.maburn.view.Interfaces;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 
@@ -29,6 +29,8 @@ public class Navigator {
 			fxmlViewLoader.loadComponent(component);
 		} catch (IOException e) {
 
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

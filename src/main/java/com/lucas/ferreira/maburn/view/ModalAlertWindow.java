@@ -31,6 +31,7 @@ public class ModalAlertWindow {
 
 			try {
 				dialogPane = loader.load();
+				dialogPane.getStylesheets().add("/style/ModalWindowThema.css");
 				stage = new Stage();
 				stage.setScene(new Scene(dialogPane));
 

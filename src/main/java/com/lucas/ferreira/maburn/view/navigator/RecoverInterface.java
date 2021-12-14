@@ -8,7 +8,7 @@ import com.lucas.ferreira.maburn.model.states.ModalStateAdapter;
 import com.lucas.ferreira.maburn.model.states.ObjectState;
 import com.lucas.ferreira.maburn.model.states.RegisteredStates;
 import com.lucas.ferreira.maburn.view.Interfaces;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

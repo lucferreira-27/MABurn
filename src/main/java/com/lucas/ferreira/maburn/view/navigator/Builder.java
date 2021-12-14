@@ -1,7 +1,7 @@
 package com.lucas.ferreira.maburn.view.navigator;
 
 import com.lucas.ferreira.maburn.view.Components;
-import com.lucas.ferreira.maburn.view.fxml.FXMLViewLoader;
+import com.lucas.ferreira.maburn.view.FXMLViewLoader;
 
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;

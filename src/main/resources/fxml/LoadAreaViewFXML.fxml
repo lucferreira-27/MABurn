@@ -18,7 +18,7 @@
         <Label fx:id="lblPath" layoutX="129.0" layoutY="88.0" text="" />
       <ImageView fx:id="loadGridPane" fitHeight="82.69" fitWidth="87.03" layoutX="253.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../resources/icons/load_collection_icon.png" />
+            <Image url="@../icons/load_collection_icon.png" />
          </image>
       </ImageView>
     </children>
