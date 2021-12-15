@@ -77,7 +77,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 
     private void finishDownload() {
 
-
+        System.out.println(itemDownloadValues.getDownloadProgressState().get());
         if (itemDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED)
             changeDownloadState(DownloadProgressState.COMPLETED);
     }

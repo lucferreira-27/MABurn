@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.documents;
 
+import com.lucas.ferreira.maburn.model.browser.ffmpeg.FfmpegBinaryURLBuilder;
+
 import java.io.File;
 
 public class Documents {
@@ -19,6 +21,7 @@ public class Documents {
 	
 	public final static String THUMBNAILS_LOCAL_MANGAS = THUMBNAILS_LOCAL + "\\Mangas\\";
 	public final static String BROWSER_LOCAL = DOCUMENTS_LOCAL + "\\Browser\\";
+	public final static String FFMPEG_LOCAL = BROWSER_LOCAL + "\\" + FfmpegBinaryURLBuilder.FILE_NAME + "\\ffmpeg.exe";
 	public final static String SCRIPT_LOCAL = DOCUMENTS_LOCAL + "\\Scripts\\";
 	public final static String LOGS_LOCAL = DOCUMENTS_LOCAL + "\\Logs\\";
 

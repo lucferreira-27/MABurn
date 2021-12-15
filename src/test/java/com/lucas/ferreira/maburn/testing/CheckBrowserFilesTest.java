@@ -11,7 +11,7 @@ import org.junit.rules.TemporaryFolder;
 
 import com.lucas.ferreira.maburn.model.UserSystem;
 import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
-import com.lucas.ferreira.maburn.model.browser.Browsers;
+import com.lucas.ferreira.maburn.model.browser.Binaries;
 import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 
 public class CheckBrowserFilesTest {
@@ -23,9 +23,9 @@ public class CheckBrowserFilesTest {
 		CheckBrowserFiles checkBrowserFiles = new CheckBrowserFiles();
 
 		String local = temp.newFolder().getAbsolutePath() + "\\Folder" ;
-		createBrowserFiles(local, Browsers.FIREFOX.name().toLowerCase());
+		createBrowserFiles(local, Binaries.FIREFOX.name().toLowerCase());
 		
-		boolean result = checkBrowserFiles.hasBrowserFilesAvailable(local, Browsers.FIREFOX);
+		boolean result = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FIREFOX);
 		assertTrue(result);
 	}
 	@Test
@@ -35,7 +35,7 @@ public class CheckBrowserFilesTest {
 		String local = temp.newFolder().getAbsolutePath();
 		
 		
-		boolean result = checkBrowserFiles.hasBrowserFilesAvailable(local, Browsers.FIREFOX);
+		boolean result = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FIREFOX);
 		assertTrue(!result);
 	}
 

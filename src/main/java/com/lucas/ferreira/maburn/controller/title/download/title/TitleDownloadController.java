@@ -11,7 +11,7 @@ import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.model.UserSystem;
 import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
 import com.lucas.ferreira.maburn.model.browser.BrowserInstallerLaunch;
-import com.lucas.ferreira.maburn.model.browser.Browsers;
+import com.lucas.ferreira.maburn.model.browser.Binaries;
 import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
@@ -102,8 +102,8 @@ public class TitleDownloadController implements ControllerStateAdapter {
 		BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
 		String local = browserFilesLocal.getLocal(new UserSystem().getUserPlataform());
 		CheckBrowserFiles checkBrowserFiles = new CheckBrowserFiles();
-		boolean foundFirefox = checkBrowserFiles.hasBrowserFilesAvailable(local, Browsers.FIREFOX);
-		boolean foundFfmpeg = checkBrowserFiles.hasBrowserFilesAvailable(local, Browsers.FFMPEG);
+		boolean foundFirefox = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FIREFOX);
+		boolean foundFfmpeg = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FFMPEG);
 		return foundFirefox && foundFfmpeg;
 	}
 
@@ -114,7 +114,7 @@ public class TitleDownloadController implements ControllerStateAdapter {
 					.openBrowserInstaller(titleDownload.getSpMainPane());
 
 			try {
-				browserInstallerController.install(Browsers.FIREFOX, Browsers.FFMPEG);
+				browserInstallerController.install(Binaries.FIREFOX, Binaries.FFMPEG);
 			} catch (BrowserInstallerException e) {
 				e.printStackTrace();
 			}

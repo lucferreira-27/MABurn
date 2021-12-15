@@ -16,7 +16,7 @@ import java.util.Map;
 public class PlaywrightRepository {
 	private URLConnection urlConnection;
 
-	public RepositoryBrowserJson requestBrowsersInRepository(Browsers browser) throws Exception {
+	public RepositoryBrowserJson requestBrowsersInRepository(Binaries browser) throws Exception {
 		String responseBody = downloadFileContent();
 
 		return parseJson(responseBody).stream()

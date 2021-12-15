@@ -20,7 +20,7 @@ public class BrowserInstaller {
 	private final UserSystem userSystem = new UserSystem();
 	//	private final static Browsers BROWSER_DEFAULT = Browsers.FIREFOX;
 
-	public InstallerProcess install(Browsers browser) throws BrowserInstallerException {
+	public InstallerProcess install(Binaries browser) throws BrowserInstallerException {
 		try {
 			String local = browserFilesLocal.getLocal(userSystem.getUserPlataform());
 			FileExtractValues fileExtractValues = new FileExtractValues(local);
@@ -34,7 +34,7 @@ public class BrowserInstaller {
 		}
 	}
 
-	private FileDownloadValues download(String local, Browsers browser) throws Exception {
+	private FileDownloadValues download(String local, Binaries browser) throws Exception {
 		return playwrightDownload.download(local, browser);
 	}
 

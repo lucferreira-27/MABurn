@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CheckBrowserFiles {
 
-	public boolean hasBrowserFilesAvailable(String local, Browsers browser) {
+	public boolean hasBrowserFilesAvailable(String local, Binaries browser) {
 		File fileLocal = new File(local);
 
 		if (!fileLocal.exists()) {
@@ -19,7 +19,7 @@ public class CheckBrowserFiles {
 		return searchBrowserName(browser, results);
 	}
 
-	private boolean searchBrowserName(Browsers browser, List<String> results) {
+	private boolean searchBrowserName(Binaries browser, List<String> results) {
 		return results.stream().anyMatch((result) -> result.contains(browser.name().toLowerCase()));
 	}
 

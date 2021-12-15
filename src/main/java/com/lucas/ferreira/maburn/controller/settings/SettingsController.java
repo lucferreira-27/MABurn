@@ -7,7 +7,7 @@ import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.UserSystem;
 import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
 import com.lucas.ferreira.maburn.model.browser.BrowserInstallerLaunch;
-import com.lucas.ferreira.maburn.model.browser.Browsers;
+import com.lucas.ferreira.maburn.model.browser.Binaries;
 import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
 import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
@@ -17,7 +17,6 @@ import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class SettingsController implements Initialize {
@@ -68,7 +67,7 @@ public class SettingsController implements Initialize {
 
 		BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
 		boolean available = checkBrowserFiles.hasBrowserFilesAvailable(
-				browserFilesLocal.getLocal(new UserSystem().getUserPlataform()), Browsers.FIREFOX);
+				browserFilesLocal.getLocal(new UserSystem().getUserPlataform()), Binaries.FIREFOX);
 		Icon iconCheckBad = new Icon(settingsModel.getImgCheckBad(),
 				new IconConfig(ICON_PATH, Icons.BROWSER_CHECK_BAD));
 		iconCheckBad.setToolTip("Not Installed");
@@ -88,7 +87,7 @@ public class SettingsController implements Initialize {
 		CheckBrowserFiles checkBrowserFiles = new CheckBrowserFiles();
 		BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
 		boolean available = checkBrowserFiles.hasBrowserFilesAvailable(
-				browserFilesLocal.getLocal(new UserSystem().getUserPlataform()), Browsers.FIREFOX);
+				browserFilesLocal.getLocal(new UserSystem().getUserPlataform()), Binaries.FIREFOX);
 		if (available) {
 			settingsModel.getBtnInstall().setText("Reinstall");
 			settingsModel.getBtnInstall().setOnMouseClicked(event -> onClickReinstall());
@@ -165,7 +164,7 @@ public class SettingsController implements Initialize {
 				BrowserInstallerController controller = openBrowserInstaller();
 
 				if (controller != null) {
-					controller.reinstall(Browsers.FIREFOX, Browsers.FFMPEG);
+					controller.reinstall(Binaries.FIREFOX, Binaries.FFMPEG);
 				}else
 					throw new NullPointerException();
 			} catch (Exception e) {
@@ -182,7 +181,7 @@ public class SettingsController implements Initialize {
 			try {
 				BrowserInstallerController controller = openBrowserInstaller();
 				if (controller != null) {
-					controller.install(Browsers.FIREFOX, Browsers.FFMPEG);
+					controller.install(Binaries.FIREFOX, Binaries.FFMPEG,Binaries.FFMPEG_COMPLETE);
 				}else
 					throw new NullPointerException();
 			} catch (Exception e) {

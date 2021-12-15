@@ -7,7 +7,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.junit.Test;
 
-import com.lucas.ferreira.maburn.model.browser.Browsers;
+import com.lucas.ferreira.maburn.model.browser.Binaries;
 import com.lucas.ferreira.maburn.model.browser.PlaywrightDownload;
 import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.FileDownloadValues;
@@ -19,7 +19,7 @@ public class PlaywrightDownloadTest {
 		String local = System.getProperty("java.io.tmpdir");
 
 		try {
-			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Browsers.FIREFOX);
+			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Binaries.FIREFOX);
 			waitUntilDownloadStartOrTimeOut(fileDownloadValues);
 			File file = new File(local + fileDownloadValues.getName().get());
 			file.deleteOnExit();
@@ -30,18 +30,35 @@ public class PlaywrightDownloadTest {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void testDownloadFfmpegCompleteAndStorageInLocal() {
+		PlaywrightDownload playwrightDownload = new PlaywrightDownload();
+		String local = System.getProperty("java.io.tmpdir");
 
+		try {
+			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Binaries.FFMPEG_COMPLETE);
+			waitUntilDownloadStartOrTimeOut(fileDownloadValues);
+			File file = new File(local + fileDownloadValues.getName().get());
+			file.deleteOnExit();
+			assertTrue(file.exists());
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@Test
 	public void testDownloadBrowserChromiumAndStorageInLocal() {
 		PlaywrightDownload playwrightDownload = new PlaywrightDownload();
 		String local = System.getProperty("java.io.tmpdir");
 
 		try {
-			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Browsers.CHROMIUM);
+			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Binaries.CHROMIUM);
 			waitUntilDownloadStartOrTimeOut(fileDownloadValues);
 
 			File file = new File(local + fileDownloadValues.getName().get());
 			file.deleteOnExit();
+
 			assertTrue(file.exists());
 
 		} catch (Exception e) {
@@ -56,7 +73,7 @@ public class PlaywrightDownloadTest {
 		String local = System.getProperty("java.io.tmpdir");
 
 		try {
-			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Browsers.WEBKIT);
+			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Binaries.WEBKIT);
 			waitUntilDownloadStartOrTimeOut(fileDownloadValues);
 
 			File file = new File(local + fileDownloadValues.getName().get());
@@ -75,7 +92,7 @@ public class PlaywrightDownloadTest {
 		String local = System.getProperty("java.io.tmpdir");
 
 		try {
-			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Browsers.FFMPEG);
+			FileDownloadValues fileDownloadValues = playwrightDownload.download(local, Binaries.FFMPEG);
 			waitUntilDownloadStartOrTimeOut(fileDownloadValues);
 
 			File file = new File(local + fileDownloadValues.getName().get());
@@ -93,6 +110,7 @@ public class PlaywrightDownloadTest {
 		long start = System.currentTimeMillis();
 
 		while (fileDownloadValues.getDownloadProgressState().get() != DownloadProgressState.DOWNLOADING) {
+			System.out.println(fileDownloadValues.getDownloadProgressState().get());
 			long end = System.currentTimeMillis();
 			long now = (start - end) / 1000;
 			if (now >= timeout) {

@@ -1,35 +1,65 @@
 package com.lucas.ferreira.maburn.model.browser;
 
 import com.lucas.ferreira.maburn.model.UserSystem;
+import com.lucas.ferreira.maburn.model.browser.ffmpeg.FfmpegBinaryURLBuilder;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
 import com.lucas.ferreira.maburn.model.download.DownloadRealTimeInfo;
 import com.lucas.ferreira.maburn.model.download.FileDownloadValues;
 import com.lucas.ferreira.maburn.model.download.FileTypeAccept;
 import com.lucas.ferreira.maburn.model.download.channel.DownloadByChannel;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class PlaywrightDownload {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	private final PlaywrightRepository repository = new PlaywrightRepository();
+	private final FfmpegBinaryURLBuilder ffmpegBinaryURLBuilder = new FfmpegBinaryURLBuilder();
 	private final URLBuilder urlBuilder = new URLBuilder();
 	private final UserSystem userSytem = new UserSystem();
 	private DownloadByChannel downloadByChannel;
 	private final DownloadRealTimeInfo downloadRealTimeInfo = new DownloadRealTimeInfo();
 
-	public FileDownloadValues download(String local, Browsers browser) throws Exception {
-		LOGGER.config("Get Browser download values");
+	public FileDownloadValues download(String local, Binaries browser) throws Exception {
+		LOGGER.config("Get binary download values, " + "{"+browser.name().toUpperCase()+"}");
 		Platform platform = userSytem.getUserPlataform();
+
+		if(browser == Binaries.FFMPEG_COMPLETE){
+			LOGGER.config("Starting Ffmpeg Download");
+			FileDownloadValues fileDownloadValues = downloadBinaryFfmpeg(local,platform);
+			return fileDownloadValues;
+		}
+
+		LOGGER.config("Starting Browser Download");
+		FileDownloadValues fileDownloadValues = downloadBinaryBrowser(local,browser,platform);
+
+		return fileDownloadValues;
+
+	}
+	private FileDownloadValues downloadBinaryFfmpeg (String local, Platform platform) throws IOException {
+		String url = ffmpegBinaryURLBuilder.buildUrl(platform);
+		String filename = FfmpegBinaryURLBuilder.FILE_NAME;
+		return initDownload(local,filename,url);
+	}
+	private FileDownloadValues downloadBinaryBrowser (String local,Binaries browser, Platform platform) throws Exception {
 		RepositoryBrowserJson repositoryBrowserJson = repository.requestBrowsersInRepository(browser);
 		int build = repositoryBrowserJson.getRevision();
 		String url = urlBuilder.getBrowserBuildUrl(build, browser, platform);
-		FileDownloadValues fileDownloadValues = new FileDownloadValues();
 		printBuildInfo(platform, repositoryBrowserJson, url);
-		
-		LOGGER.config("Starting Browser Download");
-		DownloadInfo downloadInfo = defineDownloadInfo(local,
-				browser.name().toLowerCase() + "-" + repositoryBrowserJson.getRevision(), url);
+		String filename = browser.name().toLowerCase() + "-" + repositoryBrowserJson.getRevision();
+		return initDownload(local,filename,url);
+	}
+
+	private void printBuildInfo(Platform platform, RepositoryBrowserJson repositoryBrowserJson, String url) {
+		LOGGER.info("Platform: " + platform + "\nBrowser: " + repositoryBrowserJson.getName() + "\tBuild: "
+				+ repositoryBrowserJson.getRevision() + "\nURL: " + url);
+	}
+
+	private FileDownloadValues initDownload(String local,String filename,String url){
+		FileDownloadValues fileDownloadValues = new FileDownloadValues();
+
+		DownloadInfo downloadInfo = defineDownloadInfo(local,filename, url);
 		downloadByChannel = new DownloadByChannel(fileDownloadValues);
 		new Thread(() -> {
 			try {
@@ -41,17 +71,7 @@ public class PlaywrightDownload {
 		}).start();
 
 		return fileDownloadValues;
-
 	}
-
-	public void stop() {
-		
-		LOGGER.config("Stoping Browser Download");
-		downloadByChannel.stop();
-		LOGGER.config("Browser Download Stopped");
-
-	}
-
 	private DownloadInfo defineDownloadInfo(String local, String filename, String url) {
 		DownloadInfo downloadInfo = new DownloadInfo();
 		downloadInfo.setFilename(filename);
@@ -61,11 +81,16 @@ public class PlaywrightDownload {
 		downloadInfo.setUrl(url);
 		return downloadInfo;
 	}
+	public void stop() {
+		
+		LOGGER.config("Stoping Binary Download");
+		downloadByChannel.stop();
+		LOGGER.config("Binary Download Stopped");
 
-	private void printBuildInfo(Platform platform, RepositoryBrowserJson repositoryBrowserJson, String url) {
-		LOGGER.info("Platform: " + platform + "\nBrowser: " + repositoryBrowserJson.getName() + "\tBuild: "
-				+ repositoryBrowserJson.getRevision() + "\nURL: " + url);
 	}
+
+
+
 
 	public void showInfo(FileDownloadValues fileDownloadValues, boolean show) {
 		if (show)

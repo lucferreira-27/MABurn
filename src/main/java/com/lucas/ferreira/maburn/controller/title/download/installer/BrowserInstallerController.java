@@ -4,7 +4,7 @@ import com.lucas.ferreira.maburn.exceptions.BrowserInstallerException;
 import com.lucas.ferreira.maburn.model.Initialize;
 import com.lucas.ferreira.maburn.model.ModelInitialiable;
 import com.lucas.ferreira.maburn.model.browser.BrowserInstaller;
-import com.lucas.ferreira.maburn.model.browser.Browsers;
+import com.lucas.ferreira.maburn.model.browser.Binaries;
 import com.lucas.ferreira.maburn.model.browser.InstallerProcess;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.model.enums.InstallationState;
@@ -44,11 +44,11 @@ public class BrowserInstallerController implements Initialize {
 
 	}
 
-	public void install(Browsers... browsers) throws BrowserInstallerException {
+	public void install(Binaries... browsers) throws BrowserInstallerException {
 		setCurrentProcess(0, browsers.length);
 		try {
 			for (int i = 0; i < browsers.length; i++) {
-				Browsers browser = browsers[i];
+				Binaries browser = browsers[i];
 				InstallerProcess installerProcess = initInstallation(browser);
 				setCurrentProcess(i + 1, browsers.length);
 				waitUntilInstallationFinish(installerProcess);
@@ -94,13 +94,13 @@ public class BrowserInstallerController implements Initialize {
 
 	}
 
-	public void reinstall(Browsers... browsers) throws BrowserInstallerException {
+	public void reinstall(Binaries... browsers) throws BrowserInstallerException {
 		browserInstaller.removeAllFiles();
 		install(browsers);
 
 	}
 
-	private InstallerProcess initInstallation(Browsers browser) throws BrowserInstallerException {
+	private InstallerProcess initInstallation(Binaries browser) throws BrowserInstallerException {
 		InstallerProcess installerProcess = browserInstaller.install(browser);
 		Platform.runLater(() -> {
 			browserInstallerModel.getLblStatus().setText(installerProcess.getInstallationState().get().name());

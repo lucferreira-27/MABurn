@@ -1,9 +1,10 @@
 package com.lucas.ferreira.maburn.model.browser;
 
-public enum Browsers {
+public enum Binaries {
 	FIREFOX,
 	CHROMIUM, 
 	WEBKIT,
-	FFMPEG;
+	FFMPEG,
+	FFMPEG_COMPLETE;
 
 }

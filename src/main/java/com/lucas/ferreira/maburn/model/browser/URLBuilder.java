@@ -7,7 +7,7 @@ public class URLBuilder {
 	final static String LINUX_VERSION = "-linux.zip";
 	final static String MAC_VERSION = "-mac.zip";
 
-	public String getBrowserBuildUrl(int build, Browsers browsers, Platform platform) {
+	public String getBrowserBuildUrl(int build, Binaries browsers, Platform platform) {
 
 		switch (platform) {
 		case WINDOWS_32:
