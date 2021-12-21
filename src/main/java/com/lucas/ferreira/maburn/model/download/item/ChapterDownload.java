@@ -148,8 +148,8 @@ public class ChapterDownload implements ItemDownload {
 
 	private void notifyPageDownloadFailed(PageDownloadItemValues page) {
 
-		chapterInfoRefresher.decreasePagesAmount();
-		chapterInfoRefresher.refreshChapterProgress();
+		chapterInfoRefresher.decreaseAmount();
+		chapterInfoRefresher.refreshProgress();
 		chapterDownloadValues.getObsListNewPageDownloadItemsValues().add(page);
 		chapterDownloadValues.getDownloadProgressState().set(DownloadProgressState.FAILED);
 
@@ -157,8 +157,8 @@ public class ChapterDownload implements ItemDownload {
 
 	private void notifyPageDownloadComplete(PageDownloadItemValues page) {
 
-		chapterInfoRefresher.incresePagesAmount();
-		chapterInfoRefresher.refreshChapterProgress();
+		chapterInfoRefresher.increaseAmount();
+		chapterInfoRefresher.refreshProgress();
 		chapterDownloadValues.getObsListNewPageDownloadItemsValues().add(page);
 
 	}
@@ -168,7 +168,7 @@ public class ChapterDownload implements ItemDownload {
 		long bytesSize = imageMetadata.getLongSize();
 		double megabytesSize = BytesUtil.convertBytesToMegasBytes(bytesSize);
 		pageDownloadItemValues.getDownloadSize().set(megabytesSize);
-		chapterInfoRefresher.increseChapterSize(megabytesSize);
+		chapterInfoRefresher.increaseFinalSize(megabytesSize);
 	}
 
 	@Override

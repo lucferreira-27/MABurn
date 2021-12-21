@@ -8,11 +8,11 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 
 import javafx.scene.Node;
 
-public class EpisodeCardFull implements DownloadCardFull{
+public class EpisodeCardFull<T extends DownloadValues> implements DownloadCardFull{
 
 	private EpisodeCardController episodeCardController;
 	private EpisodeCard episodeCard;
-	private EpisodeDownloadItemValues episodeDownloadItemValues;
+	private T episodeDownloadItemValues;
 	private Node node;
 	@Override
 	public EpisodeCardController getCardController() {
@@ -36,7 +36,7 @@ public class EpisodeCardFull implements DownloadCardFull{
 	}
 
 	@Override
-	public EpisodeDownloadItemValues getCardValues() {
+	public T getCardValues() {
 
 		return episodeDownloadItemValues;
 	}
@@ -44,7 +44,7 @@ public class EpisodeCardFull implements DownloadCardFull{
 	@Override
 	public void setCardValues(DownloadValues episodeDownloadItemValues) {
 	
-		this.episodeDownloadItemValues = (EpisodeDownloadItemValues) episodeDownloadItemValues;
+		this.episodeDownloadItemValues = (T) episodeDownloadItemValues;
 		
 	}
 

@@ -44,6 +44,13 @@ public class VideoMetadata  implements TargetMetadata{
 		long longSize = Long.valueOf(onlyDigitSize);
 		return longSize;
 	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public void setSize(Long size) {
+		this.size = String.valueOf(size);
+	}
 	@Override
 	public long getLongSize() {
 		

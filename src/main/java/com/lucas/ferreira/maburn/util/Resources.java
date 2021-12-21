@@ -18,7 +18,7 @@ public class Resources {
 	
 	public static InputStream getResourceAsStream(String resource) {
 
-		InputStream input = Resources.class.getResourceAsStream("/resources/" + resource);
+		InputStream input = Resources.class.getResourceAsStream("/resources" + resource);
 		if (input == null) {
 			// if we are load file within IDE
 			if(!resource.matches("^\\/.*")){ // Need start with /
@@ -43,6 +43,7 @@ public class Resources {
 		if(resourceName.contains("/")){
 			 prefix = resourceName.split("/")[0];
 		}
+		System.out.println(prefix);
 		URI uri = Objects.requireNonNull(Resources.class.getClassLoader().getResource(resourceName)).toURI();
 		if (isResourceInJar(uri)) { //if we are load file within IDE
 			Map<String, String> env = new HashMap<>();

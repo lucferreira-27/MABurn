@@ -9,8 +9,7 @@ import java.util.logging.Logger;
 
 public class Main {
 	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws Exception {
 
 		MainInterfaceView.getInstance().initAndShowGUI();
 		LOGGER.info("GUI initialize");

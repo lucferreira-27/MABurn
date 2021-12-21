@@ -19,9 +19,9 @@ public class EpisodeFragmentedDownloadValues implements GroupDownloadValues {
     private DoubleProperty downloadItemSpeed = new SimpleDoubleProperty();
     private DoubleProperty timeRemain = new SimpleDoubleProperty();
     private DoubleProperty episodeSize = new SimpleDoubleProperty();
-    private List<ItemDownloadValues> listPageDownloadItemValues = new ArrayList<ItemDownloadValues>();
+    private List<ItemDownloadValues> listPartDownloadItemValues = new ArrayList<ItemDownloadValues>();
     private ObjectProperty<DownloadProgressState> downloadProgressState = new SimpleObjectProperty<DownloadProgressState>(DownloadProgressState.WAITING);
-    private ObservableList<ItemDownloadValues> obsListPageDownloadItemsValues = FXCollections.observableArrayList();
+    private ObservableList<ItemDownloadValues> obsListPartDownloadItemsValues = FXCollections.observableArrayList();
     private StringProperty target = new SimpleStringProperty();
     private StringProperty name = new SimpleStringProperty();;
     private StringProperty message =  new SimpleStringProperty();;
@@ -51,11 +51,11 @@ public class EpisodeFragmentedDownloadValues implements GroupDownloadValues {
     @Override
     public List<ItemDownloadValues> getListItemsDownloadValues() {
 
-        return listPageDownloadItemValues;
+        return listPartDownloadItemValues;
     }
 
-    public ObservableList<ItemDownloadValues> getObsListNewPageDownloadItemsValues() {
-        return obsListPageDownloadItemsValues;
+    public ObservableList<ItemDownloadValues> getObsListNewPartDownloadItemsValues() {
+        return obsListPartDownloadItemsValues;
     }
 
     @Override
@@ -89,9 +89,9 @@ public class EpisodeFragmentedDownloadValues implements GroupDownloadValues {
     @Override
     public String toString() {
         return String.format(
-                "Name: %s\nDownloadProgress: %s\nTotalVideoFragmentDownloaded: %s\nDownloadItemSpeed: %s\nSize: %s\nTimeRemain: %s\nListPageDownloadItemValues:\n%s\nDownloadProgressState: %s\n",
+                "Name: %s\nDownloadProgress: %s\nTotalVideoFragmentDownloaded: %s\nDownloadItemSpeed: %s\nSize: %s\nTimeRemain: %s\nListPartDownloadItemValues:\n%s\nDownloadProgressState: %s\n",
                 name, downloadProgress.get(), totalVideoFragmentDownloaded.get(), downloadItemSpeed.get(), episodeSize.get(), timeRemain.get(),
-                listPageDownloadItemValues.stream().map(DownloadValues::toString)
+                listPartDownloadItemValues.stream().map(DownloadValues::toString)
                         .collect(Collectors.joining("\n")),
                 downloadProgressState.get());
     }

@@ -64,14 +64,11 @@ public class ChapterDownloadTest {
 					e.printStackTrace();
 				}
 			}).start();;
-			boolean t = true;
-			boolean allMath =false;
-			
-				Thread.sleep(1000);
-				chapterDownload.pause();
-				Thread.sleep(1000);
-				chapterDownload.resume();
+
+
 				Thread.sleep(10000);
+			boolean allMath = chapter.getListItemsDownloadValues().stream()
+					.allMatch(page -> page.getDownloadProgressState().get() == DownloadProgressState.COMPLETED);
 
 			assertTrue(allMath);
 		} catch (Exception e) {

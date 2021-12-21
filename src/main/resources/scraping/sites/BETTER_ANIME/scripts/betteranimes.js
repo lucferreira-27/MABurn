@@ -43,7 +43,7 @@ async function getUrl() {
             var content = player.contentDocument.querySelector("body").outerHTML
             var index = content.indexOf('{"file":')
             var cutContent = content.substring('{"file":'.length + index);
-            var src = (cutContent.substring(0, cutContent.indexOf("},")));
+            var src = (cutContent.substring(0, cutContent.indexOf(",") - 1));
             src = src.replace("480p", "1080p").replaceAll("\\/", "/").replace('"', "");
 
             if (src.includes("video.wixstatic.com"))
@@ -67,7 +67,7 @@ function getAllNames() {
         let txtEpisodios = []
         episodios.forEach(e => {
             if (e.classList.length == 0) {
-                txtEpisodios.push({ name: e.text.replaceAll("\n", ""), url: e.href })
+                txtEpisodios.push({ name: e.text.replace(/\s+/g, ' ').replace(/\s$/g,''), url: e.href })
             }
         })
         console.log(txtEpisodios)

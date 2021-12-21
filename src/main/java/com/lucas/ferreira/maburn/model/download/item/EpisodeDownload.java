@@ -19,6 +19,11 @@ public class EpisodeDownload implements ItemDownload {
 		this.downloadInfo = downloadInfo;
 		this.episodeDownloadItemValues = (EpisodeDownloadItemValues) downloadValues;
 	}
+	protected EpisodeDownload(){
+
+	}
+
+
 
 	@Override
 	public void download() throws Exception {

@@ -30,104 +30,106 @@ import javafx.scene.layout.StackPane;
 
 public class CardLoader {
 
-	private Title title;
-	private DownloadList downloadList;
-	public CardLoader(Title title, DownloadList downloadList) {
-		this.title = title;
-		this.downloadList = downloadList;
-	}
-	private FXMLViewLoader<StackPane> fxmlViewLoader = new FXMLViewLoader<StackPane>();
+    private Title title;
+    private DownloadList downloadList;
 
-	public DownloadCardFull load(ItemScraped itemScraped) {
-		return loadDownloadCard(itemScraped);
-	}
-	
-	public FetchCardFull loadFetchCard(ScrapingWork scrapingWork) {
-		FetchCard fetchCard = new FetchCard();
-		
-		
-		String itemName = scrapingWork.getSiteValues().getTarget();
-		String itemUrl = scrapingWork.getSiteValues().getUrl();
-	
-		FetchCardValues fetchCardValues = new FetchCardValues(title.getCollectionTitle());		
-		fetchCardValues.setItemName(itemName);
-		fetchCardValues.setItemUrl(itemUrl);
-		
-		
-		Node node = loadCardFxml(fetchCard, itemName, CardFXML.FETCH_CARD);
-		FetchCardFull cardFull= new FetchCardController(fetchCard, fetchCardValues).initialize();
-		cardFull.setNode(node);
-		return cardFull;
-		
-	}
-	
-	private DownloadCardFull loadDownloadCard(ItemScraped itemScraped) {
-		
-		
-		
-		if (itemScraped.getRegisteredSite().getSiteConfig().getCategory() == Category.ANIME) {
+    public CardLoader(Title title, DownloadList downloadList) {
+        this.title = title;
+        this.downloadList = downloadList;
+    }
 
-			AnimeDownloadInfo animeDownloadInfo = new AnimeDownloadInfo(title.getTaggedItems());
-			DownloadInfo downloadInfo = animeDownloadInfo.newEpisodeDownloadInfo(title.getCollectionTitle(),
-					(EpisodeScraped) itemScraped);
-			return loadDownloadEpisodeCard(downloadInfo);
-			 
-		
-		}
-		if (itemScraped.getRegisteredSite().getSiteConfig().getCategory() == Category.MANGA) {
-			MangaDownloadInfo mangaDownloadInfo = new MangaDownloadInfo(title.getTaggedItems());
-			DownloadInfo downloadInfo = mangaDownloadInfo.newChapterDownloadInfo(title.getCollectionTitle(),
-					(ChapterScraped) itemScraped);
-			
-			return loadDownloadChapterCard(downloadInfo);
-			
-		}
-		return null;
-	}
+    private FXMLViewLoader<StackPane> fxmlViewLoader = new FXMLViewLoader<StackPane>();
+
+    public DownloadCardFull load(ItemScraped itemScraped) throws Exception {
+        return loadDownloadCard(itemScraped);
+    }
+
+    public FetchCardFull loadFetchCard(ScrapingWork scrapingWork) {
+        FetchCard fetchCard = new FetchCard();
 
 
-	private DownloadCardFull loadDownloadEpisodeCard(DownloadInfo downloadInfo) {
-		EpisodeCard episodeCard = new EpisodeCard();
+        String itemName = scrapingWork.getSiteValues().getTarget();
+        String itemUrl = scrapingWork.getSiteValues().getUrl();
 
-		Node node =loadCardFxml(episodeCard, downloadInfo.getFilename(), CardFXML.DOWNLOAD_EPISODE_CARD);
-		
-		DownloadCardFull downloadCardFull = new EpisodeCardController(episodeCard, downloadInfo, downloadList.getContentDownloadList()).initialize();
-		downloadCardFull.setNode(node);
-		return downloadCardFull;
-		
-	}
+        FetchCardValues fetchCardValues = new FetchCardValues(title.getCollectionTitle());
+        fetchCardValues.setItemName(itemName);
+        fetchCardValues.setItemUrl(itemUrl);
 
-	private DownloadCardFull loadDownloadChapterCard(DownloadInfo downloadInfo) {
-		ChapterCard chapterCard = new ChapterCard();
 
-		Node node =loadCardFxml(chapterCard, downloadInfo.getFilename(), CardFXML.DOWNLOAD_CHAPTER_CARD);
-		
-		DownloadCardFull downloadCardFull = new ChapterCardController(chapterCard, downloadInfo, downloadList.getContentDownloadList()).initialize();
-		downloadCardFull.setNode(node);
+        Node node = loadCardFxml(fetchCard, itemName, CardFXML.FETCH_CARD);
+        FetchCardFull cardFull = new FetchCardController(fetchCard, fetchCardValues).initialize();
+        cardFull.setNode(node);
+        return cardFull;
 
-		 return downloadCardFull;
+    }
 
-	}
+    private DownloadCardFull loadDownloadCard(ItemScraped itemScraped) throws Exception {
 
-	
-	public Node loadCardFxml(Initializable initializable, String name, CardFXML cardFxml) {
-		StackPane stackPane = new StackPane();
-		try {
-			StackPane item = fxmlViewLoader.load(cardFxml.getFxml(), initializable, stackPane);
-			item.getStylesheets().add("/style/download_card.css");
-			defineId(name, item);
-			return item;
 
-		} catch (Exception e) {
-			 
-			e.printStackTrace();
-			return null;
-		}
-	}
+        if (itemScraped.getRegisteredSite().getSiteConfig().getCategory() == Category.ANIME) {
 
-	private void defineId(String name, StackPane item) {
-		String definedId = name;
-		item.setUserData(definedId);
-	}
+            AnimeDownloadInfo animeDownloadInfo = new AnimeDownloadInfo(title.getTaggedItems());
+
+            DownloadInfo downloadInfo = animeDownloadInfo.newEpisodeDownloadInfo(title.getCollectionTitle(),
+                    (EpisodeScraped) itemScraped);
+            return loadDownloadEpisodeCard(downloadInfo);
+
+
+        }
+        if (itemScraped.getRegisteredSite().getSiteConfig().getCategory() == Category.MANGA) {
+            MangaDownloadInfo mangaDownloadInfo = new MangaDownloadInfo(title.getTaggedItems());
+            DownloadInfo downloadInfo = mangaDownloadInfo.newChapterDownloadInfo(title.getCollectionTitle(),
+                    (ChapterScraped) itemScraped);
+
+            return loadDownloadChapterCard(downloadInfo);
+
+        }
+        return null;
+    }
+
+
+    private DownloadCardFull loadDownloadEpisodeCard(DownloadInfo downloadInfo) {
+        EpisodeCard episodeCard = new EpisodeCard();
+
+        Node node = loadCardFxml(episodeCard, downloadInfo.getFilename(), CardFXML.DOWNLOAD_EPISODE_CARD);
+
+        DownloadCardFull downloadCardFull = new EpisodeCardController(episodeCard, downloadInfo, downloadList.getContentDownloadList()).initialize();
+        downloadCardFull.setNode(node);
+        return downloadCardFull;
+
+    }
+
+    private DownloadCardFull loadDownloadChapterCard(DownloadInfo downloadInfo) {
+        ChapterCard chapterCard = new ChapterCard();
+
+        Node node = loadCardFxml(chapterCard, downloadInfo.getFilename(), CardFXML.DOWNLOAD_CHAPTER_CARD);
+
+        DownloadCardFull downloadCardFull = new ChapterCardController(chapterCard, downloadInfo, downloadList.getContentDownloadList()).initialize();
+        downloadCardFull.setNode(node);
+
+        return downloadCardFull;
+
+    }
+
+
+    public Node loadCardFxml(Initializable initializable, String name, CardFXML cardFxml) {
+        StackPane stackPane = new StackPane();
+        try {
+            StackPane item = fxmlViewLoader.load(cardFxml.getFxml(), initializable, stackPane);
+            item.getStylesheets().add("/style/download_card.css");
+            defineId(name, item);
+            return item;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void defineId(String name, StackPane item) {
+        String definedId = name;
+        item.setUserData(definedId);
+    }
 
 }

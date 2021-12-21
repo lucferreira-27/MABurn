@@ -22,7 +22,7 @@ public class VideoComposerTest {
         };
 
         File file = videoComposer.compose(Arrays.asList(files), "output.mp4");
-       file.deleteOnExit();
+        file.deleteOnExit();
 
        assertTrue(file.exists());
 

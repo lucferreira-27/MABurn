@@ -20,10 +20,13 @@ public class ImagePanel extends JPanel {
 		setOpaque(false);
 		setLayout(new GridBagLayout());
 		try {
+			System.out.println(Resources.getResourcePath("/template/frame.png"));
 			InputStream in = Resources.getResourceAsStream("/template/frame.png");
 			img = ImageIO.read(in);
 		} catch (IOException ex) {
 			Logger.getLogger(CircleScreen.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

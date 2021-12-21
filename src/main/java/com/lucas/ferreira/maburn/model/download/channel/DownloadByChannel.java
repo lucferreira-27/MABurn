@@ -7,6 +7,7 @@ import com.lucas.ferreira.maburn.exceptions.HttpResponseCodeException;
 import com.lucas.ferreira.maburn.model.download.*;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class DownloadByChannel extends DownloadProgressListener {
@@ -118,7 +121,7 @@ public class DownloadByChannel extends DownloadProgressListener {
     private void setFileType(String contentType) throws FileTypeNotSupportException {
         FileTypeSelect fileTypeSelect = new FileTypeSelect();
         String splitContentType = contentType.split("/")[1];
-        if(FileTypeDetection.isAcceptType(splitContentType)) {
+        if (FileTypeDetection.isAcceptType(splitContentType)) {
             String type = fileTypeSelect.selectType(splitContentType, prefFileType);
             filename += "." + type;
         }
@@ -158,7 +161,12 @@ public class DownloadByChannel extends DownloadProgressListener {
         return Channels.newChannel(con.getInputStream());
     }
 
-    private void newOutputStream(String path) throws FileNotFoundException {
+    private void newOutputStream(String path) throws IOException {
+        File file = new File(path);
+        System.out.println(path);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         fos = new FileOutputStream(path);
 
     }
