@@ -27,7 +27,7 @@ Foi escolhido um sistema de collections para organização das pastas do usuári
 
 
 ### Gerenciador de Download
-![Download Manager](https://i.ibb.co/LYgNyVC/Maburn-06.png)
+![Download Manager](https://paste.pics/3fcb240b7928633479e55374a35044a2)
 
 
 ### Fila de Download
