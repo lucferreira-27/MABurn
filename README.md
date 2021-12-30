@@ -17,7 +17,7 @@ Este projeto visa auxiliar e facilitar o controle de animes/mangas armazenados l
 ![Home](https://i.ibb.co/CHqGL2S/Maburn-02.png)
 
 ### Coleção
-![Collection](https://i.ibb.co/tXYpGtm/Maburn-04.png)
+![Collection](https://i2.paste.pics/4b3e8cf542ada70addda90b9c63e50c8.png)
 
 Foi escolhido um sistema de collections para organização das pastas do usuário, separando em manga collection e anime collection
 
@@ -27,11 +27,11 @@ Foi escolhido um sistema de collections para organização das pastas do usuári
 
 
 ### Gerenciador de Download
-![Download Manager](https://i.ibb.co/LYgNyVC/Maburn-06.png)
+![Download Manager](https://i2.paste.pics/cd047af0d7ae02e13dafc69fc980c5d6.png)
 
 
 ### Fila de Download
-![Download Queue](https://i.ibb.co/PTKKTSQ/Maburn-01.png)
+![Download Queue](https://i2.paste.pics/cf4f335c07eab6318a8e90040a03d884.png)
 
 
 ### Configuração
