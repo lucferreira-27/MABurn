@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,12 +29,10 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.model.items.CollectionItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
+import com.lucas.ferreira.maburn.model.loader.folder.FolderCollectionItemLoader;
 import com.lucas.ferreira.maburn.model.service.Database;
 import com.lucas.ferreira.maburn.model.service.KitsuDatabase;
-import com.lucas.ferreira.maburn.util.CollectionLoaderUtil;
-import com.lucas.ferreira.maburn.util.Icon;
-import com.lucas.ferreira.maburn.util.IconConfig;
-import com.lucas.ferreira.maburn.util.LanguageReader;
+import com.lucas.ferreira.maburn.util.*;
 import com.lucas.ferreira.maburn.util.comparator.ItemFileComparator;
 import com.lucas.ferreira.maburn.view.AlertWindowView;
 import com.lucas.ferreira.maburn.view.Interfaces;
@@ -42,6 +42,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -61,6 +62,7 @@ public class TitleController implements ModelInterface {
     private static final String ICON_PATH = "icons/";
     private Navigator navigator = new Navigator();
     private Collections collections;
+    private FolderCollectionItemLoader folderCollectionItemLoader = new FolderCollectionItemLoader();
     private CollectionTitle title;
     @FXML
     private ImageView imageViewTitle;
@@ -68,6 +70,8 @@ public class TitleController implements ModelInterface {
     private Button btnBack;
     @FXML
     private Button btnWatch;
+    @FXML
+    private Button btnDelete;
     @FXML
     private Button btnRead;
     @FXML
@@ -105,6 +109,8 @@ public class TitleController implements ModelInterface {
     private TableColumn<TableCollectionItemModel, String> nameCol;
     @FXML
     private TableColumn<TableCollectionItemModel, Button> sizeCol;
+    @FXML
+    private TableColumn<TableCollectionItemModel, Button> removeCol;
     @FXML
     private TableColumn<TableCollectionItemModel, String> pathCol;
 
@@ -295,7 +301,7 @@ public class TitleController implements ModelInterface {
             File[] allContents = titleFolder.listFiles();
             Arrays.asList(allContents).forEach(file -> file.delete());
             titleFolder.delete();
-            return titleFolder.exists();
+            return !titleFolder.exists();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -304,6 +310,8 @@ public class TitleController implements ModelInterface {
 
     public void loadTable(CollectionTitle item) {
         LOGGER.config("Load Title Table");
+        CollectionTitle newTitle = folderCollectionItemLoader.loadCollectionItems(item.getDestination(), item.getCategory());
+        item.setListSubItems(newTitle.getListSubItens());
         List<CollectionItem> listSubItens = item.getListSubItens();
 
         List<TableCollectionItemModel> tableItens = new ArrayList<>();
@@ -317,31 +325,53 @@ public class TitleController implements ModelInterface {
             // e.printStackTrace();
 
         }
-        String btnText = "";
+        String btnFolderText = "";
+        String btnDeleteText = btnDelete.getText();
 
         if (item.getCategory() == Category.ANIME) {
-            btnText = btnWatch.getText();
+            btnFolderText = btnWatch.getText();
         } else if (item.getCategory() == Category.MANGA) {
-            btnText = btnRead.getText();
+            btnFolderText = btnRead.getText();
         }
 
         for (CollectionItem subItem : listSubItens) {
-            Button btn = new Button();
-            btn.setText(btnText);
-            btn.setOnAction(event -> {
+            Button btnFolder = new Button();
+            btnFolder.setText(btnFolderText);
+            btnFolder.setOnAction(event -> {
                 try {
                     DirectoryModel.openDirectory(subItem.getDestination());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            Button btnDelete = new Button();
+            ImageView imgDelete = new ImageView();
+            Icon iconRemove = new Icon(imgDelete, new IconConfig(ICON_PATH, Icons.REMOVE, "Remove"));
+            btnDelete.setPadding(new Insets(0,0,0,0));
+            imgDelete.setFitHeight(25);
+            imgDelete.setFitWidth(25);
+
+            btnDelete.setGraphic(imgDelete);
+
+            btnDelete.setOnAction(event -> {
+                try {
+                    Files.delete(Paths.get(subItem.getDestination()));
+                    loadTable(item);
                 } catch (IOException e) {
 
                     e.printStackTrace();
                 }
             });
-            tableItens.add(new TableCollectionItemModel(subItem.getName(), btn, 0, subItem.getDestination()));
+            tableItens.add(new TableCollectionItemModel(subItem.getName(), btnFolder, btnDelete, 0, subItem.getDestination()));
         }
 
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         pathCol.setCellValueFactory(new PropertyValueFactory<>("path"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("btnFolder"));
+        removeCol.setCellValueFactory(new PropertyValueFactory<>("btnDelete"));
+
+
         sizeCol.setCellFactory(tc -> new TableCell<TableCollectionItemModel, Button>() {
 
             @Override
@@ -367,6 +397,8 @@ public class TitleController implements ModelInterface {
 
             }
         });
+
+
         this.tableItens.setItems(FXCollections.observableArrayList(tableItens));
         this.tableItens.refresh();
         preventColumnReordering(this.tableItens);

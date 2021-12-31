@@ -11,13 +11,16 @@ public class TableCollectionItemModel {
 	private final SimpleIntegerProperty size;
 	private final SimpleStringProperty path;
 	private final Button btnFolder;
+	private final Button btnDelete;
 
-	public TableCollectionItemModel(String name, Button btnFolder, Integer size, String path) {
+	public TableCollectionItemModel(String name,Button btnFolder,Button btnDelete  ,Integer size, String path) {
 		this.btnFolder = btnFolder;
+		this.btnDelete = btnDelete;
 		this.selected = new SimpleBooleanProperty(false);
 		this.name = new SimpleStringProperty(name);
 		this.size = new SimpleIntegerProperty(size);
 		this.path = new SimpleStringProperty(path);
+
 	}
 
 	public boolean isSelected() {
@@ -56,4 +59,7 @@ public class TableCollectionItemModel {
 		return btnFolder;
 	}
 
+	public Button getBtnDelete() {
+		return btnDelete;
+	}
 }
