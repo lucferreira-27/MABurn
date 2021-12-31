@@ -5,6 +5,8 @@ import com.lucas.ferreira.maburn.view.Interfaces;
 import com.lucas.ferreira.maburn.view.MainInterfaceView;
 import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class Main {

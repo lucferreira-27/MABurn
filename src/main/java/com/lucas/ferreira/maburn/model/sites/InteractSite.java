@@ -36,6 +36,7 @@ public class InteractSite {
 		processScript(siteValues);
 		onLoad();
 		checkIfScriptIsAvailable();
+
 		Timeout.waitUntil(working, 30000);
 		return siteResult;
 	}

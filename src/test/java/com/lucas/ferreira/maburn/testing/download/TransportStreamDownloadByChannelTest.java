@@ -19,7 +19,9 @@ public class TransportStreamDownloadByChannelTest {
         downloadInfo.setFilename("ts-01");
         downloadInfo.setRoot("D:\\Teste\\");
         downloadInfo.setPrefFiletype(FileTypeAccept.TS);
-        downloadInfo.setUrl(baseUrl + tsUrl);
+        String url = tsUrl.startsWith("https:") ? tsUrl : baseUrl + tsUrl;
+
+        downloadInfo.setUrl(url);
         TransportStreamDownloadByChannel transportStreamDownloadByChannel =  new TransportStreamDownloadByChannel(itemDownloadValues);
 
         transportStreamDownloadByChannel.download(downloadInfo);

@@ -16,9 +16,12 @@ import com.lucas.ferreira.maburn.model.download.FileTypeAccept;
 import com.lucas.ferreira.maburn.model.metadata.image.ImageMetadata;
 import com.lucas.ferreira.maburn.model.metadata.video.VideoMetadata;
 import com.lucas.ferreira.maburn.util.datas.BytesUtil;
+import com.microsoft.playwright.Video;
+import com.sun.xml.internal.ws.wsdl.writer.document.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,7 +60,6 @@ public class EpisodeHLSDownload extends EpisodeDownload {
             createEpisodeFragmentsFolder();
             List<ItemDownloadValues> transportStreamDownloadValues = episodeDownloadItemValues.getListItemsDownloadValues();
             forEachTs(transportStreamDownloadValues);
-            showDownloadValuesRealTimeInfo();
             waitUntilDownloadFinish();
             onDownloadComplete();
         } catch (Exception e) {
@@ -68,6 +70,19 @@ public class EpisodeHLSDownload extends EpisodeDownload {
     }
 
     private void waitUntilDownloadFinish() {
+        episodeDownloadItemValues.getDirectLink().set(episodeDownloadInfo.getUrl());
+        new Thread(() -> {
+            updateAllValues();
+        }).start();
+
+        partValues.get(0).getDownloadProgressState().addListener((obs, oldvalue, newvalue) ->{
+            if(newvalue == DownloadProgressState.COMPLETED){
+                PartDownload partDownload = partDownloads.get(0);
+                VideoMetadata videoMetadata = partDownload.readPartMetadata();
+                episodeDownloadItemValues.getResolution().set(videoMetadata.getHeight());
+            }
+        });
+
         while (episodeDownloadItemValues.getObsListNewPartDownloadItemsValues().size() < episodeDownloadItemValues
                 .getListItemsDownloadValues().size()) {
             try {
@@ -90,15 +105,11 @@ public class EpisodeHLSDownload extends EpisodeDownload {
         file.mkdir();
     }
 
-    public void deleteEpisodeFragmentsFolder() {
-        try {
-            Files.walk(Paths.get(folderPath))
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void deleteEpisodeFragmentsFolder(File folder) {
+
+        File[] allContents = folder.listFiles();
+        Arrays.asList(allContents).forEach(file -> file.delete());
+        folder.delete();
 
     }
 
@@ -121,7 +132,7 @@ public class EpisodeHLSDownload extends EpisodeDownload {
             PartDownload partDownload = new PartDownload(fragment, fragmentDownloadInfo);
             partDownload.onDownloadComplete(downloadedFragment -> {
                 synchronized (this) {
-                    readSizeFromMetadata(partDownload.readPartMetadata(), downloadedFragment);
+                    readSize(partDownload.readPartSize(), downloadedFragment);
                     notifyPartDownloadComplete(downloadedFragment);
                     checkState();
                 }
@@ -139,6 +150,7 @@ public class EpisodeHLSDownload extends EpisodeDownload {
 
     private void checkState() {
 
+
         if (episodeDownloadItemValues.getDownloadProgressState().get() != DownloadProgressState.FAILED
                 && episodeDownloadItemValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED) {
 
@@ -151,6 +163,84 @@ public class EpisodeHLSDownload extends EpisodeDownload {
 
             }
         }
+
+
+    }
+
+    private void updateAllValues() {
+        updateTargetURL();
+        while (!isDownloadFinish()) {
+            updateStatus();
+            updateDownloadSpeed();
+            updateTotalSize();
+        }
+    }
+
+    private void updateStatus() {
+        if (episodeDownloadItemValues.getListItemsDownloadValues().stream()
+                .anyMatch(part -> part.getDownloadProgressState().get() == DownloadProgressState.FAILED)) {
+            episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.FAILED);
+            return;
+        }
+        if (episodeDownloadItemValues.getListItemsDownloadValues().stream()
+                .anyMatch(part -> part.getDownloadProgressState().get() == DownloadProgressState.CANCELED)) {
+            episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.CANCELED);
+            return;
+        }
+        if (episodeDownloadItemValues.getListItemsDownloadValues().stream()
+                .anyMatch(part -> part.getDownloadProgressState().get() == DownloadProgressState.DOWNLOADING)) {
+            episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.DOWNLOADING);
+            return;
+        }
+        if (episodeDownloadItemValues.getListItemsDownloadValues().stream()
+                .anyMatch(part -> part.getDownloadProgressState().get() == DownloadProgressState.PAUSE)) {
+            episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.PAUSE);
+            return;
+        }
+
+
+    }
+
+    private void updateDownloadSpeed() {
+
+        double downloadSpeed = episodeDownloadItemValues.getListItemsDownloadValues()
+                .stream()
+                .map(itemDownloadValues -> itemDownloadValues.getDownloadSpeed().doubleValue())
+                .reduce(0.0, (subtotal, value) -> subtotal + value);
+        episodeDownloadItemValues.getDownloadSpeed().set(downloadSpeed);
+
+    }
+
+    private void updateTargetURL() {
+        String target = episodeDownloadItemValues.getTarget().getValue();
+        episodeDownloadItemValues.getTarget().set("");
+        episodeDownloadItemValues.getTarget().set(target);
+    }
+
+    private void updateTotalSize() {
+        double totalSize = episodeDownloadItemValues.getListItemsDownloadValues()
+                .stream()
+                .map(itemDownloadValues -> itemDownloadValues.getTotalDownloaded().doubleValue())
+                .reduce(0.0, (subtotal, value) -> subtotal + value);
+        episodeDownloadItemValues.getTotalDownloaded().set(totalSize);
+    }
+
+    private void updateResolution() {
+        PartDownloadItemsValues partDownloadItemsValues = (PartDownloadItemsValues) episodeDownloadItemValues.getListItemsDownloadValues().get(0);
+        while(!isDownloadFinish()){
+
+        }
+
+    }
+
+    private boolean isDownloadFinish() {
+        if (episodeDownloadItemValues.getDownloadProgressState().get() == DownloadProgressState.COMPLETED)
+            return true;
+        if (episodeDownloadItemValues.getDownloadProgressState().get() == DownloadProgressState.FAILED)
+            return true;
+        if (episodeDownloadItemValues.getDownloadProgressState().get() == DownloadProgressState.CANCELED)
+            return true;
+        return false;
     }
 
     private DownloadInfo fillFragmentDownloadInfo(int fragmentPosition, PartDownloadItemsValues fragmentValues) {
@@ -198,6 +288,13 @@ public class EpisodeHLSDownload extends EpisodeDownload {
         episodeInfoRefresher.increaseFinalSize(megabytesSize);
     }
 
+    private void readSize(long size, PartDownloadItemsValues partDownloadItemsValues) {
+
+        long bytesSize = size;
+        double megabytesSize = BytesUtil.convertBytesToMegasBytes(bytesSize);
+        partDownloadItemsValues.getDownloadSize().set(megabytesSize);
+        episodeInfoRefresher.increaseFinalSize(megabytesSize);
+    }
 
     private void downloadAllPartsComplete() {
         try {
@@ -211,19 +308,34 @@ public class EpisodeHLSDownload extends EpisodeDownload {
     }
 
     private void onDownloadComplete() throws VideoComposerException, IOException {
-        composeEpisodeFromParts();
-        deleteEpisodeFragmentsFolder();
+        try {
+            File videoCompose = composeEpisodeFromParts();
+            if (videoCompose.exists()) {
+                episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.COMPLETED);
+            } else {
+                episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.FAILED);
+            }
+        } catch (Exception e) {
+            episodeDownloadItemValues.getDownloadProgressState().set(DownloadProgressState.FAILED);
+            throw e;
+        } finally {
+            deleteEpisodeFragmentsFolder(new File(folderPath));
+        }
 
     }
 
-    private void composeEpisodeFromParts() throws VideoComposerException, IOException {
+    private File composeEpisodeFromParts() throws VideoComposerException, IOException {
         VideoComposer videoComposer = new VideoComposer();
-        String output = "\"" + episodeDownloadInfo.getRoot() + episodeDownloadInfo.getFilename() + "." + episodeDownloadInfo.getPrefFiletype().getName() + "\"";
+
+        String output = "\"" + episodeDownloadInfo.getRoot() + "\\" + episodeDownloadInfo.getFilename() + "." + episodeDownloadInfo.getPrefFiletype().getName() + "\"";
         File file = new File(folderPath);
         File[] files = file.listFiles((File f, String name) -> name.endsWith(FileTypeAccept.TS.getName()));
         List<File> fileParts = Arrays.asList(files);
 
-        videoComposer.compose(fileParts, output);
+        File videoCompose = videoComposer.compose(fileParts, output);
+        return videoCompose;
+
+
     }
 
     @Override
@@ -240,7 +352,6 @@ public class EpisodeHLSDownload extends EpisodeDownload {
 
     @Override
     public void pause() {
-
         partDownloads.forEach(part -> {
             part.pause();
         });
@@ -258,6 +369,8 @@ public class EpisodeHLSDownload extends EpisodeDownload {
         partDownloads.forEach(part -> {
             part.stop();
         });
+        executorService.shutdownNow();
+
     }
 
 }

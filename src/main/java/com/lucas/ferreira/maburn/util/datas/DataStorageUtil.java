@@ -7,20 +7,20 @@ import com.lucas.ferreira.maburn.util.MathUtil;
 
 public class DataStorageUtil {
 	public static String converterUnit(Double megabytes) {
-		// DecimalFormat df = new DecimalFormat("###,##0.00");
+		 DecimalFormat df = new DecimalFormat("###,##0.00");
 
 		if (megabytes > 1024) {
 
 			Double value = MathUtil.roundDouble(megabytes / 1024, 2);
 
-			return value + " " + DownloadUnit.GIGABYTES_UNIT.getValue();
+			return df.format(value).replace(",", ".") + " " + DownloadUnit.GIGABYTES_UNIT.getValue();
 		}
 		if (megabytes < 1) {
 			Double value = MathUtil.roundDouble(megabytes * 1024, 2);
 
-			return value + " " + DownloadUnit.KILOBYTES_UNIT.getValue();
+			return df.format(value).replace(",", ".") + " " + DownloadUnit.KILOBYTES_UNIT.getValue();
 		}
-		return megabytes + " " + DownloadUnit.MEGABYTES_UNIT.getValue();
+		return df.format(megabytes).replace(",", ".") + " " + DownloadUnit.MEGABYTES_UNIT.getValue();
 	}
 
 	public static String converterSpeedUnit(Double megabytes) {

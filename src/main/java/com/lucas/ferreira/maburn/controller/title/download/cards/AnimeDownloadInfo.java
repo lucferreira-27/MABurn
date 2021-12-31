@@ -28,7 +28,7 @@ public class AnimeDownloadInfo {
 
     public DownloadInfo newEpisodeDownloadInfo(CollectionTitle collectionTitle, EpisodeScraped episodeScraped) throws Exception {
         String directDownload = episodeScraped.getVideoLinks().get(Definition.DEFINITION_1080);
-        if (isHLSVideo(directDownload)) {
+        if (HLSMetadata.isHLSVideo(directDownload)) {
             return newEpisodeHLSDownloadInfo(collectionTitle, episodeScraped);
         }
         DownloadInfo downloadInfo = baseEpisodeDownloadInfo(collectionTitle, episodeScraped);
@@ -40,9 +40,11 @@ public class AnimeDownloadInfo {
     private DownloadInfo newEpisodeHLSDownloadInfo(CollectionTitle collectionTitle, EpisodeScraped episodeScraped) throws Exception {
         String directDownload = episodeScraped.getVideoLinks().get(Definition.DEFINITION_1080);
         DownloadInfo downloadInfo = baseEpisodeDownloadInfo(collectionTitle, episodeScraped);
-        List<String> partsUrls = getPartsUrls(directDownload);
+        MediaM3u8 mediaM3u8 = getMediaM3u8(directDownload);
+        List<String> partsUrls = getPartsUrls(mediaM3u8);
+        System.out.println(mediaM3u8.getMediaPlaylist());
         downloadInfo.getListUrls().addAll(partsUrls);
-        downloadInfo.setUrl(episodeScraped.getSiteResult().getPageInfo().getUrl());
+        downloadInfo.setUrl(directDownload);
 
         return downloadInfo;
 
@@ -59,32 +61,26 @@ public class AnimeDownloadInfo {
 
     }
 
-    private boolean isHLSVideo(String url) throws IOException {
-        try {
-            HLSMetadata hlsMetadata = new HLSMetadata();
-            String baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
-            String m3u8Url = url.substring(url.lastIndexOf("/") + 1);
-            List<MediaM3u8> mediaPlaylists = hlsMetadata.getMediaPlaylistFromM3u8(baseUrl, m3u8Url);
-            if (mediaPlaylists.size() > 0) {
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private List<String> getPartsUrls(String directDownload) throws Exception {
+    private MediaM3u8 getMediaM3u8(String directDownload) throws Exception {
         HLSMetadata hlsMetadata = new HLSMetadata();
         String baseUrl = directDownload.substring(0, directDownload.lastIndexOf("/") + 1);
         String m3u8Url = directDownload.substring(directDownload.lastIndexOf("/") + 1);
         List<MediaM3u8> mediaPlaylists = hlsMetadata.getMediaPlaylistFromM3u8(baseUrl, m3u8Url);
         MediaM3u8 mediaM3u8 = mediaPlaylists.get(0);
+        return mediaM3u8;
+    }
+
+    private List<String> getPartsUrls(MediaM3u8 mediaM3u8) throws Exception {
+
         List<String> partsUrls = mediaM3u8.getMediaPlaylist()
                 .mediaSegments()
                 .stream()
-                .map(m -> mediaM3u8.getBaseUrl() + m.uri())
+                .map(m -> {
+                    if (!m.uri().startsWith("https:"))
+                        return mediaM3u8.getBaseUrl() + m.uri();
+                    else
+                        return m.uri();
+                })
                 .collect(Collectors.toList());
 
         return partsUrls;

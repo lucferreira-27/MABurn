@@ -70,10 +70,7 @@ public class InteractSiteTest {
 
     @Test
     public void testGetInBetterAnimeWithTarget() throws Exception {
-        if (LocalServer.getWebServer() == null) {
-            WebServer webServer = localServer.create();
-            webServer.start();
-        }
+
 
         String withoutTargeturl = "https://betteranime.net/anime/legendado/one-piece";
         withoutTarget(withoutTargeturl, "BETTER_ANIME", 1);
@@ -89,6 +86,22 @@ public class InteractSiteTest {
 
         String withoutTargeturl = "https://betteranime.net/anime/legendado/one-piece";
         withoutTarget(withoutTargeturl, "BETTER_ANIME", 1);
+
+    }
+
+    @Test
+    public void testGetInBetterAnimeDownloadWithoutTarget() throws Exception {
+
+        String withoutTargeturl = "https://betteranime.net/anime/legendado/one-piece";
+       SiteResult siteResult = withoutTarget(withoutTargeturl, "BETTER_ANIMES_DOWNLOAD", 1);
+        System.out.println(siteResult);
+    }
+    @Test
+    public void testGetInBetterAnimeDownloadWithTarget() throws Exception {
+
+        String withTargeturl = "https://betteranime.net/anime/legendado/one-piece/episodio-01/download";
+        SiteResult siteResult =  withTarget(withTargeturl, "BETTER_ANIMES_DOWNLOAD", "One Piece - Episódio 01", 1);
+        System.out.println(siteResult.getItemsValues().get(0).getUrls().get(0));
 
     }
 
@@ -229,10 +242,7 @@ public class InteractSiteTest {
 
     @Test
     public void testGetInAnimePlanetPTBRWithoutTarget() throws Exception {
-        if (LocalServer.getWebServer() == null) {
-            WebServer webServer = localServer.create();
-            webServer.start();
-        }
+
 
         String withoutTargeturl = "https://www.anime-planet.com/anime/that-time-i-got-reincarnated-as-a-slime/videos";
         withoutTarget(withoutTargeturl, "ANIME_PLANET_[PT_BR]", 1);
@@ -337,7 +347,6 @@ public class InteractSiteTest {
         for (int i = 0; i < repeat; i++) {
 
             siteResult = interactWithoutTarget(withoutTargeturl, site);
-
         }
         assertNotNull(siteResult);
         assertTrue(siteResult.getItemsValues().size() > 0);

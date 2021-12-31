@@ -114,7 +114,7 @@ public class TitleDownloadController implements ControllerStateAdapter {
 					.openBrowserInstaller(titleDownload.getSpMainPane());
 
 			try {
-				browserInstallerController.install(Binaries.FIREFOX, Binaries.FFMPEG);
+				browserInstallerController.install(Binaries.FIREFOX, Binaries.FFMPEG, Binaries.FFMPEG_COMPLETE);
 			} catch (BrowserInstallerException e) {
 				e.printStackTrace();
 			}

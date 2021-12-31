@@ -1,17 +1,16 @@
 package com.lucas.ferreira.maburn.model;
 
 public class ExecutorResult {
-    private String errorOutput;
+    private String output;
     private boolean success = false;
 
-    public String getErrorOutput() {
-        return errorOutput;
+    public void setOutput(String output) {
+        this.output = output;
     }
 
-    public void setErrorOutput(String errorOutput) {
-        this.errorOutput = errorOutput;
+    public String getOutput() {
+        return output;
     }
-
 
     public boolean isSuccess() {
         return success;

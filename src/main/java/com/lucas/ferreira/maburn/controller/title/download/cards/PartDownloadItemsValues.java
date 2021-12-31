@@ -17,6 +17,8 @@ public class PartDownloadItemsValues implements ItemDownloadValues {
     private StringProperty directLink = new SimpleStringProperty();;
     private StringProperty target = new SimpleStringProperty();
     private StringProperty message = new SimpleStringProperty();;
+    private StringProperty resolution = new SimpleStringProperty();;
+
 
     public PartDownloadItemsValues() {
 
@@ -32,6 +34,10 @@ public class PartDownloadItemsValues implements ItemDownloadValues {
     public StringProperty getTarget() {
 
         return target;
+    }
+
+    public StringProperty getResolution() {
+        return resolution;
     }
 
     @Override

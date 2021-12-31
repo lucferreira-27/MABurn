@@ -32,6 +32,7 @@ public class PartDownload implements ItemDownload {
     public void download() throws Exception {
 
         try {
+            waitUntilUnpause();
             transportStreamDownloadByChannel = new TransportStreamDownloadByChannel(partDownloadItemsValues);
             transportStreamDownloadByChannel.download(downloadInfo);
 
@@ -54,6 +55,12 @@ public class PartDownload implements ItemDownload {
             return transportStreamDownloadByChannel.readVideoMetadatas();
         } else
             return null;
+    }
+    public long readPartSize() {
+        if (transportStreamDownloadByChannel != null) {
+            return transportStreamDownloadByChannel.readVideoSize();
+        } else
+            return 0L;
     }
 
     public void onDownloadComplete(Consumer<PartDownloadItemsValues> onDownloadComplete) {
@@ -95,6 +102,15 @@ public class PartDownload implements ItemDownload {
         stop = true;
         if (transportStreamDownloadByChannel != null)
             transportStreamDownloadByChannel.stop();
+    }
+    private void waitUntilUnpause(){
+        while(pause && !stop){
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

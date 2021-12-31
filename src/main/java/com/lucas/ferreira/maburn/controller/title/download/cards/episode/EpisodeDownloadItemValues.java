@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class EpisodeDownloadItemValues implements ItemDownloadValues {
+public class EpisodeDownloadItemValues implements ItemDownloadValues, EpisodeItemValues {
 
 	private DoubleProperty downloadProgress = new SimpleDoubleProperty();
 	private DoubleProperty downloadSize = new SimpleDoubleProperty();

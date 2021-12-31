@@ -164,7 +164,7 @@ public class SettingsController implements Initialize {
 				BrowserInstallerController controller = openBrowserInstaller();
 
 				if (controller != null) {
-					controller.reinstall(Binaries.FIREFOX, Binaries.FFMPEG);
+					controller.reinstall(Binaries.FIREFOX, Binaries.FFMPEG,Binaries.FFMPEG_COMPLETE);
 				}else
 					throw new NullPointerException();
 			} catch (Exception e) {

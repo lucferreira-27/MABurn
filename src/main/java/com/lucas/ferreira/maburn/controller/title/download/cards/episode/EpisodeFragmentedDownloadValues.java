@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EpisodeFragmentedDownloadValues implements GroupDownloadValues {
+public class EpisodeFragmentedDownloadValues implements GroupDownloadValues, EpisodeItemValues {
     private DoubleProperty downloadProgress = new SimpleDoubleProperty();
     private IntegerProperty totalVideoFragmentDownloaded = new SimpleIntegerProperty();
     private DoubleProperty totalDownloadConcluded = new SimpleDoubleProperty();
@@ -25,6 +25,8 @@ public class EpisodeFragmentedDownloadValues implements GroupDownloadValues {
     private StringProperty target = new SimpleStringProperty();
     private StringProperty name = new SimpleStringProperty();;
     private StringProperty message =  new SimpleStringProperty();;
+    private StringProperty directLink = new SimpleStringProperty();;
+    private StringProperty resolution = new SimpleStringProperty();
 
     @Override
     public DoubleProperty getTotalDownloaded() {
@@ -100,6 +102,14 @@ public class EpisodeFragmentedDownloadValues implements GroupDownloadValues {
     public DoubleProperty getDownloadSize() {
 
         return episodeSize;
+    }
+
+    public StringProperty getResolution() {
+        return resolution;
+    }
+
+    public StringProperty getDirectLink() {
+        return directLink;
     }
 
     @Override

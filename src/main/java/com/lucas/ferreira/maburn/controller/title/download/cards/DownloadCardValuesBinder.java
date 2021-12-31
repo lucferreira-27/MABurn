@@ -9,144 +9,155 @@ import javafx.application.Platform;
 
 public abstract class DownloadCardValuesBinder {
 
-	protected DownloadCard downloadCard;
-	protected DownloadValues downloadValues;
-	private DownloadStateStyle downloadStateStyle = new DownloadStateStyle();
+    protected DownloadCard downloadCard;
+    protected DownloadValues downloadValues;
+    private DownloadStateStyle downloadStateStyle = new DownloadStateStyle();
 
-	public void binder(DownloadCard downloadCard, DownloadValues downloadValues) {
-		Platform.runLater(() -> {
-			this.downloadCard = downloadCard;
-			this.downloadValues = downloadValues;
-			setAllCardText();
-			addAllCardDownloadInfo();
-			customBinder();
-		});
-	}
+    public void binder(DownloadCard downloadCard, DownloadValues downloadValues) {
+        Platform.runLater(() -> {
+            this.downloadCard = downloadCard;
+            this.downloadValues = downloadValues;
+            setAllCardText();
+            addAllCardDownloadInfo();
+            customBinder();
+        });
+    }
 
-	protected abstract void customBinder();
+    protected abstract void customBinder();
 
-	private void addAllCardDownloadInfo() {
-		addCardDownloadConcluded();
-		addCardDownloadStateListener();
-		addCardDownloadProgressListener();
-		addCardDownloadSizeListener();
-		addCardDownloadSpeed();
-		addCardDownloadConcluded();
-		addCardDownloadTimeRemain();
-	}
+    private void addAllCardDownloadInfo() {
+        addCardDownloadConcluded();
+        addCardDownloadStateListener();
+        addCardDownloadProgressListener();
+        addCardDownloadSizeListener();
+        addCardDownloadSpeed();
+        addCardDownloadConcluded();
+        addCardDownloadTimeRemain();
+        addCardDownloadLink();
 
-	private void setAllCardText() {
-		setCardDownloadLink();
-		setCardDownloadSpeed();
-		setCardItemTitleText();
-		setCardTotalSize();
-		setCardTimeRemain();
-		setCardDownloadState();
+    }
 
-	}
+    private void setAllCardText() {
+        setCardDownloadLink();
+        setCardDownloadSpeed();
+        setCardItemTitleText();
+        setCardTotalSize();
+        setCardTimeRemain();
+        setCardDownloadState();
 
-	private void setCardDownloadState() {
-		if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
-			downloadCard.getLabelDownloadState().setText(String.valueOf(downloadValues.getDownloadProgressState().get()));
-		else
-			downloadCard.getLabelDownloadState().setText(downloadValues.getMessage().get());
-		
-		downloadStateStyle.setNodeStyleByState(downloadValues.getDownloadProgressState().get(),
-				downloadCard.getLabelDownloadState());
+    }
 
-	}
+    private void setCardDownloadState() {
+        if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
+            downloadCard.getLabelDownloadState().setText(String.valueOf(downloadValues.getDownloadProgressState().get()));
+        else
+            downloadCard.getLabelDownloadState().setText(downloadValues.getMessage().get());
 
-	private void setCardTimeRemain() {
-		String value = downloadValues.getTimeRemain().get() == 0 ? DefaultNullValue.STRING_NULL.getValue()
-				: TimeText.secondsToText(downloadValues.getTimeRemain().intValue());
-		downloadCard.getLabelTimeRemain().setText(value);
+        downloadStateStyle.setNodeStyleByState(downloadValues.getDownloadProgressState().get(),
+                downloadCard.getLabelDownloadState());
 
-	}
+    }
 
-	private void setCardDownloadLink() {
-		downloadCard.getLabelDownloadLink().setText(downloadValues.getTarget().get());
+    private void setCardTimeRemain() {
+        String value = downloadValues.getTimeRemain().get() == 0 ? DefaultNullValue.STRING_NULL.getValue()
+                : TimeText.secondsToText(downloadValues.getTimeRemain().intValue());
+        downloadCard.getLabelTimeRemain().setText(value);
 
-	}
+    }
 
-	private void setCardItemTitleText() {
-		String value = downloadValues.getName().get().isEmpty() ? DefaultNullValue.STRING_NULL.getValue()
-				: downloadValues.getName().get();
-		downloadCard.getLabelItemTitle().setText(value);
+    private void setCardDownloadLink() {
+        System.out.println("Target: " + downloadValues.getTarget());
+        downloadCard.getLabelDownloadLink().setText(downloadValues.getTarget().get());
 
-	}
+    }
 
-	private void setCardTotalSize() {
+    private void setCardItemTitleText() {
+        String value = downloadValues.getName().get().isEmpty() ? DefaultNullValue.STRING_NULL.getValue()
+                : downloadValues.getName().get();
+        downloadCard.getLabelItemTitle().setText(value);
 
-		downloadCard.getLabelTotalSize().setText(DataStorageUtil.converterUnit(downloadValues.getDownloadSize().get()));
+    }
 
-	}
+    private void setCardTotalSize() {
 
-	private void setCardDownloadSpeed() {
-		downloadCard.getLabelDownloadSpeed()
-				.setText(DataStorageUtil.converterUnit(downloadValues.getDownloadSize().doubleValue()));
+        downloadCard.getLabelTotalSize().setText(DataStorageUtil.converterUnit(downloadValues.getDownloadSize().get()));
 
-	}
+    }
 
-	private void addCardDownloadProgressListener() {
+    private void setCardDownloadSpeed() {
+        downloadCard.getLabelDownloadSpeed()
+                .setText(DataStorageUtil.converterUnit(downloadValues.getDownloadSize().doubleValue()));
 
-		downloadCard.getProgressBarDownload().progressProperty().bind(downloadValues.getDownloadProgress());
-		downloadValues.getDownloadProgress().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> downloadCard.getLabelPorcentageConcluded()
-					.setText(String.valueOf(MathUtil.roundDouble(newvalue.doubleValue(), 2) * 100) + "%"));
-		});
+    }
 
-	}
+    private void addCardDownloadProgressListener() {
 
-	private void addCardDownloadStateListener() {
+        downloadCard.getProgressBarDownload().progressProperty().bind(downloadValues.getDownloadProgress());
+        downloadValues.getDownloadProgress().addListener((obs, oldvalue, newvalue) -> {
+            Platform.runLater(() -> downloadCard.getLabelPorcentageConcluded()
+                    .setText(String.valueOf(MathUtil.roundDouble(newvalue.doubleValue(), 2) * 100) + "%"));
+        });
 
-		downloadValues.getDownloadProgressState().addListener((obs, oldvalue, newvalue) -> {
+    }
 
-			Platform.runLater(() -> {
-				downloadStateStyle.setNodeStyleByState(newvalue, downloadCard.getLabelDownloadState());
-				if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
-					downloadCard.getLabelDownloadState().setText(String.valueOf(newvalue.name()));
-				else
-					downloadCard.getLabelDownloadState().setText(downloadValues.getMessage().get());
+    private void addCardDownloadStateListener() {
 
-			});
-		});
-	}
+        downloadValues.getDownloadProgressState().addListener((obs, oldvalue, newvalue) -> {
 
-	private void addCardDownloadSizeListener() {
+            Platform.runLater(() -> {
+                downloadStateStyle.setNodeStyleByState(newvalue, downloadCard.getLabelDownloadState());
+                if (downloadValues.getMessage().get() == null || downloadValues.getMessage().get().isEmpty())
+                    downloadCard.getLabelDownloadState().setText(String.valueOf(newvalue.name()));
+                else
+                    downloadCard.getLabelDownloadState().setText(downloadValues.getMessage().get());
 
-		downloadValues.getDownloadSize().addListener((obs, oldvalue, newvalue) -> {
+            });
+        });
+    }
 
-			Platform.runLater(() -> downloadCard.getLabelTotalSize()
-					.setText(DataStorageUtil.converterUnit(newvalue.doubleValue())));
+    private void addCardDownloadSizeListener() {
 
-		});
-	}
+        downloadValues.getDownloadSize().addListener((obs, oldvalue, newvalue) -> {
 
-	private void addCardDownloadSpeed() {
+            Platform.runLater(() -> downloadCard.getLabelTotalSize()
+                    .setText(DataStorageUtil.converterUnit(newvalue.doubleValue())));
 
-		downloadValues.getDownloadSpeed().addListener((obs, oldvalue, newvalue) -> {
-			Platform.runLater(() -> downloadCard.getLabelDownloadSpeed()
-					.setText(DataStorageUtil.converterSpeedUnit(newvalue.doubleValue())));
+        });
+    }
 
-		});
-	}
+    private void addCardDownloadSpeed() {
 
-	private void addCardDownloadConcluded() {
-		downloadValues.getTotalDownloaded().addListener((obs, oldvalue, newvalue) -> {
+        downloadValues.getDownloadSpeed().addListener((obs, oldvalue, newvalue) -> {
+            Platform.runLater(() -> downloadCard.getLabelDownloadSpeed()
+                    .setText(DataStorageUtil.converterSpeedUnit(newvalue.doubleValue())));
 
-			Platform.runLater(() -> downloadCard.getLabelCompletedDownload()
-					.setText(DataStorageUtil.converterUnit(newvalue.doubleValue())));
+        });
+    }
 
-		});
-	}
+    private void addCardDownloadConcluded() {
+        downloadValues.getTotalDownloaded().addListener((obs, oldvalue, newvalue) -> {
 
-	private void addCardDownloadTimeRemain() {
-		downloadValues.getTimeRemain().addListener((obs, oldvalue, newvalue) -> {
+            Platform.runLater(() -> downloadCard.getLabelCompletedDownload()
+                    .setText(DataStorageUtil.converterUnit(newvalue.doubleValue())));
 
-			Platform.runLater(() -> downloadCard.getLabelTimeRemain()
-					.setText(String.valueOf(TimeText.secondsToText(newvalue.intValue()))));
+        });
+    }
 
-		});
-	}
+    private void addCardDownloadTimeRemain() {
+        downloadValues.getTimeRemain().addListener((obs, oldvalue, newvalue) -> {
 
+            Platform.runLater(() -> downloadCard.getLabelTimeRemain()
+                    .setText(String.valueOf(TimeText.secondsToText(newvalue.intValue()))));
+
+        });
+    }
+
+    private void addCardDownloadLink() {
+        downloadValues.getTarget().addListener((obs, oldvalue, newvalue) -> {
+
+            Platform.runLater(
+                    () -> downloadCard.getLabelDownloadLink().setText(downloadValues.getTarget().get())
+            );
+        });
+    }
 }

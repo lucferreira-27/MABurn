@@ -2,34 +2,27 @@ package com.lucas.ferreira.maburn.model.metadata;
 
 import io.lindstrom.m3u8.model.MasterPlaylist;
 import io.lindstrom.m3u8.model.MediaPlaylist;
+import io.lindstrom.m3u8.model.Resolution;
 import io.lindstrom.m3u8.model.Variant;
 import io.lindstrom.m3u8.parser.MasterPlaylistParser;
 import io.lindstrom.m3u8.parser.MediaPlaylistParser;
 import io.lindstrom.m3u8.parser.PlaylistParserException;
-import jdk.internal.util.xml.impl.Input;
-import org.apache.commons.io.input.CloseShieldInputStream;
-import org.jetbrains.annotations.NotNull;
 
-import javax.print.attribute.standard.Media;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class HLSMetadata {
+
+    private static final String M3U8_MIME_TYPE = "application/vnd.apple.mpegurl";
+
     private final MediaPlaylistParser mediaParser = new MediaPlaylistParser();
     private final MasterPlaylistParser masterParser = new MasterPlaylistParser();
     private String baseUrl;
@@ -46,9 +39,15 @@ public class HLSMetadata {
         if (isMasterPlaylist(tempM3u8)) {
             MasterPlaylist masterPlaylist = masterParser.readPlaylist(tempM3u8);
             List<MediaM3u8> mediaM3u8s = masterPlaylist.variants().stream().map(v -> getMediaM3u8FromVariant(v)).collect(Collectors.toList());
-            if(mediaM3u8s.stream().anyMatch(m -> m == null)){
+            if (mediaM3u8s.stream().anyMatch(m -> m == null)) {
                 throw new NullPointerException("MediaM3u8 can't be null");
             }
+            Collections.sort(mediaM3u8s,(m1, m2) -> {
+                Resolution r1 = m1.getVariant().resolution().get();
+                Resolution r2 = m2.getVariant().resolution().get();
+                return r2.height() - r1.height();
+            });
+
             return mediaM3u8s;
         }
         MediaPlaylist mediaPlaylist = readTagsFromM3u8(tempM3u8);
@@ -58,7 +57,8 @@ public class HLSMetadata {
     }
 
     private Path getTempPatFromUri(String m3u8Url) throws IOException {
-        InputStream in = getM3u8InputStream(baseUrl + m3u8Url);
+        String url = m3u8Url.startsWith("https:") ? m3u8Url : baseUrl + m3u8Url;
+        InputStream in = getM3u8InputStream(url);
         Path tempM3u8 = getPathAndCopyInputStream(in);
         return tempM3u8;
     }
@@ -79,17 +79,7 @@ public class HLSMetadata {
     }
 
     private InputStream getM3u8InputStream(String m3u8Url) throws IOException {
-        String url = "https://dc2.betterserver.ga/S/Saint_Seiya_The_Lost_Canvas_Meiou_Shinwa/1080p/BA_01.mp4/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTIvMTcvMjAyMSA3OjA0OjQwIFBNJmhhc2hfdmFsdWU9Mng4VFNGcDJUWHIyeHkwanlZYzFnQT09JnZhbGlkbWludXRlcz0yMTAmc3RybV9sZW49NTg=";
-        System.out.println(m3u8Url);
-        System.out.println(url);
-        System.out.println(m3u8Url.equals(url)  + (m3u8Url.length() + " " + url.length()));
         HttpURLConnection conn = (HttpURLConnection) new URL(m3u8Url).openConnection();
-        conn.setInstanceFollowRedirects(true);  //you still need to handle redirect manully.
-        HttpURLConnection.setFollowRedirects(true);
-        conn.setRequestProperty("Method", "GET");
-        conn.setRequestProperty("Accept","*/*");
-        conn.setRequestProperty("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
         return conn.getInputStream();
     }
 
@@ -122,6 +112,14 @@ public class HLSMetadata {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static boolean isHLSVideo(String url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+        String contentType = conn.getContentType();
+        System.out.println(contentType);
+        return contentType.equals(M3U8_MIME_TYPE);
     }
 
 }

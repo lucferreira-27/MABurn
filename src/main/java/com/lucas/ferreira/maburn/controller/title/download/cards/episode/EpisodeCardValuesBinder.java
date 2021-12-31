@@ -1,18 +1,19 @@
 package com.lucas.ferreira.maburn.controller.title.download.cards.episode;
 
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadCardValuesBinder;
+import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
 import com.lucas.ferreira.maburn.util.ResolutionText;
 
 import javafx.application.Platform;
 
-public class EpisodeCardValuesBinder extends DownloadCardValuesBinder {
+public class EpisodeCardValuesBinder<T extends EpisodeItemValues > extends DownloadCardValuesBinder {
 	private EpisodeCard episodeCard;
-	private EpisodeDownloadItemValues episodeDownloadItemValues;
+	private T episodeDownloadItemValues;
 
 	@Override
 	protected void customBinder() {
 		 episodeCard = (EpisodeCard) downloadCard;
-		 episodeDownloadItemValues = (EpisodeDownloadItemValues) downloadValues;
+		 episodeDownloadItemValues = (T) downloadValues;
 		 setCardEpisodeResolution();
 		 setCardEpisodeDirectLink();
 		 
