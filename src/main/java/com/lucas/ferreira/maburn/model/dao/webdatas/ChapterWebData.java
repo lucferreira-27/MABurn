@@ -3,8 +3,6 @@ package com.lucas.ferreira.maburn.model.dao.webdatas;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.lucas.ferreira.maburn.model.collections.Collections;
 import com.lucas.ferreira.maburn.model.dao.downloaded.ChapterDownloaded;
@@ -63,7 +61,7 @@ public class ChapterWebData extends ItemWebData {
 		download = new DownloadServiceModel();
 
 		List<File> listFile = new ArrayList<>();
-		String itemName = collections.getActualItem().getName();
+		String itemName = collections.getSelectedItem().getName();
 		for (int i = 0; i < listPagesUrl.size(); i++) {
 			String destination = collections.getDestination() + "\\" + itemName + "\\" + name + "\\" + i;
 			listFile.add(new File(destination));

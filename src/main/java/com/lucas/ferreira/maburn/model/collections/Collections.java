@@ -17,7 +17,7 @@ public interface Collections {
 
 	public void setActualItem(CollectionTitle obj);
 
-	public CollectionTitle getActualItem();
+	public CollectionTitle getSelectedItem();
 
 	public Category getCategory();
 	

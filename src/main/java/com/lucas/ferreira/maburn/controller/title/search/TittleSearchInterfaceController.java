@@ -20,7 +20,6 @@ import com.lucas.ferreira.maburn.view.navigator.Navigator;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -70,7 +69,7 @@ public class TittleSearchInterfaceController implements ModelInterface {
 	@FXML
 	public void onClickButtonAdd() {
 
-		String dest = collections.getDestination() + "\\" + collections.getActualItem().getTitleFileName();
+		String dest = collections.getDestination() + "\\" + collections.getSelectedItem().getTitleFileName();
 		File newItem = new File(dest);
 		if (!newItem.exists()) {
 			
@@ -83,7 +82,7 @@ public class TittleSearchInterfaceController implements ModelInterface {
 		CollectionInterfaceController collectionController = (CollectionInterfaceController) Navigator.getMapNavigator()
 				.get(Interfaces.COLLECTION);
 		collections = collectionController.getCollectionGridPane().getCollection();
-		CollectionTitle item = collections.getActualItem();
+		CollectionTitle item = collections.getSelectedItem();
 
 		lblTitle.setText(item.getTitleDataBase());
 		imageViewTitle.setImage(item.getImage());
@@ -112,7 +111,7 @@ public class TittleSearchInterfaceController implements ModelInterface {
 	}
 
 	public void onClickImageViewTitle() {
-		CollectionTitle item = collections.getActualItem();
+		CollectionTitle item = collections.getSelectedItem();
 		Desktop desk = Desktop.getDesktop();
 		try {
 			desk.browse(new URI(item.getDataBaseUrl()));

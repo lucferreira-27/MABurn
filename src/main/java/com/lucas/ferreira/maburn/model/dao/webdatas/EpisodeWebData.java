@@ -74,7 +74,7 @@ public class EpisodeWebData extends ItemWebData {
 	@Override
 	public Downloader<CollectionItem> download(Collections collections, TitleDownload titleDownload) {
 		download = new DownloadServiceModel();
-		String itemName = collections.getActualItem().getName();
+		String itemName = collections.getSelectedItem().getName();
 		String destination = collections.getDestination() + "\\" + itemName + "\\" + name;
 
 		EpisodeDownloaded episode = new EpisodeDownloaded();

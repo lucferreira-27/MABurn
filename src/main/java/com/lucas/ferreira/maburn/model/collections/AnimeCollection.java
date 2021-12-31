@@ -56,7 +56,7 @@ public class AnimeCollection implements Collections {
 	}
 
 	@Override
-	public CollectionTitle getActualItem() {
+	public CollectionTitle getSelectedItem() {
 		
 		if (activeAnime == null && !listAnimes.isEmpty()) {
 			return listAnimes.get(0);

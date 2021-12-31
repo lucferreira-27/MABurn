@@ -108,7 +108,7 @@ public class TitleDownload {
 		
 		this.collections = collections;
 		this.id.set(id);
-		this.collectionItem = collections.getActualItem();
+		this.collectionItem = collections.getSelectedItem();
 		obsDownloads = FXCollections.observableArrayList(downloads);
 		checkSpeed();
 	}

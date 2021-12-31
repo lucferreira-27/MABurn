@@ -62,7 +62,7 @@ public class MangaCollection implements Collections {
 	}
 
 	@Override
-	public CollectionTitle getActualItem() {
+	public CollectionTitle getSelectedItem() {
 		
 		if (activeManga == null && !listMangas.isEmpty()) {
 			return listMangas.get(0);
