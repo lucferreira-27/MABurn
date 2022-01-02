@@ -64,7 +64,7 @@ function getAllNames() {
         let episodios = document.querySelectorAll("#episodesList .list-group-item.list-group-item-action div a:nth-child(3)")
         let txtEpisodios = []
         episodios.forEach(e => {
-            txtEpisodios.push({ name: e.title.replace(/\s+/g, ' ').replace(/\s$/g,''), url: e.href })
+            txtEpisodios.push({ name: e.title.replace(/.*-\s+/g, ' ').replace(/\s$/g,''), url: e.href })
         })
         console.log(txtEpisodios)
 
