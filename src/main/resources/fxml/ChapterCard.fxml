@@ -224,7 +224,7 @@
                <left>
                   <ImageView fx:id="imageViewDownloadIcon" fitHeight="53.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url="../icons/download_card.png" />
+                         <Image url="@../icons/download_card.png" />
                      </image>
                   </ImageView>
                </left>
