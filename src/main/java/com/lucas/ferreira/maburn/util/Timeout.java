@@ -23,7 +23,7 @@ public class Timeout {
 				break;
 			}
 			if (now >= max) {
-				throw new TimeoutError("Timeout");
+				throw new TimeoutError("Timeout after [" + time +"]");
 			}
 		}
 	}

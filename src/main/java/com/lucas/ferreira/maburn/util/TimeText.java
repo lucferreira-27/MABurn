@@ -1,9 +1,10 @@
 package com.lucas.ferreira.maburn.util;
 
 public class TimeText {
-	
-	
-	
+
+
+
+
 	public static String secondsToText(Integer time) {
 		String timeType = "";
 
@@ -14,6 +15,15 @@ public class TimeText {
 
 		return cal(time);
 	}
+	public static String onlySecondsToText(Number number){
+		Long time = number.longValue() / 1000;
+		String output = time + " Second";
+		if(time > 1){
+			return  output + "s";
+		}
+			return output;
+	}
+
 	private static String cal(Number number) {
 		String timeType;
 		int time = number.intValue();

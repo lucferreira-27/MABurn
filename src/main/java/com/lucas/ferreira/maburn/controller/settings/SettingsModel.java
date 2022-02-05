@@ -8,10 +8,7 @@ import com.lucas.ferreira.maburn.controller.home.ModelInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -37,6 +34,8 @@ public class SettingsModel implements ModelInterface {
 	@FXML
 	private CheckBox checkBrowserHeadless;
 	@FXML
+	private ComboBox<String> cbScrapingTimeOut;
+	@FXML
 	private Label lblInstalled;
 	@FXML
 	private ImageView imgBrowserInstall;
@@ -44,6 +43,7 @@ public class SettingsModel implements ModelInterface {
 	private ImageView imgCheckOk;
 	@FXML
 	private ImageView imgCheckBad;
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -96,6 +96,10 @@ public class SettingsModel implements ModelInterface {
 
 	public CheckBox getCheckBrowserHeadless() {
 		return checkBrowserHeadless;
+	}
+
+	public ComboBox<String> getCbScrapingTimeOut() {
+		return cbScrapingTimeOut;
 	}
 
 	@Override

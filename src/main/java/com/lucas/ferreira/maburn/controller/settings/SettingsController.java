@@ -15,8 +15,14 @@ import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.enums.Icons;
 import com.lucas.ferreira.maburn.util.Icon;
 import com.lucas.ferreira.maburn.util.IconConfig;
+import com.lucas.ferreira.maburn.util.RegexMatch;
+import com.lucas.ferreira.maburn.util.TimeText;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class SettingsController implements Initialize {
@@ -53,6 +59,7 @@ public class SettingsController implements Initialize {
 		initializePrefInstallation();
 		initializeButtons();
 		initializeCheckBoxs();
+		initializeComboBoxs();
 		initializeIcons();
 
 	}
@@ -102,6 +109,43 @@ public class SettingsController implements Initialize {
 		settingsModel.getBtnMangaCollection().setOnMouseClicked(event -> onClickMangaCollectionPath());
 		settingsModel.getBtnInstall().setOnMouseClicked(event -> onClickInstall());
 	}
+
+	private void initializeComboBoxs(){
+		initializeLimitTimeComboBox();
+
+	}
+	private void initializeLimitTimeComboBox(){
+		ObservableList<String> items = settingsModel.getCbScrapingTimeOut().getItems();
+		List<String> times = new ArrayList<>();
+		for(long time = 5; time <= 120; time += 5){
+			String limitTime = TimeText.onlySecondsToText(time * 1000L);
+
+			times.add(limitTime);
+		}
+		settingsModel.getCbScrapingTimeOut().getItems().setAll(times);
+
+		Long scrapingTimeout = configForm.getGeralConfigForm().getScrapingTimeout();
+		for(String item : items){
+			try {
+				String strNumber = item.replaceAll("\\D","");
+				Long number = Long.valueOf(strNumber) * 1000L;
+				if (scrapingTimeout.equals(number)) {
+					int index = items.indexOf(item);
+					settingsModel.getCbScrapingTimeOut().getSelectionModel().select(index);
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		settingsModel.getCbScrapingTimeOut().getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			String strNumber = newValue.replaceAll("\\D","");
+			Long number = Long.valueOf(strNumber) * 1000L;
+			configForm.getGeralConfigForm().setScrapingTimeout(number);
+			configurationOrchestrator.write(configForm);
+		});
+	}
+
 	private void initializeCheckBoxs(){
 		settingsModel.getCheckBrowserHeadless().setSelected(configForm.getGeralConfigForm().getBrowserHeadless());
 		settingsModel.getCheckBrowserHeadless().selectedProperty().addListener((obs, oldValue, newValue) ->{

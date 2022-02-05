@@ -1,9 +1,12 @@
 package com.lucas.ferreira.maburn.model.sites;
 
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.util.Timeout;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.Response;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.image.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,6 +18,7 @@ public class Actions {
 
 	private final InteractSite interactSite;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
 
 	public Actions(InteractSite interactSite) {
 		this.interactSite = interactSite;
@@ -58,7 +62,7 @@ public class Actions {
 
 		LOGGER.config("[Javascript - Maburn OFF]");
 		interactSite.getWorking().set(false);
-		Timeout.waitUntil(interactSite.getLoadScript().getExecute().isWorking(), 30000);
+		waitUntilWorkDone(interactSite.getLoadScript().getExecute().isWorking());
 		try {
 			interactSite.getPage().close();
 		}catch (PlaywrightException e) {
@@ -67,7 +71,16 @@ public class Actions {
 			}
 		}
 	}
-
+	private void waitUntilWorkDone(BooleanProperty working){
+		try {
+			ConfigForm configForm = configurationOrchestrator.read();
+			Timeout.waitUntil(working, configForm.getGeralConfigForm().getScrapingTimeout());
+		}catch(Exception e){
+			e.printStackTrace();
+			LOGGER.warning("Error on read scraping timout in config file. Using default value");
+			Timeout.waitUntil(working, 30000);
+		}
+	}
 
 
 	public void actionGoto(String url) {

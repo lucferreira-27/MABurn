@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.sites;
 
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.util.Timeout;
 import com.lucas.ferreira.maburn.webserver.LocalServer;
 import com.lucas.ferreira.maburn.webserver.WebServer;
@@ -9,10 +11,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class InteractSite {
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final XmlConfigurationOrchestrator configurationOrchestrator = new XmlConfigurationOrchestrator();
 
 	private Page page;
 	private SiteResult siteResult = new SiteResult();
@@ -36,9 +40,19 @@ public class InteractSite {
 		processScript(siteValues);
 		onLoad();
 		checkIfScriptIsAvailable();
-
-		Timeout.waitUntil(working, 30000);
+		waitUntilWorkDone();
 		return siteResult;
+
+	}
+	private void waitUntilWorkDone(){
+		try {
+			ConfigForm configForm = configurationOrchestrator.read();
+			Timeout.waitUntil(working, configForm.getGeralConfigForm().getScrapingTimeout());
+		}catch(IOException e){
+			e.printStackTrace();
+			LOGGER.warning("Error on read scraping timout in config file. Using default value");
+			Timeout.waitUntil(working, 30000);
+		}
 	}
 
 	private void checkIfScriptIsAvailable() {

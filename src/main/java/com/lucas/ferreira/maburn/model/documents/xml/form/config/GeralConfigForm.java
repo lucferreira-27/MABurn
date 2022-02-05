@@ -4,6 +4,7 @@ public class GeralConfigForm {
     private Integer parallelDownloads = new Integer(3);
     private String browserLocal = "DEFAULT";
     private Boolean browserHeadless = true;
+    private Long scrapingTimeout = 30000L;
 
     public Integer getParallelDownloads() {
         return parallelDownloads;
@@ -29,4 +30,10 @@ public class GeralConfigForm {
         this.browserHeadless = browserHeadless;
     }
 
+    public Long getScrapingTimeout() {
+        return scrapingTimeout;
+    }
+    public void setScrapingTimeout(Long scrapingTimeout) {
+        this.scrapingTimeout = scrapingTimeout;
+    }
 }
