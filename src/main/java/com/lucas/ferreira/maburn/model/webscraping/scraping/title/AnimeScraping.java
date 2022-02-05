@@ -5,6 +5,10 @@ import com.microsoft.playwright.Page;
 
 public class AnimeScraping extends TitleScraping {
 
+	public AnimeScraping(boolean headless) {
+		super(headless);
+	}
+
 	@Override
 	protected TitleScraped scrape(Page page,SiteValues siteValues) {
 

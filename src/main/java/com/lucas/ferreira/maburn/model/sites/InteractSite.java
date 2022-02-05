@@ -90,7 +90,7 @@ public class InteractSite {
 					if (message.getMessageType() == MessagesTypes.RESULT) {
 						LOGGER.config("Post body length: " + message.getParam().length());
 					}
-					selectAction.selectAciton(message);
+					selectAction.selectAction(message);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

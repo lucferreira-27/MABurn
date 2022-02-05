@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -38,9 +40,8 @@ public class ZipModel {
 		String fileZip = path;
 		File destDir = new File(path.replace(".zip", ""));
 		byte[] buffer = new byte[1024];
-		
 		ZipInputStream zis = new ZipInputStream(new FileInputStream(fileZip));
-		
+
 		try {
 			for (int i = 0; i < entries.size(); i++) {
 				fileExtractValues.getCurrentFile().set(i + 1);
@@ -61,7 +62,7 @@ public class ZipModel {
 					int len;
 					while ((len = zis.read(buffer)) > 0) {
 						fos.write(buffer, 0, len);
-					
+
 					}
 					fos.close();
 				}

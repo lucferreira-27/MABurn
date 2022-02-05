@@ -1,5 +1,7 @@
 package com.lucas.ferreira.maburn.model.webscraping.scraping.item;
 
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.sites.SiteValues;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.BrowserPage;
 import com.lucas.ferreira.maburn.model.webscraping.navigate.MyBrowser;
@@ -8,6 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,8 +19,7 @@ public abstract class ListItemScraping {
 
 	private MyBrowser myBrowser;
 	private BooleanProperty scrapingDone = new SimpleBooleanProperty(false);
-
-	public ListItemScraping(MyBrowser myBrowser) {
+	public ListItemScraping(MyBrowser myBrowser)  {
 		this.myBrowser = myBrowser;
 
 	}

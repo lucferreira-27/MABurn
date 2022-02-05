@@ -4,6 +4,8 @@ import com.lucas.ferreira.maburn.controller.title.download.FetchAction;
 import com.lucas.ferreira.maburn.exceptions.BadScrapingException;
 import com.lucas.ferreira.maburn.exceptions.NotSourceSelectException;
 import com.lucas.ferreira.maburn.exceptions.NotURLFoundInRecover;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Sites;
 import com.lucas.ferreira.maburn.model.fetch.title.FetchTitle;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
@@ -18,7 +20,10 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 
 import javafx.scene.control.TextArea;
 
+import java.io.IOException;
+
 public class RegisterTitleFetcher {
+	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();
 
 	private Message errorMessage;
 	private Message warningMessage;
@@ -69,15 +74,15 @@ public class RegisterTitleFetcher {
 
 	}
 
-	private TitleScraped fetchTitleNow(String bestResult, RegisteredSite sourceSelect) throws BadScrapingException {
+	private TitleScraped fetchTitleNow(String bestResult, RegisteredSite sourceSelect) throws BadScrapingException, IOException {
 		FetchTitle fetchTitle = new FetchTitle();
 		warningMessage.showMessage(warningMsgFetch);
-		
+		ConfigForm configForm = xmlConfigurationOrchestrator.read();
 		SiteValues siteValues = new SiteValues();
 		siteValues.setRegisteredSite(sourceSelect);
 		siteValues.setUrl(bestResult);
 		
-		TitleScraped titleScraped = fetchTitle.fetch(new AnimeScraping(), siteValues);
+		TitleScraped titleScraped = fetchTitle.fetch(new AnimeScraping(configForm.getGeralConfigForm().getBrowserHeadless()), siteValues);
 
 		if (titleScraped == null) {
 			throw new BadScrapingException();

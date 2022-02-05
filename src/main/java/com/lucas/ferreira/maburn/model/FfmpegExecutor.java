@@ -14,34 +14,28 @@ public class FfmpegExecutor {
     private static final String FFMPEG_EXE = Documents.FFMPEG_LOCAL;
     public ExecutorResult concatenateFiles(String inputFilesPath, String outputFile) throws IOException {
         String cmd = FFMPEG_EXE + " -y -f concat -safe 0 -i " + inputFilesPath + " -c copy " + outputFile;
-        System.out.println(cmd);
         return execute(cmd);
     }
 
 
     public ExecutorResult convertTsToMp4(String inputPath, String outputPath) throws IOException {
         String cmd =  FFMPEG_EXE +" -i "+inputPath+" -acodec copy -vcodec copy " + outputPath;
-        System.out.println(cmd);
         return execute(cmd);
     }
     public long getVideoDuration(String videoPath) throws IOException {
         String cmd = FFMPEG_EXE + " -i \""+videoPath+"\" -f null -";
-        System.out.println(cmd);
         ExecutorResult executorResult = execute(cmd);
         if(executorResult.isSuccess()){
             String std = executorResult.getOutput();
-            System.out.println("Duration: " + std.substring(std.indexOf("Duration: "),std.indexOf(", start") + ", start".length()));
         }
         return 0L;
     }
     public VideoMetadata getVideoInfo(String videoPath) throws Exception {
         String cmd = FFMPEG_EXE + " -i \""+videoPath+"\" -f null -";
-        System.out.println(cmd);
         ExecutorResult executorResult = execute(cmd);
 
         if(executorResult.isSuccess()){
             String std = executorResult.getOutput();
-            System.out.println(std);
             VideoMetadata videoMetadata = getVideoInfoFromString(std);
             return videoMetadata;
         }

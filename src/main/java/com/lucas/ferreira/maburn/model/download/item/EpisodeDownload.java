@@ -3,10 +3,15 @@ package com.lucas.ferreira.maburn.model.download.item;
 import com.lucas.ferreira.maburn.controller.title.download.cards.DownloadValues;
 import com.lucas.ferreira.maburn.controller.title.download.cards.episode.EpisodeDownloadItemValues;
 import com.lucas.ferreira.maburn.exceptions.EpisodeDownloadException;
+import com.lucas.ferreira.maburn.model.ZipModel;
+import com.lucas.ferreira.maburn.model.browser.FileExtractValues;
 import com.lucas.ferreira.maburn.model.download.DownloadInfo;
+import com.lucas.ferreira.maburn.model.download.DownloadProgressState;
 import com.lucas.ferreira.maburn.model.download.DownloadRealTimeInfo;
 import com.lucas.ferreira.maburn.model.download.channel.DownloadByChannel;
 import com.lucas.ferreira.maburn.model.download.channel.VideoDownloadByChannel;
+
+import java.io.IOException;
 
 public class EpisodeDownload implements ItemDownload {
 
@@ -35,6 +40,7 @@ public class EpisodeDownload implements ItemDownload {
 		}
 
 	}
+
 
 	@Override
 	public void showDownloadValuesRealTimeInfo() {

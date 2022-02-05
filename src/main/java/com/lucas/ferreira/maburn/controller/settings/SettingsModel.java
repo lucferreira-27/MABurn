@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -33,7 +34,8 @@ public class SettingsModel implements ModelInterface {
 	private TextField txtPathMangaCollection;
 	@FXML
 	private Button btnInstall;
-
+	@FXML
+	private CheckBox checkBrowserHeadless;
 	@FXML
 	private Label lblInstalled;
 	@FXML
@@ -90,6 +92,10 @@ public class SettingsModel implements ModelInterface {
 
 	public ImageView getImgCheckOk() {
 		return imgCheckOk;
+	}
+
+	public CheckBox getCheckBrowserHeadless() {
+		return checkBrowserHeadless;
 	}
 
 	@Override

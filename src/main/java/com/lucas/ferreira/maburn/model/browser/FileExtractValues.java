@@ -17,6 +17,8 @@ public class FileExtractValues {
 	private final IntegerProperty totalFiles = new SimpleIntegerProperty();
 	private final IntegerProperty currentFile = new SimpleIntegerProperty();
 	private final DoubleProperty extractingProgress = new SimpleDoubleProperty();
+	private final DoubleProperty extractingBytesProgress = new SimpleDoubleProperty();
+
 	private final ObservableList<FileModel> fileModels = FXCollections.observableArrayList();
 	private final BooleanProperty finish = new SimpleBooleanProperty(false);
 	private final BooleanProperty failed = new SimpleBooleanProperty(false);
@@ -55,6 +57,10 @@ public class FileExtractValues {
 
 	public BooleanProperty getFinish() {
 		return finish;
+	}
+
+	public DoubleProperty getExtractingBytesProgress() {
+		return extractingBytesProgress;
 	}
 
 	@Override

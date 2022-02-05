@@ -42,7 +42,6 @@ public class AnimeDownloadInfo {
         DownloadInfo downloadInfo = baseEpisodeDownloadInfo(collectionTitle, episodeScraped);
         MediaM3u8 mediaM3u8 = getMediaM3u8(directDownload);
         List<String> partsUrls = getPartsUrls(mediaM3u8);
-        System.out.println(mediaM3u8.getMediaPlaylist());
         downloadInfo.getListUrls().addAll(partsUrls);
         downloadInfo.setUrl(directDownload);
 

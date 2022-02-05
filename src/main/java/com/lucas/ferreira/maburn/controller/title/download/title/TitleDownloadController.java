@@ -13,6 +13,8 @@ import com.lucas.ferreira.maburn.model.browser.BrowserFilesLocal;
 import com.lucas.ferreira.maburn.model.browser.BrowserInstallerLaunch;
 import com.lucas.ferreira.maburn.model.browser.Binaries;
 import com.lucas.ferreira.maburn.model.browser.CheckBrowserFiles;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
+import com.lucas.ferreira.maburn.model.documents.xml.form.config.ConfigForm;
 import com.lucas.ferreira.maburn.model.enums.Category;
 import com.lucas.ferreira.maburn.model.fetch.item.FetchItem;
 import com.lucas.ferreira.maburn.model.items.CollectionTitle;
@@ -26,6 +28,7 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.item.ScrapingWork;
 import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +37,7 @@ import java.util.logging.Logger;
 
 public class TitleDownloadController implements ControllerStateAdapter {
 	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();
 	private FetchInfo fetchInfo;
 	private TitleScraped titleScraped;
 	private FetchTypeSelect fetchTypeSelect;
@@ -189,40 +192,43 @@ public class TitleDownloadController implements ControllerStateAdapter {
 		fetchInfo.zoomOut();
 	}
 
-	public void onClickDownloadStart() {
+	public void onClickDownloadStart()  {
+		try {
+			ConfigForm configForm = xmlConfigurationOrchestrator.read();
 
-		Map<String, String> namedItemsValues = title.getTaggedItems().getNamedItemsValues();
+			Map<String, String> namedItemsValues = title.getTaggedItems().getNamedItemsValues();
 
-		FetchItemsLinks directLinks = new FetchItemsLinks(new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
-				new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
-				new ChooseItemAll(itemsSelectedAll, namedItemsValues),
-				new ChooseItemUpdate(itemsSelectedUpdate, namedItemsValues));
+			FetchItemsLinks directLinks = new FetchItemsLinks(new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
+					new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
+					new ChooseItemAll(itemsSelectedAll, namedItemsValues),
+					new ChooseItemUpdate(itemsSelectedUpdate, namedItemsValues));
 
-		Map<String, String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
+			Map<String, String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
 
-		FetchItem fetchItem = new FetchItem();
+			FetchItem fetchItem = new FetchItem();
 
-		List<ScrapingWork> scrapingWorks = new ArrayList<ScrapingWork>();
-		
-		new Thread(() -> {
-			choosedItems.forEach((name,url)->{
-				SiteValues siteValues = new SiteValues();
-				siteValues.setRegisteredSite(titleDownload.getCbSource().getValue());
-				siteValues.setTarget(name);
-				siteValues.setUrl(url);
-				scrapingWorks.add(new ScrapingWork(siteValues));
-			});
-			
+			List<ScrapingWork> scrapingWorks = new ArrayList<ScrapingWork>();
 
-			ListItemScraping listItemScraping = collectionTitle.getCategory() != Category.ANIME
-					? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true))
-					: new ListEpisodeScraping(titleDownload.getCbSource().getValue(), new MyBrowser(true));
+			new Thread(() -> {
+				choosedItems.forEach((name, url) -> {
+					SiteValues siteValues = new SiteValues();
+					siteValues.setRegisteredSite(titleDownload.getCbSource().getValue());
+					siteValues.setTarget(name);
+					siteValues.setUrl(url);
+					scrapingWorks.add(new ScrapingWork(siteValues));
+				});
 
-			titleDownloadInitialize.getTitleDownloadListCard().getDownloadList().onScrapingWork(scrapingWorks);
-			fetchItem.fetch(listItemScraping, scrapingWorks);
+				ListItemScraping listItemScraping = collectionTitle.getCategory() != Category.ANIME
+						? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(configForm.getGeralConfigForm().getBrowserHeadless()))
+						: new ListEpisodeScraping(titleDownload.getCbSource().getValue(), new MyBrowser(configForm.getGeralConfigForm().getBrowserHeadless()));
 
-		}).start();
+				titleDownloadInitialize.getTitleDownloadListCard().getDownloadList().onScrapingWork(scrapingWorks);
+				fetchItem.fetch(listItemScraping, scrapingWorks);
 
+			}).start();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	private void loadFetchInfo() {

@@ -43,7 +43,6 @@ public class Resources {
 		if(resourceName.contains("/")){
 			 prefix = resourceName.split("/")[0];
 		}
-		System.out.println(prefix);
 		URI uri = Objects.requireNonNull(Resources.class.getClassLoader().getResource(resourceName)).toURI();
 		if (isResourceInJar(uri)) { //if we are load file within IDE
 			Map<String, String> env = new HashMap<>();

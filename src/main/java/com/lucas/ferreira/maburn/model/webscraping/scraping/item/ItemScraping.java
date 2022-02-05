@@ -13,7 +13,6 @@ public abstract class ItemScraping extends Scraping {
 	private final RegisteredSite registeredSite;
 
 	public ItemScraping(RegisteredSite registeredSite, BrowserContext context) {
-
 		this.registeredSite = registeredSite;
 		this.context = context;
 	}

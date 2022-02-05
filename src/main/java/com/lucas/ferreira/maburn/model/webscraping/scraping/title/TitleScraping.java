@@ -10,6 +10,10 @@ public abstract class TitleScraping extends Scraping {
 
 	private RegisteredSite registeredSite;
 
+	public TitleScraping(boolean headless) {
+		super(headless);
+	}
+
 	protected RegisteredSite getSite() {
 		return registeredSite;
 	}
@@ -18,7 +22,7 @@ public abstract class TitleScraping extends Scraping {
 		
 		try {
 			markTime.begin();
-			launch(true);
+			launch();
 			Page page = newPage();
 
 			TitleScraped titleScraped = scrape(page, siteValues);

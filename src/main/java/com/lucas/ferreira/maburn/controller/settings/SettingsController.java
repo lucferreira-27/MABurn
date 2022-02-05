@@ -52,6 +52,7 @@ public class SettingsController implements Initialize {
 
 		initializePrefInstallation();
 		initializeButtons();
+		initializeCheckBoxs();
 		initializeIcons();
 
 	}
@@ -101,6 +102,16 @@ public class SettingsController implements Initialize {
 		settingsModel.getBtnMangaCollection().setOnMouseClicked(event -> onClickMangaCollectionPath());
 		settingsModel.getBtnInstall().setOnMouseClicked(event -> onClickInstall());
 	}
+	private void initializeCheckBoxs(){
+		settingsModel.getCheckBrowserHeadless().setSelected(configForm.getGeralConfigForm().getBrowserHeadless());
+		settingsModel.getCheckBrowserHeadless().selectedProperty().addListener((obs, oldValue, newValue) ->{
+			if(newValue.booleanValue()){
+				onSelectedBrowserHeadless();
+				return;
+			}
+			onDeselectedBrowserHeadless();
+		});
+	}
 
 	private boolean isPathDefine(Category category) {
 
@@ -111,6 +122,15 @@ public class SettingsController implements Initialize {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public void onSelectedBrowserHeadless(){
+		configForm.getGeralConfigForm().setBrowserHeadless(true);
+		configurationOrchestrator.write(configForm);
+	}
+	public void onDeselectedBrowserHeadless(){
+		configForm.getGeralConfigForm().setBrowserHeadless(false);
+		configurationOrchestrator.write(configForm);
 	}
 
 	public void onClickAnimeCollectionPath() {

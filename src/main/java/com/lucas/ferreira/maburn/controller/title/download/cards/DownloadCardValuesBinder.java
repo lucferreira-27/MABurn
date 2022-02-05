@@ -66,7 +66,6 @@ public abstract class DownloadCardValuesBinder {
     }
 
     private void setCardDownloadLink() {
-        System.out.println("Target: " + downloadValues.getTarget());
         downloadCard.getLabelDownloadLink().setText(downloadValues.getTarget().get());
 
     }

@@ -20,8 +20,8 @@ public class SearchScraping extends Scraping {
 	private RegisteredSite registeredSite;
 	private String title;
 
-	public SearchScraping(String title, SearchEngine engine, RegisteredSite registeredSite) {
-		
+	public SearchScraping(boolean headless,String title, SearchEngine engine, RegisteredSite registeredSite) {
+		super(headless);
 		this.engine = engine;
 		this.title = title;
 		this.registeredSite = registeredSite;
@@ -30,7 +30,7 @@ public class SearchScraping extends Scraping {
 	public SearchScraped search() {
 		try {
 			LOGGER.info("Search: " + title + " in " + registeredSite.getSiteConfig().getHomeUrl());
-			launch(true);
+			launch();
 			Page page = newPage();
 
 			Evaluate evaluate = new Evaluate();

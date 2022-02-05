@@ -33,7 +33,7 @@ public class RegisterTitleSearcher {
 			String bestResult = titleDownloadSearch.searchScraping(collectionTitle.getTitleDataBase(), fetchableTittle.getSourceSelect());
 			fetchableTittle.setTitleUrl(bestResult);
 			return fetchableTittle;
-		} catch (SearchNotResultException e) {
+		} catch (Exception e) {
 			errorMessage.showMessage(errorSearchMsg);
 			throw new SearchNotResultException(errorSearchMsg + "\n" + e.getMessage());
 

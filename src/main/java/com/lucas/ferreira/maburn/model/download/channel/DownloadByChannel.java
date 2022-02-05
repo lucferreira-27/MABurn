@@ -26,6 +26,7 @@ public class DownloadByChannel extends DownloadProgressListener {
 
     protected String url;
     protected String filename;
+    protected String type;
     protected String absolutePath;
     protected String path;
     protected String referer;
@@ -80,7 +81,6 @@ public class DownloadByChannel extends DownloadProgressListener {
 
     private void finishDownload() {
 
-        System.out.println(itemDownloadValues.getDownloadProgressState().get());
         if (itemDownloadValues.getDownloadProgressState().get() != DownloadProgressState.CANCELED)
             changeDownloadState(DownloadProgressState.COMPLETED);
     }
@@ -122,7 +122,7 @@ public class DownloadByChannel extends DownloadProgressListener {
         FileTypeSelect fileTypeSelect = new FileTypeSelect();
         String splitContentType = contentType.split("/")[1];
         if (FileTypeDetection.isAcceptType(splitContentType)) {
-            String type = fileTypeSelect.selectType(splitContentType, prefFileType);
+            type = fileTypeSelect.selectType(splitContentType, prefFileType);
             filename += "." + type;
         }
 
@@ -163,7 +163,6 @@ public class DownloadByChannel extends DownloadProgressListener {
 
     private void newOutputStream(String path) throws IOException {
         File file = new File(path);
-        System.out.println(path);
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -272,4 +271,7 @@ public class DownloadByChannel extends DownloadProgressListener {
         return absolutePath;
     }
 
+    public String getType() {
+        return type;
+    }
 }

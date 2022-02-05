@@ -19,6 +19,13 @@ import java.io.IOException;
 public abstract class Scraping extends AutoBrowser {
 
 
+	public Scraping() {
+
+	}
+	public Scraping(boolean headless){
+		this.headless = headless;
+	}
+
 	protected Options getOptions(CustomNavigateOptions customNavigateOptions) {
 		return customNavigateOptions.getOptions();
 	}

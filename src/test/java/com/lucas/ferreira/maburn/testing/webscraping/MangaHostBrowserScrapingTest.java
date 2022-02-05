@@ -65,7 +65,7 @@ public class MangaHostBrowserScrapingTest {
 			webServer.start();
 		}
 
-		TitleScraping titleScraping = new AnimeScraping();
+		TitleScraping titleScraping = new AnimeScraping(true);
 		SiteValues siteValues = new SiteValues();
 
 		RecoverSites recoverSites = new RecoverSites();

@@ -1,6 +1,7 @@
 package com.lucas.ferreira.maburn.model.browser;
 
 import com.lucas.ferreira.maburn.model.MarkTime;
+import com.lucas.ferreira.maburn.model.documents.xml.XmlConfigurationOrchestrator;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
@@ -10,17 +11,14 @@ import com.microsoft.playwright.Playwright.CreateOptions;
 import java.util.logging.Logger;
 
 public abstract class AutoBrowser {
+	protected boolean headless = true;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
 	private Playwright playwright;
 	private BrowserContext context;
 	protected MarkTime markTime = new MarkTime();
 
-	public AutoBrowser() {
 
-	}
-
-	protected void launch(boolean headless) {
+	protected void launch() {
 		LOGGER.info("Launching AutoBrowser on (headless=" + headless+ ")");
 		playwright = Playwright.create(new CreateOptions().setEnv(PlaywrightSettings.getEnv()));
 		LOGGER.info("Playwright created");
