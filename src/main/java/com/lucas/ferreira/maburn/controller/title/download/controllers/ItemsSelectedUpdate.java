@@ -16,15 +16,15 @@ public class ItemsSelectedUpdate implements Controllers{
 	private TextArea txtArea;
 	private Message message;
 	private boolean visible;
-	private int totalItems;
+	private List<String> itemsKeys;
 	private static final String SHOW_MESSAGE = " new items available!";
 	
-	public ItemsSelectedUpdate(TextArea txtArea, int totalItems) {
+	public ItemsSelectedUpdate(TextArea txtArea, List<String> itemsKeys) {
 		this.txtArea = txtArea;
-		this.totalItems = totalItems;
+		this.itemsKeys = itemsKeys;
 		message = new SucceedMessage(txtArea);
 	}
-	
+
 
 	public Message getMessage() {
 		return message;
@@ -33,13 +33,17 @@ public class ItemsSelectedUpdate implements Controllers{
 		this.message = message;
 	}
 	public void showMessage() {
-		message.showMessage(totalItems + SHOW_MESSAGE);
+		message.showMessage(itemsKeys.size() + SHOW_MESSAGE);
 	}
 	@Override
 	public List<Node> getChildren() {
 		return Arrays.asList(txtArea);
 	}
-	
+
+	public List<String> getItemsKeys() {
+		return itemsKeys;
+	}
+
 	@Override
 	public FetchItemType getFetchItemType() {
 		return FetchItemType.UPDATE;

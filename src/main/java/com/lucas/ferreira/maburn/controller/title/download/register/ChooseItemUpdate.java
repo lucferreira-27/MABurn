@@ -1,10 +1,9 @@
 package com.lucas.ferreira.maburn.controller.title.download.register;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.lucas.ferreira.maburn.controller.title.download.controllers.Controllers;
@@ -17,14 +16,18 @@ public class ChooseItemUpdate implements ChooseItem{
 	public ChooseItemUpdate(ItemsSelectedUpdate itemsSelectedUpdate,Map<String, String> namedItemsValues) {
 		this.itemsSelectedUpdate  = itemsSelectedUpdate;
 		this.namedItemsValues = namedItemsValues;
-	
-	}	
+	}
 	
 	@Override
 	public Map<String, String> getChoosedItems() {
-		Map<String, String> choosedItemsMap = namedItemsValues;
+		List<String> keys = itemsSelectedUpdate.getItemsKeys();
+		Map<String, String> choosedItemsMap = new LinkedHashMap<>();
 
-		
+		for(String key : keys){
+			String value = namedItemsValues.get(key);
+			choosedItemsMap.put(key,value);
+		}
+
 		return choosedItemsMap;
 	}
 

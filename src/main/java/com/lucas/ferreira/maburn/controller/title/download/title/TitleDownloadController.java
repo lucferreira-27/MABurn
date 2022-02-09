@@ -29,247 +29,266 @@ import com.lucas.ferreira.maburn.model.webscraping.scraping.title.TitleScraped;
 import com.lucas.ferreira.maburn.view.ShadeLayer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class TitleDownloadController implements ControllerStateAdapter {
-	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();
-	private FetchInfo fetchInfo;
-	private TitleScraped titleScraped;
-	private FetchTypeSelect fetchTypeSelect;
-	private OrganizeFetchResult organizeFetchResult;
-	private ItemsSelectedBetween itemsSelectedBetween;
-	private ItemsSelectedAll itemsSelectedAll;
-	private ItemsSelectedSingle<String> itemsSelectedSingle;
-	private ItemsSelectedUpdate itemsSelectedUpdate;
-	private TitleDownloadModel titleDownload;
-	private TitleDownloadInitialize titleDownloadInitialize;
-	private CollectionTitle collectionTitle;
-	private Title title;
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private XmlConfigurationOrchestrator xmlConfigurationOrchestrator = new XmlConfigurationOrchestrator();
+    private FetchInfo fetchInfo;
+    private TitleScraped titleScraped;
+    private FetchTypeSelect fetchTypeSelect;
+    private OrganizeFetchResult organizeFetchResult;
+    private ItemsSelectedBetween itemsSelectedBetween;
+    private ItemsSelectedAll itemsSelectedAll;
+    private ItemsSelectedSingle<String> itemsSelectedSingle;
+    private ItemsSelectedUpdate itemsSelectedUpdate;
+    private TitleDownloadModel titleDownload;
+    private TitleDownloadInitialize titleDownloadInitialize;
+    private CollectionTitle collectionTitle;
+    private Title title;
 
-	private boolean blockFetch = false;
+    private boolean blockFetch = false;
 
-	public TitleDownloadController(TitleDownloadModel titleDownload) {
+    public TitleDownloadController(TitleDownloadModel titleDownload) {
 
-		this.titleDownload = titleDownload;
+        this.titleDownload = titleDownload;
 
-	}
+    }
 
-	@Override
-	public void initialize() {
-		titleDownloadInitialize = new TitleDownloadInitialize(titleDownload, this);
-		titleDownloadInitialize.initialize();
-		organizeFetchResult = new OrganizeFetchResult(titleDownload.getCbItems(), titleDownload.getCbSource(),
-				titleDownloadInitialize.getTitle().getCollectionTitle());
-		collectionTitle = titleDownloadInitialize.getTitle().getCollectionTitle();
-		title = titleDownloadInitialize.getTitle();
+    @Override
+    public void initialize() {
+        titleDownloadInitialize = new TitleDownloadInitialize(titleDownload, this);
+        titleDownloadInitialize.initialize();
+        organizeFetchResult = new OrganizeFetchResult(titleDownload.getCbItems(), titleDownload.getCbSource(),
+                titleDownloadInitialize.getTitle().getCollectionTitle());
+        collectionTitle = titleDownloadInitialize.getTitle().getCollectionTitle();
+        title = titleDownloadInitialize.getTitle();
 
-	}
+    }
 
-	private void fetch(Runnable fetch) {
+    private void fetch(Runnable fetch) {
 
-		LOGGER.config("Click on Fetch");
+        LOGGER.config("Click on Fetch");
 
-		new Thread(() -> {
-			try {
-				if (isFetchPossible()) {
-					if (!blockFetch) {
-						blockFetch = true;
-						fetch.run();
-					}
-					return;
-				} else {
-					browserLaunch();
-				}
+        new Thread(() -> {
+            try {
+                if (isFetchPossible()) {
+                    if (!blockFetch) {
+                        blockFetch = true;
+                        fetch.run();
+                    }
+                    return;
+                } else {
+                    browserLaunch();
+                }
 
-				if (isFetchPossible()) {
-					if (!blockFetch) {
-						blockFetch = true;
-						fetch.run();
-					}
-				} else {
-					throw new Exception("BROWSER FILES ERROR");
+                if (isFetchPossible()) {
+                    if (!blockFetch) {
+                        blockFetch = true;
+                        fetch.run();
+                    }
+                } else {
+                    throw new Exception("BROWSER FILES ERROR");
 
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}).start();
-	}
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
-	private boolean isFetchPossible() {
-		BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
-		String local = browserFilesLocal.getLocal(new UserSystem().getUserPlataform());
-		CheckBrowserFiles checkBrowserFiles = new CheckBrowserFiles();
-		boolean foundFirefox = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FIREFOX);
-		boolean foundFfmpeg = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FFMPEG);
-		return foundFirefox && foundFfmpeg;
-	}
+    private boolean isFetchPossible() {
+        BrowserFilesLocal browserFilesLocal = new BrowserFilesLocal();
+        String local = browserFilesLocal.getLocal(new UserSystem().getUserPlataform());
+        CheckBrowserFiles checkBrowserFiles = new CheckBrowserFiles();
+        boolean foundFirefox = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FIREFOX);
+        boolean foundFfmpeg = checkBrowserFiles.hasBrowserFilesAvailable(local, Binaries.FFMPEG);
+        return foundFirefox && foundFfmpeg;
+    }
 
-	private void browserLaunch() {
-		BrowserInstallerLaunch browserInstallerLaunch = new BrowserInstallerLaunch();
-		try {
-			BrowserInstallerController browserInstallerController = browserInstallerLaunch
-					.openBrowserInstaller(titleDownload.getSpMainPane());
+    private void browserLaunch() {
+        BrowserInstallerLaunch browserInstallerLaunch = new BrowserInstallerLaunch();
+        try {
+            BrowserInstallerController browserInstallerController = browserInstallerLaunch
+                    .openBrowserInstaller(titleDownload.getSpMainPane());
 
-			try {
-				browserInstallerController.install(Binaries.FIREFOX, Binaries.FFMPEG, Binaries.FFMPEG_COMPLETE);
-			} catch (BrowserInstallerException e) {
-				e.printStackTrace();
-			}
+            try {
+                browserInstallerController.install(Binaries.FIREFOX, Binaries.FFMPEG, Binaries.FFMPEG_COMPLETE);
+            } catch (BrowserInstallerException e) {
+                e.printStackTrace();
+            }
 
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
 
-	private void fetchNormal() {
-		LOGGER.config("Initializing FetchNormal");
-		registerFetch(new FetchActionAutomatic(new RegisterTitleSearcher(titleDownload.getTxtFetchMsg())));
-	}
+    private void fetchNormal() {
+        LOGGER.config("Initializing FetchNormal");
+        registerFetch(new FetchActionAutomatic(new RegisterTitleSearcher(titleDownload.getTxtFetchMsg())));
+    }
 
-	private void fetchRecover() {
-		LOGGER.config("Initializing FetchRecover");
-		registerFetch(new FetchActionRecover());
-	}
+    private void fetchRecover() {
+        LOGGER.config("Initializing FetchRecover");
+        registerFetch(new FetchActionRecover());
+    }
 
-	private void fetchManual() {
-		LOGGER.config("Initializing FetchManual");
-		registerFetch(new FetchActionManual(titleDownloadInitialize.getManualSearchAlertController()));
-	}
+    private void fetchManual() {
+        LOGGER.config("Initializing FetchManual");
+        registerFetch(new FetchActionManual(titleDownloadInitialize.getManualSearchAlertController()));
+    }
 
-	private void registerFetch(FetchAction fetchAction) {
-		new Thread(() -> {
-			try {
-				RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
-				titleScraped = registerTitleFetcher.fetch(fetchAction,
-						new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
-				if (titleScraped != null) {
-					TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped,
-							collectionTitle.getCategory());
-					title.setTaggedItems(taggedItems);
-					initializeFetchResults();
-				}
-			} catch (Exception e) {
-				blockFetch = false;
-				e.printStackTrace();
-			}
-			blockFetch = false;
-		}).start();
-	}
+    private void registerFetch(FetchAction fetchAction) {
+        new Thread(() -> {
+            try {
+                RegisterTitleFetcher registerTitleFetcher = new RegisterTitleFetcher(titleDownload.getTxtFetchMsg());
+                titleScraped = registerTitleFetcher.fetch(fetchAction,
+                        new FetchableTittle(collectionTitle, titleDownload.getCbSource().getValue()));
+                if (titleScraped != null) {
+                    TaggedItems taggedItems = organizeFetchResult.organizeAndSaveFetch(titleScraped,
+                            collectionTitle.getCategory());
+                    title.setTaggedItems(taggedItems);
+                    initializeFetchResults();
+                }
+            } catch (Exception e) {
+                blockFetch = false;
+                e.printStackTrace();
+            }
+            blockFetch = false;
+        }).start();
+    }
 
-	private void initializeFetchResults() {
-		initializeControllers();
-		itemsSelectedBetween.validates();
-		titleDownload.getCbSelect().setDisable(false);
-		loadFetchInfo();
-		fetchInfo.showInfo();
-	}
+    private void initializeFetchResults() {
+        initializeControllers();
+        itemsSelectedBetween.validates();
+        titleDownload.getCbSelect().setDisable(false);
+        loadFetchInfo();
+        fetchInfo.showInfo();
+    }
 
-	public void onClickFetch() {
-		fetch(this::fetchNormal);
-	}
+    public void onClickFetch() {
+        fetch(this::fetchNormal);
+    }
 
-	public void onClickRecover() {
-		fetch(this::fetchRecover);
-	}
+    public void onClickRecover() {
+        fetch(this::fetchRecover);
+    }
 
-	public void onClickManualSearch() {
+    public void onClickManualSearch() {
 
-		fetch(this::fetchManual);
+        fetch(this::fetchManual);
 
-	}
+    }
 
-	public void onClickZoomIn() {
-		fetchInfo.zoomIn();
-	}
+    public void onClickZoomIn() {
+        fetchInfo.zoomIn();
+    }
 
-	public void onClickZoomOut() {
-		fetchInfo.zoomOut();
-	}
+    public void onClickZoomOut() {
+        fetchInfo.zoomOut();
+    }
 
-	public void onClickDownloadStart()  {
-		try {
-			ConfigForm configForm = xmlConfigurationOrchestrator.read();
+    public void onClickDownloadStart() {
+        try {
+            ConfigForm configForm = xmlConfigurationOrchestrator.read();
 
-			Map<String, String> namedItemsValues = title.getTaggedItems().getNamedItemsValues();
+            Map<String, String> namedItemsValues = title.getTaggedItems().getNamedItemsValues();
 
-			FetchItemsLinks directLinks = new FetchItemsLinks(new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
-					new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
-					new ChooseItemAll(itemsSelectedAll, namedItemsValues),
-					new ChooseItemUpdate(itemsSelectedUpdate, namedItemsValues));
+            FetchItemsLinks directLinks = new FetchItemsLinks(new ChooseItemSingle(itemsSelectedSingle, namedItemsValues),
+                    new ChooseItemBetween(itemsSelectedBetween, namedItemsValues),
+                    new ChooseItemAll(itemsSelectedAll, namedItemsValues),
+                    new ChooseItemUpdate(itemsSelectedUpdate, namedItemsValues));
 
-			Map<String, String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
+            Map<String, String> choosedItems = directLinks.selectedLinks(fetchTypeSelect);
 
-			FetchItem fetchItem = new FetchItem();
+            FetchItem fetchItem = new FetchItem();
 
-			List<ScrapingWork> scrapingWorks = new ArrayList<ScrapingWork>();
+            List<ScrapingWork> scrapingWorks = new ArrayList<ScrapingWork>();
 
-			new Thread(() -> {
-				choosedItems.forEach((name, url) -> {
-					SiteValues siteValues = new SiteValues();
-					siteValues.setRegisteredSite(titleDownload.getCbSource().getValue());
-					siteValues.setTarget(name);
-					siteValues.setUrl(url);
-					scrapingWorks.add(new ScrapingWork(siteValues));
-				});
+            new Thread(() -> {
+                choosedItems.forEach((name, url) -> {
+                    SiteValues siteValues = new SiteValues();
+                    siteValues.setRegisteredSite(titleDownload.getCbSource().getValue());
+                    siteValues.setTarget(name);
+                    siteValues.setUrl(url);
+                    scrapingWorks.add(new ScrapingWork(siteValues));
+                });
 
-				ListItemScraping listItemScraping = collectionTitle.getCategory() != Category.ANIME
-						? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(configForm.getGeralConfigForm().getBrowserHeadless()))
-						: new ListEpisodeScraping(titleDownload.getCbSource().getValue(), new MyBrowser(configForm.getGeralConfigForm().getBrowserHeadless()));
+                ListItemScraping listItemScraping = collectionTitle.getCategory() != Category.ANIME
+                        ? new ListChapterScraping(titleDownload.getCbSource().getValue(), new MyBrowser(configForm.getGeralConfigForm().getBrowserHeadless()))
+                        : new ListEpisodeScraping(titleDownload.getCbSource().getValue(), new MyBrowser(configForm.getGeralConfigForm().getBrowserHeadless()));
 
-				titleDownloadInitialize.getTitleDownloadListCard().getDownloadList().onScrapingWork(scrapingWorks);
-				fetchItem.fetch(listItemScraping, scrapingWorks);
+                titleDownloadInitialize.getTitleDownloadListCard().getDownloadList().onScrapingWork(scrapingWorks);
+                fetchItem.fetch(listItemScraping, scrapingWorks);
 
-			}).start();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+            }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void loadFetchInfo() {
-		ShadeLayer shadeLayer = new ShadeLayer(titleDownload.getApShade());
-		ScreenshotFullDetails screenshotFullDetails = new ScreenshotFullDetails(titleDownload.getBpThumbnailFull(),
-				shadeLayer, titleDownload.getImgThumbnailFullSize(), titleDownload.getImgZoomOut());
-		FetchTextDetails fetchTextDetails = new FetchTextDetails(titleDownload);
-		fetchInfo = new FetchInfo(titleScraped.getPageInfo(), titleDownload.getImgThumbnail(), screenshotFullDetails,
-				fetchTextDetails);
-	}
+    private void loadFetchInfo() {
+        ShadeLayer shadeLayer = new ShadeLayer(titleDownload.getApShade());
+        ScreenshotFullDetails screenshotFullDetails = new ScreenshotFullDetails(titleDownload.getBpThumbnailFull(),
+                shadeLayer, titleDownload.getImgThumbnailFullSize(), titleDownload.getImgZoomOut());
+        FetchTextDetails fetchTextDetails = new FetchTextDetails(titleDownload);
+        fetchInfo = new FetchInfo(titleScraped.getPageInfo(), titleDownload.getImgThumbnail(), screenshotFullDetails,
+                fetchTextDetails);
+    }
 
-	public void initializeControllers() {
-		TaggedItems taggedItems = title.getTaggedItems();
+    public void initializeControllers() {
+        TaggedItems taggedItems = title.getTaggedItems();
 
-		ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(titleDownload.getTxtStartItemValue(),
-				taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldFirstMsg());
-		ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(titleDownload.getTxtEndItemValue(),
-				taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldLastMsg());
+        ItemValueTextField itemValueTextFieldFirst = new ItemValueTextField(titleDownload.getTxtStartItemValue(),
+                taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldFirstMsg());
+        ItemValueTextField itemValueTextFieldLast = new ItemValueTextField(titleDownload.getTxtEndItemValue(),
+                taggedItems.getValuesItems().size(), titleDownload.getTxtAreaFieldLastMsg());
 
-		int totalItems = titleScraped.getItemsScraped().size();
+        int totalItems = titleScraped.getItemsScraped().size();
+        try {
+            List<String> updateblesItemsKeys = filterToUpdatableItems(titleScraped.getItemsScraped());
+            itemsSelectedUpdate = new ItemsSelectedUpdate(titleDownload.getTxtAreaUpdateItems(), updateblesItemsKeys);
+        } catch (IOException e) {
+            e.printStackTrace();
+            itemsSelectedUpdate = new ItemsSelectedUpdate(titleDownload.getTxtAreaUpdateItems(), titleScraped.getItemsScraped().keySet().stream().collect(Collectors.toList()));
+        }
 
-		itemsSelectedBetween = new ItemsSelectedBetween(itemValueTextFieldFirst, itemValueTextFieldLast,
-				titleDownload.getTxtAreaChooseMsg());
-		itemsSelectedAll = new ItemsSelectedAll(titleDownload.getTxtAreaTotalItems(), totalItems);
-		itemsSelectedSingle = new ItemsSelectedSingle<String>(titleDownload.getCbItems());
-		itemsSelectedUpdate = new ItemsSelectedUpdate(titleDownload.getTxtAreaUpdateItems(), totalItems);
+        itemsSelectedBetween = new ItemsSelectedBetween(itemValueTextFieldFirst, itemValueTextFieldLast,
+                titleDownload.getTxtAreaChooseMsg());
+        itemsSelectedAll = new ItemsSelectedAll(titleDownload.getTxtAreaTotalItems(), totalItems);
+        itemsSelectedSingle = new ItemsSelectedSingle<String>(titleDownload.getCbItems());
 
-		List<Controllers> controllers = Arrays.asList(itemsSelectedBetween, itemsSelectedSingle, itemsSelectedAll,
-				itemsSelectedUpdate);
+        List<Controllers> controllers = Arrays.asList(itemsSelectedBetween, itemsSelectedSingle, itemsSelectedAll,
+                itemsSelectedUpdate);
 
-		fetchTypeSelect = new FetchTypeSelect(controllers);
+        fetchTypeSelect = new FetchTypeSelect(controllers);
 
-		titleDownload.getCbSelect().valueProperty().addListener(fetchTypeSelect);
+        titleDownload.getCbSelect().valueProperty().addListener(fetchTypeSelect);
 
-	}
-	
-	public TitleDownloadInitialize getTitleDownloadInitialize() {
-		return titleDownloadInitialize;
-	}
-	public Title getTitle() {
-		return title;
-	}
+    }
+
+    private List<String> filterToUpdatableItems(Map<String, List<String>> itemsScraped) throws IOException {
+        String destination = title.getCollectionTitle().getDestination();
+        List<String> paths = Files
+                .walk(Paths.get(destination))
+                .map(path -> path.getFileName().toString().replaceAll("\\..*", ""))
+                .collect(Collectors.toList());
+        return itemsScraped.keySet().stream()
+                .filter(key -> paths.stream().noneMatch(path -> path.equals(key)))
+                .collect(Collectors.toList());
+    }
+
+    public TitleDownloadInitialize getTitleDownloadInitialize() {
+        return titleDownloadInitialize;
+    }
+
+    public Title getTitle() {
+        return title;
+    }
 
 }
