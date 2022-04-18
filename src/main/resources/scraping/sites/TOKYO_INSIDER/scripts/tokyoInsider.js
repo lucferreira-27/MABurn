@@ -47,10 +47,11 @@ function getAllNames() {
     maburn.waitElement(".episode").then(async () => {
 
         let episodios =  Array.from(document.querySelectorAll(".episode"))
+            .filter(episode => episode.querySelector(".download-link"))
             .map((episode) => {
             
-            let epType = episode.querySelector("em").textContent.toUpperCase()
-            let epNumber = episode.querySelector("strong").textContent
+            let epType = episode.querySelector("em") ? episode.querySelector("em").textContent.toUpperCase() : "UNKNOWN"
+            let epNumber =  episode.querySelector("strong") ? episode.querySelector("strong").textContent : "UNKNOWN"
             let epName = episode.querySelector("i") ? episode.querySelector("i").textContent : ""
 
             let url = episode.querySelector(".download-link").href
